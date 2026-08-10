@@ -9,6 +9,14 @@
 </head>
 <body class="aurora-bg">
 
+  <!-- STEVEN KOTLER STYLE INTRO CURTAIN REVEAL -->
+  <div class="intro-curtain" id="introCurtain">
+    <div class="intro-logo-wrap">
+      <div class="intro-monogram">TW</div>
+      <div class="intro-subtitle">Tiffany Webb · Community Impact Strategist</div>
+    </div>
+  </div>
+
   <!-- FLOATING GLASS PILL NAVBAR -->
   <div class="navbar-wrapper">
     <nav class="navbar" id="navbar">
@@ -19,7 +27,7 @@
         </a>
         <ul class="nav-links">
           <li><a href="about.html" class="nav-link">About</a></li>
-          <li><a href="speaking.html" class="nav-link">Speaking</a></li>
+          <li><a href="speaking.html" class="nav-link active">Speaking</a></li>
           <li><a href="expertise.html" class="nav-link">Expertise</a></li>
           <li><a href="impact.html" class="nav-link">Impact</a></li>
           <li><a href="books.html" class="nav-link">Books</a></li>
@@ -27,7 +35,7 @@
           <li><a href="insights.html" class="nav-link">Insights</a></li>
           <li><a href="media.html" class="nav-link">Media</a></li>
         </ul>
-        <a href="book.html" class="btn btn-primary nav-cta">Invite Tiffany to Speak</a>
+        <a href="book.html" class="btn btn-orange nav-cta">Invite Tiffany to Speak</a>
         <button class="hamburger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
       </div>
     </nav>
@@ -79,12 +87,15 @@
           <strong style="color:var(--gold); display:block; margin-bottom:0.5rem;">Ideal Audience & Formats:</strong>
           Main-Stage Keynote · Annual Conferences · State Prevention Summits · University Assemblies · Hospital & Public Health Symposia
         </div>
-        <a href="book.html" class="btn btn-orange btn-lg">Book Flagship Keynote</a>
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <a href="book.html" class="btn btn-orange btn-lg">Book Flagship Keynote</a>
+          <div class="signature-accent" style="color:var(--gold);">Tiffany Webb</div>
+        </div>
       </div>
     </section>
 
     <!-- 21 SPEAKING TOPICS ACROSS 4 TRACKS -->
-    <section class="section-pad">
+    <section class="section-pad dot-grid-bg">
       <div class="container">
         <div style="text-align:center; margin-bottom:4rem;" data-reveal>
           <span class="eyebrow"><span class="eyebrow-dot"></span> Complete Catalog</span>
@@ -272,16 +283,52 @@
     <section class="section-pad" style="background:var(--emerald); color:var(--ivory); text-align:center;">
       <div class="container-narrow" data-reveal="scale">
         <h2 class="section-title light" style="margin-bottom:1.5rem;">Request Tiffany for Your Next Conference or Workshop</h2>
-        <a href="book.html" class="btn btn-orange btn-lg">Submit a Speaking Inquiry</a>
+        <a href="book.html" class="btn btn-orange btn-lg" style="margin-bottom:1.5rem;">Submit a Speaking Inquiry</a>
+        <div class="signature-accent" style="display:block; font-size:2.2rem; color:var(--gold);">Tiffany Webb</div>
       </div>
     </section>
   </main>
 
   <footer class="site-footer">
     <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand-name">Tiffany Webb</div>
+          <div class="footer-brand-title">Community Impact Strategist · Public Health Educator & Speaker</div>
+          <p style="font-size:0.88rem; line-height:1.6; max-width:320px;">
+            "Rooted in Community. Committed to Change."
+          </p>
+        </div>
+        <div>
+          <h4 class="footer-heading">Navigation</h4>
+          <ul class="footer-list">
+            <li><a href="about.html" class="footer-link">About Tiffany</a></li>
+            <li><a href="speaking.html" class="footer-link">Speaking & Topics</a></li>
+            <li><a href="expertise.html" class="footer-link">Areas of Expertise</a></li>
+            <li><a href="impact.html" class="footer-link">Community Impact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer-heading">Explore</h4>
+          <ul class="footer-list">
+            <li><a href="books.html" class="footer-link">Books & E-Books</a></li>
+            <li><a href="gamble.html" class="footer-link">GambleFreeGear</a></li>
+            <li><a href="insights.html" class="footer-link">Insights & Blog</a></li>
+            <li><a href="media.html" class="footer-link">Media Kit & Press</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer-heading">Bookings</h4>
+          <p style="font-size:0.85rem; margin-bottom:1rem;">Independent booking inquiries:</p>
+          <a href="mailto:booking@tiffanywebb.com" class="footer-link" style="color:var(--gold); font-family:var(--font-mono); font-weight:700;">booking@tiffanywebb.com</a>
+        </div>
+      </div>
       <div class="footer-bottom">
         <div>&copy; 2026 Tiffany Webb. All rights reserved. · "Break the Silence."</div>
-        <a href="index.html" class="footer-link">Back to Home</a>
+        <div style="display:flex; gap:1.5rem;">
+          <a href="#" class="footer-link">Privacy Policy</a>
+          <a href="#" class="footer-link">Terms of Use</a>
+        </div>
       </div>
     </div>
   </footer>

@@ -1,7 +1,7 @@
 /* ============================================================
    TIFFANY WEBB — PRO-LEVEL INTERACTIVE ENGINE (USA TRENDS 2026)
-   Custom Interactive Cursor · Magnetic Buttons · Video Modal
-   Scrollytelling Engine · Scroll Progress · Glass Navbar
+   Steven Kotler Intro Curtain · Secfi Video Modal · Cursor Lerp
+   Dr Shemeka Scrollytelling · Magnetic Buttons · Glass Navbar
    Location: Landing Page Work/coding by antigravity/main.js
    ============================================================ */
 
@@ -10,7 +10,19 @@ document.addEventListener('DOMContentLoaded', () => {
   // Add observer class to document element to activate smooth reveals
   document.documentElement.classList.add('js-observer');
 
-  // 1. Scroll Progress Bar
+  // 1. Steven Kotler Inspired Intro Curtain Opening Animation
+  const introCurtain = document.getElementById('introCurtain');
+  if (introCurtain) {
+    // Show curtain briefly for 1 second, then smoothly animate out
+    setTimeout(() => {
+      introCurtain.classList.add('loaded');
+      document.body.classList.add('page-loaded');
+    }, 1100);
+  } else {
+    document.body.classList.add('page-loaded');
+  }
+
+  // 2. Scroll Progress Bar
   let progressBar = document.getElementById('scroll-progress');
   if (!progressBar) {
     progressBar = document.createElement('div');
@@ -18,15 +30,29 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.appendChild(progressBar);
   }
 
+  // 3. Navbar Scroll Shrink & Deep Blur
+  const navbar = document.getElementById('navbar');
   window.addEventListener('scroll', () => {
+    const scrollY = window.scrollY;
+    
+    // Scroll progress width
     const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
-    if (totalHeight > 0) {
-      const progress = (window.scrollY / totalHeight) * 100;
+    if (totalHeight > 0 && progressBar) {
+      const progress = (scrollY / totalHeight) * 100;
       progressBar.style.width = `${progress}%`;
+    }
+
+    // Navbar scrolled state
+    if (navbar) {
+      if (scrollY > 50) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
     }
   }, { passive: true });
 
-  // 2. Custom Interactive Cursor
+  // 4. Custom Interactive Cursor (Lerp Smoothness)
   if (window.matchMedia('(pointer: fine)').matches) {
     const cursor = document.createElement('div');
     cursor.className = 'custom-cursor';
@@ -63,14 +89,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 3. Pro-Level Magnetic Button Effect
+  // 5. Pro-Level Magnetic Button Effect
   const magneticButtons = document.querySelectorAll('.btn');
   magneticButtons.forEach(btn => {
     btn.addEventListener('mousemove', (e) => {
       const rect = btn.getBoundingClientRect();
       const x = e.clientX - rect.left - rect.width / 2;
       const y = e.clientY - rect.top - rect.height / 2;
-      btn.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px) scale(1.02)`;
+      btn.style.transform = `translate(${x * 0.22}px, ${y * 0.22}px) scale(1.02)`;
     });
 
     btn.addEventListener('mouseleave', () => {
@@ -78,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // 4. Mobile Menu Handling
+  // 6. Mobile Menu Drawer
   const hamburger = document.querySelector('.hamburger');
   const mobileMenu = document.querySelector('.mobile-menu');
   const mobileClose = document.querySelector('.mobile-close');
@@ -104,7 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // 5. Active Nav Link Highlighting
+  // 7. Active Nav Link Highlighting
   const currentPath = window.location.pathname.split('/').pop() || 'index.html';
   document.querySelectorAll('.nav-link').forEach(link => {
     const href = link.getAttribute('href');
@@ -113,7 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // 6. Scroll Reveal Engine
+  // 8. Scroll Reveal Engine (Dr Shemeka / GSAP style triggers)
   const revealElements = document.querySelectorAll('[data-reveal]');
   if (revealElements.length && 'IntersectionObserver' in window) {
     const observer = new IntersectionObserver((entries) => {
@@ -133,12 +159,12 @@ document.addEventListener('DOMContentLoaded', () => {
     revealElements.forEach(el => el.classList.add('revealed'));
   }
 
-  // Safety Fallback: Ensure all elements are revealed after 500ms
+  // Safety Fallback: Reveal all elements guaranteed after 500ms
   setTimeout(() => {
     document.querySelectorAll('[data-reveal]').forEach(el => el.classList.add('revealed'));
   }, 500);
 
-  // 7. Animated Number Counter
+  // 9. Animated Number Counter
   const counters = document.querySelectorAll('[data-counter]');
   if (counters.length && 'IntersectionObserver' in window) {
     const counterObserver = new IntersectionObserver((entries) => {
@@ -175,7 +201,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, stepTime);
   }
 
-  // 8. Reel Video Modal Logic
+  // 10. Secfi Video Modal Logic
   const reelContainers = document.querySelectorAll('.reel-container');
   const reelModal = document.querySelector('.reel-modal');
   const reelClose = document.querySelector('.reel-modal-close');
