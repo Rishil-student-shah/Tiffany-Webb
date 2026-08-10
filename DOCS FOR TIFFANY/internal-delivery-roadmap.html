@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Internal Delivery Roadmap — Y Arts! Team</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#14130E;--char:#23211B;--ivory:#FBF6EA;--cream:#F3EAD6;--emerald:#0E6B54;
+--teal:#0B5C63;--royal:#223A82;--berry:#6C2D5A;--burnt:#C15427;--mustard:#D9A23A;
+--coral:#E17356;--gold:#C8A24C;--wood:#9A6A3E;--line:rgba(20,19,14,.12);--muted:#6d6656;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--ivory);color:var(--char);line-height:1.6;
+-webkit-font-smoothing:antialiased}
+.wrap{max-width:1180px;margin:0 auto;padding:40px 20px 70px}
+.top{background:radial-gradient(120% 130% at 10% 0%,#1c2a25,var(--ink) 60%);color:var(--ivory);
+padding:38px 34px;border-radius:20px;margin-bottom:30px;position:relative}
+.badge{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.24em;text-transform:uppercase;
+background:var(--coral);color:#fff;display:inline-block;padding:5px 12px;border-radius:30px;margin-bottom:14px}
+.top h1{font-family:'Fraunces',serif;font-weight:600;font-size:1.9rem;margin-bottom:8px}
+.top p{color:#d9d2c0;max-width:700px;font-size:.95rem}
+h2.sec{font-family:'Fraunces',serif;font-size:1.35rem;margin:34px 0 6px}
+p.sub{color:var(--muted);font-size:.9rem;margin-bottom:18px}
+.legend{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:20px}
+.chip{font-family:'Space Mono',monospace;font-size:.66rem;padding:6px 12px;border-radius:30px;
+border:1px solid var(--line);background:#fff;display:flex;align-items:center;gap:7px}
+.chip .d{width:9px;height:9px;border-radius:3px}
+/* swimlane */
+.chart{background:#fff;border:1px solid var(--line);border-radius:16px;padding:24px 26px;overflow-x:auto}
+.axis{display:flex;font-family:'Space Mono',monospace;font-size:.62rem;color:var(--muted);
+padding-left:150px;margin-bottom:10px;min-width:900px}
+.axis span{flex:none;text-align:left}
+.lane{display:flex;align-items:stretch;min-width:900px;margin-bottom:4px}
+.lane-label{width:150px;flex:none;display:flex;flex-direction:column;justify-content:center;
+padding-right:14px;font-family:'Fraunces',serif;font-size:.92rem;font-weight:600;color:var(--ink)}
+.lane-label small{font-family:'Space Mono',monospace;font-weight:400;font-size:.62rem;color:var(--muted);
+text-transform:uppercase;letter-spacing:.06em;margin-top:3px}
+.track{flex:1;display:flex;gap:3px;position:relative;padding:6px 0}
+.blk{border-radius:9px;padding:9px 12px;color:#fff;font-size:.78rem;display:flex;flex-direction:column;
+justify-content:center;position:relative}
+.blk b{font-size:.82rem;display:block;line-height:1.15}
+.blk small{font-family:'Space Mono',monospace;font-size:.6rem;opacity:.85;display:block;margin-top:3px}
+.blk.buffer{background:repeating-linear-gradient(45deg,rgba(0,0,0,.06),rgba(0,0,0,.06) 6px,transparent 6px,transparent 12px);
+border:1.5px dashed var(--line);color:var(--char)}
+.divider{height:1px;background:var(--line);margin:14px 0}
+.flagrow{display:flex;align-items:center;gap:8px;margin:14px 0 4px;flex-wrap:wrap}
+.tiffany-track{display:flex;gap:3px;min-width:900px;padding-left:150px;margin-top:6px}
+.trow-label{position:absolute}
+/* risk cards */
+.risks{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px}
+.risk{background:#fff;border:1px solid var(--line);border-left:5px solid var(--burnt);border-radius:12px;padding:16px 18px}
+.risk .rn{font-family:'Space Mono',monospace;font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;
+color:var(--burnt);margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.risk .rn::before{content:"⚑"}
+.risk p{font-size:.9rem;color:#3a372d}
+.risk .fix{margin-top:8px;font-size:.86rem;color:var(--emerald)}
+.risk .fix b{color:var(--emerald)}
+.verdict{background:linear-gradient(180deg,#fff,var(--cream));border:2px solid var(--gold);border-radius:16px;
+padding:22px 26px;margin-top:30px}
+.verdict h3{font-family:'Fraunces',serif;font-size:1.2rem;margin-bottom:8px}
+.verdict p{font-size:.94rem}
+@media(max-width:820px){.risks{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <span class="badge">Internal only · Not for Tiffany</span>
+    <h1>30-Day Team Delivery Roadmap</h1>
+    <p>Two people, two tracks, one shared foundation. This is the audited version of the plan — a fast brand-lock added up front, the One-Sheet resequenced after the Media Kit, and Tiffany's inputs requested on Day 0 instead of Day 10.</p>
+  </div>
+
+  <h2 class="sec">The two tracks</h2>
+  <p class="sub">Widths are proportional to days. Hover isn't required — just read left to right.</p>
+  <div class="legend">
+    <div class="chip"><span class="d" style="background:var(--wood)"></span>Foundation (both)</div>
+    <div class="chip"><span class="d" style="background:var(--royal)"></span>Tech track</div>
+    <div class="chip"><span class="d" style="background:var(--berry)"></span>Design track</div>
+    <div class="chip"><span class="d" style="background:var(--mustard)"></span>Automation</div>
+    <div class="chip"><span class="d" style="background:var(--coral)"></span>From Tiffany (external)</div>
+    <div class="chip"><span class="d" style="background:repeating-linear-gradient(45deg,#ccc,#ccc 3px,#fff 3px,#fff 6px)"></span>Buffer / QA</div>
+  </div>
+
+  <div class="chart">
+    <div class="axis" style="min-width:900px">
+      <span style="width:6.6%">D0</span><span style="width:13.3%">D1–2</span>
+      <span style="width:26.6%">D3–10</span><span style="width:13.3%">D11–14</span>
+      <span style="width:33.3%">D15–20 · 21–26</span><span style="width:13.3%">D27–30</span>
+    </div>
+
+    <div class="lane">
+      <div class="lane-label">Both<small>Kickoff</small></div>
+      <div class="track">
+        <div class="blk" style="flex:0.066;background:var(--wood)"><b>Lock</b><small>brand assets</small></div>
+        <div class="blk buffer" style="flex:0.934"></div>
+      </div>
+    </div>
+
+    <div class="lane">
+      <div class="lane-label">Tech guy<small>Build &amp; automation</small></div>
+      <div class="track">
+        <div class="blk" style="flex:0.066;background:var(--wood)"><b>Env setup</b></div>
+        <div class="blk" style="flex:0.4;background:var(--royal)"><b>Landing page</b><small>UI/UX, fonts, full build</small></div>
+        <div class="blk" style="flex:0.133;background:var(--royal)"><b>Deploy &amp; test</b><small>domain, booking form, SEO</small></div>
+        <div class="blk" style="flex:0.267;background:var(--mustard)"><b>WhatsApp AI + CRM</b><small>10 days, needs live booking form</small></div>
+        <div class="blk buffer" style="flex:0.133"><b>Buffer</b><small>QA, fixes</small></div>
+      </div>
+    </div>
+
+    <div class="lane">
+      <div class="lane-label">Yash<small>Design &amp; strategy</small></div>
+      <div class="track">
+        <div class="blk" style="flex:0.066;background:var(--wood)"><b>Style sheet</b></div>
+        <div class="blk" style="flex:0.266;background:var(--berry)"><b>Media Kit</b><small>+ Capability Kit, parallel</small></div>
+        <div class="blk" style="flex:0.133;background:var(--berry)"><b>One-Sheet</b><small>distilled from Media Kit</small></div>
+        <div class="blk" style="flex:0.267;background:var(--berry)"><b>Social Launch</b><small>accounts, templates, calendar</small></div>
+        <div class="blk buffer" style="flex:0.267"><b>Free month live</b><small>execution + revisions</small></div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="lane">
+      <div class="lane-label" style="color:var(--coral)">From Tiffany<small>External — not your team</small></div>
+      <div class="track">
+        <div class="blk" style="flex:0.066;background:var(--coral)"><b>Request sent</b><small>D0 — don't wait</small></div>
+        <div class="blk" style="flex:0.2;background:transparent;border:1.5px dashed var(--coral);color:var(--burnt)"><b>Domain access</b><small>needed by D8</small></div>
+        <div class="blk" style="flex:0.2;background:transparent;border:1.5px dashed var(--coral);color:var(--burnt)"><b>Photos &amp; sign-off</b><small>needed by D10</small></div>
+        <div class="blk" style="flex:0.534;background:transparent;border:1.5px dashed var(--coral);color:var(--burnt)"><b>Testimonial replies</b><small>real lag risk — 3–5 contacts, their reply time</small></div>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="sec">What the audit changed</h2>
+  <div class="risks">
+    <div class="risk">
+      <div class="rn">Flag 1 — no shared foundation</div>
+      <p>Landing page and Media Kit were both starting Day 1 with no locked logo/style sheet between them — real risk of two visually inconsistent deliverables, the same failure mode we just fixed across 5 pitch-deck revision rounds.</p>
+      <div class="fix"><b>Fix:</b> Day 0–1 Foundation Lock, both work from one source before splitting.</div>
+    </div>
+    <div class="risk">
+      <div class="rn">Flag 2 — One-Sheet built from scratch</div>
+      <p>The One-Sheet is described in the deck as distilled FROM the Media Kit, not a standalone build. Building all three in parallel risks the one-sheet drifting from the final Media Kit content.</p>
+      <div class="fix"><b>Fix:</b> Sequence it 1 day after Media Kit locks, not parallel.</div>
+    </div>
+    <div class="risk">
+      <div class="rn">Flag 3 — Tiffany inputs requested late</div>
+      <p>Domain access, photos, sign-off, and especially testimonial contacts have real lag outside your control — testimonials require her contacts to reply.</p>
+      <div class="fix"><b>Fix:</b> Send the request list Day 0, the moment she says yes — not after Phase 1 finishes.</div>
+    </div>
+    <div class="risk">
+      <div class="rn">Flag 4 — WhatsApp needs the live booking form</div>
+      <p>CRM/booking automation logically depends on the landing page's booking form being deployed — good news, your sequencing already satisfies this since Tech finishes landing page deploy before WhatsApp starts.</p>
+      <div class="fix"><b>No fix needed</b> — this dependency is already correctly ordered.</div>
+    </div>
+  </div>
+
+  <div class="verdict">
+    <h3>Verdict</h3>
+    <p>Yes — parallelize it, and yes, Tiffany will feel the benefit even though she never sees this chart: a tighter internal timeline means faster delivery against the "~6 weeks" you promised her, which is a good under-promise buffer to keep external. With the Day 0–1 Foundation Lock added, the One-Sheet resequenced, and her inputs requested immediately, this plan closes the one real risk (visual drift between the two builders) without losing any of the speed you designed it for.</p>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Y Arts! × Tiffany Webb — Execution Command Center</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#14130E;--char:#23211B;--ivory:#FBF6EA;--cream:#F3EAD6;--emerald:#0E6B54;
+--teal:#0B5C63;--tealblue:#1C6E7A;--royal:#223A82;--berry:#6C2D5A;--burnt:#C15427;
+--mustard:#D9A23A;--coral:#E17356;--gold:#C8A24C;--wood:#9A6A3E;
+--line:rgba(251,246,234,.13);--dim:#a9a294;--dim2:#78725f;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--ink);color:var(--ivory);
+line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+::selection{background:var(--gold);color:var(--ink)}
+.top{position:sticky;top:0;z-index:60;background:rgba(20,19,14,.97);backdrop-filter:blur(12px);
+border-bottom:1px solid var(--line)}
+.topin{max-width:1500px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;
+justify-content:space-between;gap:14px;flex-wrap:wrap}
+.brand{font-family:'Fraunces',serif;font-size:1rem;display:flex;align-items:center;gap:9px;white-space:nowrap}
+.brand .dot{width:9px;height:9px;border-radius:50%;background:conic-gradient(var(--emerald),var(--gold),var(--coral),var(--emerald))}
+.brand b{color:var(--gold);font-weight:600}
+.tabs{display:flex;gap:5px;flex-wrap:wrap}
+.tabs button{font-family:'Space Mono',monospace;font-size:.63rem;letter-spacing:.08em;
+text-transform:uppercase;background:transparent;border:1px solid var(--line);color:var(--ivory);
+padding:7px 11px;border-radius:30px;cursor:pointer;transition:.2s;white-space:nowrap}
+.tabs button:hover{border-color:var(--gold)}
+.tabs button.on{background:var(--gold);color:var(--ink);border-color:var(--gold);font-weight:700}
+.wrap{max-width:1500px;margin:0 auto;padding:26px 20px 90px}
+.pane{display:none}.pane.on{display:block}
+h1.ph{font-family:'Fraunces',serif;font-size:1.75rem;margin-bottom:5px}
+p.sub{color:var(--dim);font-size:.92rem;margin-bottom:20px;max-width:900px}
+h2.sec{font-family:'Fraunces',serif;font-size:1.25rem;margin:30px 0 6px;display:flex;align-items:center;gap:10px}
+h2.sec::before{content:"";width:16px;height:2px;background:var(--gold)}
+/* dashboard */
+.hero{background:radial-gradient(120% 130% at 8% 0%,#1c2a25,var(--ink) 62%);
+border:1px solid var(--line);border-radius:20px;padding:30px 32px;margin-bottom:22px}
+.hero .win{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;
+background:var(--emerald);color:#fff;display:inline-block;padding:5px 12px;border-radius:30px;margin-bottom:14px}
+.hero h1{font-family:'Fraunces',serif;font-size:2rem;line-height:1.1;margin-bottom:8px}
+.hero p{color:#d9d2c0;max-width:760px;font-size:.96rem}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:22px}
+.kpi{background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:13px;padding:15px 17px}
+.kpi b{font-family:'Fraunces',serif;font-size:1.6rem;color:var(--mustard);display:block;line-height:1}
+.kpi span{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.13em;text-transform:uppercase;color:var(--dim);display:block;margin-top:5px}
+.gates{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:6px}
+.gate{border:1px solid var(--line);border-radius:15px;padding:19px 21px;background:rgba(255,255,255,.03);
+border-top:4px solid var(--gc,var(--gold))}
+.gate .gl{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gc,var(--gold))}
+.gate .ga{font-family:'Fraunces',serif;font-size:1.75rem;margin:6px 0 3px}
+.gate .gw{font-size:.82rem;color:var(--dim);margin-bottom:9px}
+.gate .gu{font-size:.85rem;color:#e3ddcc;border-top:1px dashed var(--line);padding-top:9px}
+.gate .gu b{color:#fff}
+/* filters */
+.filters{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:16px;
+background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:14px;padding:12px 14px;
+position:sticky;top:62px;z-index:40;backdrop-filter:blur(10px)}
+.filters .fl{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.14em;
+text-transform:uppercase;color:var(--dim2);margin-right:2px}
+.fbtn{font-family:'Space Mono',monospace;font-size:.63rem;background:transparent;border:1px solid var(--line);
+color:var(--ivory);padding:6px 11px;border-radius:20px;cursor:pointer;transition:.18s}
+.fbtn:hover{border-color:var(--gold)}
+.fbtn.on{background:var(--ivory);color:var(--ink);border-color:var(--ivory);font-weight:700}
+.prog{margin-left:auto;display:flex;align-items:center;gap:10px}
+.bar{width:150px;height:7px;background:rgba(255,255,255,.1);border-radius:10px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--emerald),var(--gold));transition:width .35s}
+.prog span{font-family:'Space Mono',monospace;font-size:.7rem;color:var(--gold)}
+/* stage + steps */
+.stage{margin-bottom:14px;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:rgba(255,255,255,.02)}
+.stage-head{display:flex;align-items:center;gap:14px;padding:15px 18px;cursor:pointer;position:relative;transition:.2s}
+.stage-head:hover{background:rgba(255,255,255,.04)}
+.stage-head .sb{position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--sc,var(--gold))}
+.stage-head .sn{font-family:'Space Mono',monospace;font-weight:700;color:#fff;background:var(--sc,var(--gold));
+min-width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+flex:none;font-size:.74rem;text-align:center;line-height:1.1}
+.stage-head h3{font-family:'Fraunces',serif;font-size:1.12rem;flex:1;line-height:1.15}
+.stage-head h3 small{display:block;font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.1em;
+text-transform:uppercase;color:var(--dim2);margin-top:4px;font-weight:400}
+.stage-head .cnt{font-family:'Space Mono',monospace;font-size:.68rem;color:var(--dim);white-space:nowrap}
+.stage-head .tg{font-family:'Space Mono',monospace;font-size:1.2rem;color:var(--sc,var(--gold));transition:transform .3s}
+.stage.open .tg{transform:rotate(45deg)}
+.stage-body{display:none}
+.stage.open .stage-body{display:block}
+.step{border-top:1px solid var(--line);padding:13px 18px 13px 18px;display:grid;
+grid-template-columns:34px 30px 1fr 108px 128px 92px;gap:11px;align-items:start;transition:.15s}
+.step:hover{background:rgba(255,255,255,.035)}
+.step.done{opacity:.45}
+.step.done .st{text-decoration:line-through}
+.chk{width:19px;height:19px;border:1.5px solid var(--dim2);border-radius:5px;cursor:pointer;
+display:flex;align-items:center;justify-content:center;font-size:.72rem;color:var(--ink);
+background:transparent;transition:.15s;margin-top:2px}
+.chk.on{background:var(--emerald);border-color:var(--emerald);color:#fff}
+.snum{font-family:'Space Mono',monospace;font-size:.72rem;color:var(--dim2);padding-top:3px}
+.st{font-weight:600;font-size:.93rem;color:#fff;cursor:pointer}
+.sd{font-size:.83rem;color:var(--dim);margin-top:4px;display:none}
+.step.exp .sd{display:block}
+.sd b{color:#e7e0cf}
+.pill{font-family:'Space Mono',monospace;font-size:.57rem;letter-spacing:.05em;padding:4px 8px;
+border-radius:20px;display:inline-block;white-space:nowrap;border:1px solid transparent}
+.p-yash{background:rgba(108,45,90,.28);color:#e9a7d0;border-color:rgba(233,167,208,.3)}
+.p-tech{background:rgba(34,58,130,.32);color:#a8bdf0;border-color:rgba(168,189,240,.3)}
+.p-both{background:rgba(14,107,84,.3);color:#8fd9bd;border-color:rgba(143,217,189,.3)}
+.p-tif{background:rgba(217,162,58,.22);color:#f0cf8a;border-color:rgba(240,207,138,.32)}
+.tool{font-family:'Space Mono',monospace;font-size:.57rem;color:var(--dim);background:rgba(255,255,255,.05);
+border:1px solid var(--line);padding:4px 8px;border-radius:20px;display:inline-block}
+.u{font-family:'Space Mono',monospace;font-size:.57rem;letter-spacing:.06em;padding:4px 8px;border-radius:20px;
+text-transform:uppercase;font-weight:700;white-space:nowrap}
+.u-crit{background:#7d2418;color:#ffd9cf}
+.u-high{background:#8a5410;color:#ffe4b8}
+.u-med{background:#1d4e46;color:#b6ead9}
+.u-low{background:#2b2a22;color:#b0a992}
+.need{margin-top:8px;border-left:3px solid var(--mustard);padding:7px 0 7px 11px;background:rgba(217,162,58,.06);
+border-radius:0 8px 8px 0;display:none}
+.step.exp .need{display:block}
+.need .nl{font-family:'Space Mono',monospace;font-size:.56rem;letter-spacing:.12em;text-transform:uppercase;
+color:var(--mustard);margin-bottom:3px}
+.need p{font-size:.83rem;color:#f0e8d4}
+.nonel{font-family:'Space Mono',monospace;font-size:.58rem;color:var(--dim2)}
+@media(max-width:1000px){
+.step{grid-template-columns:30px 26px 1fr;gap:8px}
+.step .cwho,.step .ctool,.step .curg{grid-column:3;justify-self:start;margin-top:3px}
+.gates{grid-template-columns:1fr}
+.filters{position:static}
+}
+
+/* ---- ask panel ---- */
+.stepacts{display:flex;gap:5px;margin-top:9px;flex-wrap:wrap}
+.minibtn{font-family:'Space Mono',monospace;font-size:.57rem;letter-spacing:.05em;text-transform:uppercase;
+background:transparent;border:1px solid var(--line);color:var(--dim);padding:5px 10px;border-radius:20px;
+cursor:pointer;transition:.18s}
+.minibtn:hover{border-color:var(--gold);color:var(--gold)}
+.minibtn.ask:hover{border-color:var(--tealblue);color:#8fd9e0}
+.minibtn.del:hover{border-color:var(--burnt);color:#ffb59c}
+.askwrap{display:none;margin-top:11px;border:1px solid rgba(28,110,122,.4);border-radius:12px;
+background:rgba(28,110,122,.07);padding:13px 15px}
+.step.asking .askwrap{display:block}
+.askhead{font-family:'Space Mono',monospace;font-size:.57rem;letter-spacing:.13em;text-transform:uppercase;
+color:#8fd9e0;margin-bottom:9px}
+.askrow{display:flex;gap:8px}
+.askin{flex:1;background:rgba(0,0,0,.35);border:1px solid var(--line);border-radius:9px;padding:9px 12px;
+color:var(--ivory);font-family:'Inter';font-size:.86rem;outline:none;resize:vertical;min-height:38px}
+.askin:focus{border-color:var(--tealblue)}
+.asksend{background:var(--tealblue);border:0;color:#fff;font-family:'Space Mono',monospace;font-size:.6rem;
+letter-spacing:.06em;text-transform:uppercase;padding:9px 14px;border-radius:9px;cursor:pointer;white-space:nowrap}
+.asksend:hover{background:#2a8593}
+.asksend:disabled{opacity:.4;cursor:not-allowed}
+.quickqs{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}
+.qq{font-family:'Space Mono',monospace;font-size:.55rem;background:rgba(255,255,255,.05);border:1px solid var(--line);
+color:var(--dim);padding:4px 9px;border-radius:20px;cursor:pointer}
+.qq:hover{color:var(--ivory);border-color:var(--tealblue)}
+.answer{margin-top:11px;border-left:3px solid var(--tealblue);padding:2px 0 2px 12px;font-size:.87rem;
+color:#e7e0cf;line-height:1.65;white-space:pre-wrap}
+.answer b{color:#fff}
+.qline{font-family:'Space Mono',monospace;font-size:.6rem;color:#8fd9e0;margin-top:12px}
+.thinking{font-family:'Space Mono',monospace;font-size:.62rem;color:var(--dim);margin-top:10px}
+.thinking::after{content:"▍";animation:blink 1s steps(2) infinite}
+@keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0}}
+/* ---- modal ---- */
+.mask{display:none;position:fixed;inset:0;background:rgba(8,8,6,.82);backdrop-filter:blur(6px);z-index:200;
+align-items:center;justify-content:center;padding:20px}
+.mask.on{display:flex}
+.modal{background:linear-gradient(170deg,#1d1c15,#151410);border:1px solid var(--line);border-radius:20px;
+max-width:640px;width:100%;max-height:88vh;overflow-y:auto;padding:26px 28px}
+.modal h3{font-family:'Fraunces',serif;font-size:1.3rem;margin-bottom:6px}
+.modal .mctx{font-size:.85rem;color:var(--dim);margin-bottom:16px;padding-bottom:13px;border-bottom:1px solid var(--line)}
+.modal label{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.13em;text-transform:uppercase;
+color:var(--gold);display:block;margin-bottom:7px;margin-top:13px}
+.modal input,.modal textarea,.modal select{width:100%;background:rgba(0,0,0,.35);border:1px solid var(--line);
+border-radius:10px;padding:10px 13px;color:var(--ivory);font-family:'Inter';font-size:.9rem;outline:none}
+.modal textarea{min-height:88px;resize:vertical}
+.modal input:focus,.modal textarea:focus{border-color:var(--gold)}
+.mrow{display:flex;gap:9px;margin-top:18px;flex-wrap:wrap}
+.mbtn{font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.07em;text-transform:uppercase;
+padding:11px 16px;border-radius:30px;cursor:pointer;border:1px solid var(--line);background:transparent;color:var(--ivory)}
+.mbtn.primary{background:var(--gold);color:var(--ink);border-color:var(--gold);font-weight:700}
+.mbtn.danger{background:var(--burnt);color:#fff;border-color:var(--burnt)}
+.mbtn:disabled{opacity:.4;cursor:not-allowed}
+.verdict{margin-top:16px;border-radius:14px;padding:16px 18px;border:1px solid var(--line)}
+.verdict.approve{background:rgba(14,107,84,.14);border-color:rgba(143,217,189,.4)}
+.verdict.caution{background:rgba(217,162,58,.12);border-color:rgba(240,207,138,.4)}
+.verdict.reject{background:rgba(193,84,39,.14);border-color:rgba(255,181,156,.4)}
+.verdict .vl{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;margin-bottom:6px}
+.verdict.approve .vl{color:#8fd9bd}.verdict.caution .vl{color:#f0cf8a}.verdict.reject .vl{color:#ffb59c}
+.verdict h4{font-family:'Fraunces',serif;font-size:1.05rem;margin-bottom:8px;color:#fff}
+.verdict p{font-size:.87rem;color:#e7e0cf;line-height:1.62;margin-bottom:8px;white-space:pre-wrap}
+.verdict p:last-child{margin-bottom:0}
+.addbar{display:flex;justify-content:flex-end;margin-bottom:12px}
+.custom-tag{font-family:'Space Mono',monospace;font-size:.52rem;background:rgba(200,162,76,.2);
+color:var(--gold);padding:3px 7px;border-radius:20px;margin-left:6px}
+
+</style>
+</head>
+<body>
+<div class="top"><div class="topin">
+<div class="brand"><span class="dot"></span>Y ARTS! <b>×</b> TIFFANY WEBB — Command Center</div>
+<div class="tabs">
+<button data-tab="dash" class="on">Dashboard</button>
+<button data-tab="road">Roadmap</button>
+<button data-tab="tif">From Tiffany</button>
+<button data-tab="res">Research</button>
+<button data-tab="risk">Risks</button>
+<button data-tab="keep">Keep Her</button>
+</div>
+</div></div>
+<div class="wrap">
+<!-- DASHBOARD -->
+<div class="pane on" id="dash">
+  <div class="hero">
+    <span class="win">● Client signed · $1,549 · no negotiation</span>
+    <h1>30 days. Two people. One brand that books her.</h1>
+    <p>This is the live execution system for the Tiffany Webb build. Every step is sequenced, owned, tooled, and urgency-rated. <b style="color:var(--gold)">New:</b> ask me a question inside any step — I have the full project knowledge base loaded — and propose adding, editing or deleting steps, which I'll audit against the project before you commit.</p>
+    <div class="kpis">
+      <div class="kpi"><b>52</b><span>Total steps</span></div>
+      <div class="kpi"><b>6</b><span>Stages</span></div>
+      <div class="kpi"><b>30</b><span>Days to handover</span></div>
+      <div class="kpi"><b>18</b><span>Deliverables owed</span></div>
+      <div class="kpi"><b>14</b><span>Asks from Tiffany</span></div>
+    </div>
+  </div>
+
+  <h2 class="sec">Payment gates — what each tranche buys</h2>
+  <p class="sub">She can pause after any gate. Each gate must end on a visible, impressive win so pausing never feels like the smart move.</p>
+  <div class="gates">
+    <div class="gate" style="--gc:var(--emerald)">
+      <div class="gl">Gate 1 · within 2 days</div>
+      <div class="ga">$549</div>
+      <div class="gw">Covers Foundation ($149) + Landing Page ($399)</div>
+      <div class="gu"><b>Ends on:</b> her logo, brand style sheet, and a live, bookable tiffanywebb.com. The single most impressive moment of the whole project — front-load the wow.</div>
+    </div>
+    <div class="gate" style="--gc:var(--mustard)">
+      <div class="gl">Gate 2 · day 10</div>
+      <div class="ga">$500</div>
+      <div class="gw">Covers Booking Kit ($250) + part of Social Launch</div>
+      <div class="gu"><b>Ends on:</b> Media Kit, Capability Kit and one-sheet in her hands — the assets she can literally send to a conference tomorrow.</div>
+    </div>
+    <div class="gate" style="--gc:var(--coral)">
+      <div class="gl">Gate 3 · on handover</div>
+      <div class="ga">$500</div>
+      <div class="gw">Covers rest of Social + WhatsApp AI ($349)</div>
+      <div class="gu"><b>Ends on:</b> social live, 30-day calendar loaded, WhatsApp assistant answering — then her free month begins and the $199/mo conversation opens.</div>
+    </div>
+  </div>
+
+  <h2 class="sec">Flag — read before invoicing</h2>
+  <p class="sub" style="color:#f0cf8a">The tranches ($549 / $500 / $500) do <b>not</b> line up exactly with the five phase prices ($149 / $399 / $250 / $402 / $349). Gate 1 = $549 vs Phases 1+2 = $548, so $1 carries forward. Gates 2 and 3 split the Social Launch phase across two payments. <b>Action:</b> put the gate → deliverable mapping above in writing to her before you invoice, so no one disputes what was paid for at a pause point.</p>
+
+  <h2 class="sec">Who does what</h2>
+  <div class="gates">
+    <div class="gate" style="--gc:var(--berry)">
+      <div class="gl">Design track</div>
+      <div class="ga" style="font-size:1.3rem">Yash</div>
+      <div class="gu">Brand assets, logo, style sheet, all page copy, Media Kit, Capability Kit, one-sheet, social templates, content pillars, calendar, client comms.</div>
+    </div>
+    <div class="gate" style="--gc:var(--royal)">
+      <div class="gl">Tech track</div>
+      <div class="ga" style="font-size:1.3rem">Tech partner</div>
+      <div class="gu">Landing page build + deploy, booking form, email routing, SEO/analytics, domain/SSL, WhatsApp API, CRM, calendar integration, automation testing.</div>
+    </div>
+    <div class="gate" style="--gc:var(--emerald)">
+      <div class="gl">Shared</div>
+      <div class="ga" style="font-size:1.3rem">Both</div>
+      <div class="gu">Day 0–1 brand lock, IA/wireframe, conversation flow design, review gates, handover training. Sync at the start of each stage — 10 min, no more.</div>
+    </div>
+  </div>
+
+  <h2 class="sec">The three rules that keep this on schedule</h2>
+  <div class="gates">
+    <div class="gate" style="--gc:var(--gold)">
+      <div class="gl">Rule 01</div>
+      <div class="ga" style="font-size:1.15rem">Lock before you split</div>
+      <div class="gu">Nothing gets designed or built until Step 8 (brand lock) is done. Two people building from two interpretations is how decks and sites stop matching.</div>
+    </div>
+    <div class="gate" style="--gc:var(--gold)">
+      <div class="gl">Rule 02</div>
+      <div class="ga" style="font-size:1.15rem">Ask early, ask once</div>
+      <div class="gu">Every ask from Tiffany goes out on Day 0 in one message. Her reply time is the only thing you don't control — start that clock immediately.</div>
+    </div>
+    <div class="gate" style="--gc:var(--gold)">
+      <div class="gl">Rule 03</div>
+      <div class="ga" style="font-size:1.15rem">Two rounds, then it ships</div>
+      <div class="gu">Two revision rounds per deliverable, stated up front and kindly. Unlimited rounds is how a 30-day build becomes a 90-day one at the same price.</div>
+    </div>
+  </div>
+</div>
+<!-- ROADMAP -->
+<div class="pane" id="road">
+  <h1 class="ph">The Roadmap</h1>
+  <p class="sub">52 steps, in execution order. Click any step title to expand its detail and what's needed from Tiffany. Tick the box as you finish. Filter by owner or urgency to see just your lane.</p>
+  <div class="filters">
+    <span class="fl">Owner</span>
+    <button class="fbtn on" data-f="owner" data-v="all">All</button>
+    <button class="fbtn" data-f="owner" data-v="yash">Yash</button>
+    <button class="fbtn" data-f="owner" data-v="tech">Tech</button>
+    <button class="fbtn" data-f="owner" data-v="both">Both</button>
+    <span class="fl" style="margin-left:8px">Urgency</span>
+    <button class="fbtn on" data-f="urg" data-v="all">All</button>
+    <button class="fbtn" data-f="urg" data-v="crit">Critical</button>
+    <button class="fbtn" data-f="urg" data-v="high">High</button>
+    <span class="fl" style="margin-left:8px">Needs Tiffany</span>
+    <button class="fbtn" data-f="needs" data-v="yes">Only these</button>
+    <div class="prog"><div class="bar"><i id="pbar"></i></div><span id="ptxt">0 / 52</span></div>
+  </div>
+  <div class="addbar"><button class="mbtn" id="addStepBtn">+ Propose a new step</button></div>
+  <div id="stages"></div>
+</div>
+
+<!-- FROM TIFFANY -->
+<div class="pane" id="tif">
+  <h1 class="ph">Everything We Need From Tiffany</h1>
+  <p class="sub">14 asks, each with an urgency and the step it blocks. Send the Day-0 batch as ONE message — do not drip-feed these, or you will spend the whole project waiting.</p>
+  <div id="tifHost"></div>
+</div>
+
+<!-- RESEARCH -->
+<div class="pane" id="res">
+  <h1 class="ph">Research & Reference Plan</h1>
+  <p class="sub">What "good" looks like in her niche, per deliverable — plus a clear split of which research I run for you here in chat, and which you gather out in the world and feed back to me.</p>
+  <div id="resHost"></div>
+</div>
+
+<!-- RISKS -->
+<div class="pane" id="risk">
+  <h1 class="ph">Risks & Gotchas</h1>
+  <p class="sub">The things that quietly kill projects like this. Each one has a mitigation you can action today.</p>
+  <div id="riskHost"></div>
+</div>
+
+<!-- KEEP HER -->
+<div class="pane" id="keep">
+  <h1 class="ph">Keeping Her Through All Three Gates</h1>
+  <p class="sub">She can pause after any payment. This is the deliberate plan for making sure she never wants to — and for turning this build into recurring revenue.</p>
+  <div id="keepHost"></div>
+</div>
+</div>
+
+<div class="mask" id="mask"><div class="modal" id="modalCard"></div></div>
+<script>
+var STAGES=[
+{id:'S0',c:'var(--wood)',n:'STAGE 0',t:'Kickoff & Lock',days:'Days 0–1',
+ note:'Nothing gets designed or built until this stage closes. Two long-lead clocks (Meta verification, testimonials) start here or they hurt you in week 4.'},
+{id:'S1',c:'var(--emerald)',n:'STAGE 1',t:'Foundation — Brand Assets',days:'Days 1–4',
+ note:'The shared source of truth both tracks build from. Small stage, enormous downstream leverage.'},
+{id:'S2',c:'var(--royal)',n:'STAGE 2',t:'Landing Page',days:'Days 2–12',
+ note:'Gate 1 ends here. This is the single most impressive deliverable — over-invest in it.'},
+{id:'S3',c:'var(--berry)',n:'STAGE 3',t:'Booking Kit',days:'Days 8–18',
+ note:'Runs parallel to late landing-page work. Gate 2 ends here.'},
+{id:'S4',c:'var(--coral)',n:'STAGE 4',t:'Social Launch',days:'Days 15–25',
+ note:'Two platforms only — Instagram + LinkedIn recommended. Do not scope-creep into four.'},
+{id:'S5',c:'var(--mustard)',n:'STAGE 5',t:'WhatsApp AI + Automation',days:'Day 0 start · build 18–30',
+ note:'Setup paperwork starts DAY 0. The build is late, but the approval queue is not something you control.'},
+{id:'S6',c:'var(--teal)',n:'STAGE 6',t:'Handover & Retention',days:'Days 28–35',
+ note:'Gate 3 and the moment the $199/mo relationship either begins or does not.'}
+];
+
+var STEPS=[
+// ---------- STAGE 0 ----------
+{s:'S0',t:'Send the single Day-0 asset request',o:'yash',tool:'Chat → Gmail',u:'crit',
+ d:'One message containing every ask in the "From Tiffany" tab that is due Day 0–2. Do NOT drip-feed these across the month — her reply time is the only variable you do not control, so start every clock at once. I can draft this message for you.',
+ need:{w:'Photos, testimonial contacts, domain access, business docs, origin-sentence sign-off',u:'crit'}},
+{s:'S0',t:'Put the gate → deliverable mapping in writing',o:'yash',tool:'Gmail',u:'crit',
+ d:'She can pause after any gate, so both sides must agree in writing exactly what each $549 / $500 / $500 buys. Also state the two-revision-rounds policy here, kindly and once. This single email prevents every payment dispute later.',
+ need:{w:'Written confirmation she agrees to the gate mapping',u:'crit'}},
+{s:'S0',t:'Collect Gate 1 payment — $549',o:'yash',tool:'Outside Claude',u:'crit',
+ d:'Due within 2 days per her agreement. Work does not start before it lands. Send a proper invoice, not a WhatsApp number.',
+ need:{w:'$549 payment',u:'crit'}},
+{s:'S0',t:'Verify tiffanywebb.com is actually available or owned',o:'tech',tool:'Outside Claude (registrar)',u:'crit',
+ d:'Check the registrar TODAY. Three outcomes: she owns it (get DNS access), it is free (buy it immediately before someone else does), or it is taken (you need a fallback name and her sign-off — this changes copy across the deck, kits and site). This is a silent project-killer if discovered in week 2.',
+ need:{w:'Either DNS access, or a decision + budget to register the domain',u:'crit'}},
+{s:'S0',t:'Start Meta Business verification for WhatsApp',o:'tech',tool:'Outside Claude (Meta Business)',u:'crit',
+ d:'Verification runs from 24 hours to 2–4 weeks depending on documents, and requires legal business documentation plus a phone number not already on consumer WhatsApp. Starting this in week 5 as originally planned would have stalled the final phase and your final $500. Submit on Day 0 and let it queue while you build everything else.',
+ need:{w:'Business documents (legal name must match exactly) + a dedicated phone number',u:'crit'}},
+{s:'S0',t:'Set up shared project folder + naming convention',o:'yash',tool:'Google Drive connector',u:'high',
+ d:'One folder: 01_Brand, 02_Landing, 03_Kits, 04_Social, 05_Automation, 06_Handover. Every deliverable versioned v1/v2/FINAL. Two people working without this is how the wrong logo ships.'},
+{s:'S0',t:'30-minute kickoff call with Tiffany',o:'both',tool:'Outside Claude',u:'high',
+ d:'Introduce your tech partner so she knows there is a team. Walk the roadmap at stage level only. Set the feedback expectation: 48 hours per review round. End by confirming the Day-0 asks are coming.',
+ need:{w:'30 minutes of her time',u:'high'}},
+{s:'S0',t:'Lock the canonical brand facts',o:'yash',tool:'Claude Chat (Codex)',u:'crit',
+ d:'Freeze in writing: the origin sentence ("Chicago-born and -raised, with deep Louisiana family roots"), her headline title, the 4 talk-track names, the tagline roles, and the exact stat phrasing (15+ yrs / 4,000+ hrs). Everything downstream quotes this file. Never let two versions circulate.',
+ need:{w:'Her sign-off on the origin sentence and title',u:'crit'}},
+{s:'S0',t:'Build the saved Design System in Claude Design',o:'yash',tool:'Claude Design',u:'crit',
+ d:'The step we deliberately deferred during the pitch deck — now it is due. Load the palette, type scale, component styles and photo rules so every asset from here inherits them automatically instead of being re-explained each time. Prompt for this is already written in our chat history.'},
+{s:'S0',t:'Tech environment, repo and staging setup',o:'tech',tool:'Claude Code',u:'high',
+ d:'Repo, framework, staging URL, version control. Do this during the Day 0–1 lock window so he is never idle waiting on brand assets.'},
+
+// ---------- STAGE 1 ----------
+{s:'S1',t:'Reference research — wordmarks in her space',o:'yash',tool:'Claude Chat + external browsing',u:'high',
+ d:'I can pull how comparable speaker/health brands handle wordmarks; you browse Behance/Dribbble/Pinterest for visual direction and paste the 5 best back to me. Target: authoritative but warm, works at favicon size, reads as a person not an agency.'},
+{s:'S1',t:'Design the primary logo + wordmark lockup',o:'yash',tool:'Claude Design',u:'crit',
+ d:'Primary horizontal, stacked variant, and a monogram/favicon. Fraunces-based wordmark per the system. Deliver on light and dark. This blocks the site header, both kits and every social profile — it cannot slip.'},
+{s:'S1',t:'Design the GambleFreeGear endorsement lockup',o:'yash',tool:'Claude Design',u:'med',
+ d:'The "GambleFreeGear — by Tiffany Webb" lockup that expresses the Branded House architecture. Keep it a text wordmark; you are not designing GFG a final logo at this price point, and she has not chosen one.'},
+{s:'S1',t:'Build the 1-page brand style sheet',o:'yash',tool:'Claude Design',u:'high',
+ d:'Hex values, type scale, spacing, do/dont examples. This is a real deliverable she keeps — and the reference your tech partner builds against. One page, beautiful, no filler.'},
+{s:'S1',t:'Photo direction guide + shot list',o:'yash',tool:'Chat → Claude Design',u:'med',
+ d:'What to shoot next time she speaks: stage wide, stage close, audience reaction, candid community, clean headshot on neutral background, detail shots. Include styling notes from the Codex. This one page raises the quality of every future asset.'},
+{s:'S1',t:'Audit her existing photos for actual usability',o:'yash',tool:'Outside Claude',u:'high',
+ d:'Check resolution, lighting and crop-ability. Her current shots may be phone-quality or backdrop-heavy (the 1.800.GAMBLER step-and-repeat is branded to someone else). Flag gaps NOW so she can schedule a shoot rather than discovering it at build time.',
+ need:{w:'All photos she has, at original resolution',u:'crit'}},
+{s:'S1',t:'Foundation review round with Tiffany',o:'yash',tool:'Outside Claude',u:'high',
+ d:'Present logo + style sheet together as one confident direction, not three options to choose between. Options invite committee-thinking; a recommendation invites trust. Two revision rounds, then locked.',
+ need:{w:'Feedback within 48 hours',u:'high'}},
+
+// ---------- STAGE 2 ----------
+{s:'S2',t:'Competitor teardown — 5 speaker sites',o:'yash',tool:'Claude Chat research + external',u:'high',
+ d:'Study the reference brands we named in the Codex plus 2–3 public-health speakers. What to extract: where the booking CTA sits, how topics are presented, whether video is above the fold, how credibility is shown in the first screen. Send me the URLs and I will turn the pattern into a spec.'},
+{s:'S2',t:'Information architecture + wireframe',o:'both',tool:'Chat → Artifacts',u:'crit',
+ d:'Section order and the click-path to "Book Tiffany". Agree this jointly before either of you opens a design tool — it is the cheapest hour in the whole project. Ships as the grey-box wireframe both tracks build from.'},
+{s:'S2',t:'Write every word of page copy',o:'yash',tool:'Claude Chat',u:'crit',
+ d:'Hero, credibility bar, Meet Tiffany, four talk tracks, proof, booking CTA — all in Codex voice (Caregiver-Sage: warm, plain-spoken, dignified). Copy before design, always. I draft, you edit.'},
+{s:'S2',t:'Set up the independent booking email',o:'tech',tool:'Outside Claude',u:'crit',
+ d:'booking@ or hello@tiffanywebb.com with forwarding to an inbox she checks. NEVER the HAS employer address — this is a Codex hard constraint and the whole point of her independence. Decide mailbox vs forwarder based on her comfort.',
+ need:{w:'Decision on the address + where mail should forward',u:'high'}},
+{s:'S2',t:'Design the full desktop page',o:'yash',tool:'Claude Design',u:'crit',
+ d:'Editorial system, real photos, real copy. No lorem, no stock. This is the asset that most determines whether she pays Gate 2 enthusiastically.'},
+{s:'S2',t:'Design the mobile layout',o:'yash',tool:'Claude Design',u:'high',
+ d:'Most conference organisers will open this on a phone. Design mobile deliberately — do not let it be an afterthought of the desktop build.'},
+{s:'S2',t:'Front-end build',o:'tech',tool:'Claude Code',u:'crit',
+ d:'Build to the approved design and style sheet. Semantic HTML, responsive, fast. No template that fights the brand system.'},
+{s:'S2',t:'Booking form + routing + spam protection',o:'tech',tool:'Claude Code',u:'crit',
+ d:'Form fields matched to what a real enquiry needs (org, event date, audience, budget range). Route to the independent email. Add spam protection or the inbox becomes unusable within a month.'},
+{s:'S2',t:'SEO, meta tags, OG images, analytics',o:'tech',tool:'Claude Code',u:'high',
+ d:'Title/description per page, Open Graph image so links preview beautifully when organisers share her, Search Console and analytics connected. Target phrases: gambling prevention speaker, public health speaker Chicago.'},
+{s:'S2',t:'Accessibility + performance pass',o:'tech',tool:'Claude Code',u:'med',
+ d:'Alt text, contrast ratios, keyboard navigation, compressed images. She works in public health — an inaccessible site would be an embarrassing contradiction, and organisers in this sector do notice.'},
+{s:'S2',t:'Cross-device QA',o:'tech',tool:'Claude Code',u:'high',
+ d:'iOS Safari, Android Chrome, desktop Chrome/Safari/Edge. Check the form actually delivers mail end-to-end — test it from an outside address, not just locally.'},
+{s:'S2',t:'Domain connect, SSL, deploy to staging',o:'tech',tool:'Outside Claude / Chrome',u:'crit',
+ d:'DNS propagation can take up to 48 hours — start this before you need it, not on launch morning. Staging URL for her review, then production.',
+ need:{w:'DNS / registrar access',u:'crit'}},
+{s:'S2',t:'Client review round on staging',o:'both',tool:'Outside Claude',u:'high',
+ d:'Walk her through it live rather than emailing a link — you control the narrative and catch reactions in real time. Collect all feedback in one pass.',
+ need:{w:'Feedback within 48 hours',u:'high'}},
+{s:'S2',t:'Revisions and go live',o:'tech',tool:'Claude Code',u:'crit',
+ d:'Round 2 only. Then push to production and confirm the live URL works from a fresh device on mobile data.'},
+{s:'S2',t:'Gate 1 win message + Gate 2 invoice',o:'yash',tool:'Gmail',u:'high',
+ d:'Do not just send an invoice. Send the live link, a short "here is what exists now that did not exist ten days ago" summary, and the invoice underneath it. Value first, ask second — this is the moment that earns Gate 2.',
+ need:{w:'Gate 2 payment — $500',u:'crit'}},
+
+// ---------- STAGE 3 ----------
+{s:'S3',t:'Reference research — media kits & one-sheets',o:'yash',tool:'Claude Chat + external',u:'high',
+ d:'Look at how bureau-represented speakers structure a one-sheet. I can summarise the conventions; you collect 3–5 real PDFs to react to. Key question to answer: what does a programme committee actually skim in 20 seconds?'},
+{s:'S3',t:'Assemble Media Kit content from the Codex',o:'yash',tool:'Claude Chat',u:'crit',
+ d:'All three bios, the 21 topics across 4 tracks, audiences served, career highlights, why-book-her, partnership framework, media resources, contact. It is all already written in the Codex — this is assembly, not invention.'},
+{s:'S3',t:'Chase the testimonials (clock started Day 0)',o:'yash',tool:'Gmail',u:'crit',
+ d:'The single biggest schedule risk in the project, because it depends on other people replying to her. Give her a ready-to-send request template with a specific deadline. Chase at day 5 and day 10. Design the layout so it still looks complete with 3.',
+ need:{w:'3–5 testimonials returned',u:'crit'}},
+{s:'S3',t:'Design the Media Kit (12–15 pages)',o:'yash',tool:'Claude Design',u:'crit',
+ d:'Editorial system, her real photos, generous white space. No fees printed anywhere — Codex hard constraint. No Y Arts! branding: this is a document SHE sends to HER prospects.'},
+{s:'S3',t:'Assemble Capability Kit content',o:'yash',tool:'Claude Chat',u:'high',
+ d:'Built on SPEAK / PARTNER / STRATEGIZE / STRENGTHEN. Include the "How We Work" page (single workshop · series · project · retainer) — that page is what converts a one-off talk into ongoing income for her.'},
+{s:'S3',t:'Design the Capability Kit (12–18 pages)',o:'yash',tool:'Claude Design',u:'high',
+ d:'Same visual DNA as the Media Kit, different job. Framed entirely as her asset for partnership conversations.'},
+{s:'S3',t:'Distil the one-sheet from the locked Media Kit',o:'yash',tool:'Claude Design',u:'high',
+ d:'Sequenced AFTER the Media Kit is final, never in parallel — the one-sheet is a distillation, and building both at once guarantees they drift. Headline, photo, 2–4 signature topics, short bio, proof, contact. One page.'},
+{s:'S3',t:'Export print + digital versions',o:'yash',tool:'Claude Design',u:'med',
+ d:'Web-optimised PDF for email (under 5MB so it does not bounce) and a print-quality version. Name files professionally — "Tiffany Webb — Speaker Kit.pdf", not "final_v3_new".'},
+{s:'S3',t:'Booking Kit review + revisions',o:'yash',tool:'Outside Claude',u:'high',
+ d:'Present all three together. This is the stage where she can most clearly picture herself getting booked — let her sit with that feeling.',
+ need:{w:'Feedback within 48 hours',u:'high'}},
+{s:'S3',t:'Gate 2 delivery + Gate 3 invoice',o:'yash',tool:'Gmail',u:'high',
+ d:'Deliver the files, then suggest she forward the one-sheet to one organisation this week. Getting her to USE the asset immediately is what makes the remaining phases feel urgent to her.',
+ need:{w:'Gate 3 payment — $500',u:'crit'}},
+
+// ---------- STAGE 4 ----------
+{s:'S4',t:'Confirm which 2 platforms',o:'yash',tool:'Outside Claude',u:'crit',
+ d:'Recommend Instagram (audience + GambleFreeGear) and LinkedIn (where conference organisers and health decision-makers actually are). YouTube matters for booking video but needs a reel that does not exist yet — position it as phase two.',
+ need:{w:'Her decision on the two platforms',u:'high'}},
+{s:'S4',t:'Get account access the safe way',o:'both',tool:'Claude in Chrome',u:'crit',
+ d:'Do NOT collect her passwords. Use Instagram/Meta Business collaborator roles and LinkedIn page admin access. If a personal login is unavoidable, use a password manager share and require she change it at handover. Getting this wrong is a real trust and liability problem.',
+ need:{w:'Collaborator/admin access (not passwords)',u:'high'}},
+{s:'S4',t:'Set up and optimise both profiles',o:'yash',tool:'Chrome + Chat',u:'high',
+ d:'Consistent handle, profile photo, banner, link, and per-platform bios in Codex voice with the correct CTA. Cross-link GambleFreeGear without merging the two identities.'},
+{s:'S4',t:'Five content pillars + voice guide',o:'yash',tool:'Claude Chat',u:'high',
+ d:'Suggested pillars: Prevention Education · Community Stories · Behind the Work · Awareness Moments (PGAM, Screening Day) · The Mission (GambleFreeGear). Include what she should never post, and the stat-attribution rule.'},
+{s:'S4',t:'Design ~10 editable templates',o:'yash',tool:'Claude Design',u:'high',
+ d:'Quote card, stat card, topic announcement, event promo, carousel cover + inner, reel cover, testimonial card, awareness-day card. Editable by her, on-system.'},
+{s:'S4',t:'Instagram highlight covers',o:'yash',tool:'Claude Design + Adobe',u:'med',
+ d:'Speaking · Topics · Press · GambleFreeGear · About. Small deliverable, disproportionately visible on her profile.'},
+{s:'S4',t:'Build the 30-day launch calendar with captions',o:'yash',tool:'Chat → Artifacts',u:'high',
+ d:'Day-by-day: what posts, on which platform, with the caption and hook written. This is the deliverable that makes the free month effortless for both of you — and demonstrates exactly what $199/mo buys.'},
+
+// ---------- STAGE 5 ----------
+{s:'S5',t:'Number strategy + BSP selection',o:'tech',tool:'Claude research + external',u:'crit',
+ d:'Decide direct Cloud API vs a Business Solution Provider. The number must not already be active on consumer WhatsApp (or use coexistence). Compare per-conversation pricing — utility vs marketing templates are billed differently and she should understand this before launch.',
+ need:{w:'A dedicated phone number for the assistant',u:'crit'}},
+{s:'S5',t:'Design the conversation + qualification flow',o:'both',tool:'Claude Chat',u:'high',
+ d:'Map the real enquiry: greet → what kind of event → date → audience size → budget range → capture email → offer calendar slot → notify Tiffany. Qualification questions should mirror the booking form so the CRM stays consistent. Write template messages for Meta approval here.'},
+{s:'S5',t:'Build the assistant + CRM pipeline',o:'tech',tool:'Claude Code',u:'crit',
+ d:'Auto-replies, lead pipeline with stages, reminders so nothing slips. Keep the CRM simple — she is one person, not a sales team. Ease of use beats feature count.'},
+{s:'S5',t:'Calendar integration + booking handoff',o:'tech',tool:'Claude Code + connectors',u:'high',
+ d:'Assistant offers real availability and books into her calendar. Set buffer rules and her working hours so it never books her into a conflict.',
+ need:{w:'Calendar access + her availability rules',u:'high'}},
+{s:'S5',t:'End-to-end testing',o:'tech',tool:'Claude Code',u:'crit',
+ d:'Run 10 realistic enquiries including awkward ones — vague budget, wrong timezone, someone just asking her rate. Confirm every path ends either in a booking or a clean human handoff. Never ship an assistant that can strand a real prospect.'},
+{s:'S5',t:'PR / content workflow SOP',o:'yash',tool:'Chat / Cowork',u:'med',
+ d:'One page: how she films (orientation, audio, length), where she uploads, turnaround time, what comes back. This is the free deliverable that converts into the $199/mo — make it feel effortless.'},
+
+// ---------- STAGE 6 ----------
+{s:'S6',t:'Build the handover pack',o:'yash',tool:'Claude Design + Drive',u:'high',
+ d:'One folder, professionally organised: all source and export files, brand style sheet, logins/access inventory, the 30-day calendar, the PR SOP, and a one-page "how to run your brand" guide. This is the artefact that makes you look like an agency, not a freelancer.'},
+{s:'S6',t:'45-minute training + handover session',o:'both',tool:'Outside Claude',u:'crit',
+ d:'Walk her through the site editor, how to send the kits, how the templates work, and how the WhatsApp assistant behaves. Record it so she can rewatch — that recording prevents most future support requests.',
+ need:{w:'45 minutes of her time',u:'high'}},
+{s:'S6',t:'Collect Gate 3 payment — $500',o:'yash',tool:'Outside Claude',u:'crit',
+ d:'Invoice on delivery of the handover pack, not before. Everything promised in the deck is now in her hands.',
+ need:{w:'$500 final payment',u:'crit'}},
+{s:'S6',t:'Start the free month of social management',o:'yash',tool:'Chat + Chrome',u:'high',
+ d:'Run the 30-day calendar for her properly — this month is the entire sales pitch for the recurring tier. Report what worked at day 30 with real numbers.'},
+{s:'S6',t:'Day-30 growth conversation',o:'yash',tool:'Chat → Gmail',u:'high',
+ d:'Show the month-one metrics, then ask what she wants next: continue at $199/mo, add YouTube and the speaker reel, or build the low-cost prevention playbook from her 48-month plan. Never end a project without naming the next one.'}
+];
+var ASKS=[
+{w:'Professional photos + all existing headshots (original resolution)',u:'crit',when:'Day 0',blocks:'Landing page, Media Kit, Capability Kit, one-sheet, social profiles',
+ note:'Ask for originals, not WhatsApp-compressed copies. If quality is poor, she needs a shoot booked in week 1 — that decision cannot wait until week 3.'},
+{w:'3–5 testimonial contacts (names + emails)',u:'crit',when:'Day 0',blocks:'Media Kit, Capability Kit, landing page proof section',
+ note:'THE biggest schedule risk — it depends on third parties replying. Give her a ready-made request email. Chase day 5 and day 10.'},
+{w:'Domain / DNS access for tiffanywebb.com',u:'crit',when:'Day 0',blocks:'Deploy, booking email, SSL',
+ note:'If she does not own it, register immediately. If it is taken by someone else, you need a fallback name decision — that ripples into copy everywhere.'},
+{w:'Business documents for Meta verification',u:'crit',when:'Day 0',blocks:'WhatsApp AI (the entire Phase 5)',
+ note:'Legal business name must match documents EXACTLY. Verification runs 24 hours to 2–4 weeks. If she has no registered business entity, raise it on day 0 — it may change the WhatsApp approach entirely.'},
+{w:'A dedicated phone number for the assistant',u:'crit',when:'Day 1',blocks:'WhatsApp API registration',
+ note:'Must not already be active on consumer WhatsApp, or you need the coexistence path. Do not use her personal number without discussing it.'},
+{w:'Sign-off on the canonical origin sentence + title',u:'crit',when:'Day 1',blocks:'All copy, both kits, the site',
+ note:'"Chicago-born and -raised, with deep Louisiana family roots" + "Community Impact Strategist". One version, everywhere, forever.'},
+{w:'Gate payments — $549 / $500 / $500',u:'crit',when:'Day 2 / Day 10 / Handover',blocks:'Each subsequent stage',
+ note:'Invoice properly. Never start a stage before its gate clears — that is the discipline that makes phased payment safe for you.'},
+{w:'Decision on the booking email address',u:'high',when:'Day 2',blocks:'Booking form routing',
+ note:'booking@ or hello@tiffanywebb.com. Confirm where it forwards and that she will actually check it.'},
+{w:'Her position on HAS / employer and independent speaking',u:'high',when:'Day 2',blocks:'How affiliations are worded everywhere',
+ note:'Sensitive but necessary. Confirm how she wants HAS referenced, and reconfirm the Codex rule: "Are You Really Winning?" is participation, never ownership.'},
+{w:'Feedback within 48 hours at each review gate',u:'high',when:'Ongoing',blocks:'Every next step',
+ note:'Agree this at kickoff, not when it is already late. Slow feedback is the most common reason a 30-day build becomes 60.'},
+{w:'Which 2 social platforms',u:'high',when:'Day 10',blocks:'Social Launch',
+ note:'Recommend Instagram + LinkedIn. Make it a recommendation, not an open question.'},
+{w:'Social account access (collaborator, not passwords)',u:'high',when:'Day 15',blocks:'Profile setup, scheduling',
+ note:'Use Meta Business collaborator roles and LinkedIn admin. Never store her passwords — it is a liability you do not want.'},
+{w:'Calendar access + availability rules',u:'high',when:'Day 20',blocks:'WhatsApp booking handoff',
+ note:'Also needs her buffer preferences and working hours so the assistant never double-books her.'},
+{w:'Logos of organisations she has worked with',u:'med',when:'Day 5',blocks:'Credibility bar, kits',
+ note:'Check usage rights before displaying any partner logo — especially state and employer marks.'},
+{w:'Any existing video footage of her speaking',u:'med',when:'Day 5',blocks:'Future reel, YouTube phase',
+ note:'Even phone footage. Booking committees ask for video first, and she does not have a reel yet — this is the seed of her most valuable future asset.'}
+];
+
+var RESEARCH=[
+{t:'Landing page — what works in her niche',c:'var(--royal)',
+ claude:'I can analyse the Codex reference brands, summarise how public-health and prevention speakers structure their sites, and turn your findings into a concrete section-by-section spec with copy.',
+ you:'Browse and send me 5 real speaker sites you react to — 3 in health/prevention, 2 outside the sector for aesthetic. Note what made you stop scrolling.',
+ look:'Video or strong portrait above the fold · booking CTA visible without scrolling · credibility numbers in the first screen · topics as scannable cards, not paragraphs · testimonials with real names and organisations · a single obvious next action.',
+ avoid:'Nonprofit clip-art and stock handshakes · rainbow palettes · walls of centred text · autoplay sliders · a contact form that goes nowhere · anything that looks like a 2014 WordPress theme.'},
+{t:'Media Kit + one-sheet conventions',c:'var(--berry)',
+ claude:'I know the conventions programme committees expect and can structure both documents from the Codex content. I can also draft every line of copy.',
+ you:'Collect 3–5 real speaker one-sheet PDFs (search "speaker one sheet pdf" plus her topic area) and send them over. Reacting to real examples together is faster than describing them.',
+ look:'One page that survives being printed in black and white · headline that states the outcome not the job title · 2–4 topics maximum on the one-sheet · proof numbers · one clear contact route.',
+ avoid:'Printed fees · a bio longer than 150 words · more than 4 topics on one page · low-resolution photos · your agency logo anywhere on it.'},
+{t:'Brand identity direction',c:'var(--emerald)',
+ claude:'The palette, type system and archetype are already locked in the Codex — I can generate the style sheet content and all usage rules.',
+ you:'Pull 5 wordmark references from Behance/Dribbble that feel "authoritative but warm". Test any candidate at favicon size before you fall in love with it.',
+ look:'Legible at 16px · works on dark and light · reads as a person, not an institution · pairs with Fraunces without competing.',
+ avoid:'Generic swooshes · medical crosses · gambling iconography (dice, cards, chips — deeply wrong for a prevention brand) · anything that needs explaining.'},
+{t:'Social content patterns',c:'var(--coral)',
+ claude:'I can build the pillars, the voice guide, all 30 days of captions and the hook formulas, plus the awareness-calendar tie-ins (PGAM in March, Screening Day).',
+ you:'Follow 10 accounts in prevention/public health for a week and screenshot the posts that performed. Send them to me and I will reverse-engineer the pattern into her templates.',
+ look:'Face-to-camera video outperforms graphics on LinkedIn · carousels for education · awareness days as reliable content anchors · stat + human story is the format that travels in this sector.',
+ avoid:'Posting the same asset identically across platforms · unattributed statistics (she is a public-health professional — this damages her) · engagement-bait · anything that could read as making light of addiction.'},
+{t:'WhatsApp assistant behaviour',c:'var(--mustard)',
+ claude:'I can write the entire conversation flow, the qualification logic, and the Meta message templates in her voice.',
+ you:'Have your tech partner compare 2–3 BSPs on price and approval speed, and confirm the Meta template categories before you build anything.',
+ look:'Warm, brief, human-sounding · qualifies without interrogating · always offers a human handoff · matches the booking-form fields exactly.',
+ avoid:'Robotic scripting · asking budget in the first message · marketing-category templates when a utility template would be approved faster and cheaper.'}
+];
+
+var RISKS=[
+{t:'Meta verification stalls the final phase',sev:'crit',
+ p:'Verification takes 24 hours to 2–4 weeks and needs legal business documents that exactly match her business name. If she has no registered entity, this could block Phase 5 entirely.',
+ f:'Submitted on Day 0 in this roadmap, not week 5. If she has no business entity, raise it at kickoff and agree a fallback (WhatsApp Business App with lighter automation) before you promise the full build.'},
+{t:'tiffanywebb.com may not be available',sev:'crit',
+ p:'The domain is named across the pitch deck, the kits and the site copy. If it is already registered by someone else, every one of those references breaks.',
+ f:'Check the registrar today (Step 4). Buy it immediately if free. If taken, get her decision on an alternative before any copy is written.'},
+{t:'Testimonials never arrive',sev:'crit',
+ p:'They depend on third parties replying to her. Both kits and the site proof section are designed around them.',
+ f:'Requested Day 0, chased day 5 and day 10, with a ready-made template she just forwards. Design layouts that still look complete with only 3.'},
+{t:'Her photos are not good enough to use',sev:'high',
+ p:'Existing shots may be low-resolution or on someone else\'s branded backdrop. Poor imagery will undermine an otherwise premium build.',
+ f:'Audit on Day 1 (Step 16), not build day. If a shoot is needed, she needs that information in week 1 to arrange it. Have the shot list ready to hand her.'},
+{t:'Scope creep at the same price',sev:'high',
+ p:'"Can you also just…" is how a $1,549 project becomes 90 days of unpaid work. Highest risk right after she is delighted by the landing page.',
+ f:'Two revision rounds per deliverable, stated in the Day-0 written terms. New requests get a warm "yes — let me scope that properly and send you a price", never an in-the-moment yes.'},
+{t:'She pauses after Gate 1 or 2',sev:'high',
+ p:'The phased structure explicitly allows it. A quiet or unimpressive gate ending is what triggers it.',
+ f:'Every gate ends on a visible win delivered with a summary of what now exists that did not before. See the "Keep Her" tab.'},
+{t:'Password and access liability',sev:'high',
+ p:'Holding her social passwords is a security and trust risk, and awkward at handover.',
+ f:'Collaborator and admin roles only. If a password is unavoidable, use a manager share and require rotation at handover. Document all access in the handover pack.'},
+{t:'Employer conflict with HAS',sev:'med',
+ p:'Building a prominent independent speaking brand while employed could create a real professional issue for her — and she is the one who bears it.',
+ f:'Raise it once, respectfully, at kickoff. Follow her lead on wording. Keep the Codex rule absolute: "Are You Really Winning?" is participation, never ownership.'},
+{t:'The two tracks drift visually apart',sev:'med',
+ p:'Two people building different deliverables from different interpretations of the brand.',
+ f:'Design System built in Stage 0 before either track starts (Step 9). Everything inherits from it. A 10-minute sync at the start of each stage.'},
+{t:'Unattributed statistics damage her credibility',sev:'med',
+ p:'She is a public-health professional presenting to public-health audiences. A loose stat on her own website would be noticed and remembered.',
+ f:'Every number carries its named source per the Codex caveats — NCPG, Addiction journal, Murphy v. NCAA. When unsure, cut the stat rather than guess.'},
+{t:'DNS propagation delays launch day',sev:'med',
+ p:'Propagation can take up to 48 hours and always seems to happen on the day you promised a launch.',
+ f:'Connect the domain early in Stage 2, not on launch morning. Build on staging in parallel.'},
+{t:'No contract in place',sev:'high',
+ p:'Everything so far is verbal agreement on a pitch deck. Payment terms, scope, revisions, IP ownership and pause rights are undocumented.',
+ f:'Step 2 covers this — put the gate mapping, revision policy and "she owns everything delivered" in one written email today. It does not need to be a legal contract; it needs to be in writing.'}
+];
+
+var KEEP=[
+{t:'Front-load the most impressive thing',d:'Gate 1 ends with a live, beautiful, bookable website. That is the highest-drama deliverable in the whole build and it lands first. She should feel the transformation before she is ever asked for the second payment.'},
+{t:'Never send an invoice alone',d:'Every gate invoice is preceded by a delivery summary: the live link or files, and a plain "here is what exists now that did not exist ten days ago" line. Value first, ask second — always.'},
+{t:'Get her using the assets immediately',d:'At Gate 2, ask her to forward the one-sheet to one organisation that week. The moment an asset produces a real reply, the remaining phases stop feeling optional to her.'},
+{t:'Show, do not report',d:'Send progress as visuals — a screenshot of the logo, a preview of a kit page — not status updates in prose. Two or three unprompted visual updates per stage keeps her emotionally invested between gates.'},
+{t:'Make the free month impossible to give up',d:'Run the 30-day calendar properly and report real numbers at day 30. The free month is not a gift, it is the demonstration that justifies $199/mo forever.'},
+{t:'Always name the next thing',d:'Close the project by pointing at her own 48-month playbook: the speaker reel, YouTube, the prevention playbook, the book. She already believes in that roadmap — you wrote it with her.'},
+{t:'Be the team that flags problems early',d:'When something slips or a risk appears, tell her before she notices. Clients forgive delays they were warned about and never forgive surprises. This is the single strongest retention behaviour there is.'}
+];
+/* ============ PROJECT KNOWLEDGE BASE (fed to Claude on every question) ============ */
+var KB = `You are the lead brand strategist for the Y Arts! × Tiffany Webb project. You built this entire roadmap. Yash (the studio owner) is asking you questions while executing it. Answer as his strategist — direct, warm, practical, no fluff.
+
+=== THE CLIENT ===
+Tiffany Webb, BBA, MHP. Behavioral health professional, gambling prevention coordinator, public health educator, speaker. Chicago-born and raised, deep Louisiana family roots (canonical sentence, use verbatim). 15+ years, 4,000+ hours frontline gambling-prevention outreach. Employer: Healthcare Alternative Systems (HAS). Also Illinois Council on Problem Gambling. Participates in (NEVER owns) the state "Are You Really Winning?" campaign. Runs GambleFreeGear apparel brand, tagline "Break the Silence", sells via inpowerimports.com, IG @gamblefreegear.
+
+=== POSITIONING ===
+Repositioning her from a job title ("Gambling Prevention Coordinator") to a brand she owns: "Community Impact Strategist · Public Health Educator & Speaker". Her empty lane: culturally rooted gambling-harm prevention. Her triple-stack advantage: credentialed public-health expertise + huge frontline outreach volume + cultural fluency to reach communities other programs miss.
+Archetype: Caregiver + Sage. Voice: warm, plain-spoken, specific, dignified — "the voice of a good doctor: kind and precise."
+Master tagline: "Break the Silence." Values line: "Faith. Family. Community. Purpose. Impact." Partnership line: "Rooted in Community. Committed to Change." Education line: "Learn. Change. Grow."
+
+=== BRAND ARCHITECTURE (Branded House) ===
+Tiffany Webb is the master brand (the root). Speaking = flagship revenue engine. Then Consulting & Program Design, Training Academy, Books & Signature Framework, Podcast. GambleFreeGear is an ENDORSED sub-brand ("by Tiffany Webb") keeping its own identity. GambleFree Friends sits under the GambleFreeGear halo. The Nonprofit Hustle is a separate endorsed imprint.
+The core mission stated to her: "She is not the person behind GambleFreeGear. GambleFreeGear is one expression of her."
+
+=== HER CONTENT ===
+21 real speaking topics across 4 tracks: (1) Prevention & Awareness — 5 topics; (2) Treatment/Recovery & Professional Training — 8; (3) Family & Community Impact — 4; (4) Creative & Promotional Engagement — 3. Flagship keynote: "Break the Silence: Prevention Begins with a Conversation." ALWAYS use her real topics, never placeholders.
+
+=== VISUAL SYSTEM ===
+Premium editorial — Vogue × TED × art gallery. Never nonprofit-template or clip-art.
+Palette: Soft Black #14130E, Charcoal #23211B, Warm Ivory #FBF6EA, Cream #F3EAD6, Rich Emerald #0E6B54, Deep Teal #0B5C63, Teal-Blue #1C6E7A, Royal Blue #223A82, Berry #6C2D5A, Burnt Orange #C15427, Mustard #D9A23A, Coral #E17356, Gold #C8A24C, Wood #9A6A3E.
+Type: Fraunces (editorial serif display) + Inter (body) + Space Mono (labels/data).
+Contrast rule (locked): dark backgrounds use ivory text; white/light backgrounds use soft-black text. NEVER ivory on white.
+
+=== COMMERCIALS ===
+Total $1,549 one-time, agreed with no negotiation. Phase prices: Foundation $149, Landing Page $399, Booking Kit $250, Social Launch $402, WhatsApp AI $349.
+Payment gates she agreed: $549 within 2 days / $500 at day 10 / $500 on handover. She can pause after any gate.
+FLAG: gates do not align exactly with phase prices — Gate 1 $549 vs Phases 1+2 $548; Social Launch is split across Gates 2 and 3. Mapping must be in writing.
+Then: Basic Social Media Marketing from $199/month, first month free. Y Arts! covers the WhatsApp API fee for year one; her per-message usage fees are hers.
+Her future speaker fees (context, never promise): now $1,500–$5,000/keynote; 18–36 months $5,000–$15,000; year 3+ $10,000–$25,000.
+
+=== THE TEAM ===
+Only two people actually deliver. Yash = design track (brand assets, logo, all copy, Media Kit, Capability Kit, one-sheet, social templates, content pillars, calendar, client comms). Tech partner = tech track (landing page build/deploy, booking form, email routing, SEO, domain/SSL, WhatsApp API, CRM, calendar integration). Some steps are shared.
+
+=== HARD CONSTRAINTS (never violate) ===
+1. Two-deck rule: client-facing pitch deck and internal work-scope docs stay separate.
+2. No Y Arts! branding in anything Tiffany sends to HER prospects (media kit, one-sheet, landing page).
+3. Use her real 21 topics, never placeholders.
+4. Flag timeline/pricing contradictions explicitly — never silently resolve them.
+5. Independent booking email on tiffanywebb.com — NEVER her HAS employer email (tiffanywebb@hasca.org).
+6. "Are You Really Winning?" = participation/leadership only, never ownership.
+7. Every statistic carries its named source (NCPG, Addiction journal, Murphy v. NCAA, Wardle et al., Dowling et al.). She is a public-health professional; loose stats damage her.
+8. No fees printed in the media kit or one-sheet.
+
+=== KNOWN RISKS ===
+Meta/WhatsApp verification takes 24h–4 weeks and needs legal business docs matching exactly — started Day 0. Domain tiffanywebb.com may not be owned/available — verify immediately. Testimonials depend on third parties replying — biggest schedule risk. Her existing photos may be low-res or on someone else's branded backdrop. Scope creep at fixed price. She may pause after a gate. Password/access liability — use collaborator roles not passwords. Possible employer conflict with HAS. Two-person visual drift — mitigated by locking the Design System in Stage 0.
+
+=== DELIVERY SHAPE ===
+~30 days, 6 stages, 60 steps. Stage 0 Kickoff & Lock (Days 0–1), Stage 1 Foundation (1–4), Stage 2 Landing Page (2–12), Stage 3 Booking Kit (8–18), Stage 4 Social Launch (15–25), Stage 5 WhatsApp AI (Day 0 paperwork, build 18–30), Stage 6 Handover & Retention (28–35).
+Operating rules: lock brand before the two tracks split; ask Tiffany for everything on Day 0 in one message; two revision rounds per deliverable then it ships.`;
+
+/* ============ CLAUDE API ============ */
+async function askClaude(prompt, maxTokens){
+  var res = await fetch("https://api.anthropic.com/v1/messages",{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body: JSON.stringify({
+      model:"claude-sonnet-4-6",
+      max_tokens: maxTokens||1000,
+      messages:[{role:"user",content:prompt}]
+    })
+  });
+  if(!res.ok) throw new Error("API error "+res.status);
+  var data = await res.json();
+  return (data.content||[]).filter(function(i){return i.type==="text";}).map(function(i){return i.text;}).join("\n").trim();
+}
+function fmt(t){
+  return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+          .replace(/\*\*(.+?)\*\*/g,'<b>$1</b>')
+          .replace(/^[-•]\s+/gm,'· ');
+}
+
+/* ============ STATE ============ */
+var F={owner:'all',urg:'all',needs:false};
+var done={};
+STEPS.forEach(function(s,i){ s._id='s'+i; });
+var nextId=STEPS.length;
+
+function ulabel(u){return {crit:'Critical',high:'High',med:'Medium',low:'Low'}[u]||u;}
+function olabel(o){return {yash:'Yash · Design',tech:'Tech partner',both:'Both'}[o];}
+function ocls(o){return {yash:'p-yash',tech:'p-tech',both:'p-both'}[o];}
+function stageName(id){var g=STAGES.filter(function(x){return x.id===id;})[0];return g?g.t:id;}
+function matches(st){
+  if(F.owner!=='all' && st.o!==F.owner) return false;
+  if(F.urg!=='all' && st.u!==F.urg) return false;
+  if(F.needs && !st.need) return false;
+  return true;
+}
+function stepCtx(st,n){
+  return 'STEP '+n+' — "'+st.t+'"\nStage: '+stageName(st.s)+'\nOwner: '+olabel(st.o)+
+    '\nTool/surface: '+st.tool+'\nUrgency: '+ulabel(st.u)+
+    '\nDetail as written in the roadmap: '+st.d+
+    (st.need?'\nNeeds from Tiffany: '+st.need.w+' ('+ulabel(st.need.u)+')':'\nNeeds from Tiffany: nothing');
+}
+
+/* ============ RENDER ROADMAP ============ */
+function renderRoad(){
+  var host=document.getElementById('stages');host.innerHTML='';
+  var gi=0;
+  STAGES.forEach(function(sg){
+    var items=[];
+    STEPS.forEach(function(st,idx){ if(st.s===sg.id) items.push({st:st,n:idx+1}); });
+    var vis=items.filter(function(x){return matches(x.st);});
+    if(!vis.length) return;
+    var doneCount=items.filter(function(x){return done[x.st._id];}).length;
+    var sec=document.createElement('section');
+    sec.className='stage'+(gi<2?' open':'');gi++;
+    sec.style.setProperty('--sc',sg.c);
+    var rows=vis.map(function(x){
+      var st=x.st,n=x.n,id=st._id;
+      var needHtml=st.need
+        ? '<div class="need"><div class="nl">⚑ Needed from Tiffany — '+ulabel(st.need.u)+'</div><p>'+st.need.w+'</p></div>'
+        : '<div class="need"><span class="nonel">Nothing needed from Tiffany for this step.</span></div>';
+      return '<div class="step'+(done[id]?' done':'')+'" data-id="'+id+'">'+
+        '<div class="chk'+(done[id]?' on':'')+'" data-chk="'+id+'">'+(done[id]?'✓':'')+'</div>'+
+        '<div class="snum">'+String(n).padStart(2,'0')+'</div>'+
+        '<div><div class="st">'+st.t+(st.need?' <span style="color:var(--mustard)">◆</span>':'')+
+          (st.custom?'<span class="custom-tag">ADDED</span>':'')+'</div>'+
+        '<div class="sd">'+st.d+
+          '<div class="stepacts">'+
+            '<button class="minibtn ask" data-act="ask" data-id="'+id+'">✦ Ask Claude</button>'+
+            '<button class="minibtn" data-act="edit" data-id="'+id+'">Edit</button>'+
+            '<button class="minibtn del" data-act="del" data-id="'+id+'">Delete</button>'+
+          '</div>'+
+        '</div>'+needHtml+
+        '<div class="askwrap" data-ask="'+id+'">'+
+          '<div class="askhead">✦ Ask about this step — I have the full project knowledge base</div>'+
+          '<div class="askrow"><textarea class="askin" placeholder="e.g. What exactly does this mean? Why does it matter? What happens if we skip it?"></textarea>'+
+          '<button class="asksend">Ask</button></div>'+
+          '<div class="quickqs">'+
+            '<button class="qq">What does this actually mean?</button>'+
+            '<button class="qq">Why does this matter?</button>'+
+            '<button class="qq">What happens if we skip it?</button>'+
+            '<button class="qq">How exactly do I do it?</button>'+
+            '<button class="qq">How long should this take?</button>'+
+          '</div>'+
+          '<div class="askout"></div>'+
+        '</div>'+
+        '</div>'+
+        '<div class="cwho"><span class="pill '+ocls(st.o)+'">'+olabel(st.o)+'</span></div>'+
+        '<div class="ctool"><span class="tool">'+st.tool+'</span></div>'+
+        '<div class="curg"><span class="u u-'+st.u+'">'+ulabel(st.u)+'</span></div>'+
+        '</div>';
+    }).join('');
+    sec.innerHTML='<div class="stage-head"><span class="sb"></span><span class="sn">'+sg.n.replace(' ','<br>')+'</span>'+
+      '<h3>'+sg.t+'<small>'+sg.days+' · '+sg.note+'</small></h3>'+
+      '<span class="cnt">'+doneCount+'/'+items.length+' done</span><span class="tg">+</span></div>'+
+      '<div class="stage-body">'+rows+'</div>';
+    host.appendChild(sec);
+    sec.querySelector('.stage-head').addEventListener('click',function(){sec.classList.toggle('open');});
+  });
+  bindSteps();updateProg();
+}
+function findStep(id){for(var i=0;i<STEPS.length;i++){if(STEPS[i]._id===id)return {st:STEPS[i],i:i};}return null;}
+
+function bindSteps(){
+  document.querySelectorAll('.st').forEach(function(el){
+    el.addEventListener('click',function(e){e.stopPropagation();el.closest('.step').classList.toggle('exp');});
+  });
+  document.querySelectorAll('.chk').forEach(function(el){
+    el.addEventListener('click',function(e){
+      e.stopPropagation();var id=el.getAttribute('data-chk');done[id]=!done[id];renderRoad();
+    });
+  });
+  document.querySelectorAll('[data-act]').forEach(function(b){
+    b.addEventListener('click',function(e){
+      e.stopPropagation();
+      var act=b.getAttribute('data-act'),id=b.getAttribute('data-id');
+      if(act==='ask'){ b.closest('.step').classList.toggle('asking'); }
+      if(act==='edit'){ openEdit(id); }
+      if(act==='del'){ openDelete(id); }
+    });
+  });
+  document.querySelectorAll('.askwrap').forEach(function(w){
+    var id=w.getAttribute('data-ask');
+    var input=w.querySelector('.askin'),btn=w.querySelector('.asksend'),out=w.querySelector('.askout');
+    function go(q){
+      if(!q.trim())return;
+      var f=findStep(id);if(!f)return;
+      var n=f.i+1;
+      out.innerHTML+='<div class="qline">You asked: '+q.replace(/</g,'&lt;')+'</div><div class="thinking">Thinking</div>';
+      btn.disabled=true;
+      var prompt=KB+'\n\n=== THE STEP YASH IS ASKING ABOUT ===\n'+stepCtx(f.st,n)+
+        '\n\n=== YASH\'S QUESTION ===\n'+q+
+        '\n\nAnswer his question about this specific step. Be concrete and practical — he is executing this today. Explain what it means in plain language, why it matters to the project, what it affects downstream, and what happens if it is done badly or skipped. Reference the actual project specifics (Tiffany, the deliverables, the gates, the constraints) rather than generic advice. Keep it under 220 words. No preamble.';
+      askClaude(prompt,900).then(function(a){
+        w.querySelectorAll('.thinking').forEach(function(t){t.remove();});
+        out.innerHTML+='<div class="answer">'+fmt(a)+'</div>';
+        btn.disabled=false;input.value='';
+        out.scrollIntoView({behavior:'smooth',block:'nearest'});
+      }).catch(function(err){
+        w.querySelectorAll('.thinking').forEach(function(t){t.remove();});
+        out.innerHTML+='<div class="answer" style="border-color:var(--burnt)">Couldn\'t reach Claude just now ('+err.message+'). Try again in a moment.</div>';
+        btn.disabled=false;
+      });
+    }
+    btn.addEventListener('click',function(e){e.stopPropagation();go(input.value);});
+    input.addEventListener('click',function(e){e.stopPropagation();});
+    input.addEventListener('keydown',function(e){
+      if(e.key==='Enter'&&(e.metaKey||e.ctrlKey)){go(input.value);}
+    });
+    w.querySelectorAll('.qq').forEach(function(q){
+      q.addEventListener('click',function(e){e.stopPropagation();go(q.textContent);});
+    });
+  });
+}
+function updateProg(){
+  var total=STEPS.length,d=STEPS.filter(function(s){return done[s._id];}).length;
+  document.getElementById('pbar').style.width=(total?d/total*100:0)+'%';
+  document.getElementById('ptxt').textContent=d+' / '+total;
+}
+
+/* ============ MODAL / AUDIT GATE ============ */
+var mask=document.getElementById('mask'), modalCard=document.getElementById('modalCard');
+function closeModal(){mask.classList.remove('on');modalCard.innerHTML='';}
+mask.addEventListener('click',function(e){if(e.target===mask)closeModal();});
+
+function verdictBox(v){
+  var cls = v.verdict==='approve'?'approve':(v.verdict==='reject'?'reject':'caution');
+  var lab = v.verdict==='approve'?'✓ I agree with this':(v.verdict==='reject'?'✕ I\'d advise against this':'⚠ Proceed carefully');
+  return '<div class="verdict '+cls+'"><div class="vl">'+lab+'</div>'+
+    '<h4>'+(v.headline||'').replace(/</g,'&lt;')+'</h4>'+
+    '<p>'+fmt(v.reasoning||'')+'</p>'+
+    (v.consequences?'<p><b>What this affects:</b> '+fmt(v.consequences)+'</p>':'')+
+    (v.recommendation?'<p><b>My recommendation:</b> '+fmt(v.recommendation)+'</p>':'')+
+    '</div>';
+}
+function parseVerdict(raw){
+  var t=raw.replace(/```json|```/g,'').trim();
+  try{ return JSON.parse(t); }
+  catch(e){
+    var m=t.match(/\{[\s\S]*\}/);
+    if(m){ try{ return JSON.parse(m[0]); }catch(e2){} }
+    return {verdict:'caution',headline:'Here is my read',reasoning:t,consequences:'',recommendation:''};
+  }
+}
+
+/* ---- DELETE ---- */
+function openDelete(id){
+  var f=findStep(id);if(!f)return;
+  var st=f.st,n=f.i+1;
+  modalCard.innerHTML=
+    '<h3>Delete a step</h3>'+
+    '<div class="mctx"><b>Step '+n+' — '+st.t+'</b><br>'+stageName(st.s)+' · '+olabel(st.o)+' · '+ulabel(st.u)+'</div>'+
+    '<p style="font-size:.88rem;color:var(--dim)">You can\'t remove a step without telling me why. Explain your reasoning and I\'ll audit it against the project before you proceed.</p>'+
+    '<label>Why do you want to delete this step?</label>'+
+    '<textarea id="mreason" placeholder="e.g. Tiffany already has this covered / we agreed to drop this from scope / it duplicates another step"></textarea>'+
+    '<div class="mrow"><button class="mbtn primary" id="mreview">Ask Claude to review</button>'+
+    '<button class="mbtn" id="mcancel">Cancel</button></div>'+
+    '<div id="mverdict"></div>';
+  mask.classList.add('on');
+  document.getElementById('mcancel').onclick=closeModal;
+  document.getElementById('mreview').onclick=function(){
+    var reason=document.getElementById('mreason').value.trim();
+    if(!reason){document.getElementById('mreason').focus();return;}
+    var btn=this;btn.disabled=true;
+    document.getElementById('mverdict').innerHTML='<div class="thinking">Auditing your reasoning</div>';
+    var prompt=KB+'\n\n=== STEP YASH WANTS TO DELETE ===\n'+stepCtx(st,n)+
+      '\n\n=== HIS STATED REASON ===\n'+reason+
+      '\n\nAudit this decision honestly as his strategist. Is deleting this step wise or risky? Consider: what downstream deliverables depend on it, whether it protects him commercially or legally, whether removing it creates a gap Tiffany would notice, and whether his reason reflects a real change or just a shortcut. Do not rubber-stamp him — if it is a mistake, say so plainly. If it is genuinely fine, agree clearly.\n\nRespond ONLY with a JSON object, no markdown fences, no preamble:\n{"verdict":"approve|caution|reject","headline":"one short sentence verdict","reasoning":"2-4 sentences explaining your judgement","consequences":"what specifically breaks or changes downstream if this is deleted","recommendation":"what you would actually do"}';
+    askClaude(prompt,800).then(function(raw){
+      var v=parseVerdict(raw);
+      document.getElementById('mverdict').innerHTML=verdictBox(v)+
+        '<div class="mrow"><button class="mbtn danger" id="mconfirm">Delete anyway</button>'+
+        '<button class="mbtn primary" id="mkeep">Keep the step</button></div>';
+      document.getElementById('mkeep').onclick=closeModal;
+      document.getElementById('mconfirm').onclick=function(){
+        var g=findStep(id);if(g){STEPS.splice(g.i,1);}
+        closeModal();renderRoad();
+      };
+    }).catch(function(err){
+      document.getElementById('mverdict').innerHTML='<div class="verdict caution"><div class="vl">Couldn\'t reach Claude</div><p>'+err.message+'. Try again, or close and decide yourself.</p></div>';
+      btn.disabled=false;
+    });
+  };
+}
+
+/* ---- EDIT ---- */
+function openEdit(id){
+  var f=findStep(id);if(!f)return;
+  var st=f.st,n=f.i+1;
+  modalCard.innerHTML=
+    '<h3>Edit a step</h3>'+
+    '<div class="mctx"><b>Step '+n+'</b> · '+stageName(st.s)+'</div>'+
+    '<label>Step title</label><input id="etitle" value="'+st.t.replace(/"/g,'&quot;')+'">'+
+    '<label>Detail</label><textarea id="edetail">'+st.d.replace(/</g,'&lt;')+'</textarea>'+
+    '<label>Owner</label><select id="eowner">'+
+      ['yash','tech','both'].map(function(o){return '<option value="'+o+'"'+(st.o===o?' selected':'')+'>'+olabel(o)+'</option>';}).join('')+'</select>'+
+    '<label>Urgency</label><select id="eurg">'+
+      ['crit','high','med','low'].map(function(u){return '<option value="'+u+'"'+(st.u===u?' selected':'')+'>'+ulabel(u)+'</option>';}).join('')+'</select>'+
+    '<label>Tool / surface</label><input id="etool" value="'+st.tool.replace(/"/g,'&quot;')+'">'+
+    '<label>Why are you changing this?</label>'+
+    '<textarea id="mreason" placeholder="e.g. the tech partner should own this instead / urgency was wrong / scope changed after the kickoff call"></textarea>'+
+    '<div class="mrow"><button class="mbtn primary" id="mreview">Ask Claude to review</button>'+
+    '<button class="mbtn" id="mcancel">Cancel</button></div>'+
+    '<div id="mverdict"></div>';
+  mask.classList.add('on');
+  document.getElementById('mcancel').onclick=closeModal;
+  document.getElementById('mreview').onclick=function(){
+    var reason=document.getElementById('mreason').value.trim();
+    if(!reason){document.getElementById('mreason').focus();return;}
+    var nt=document.getElementById('etitle').value, nd=document.getElementById('edetail').value,
+        no=document.getElementById('eowner').value, nu=document.getElementById('eurg').value,
+        ntool=document.getElementById('etool').value;
+    var btn=this;btn.disabled=true;
+    document.getElementById('mverdict').innerHTML='<div class="thinking">Auditing your change</div>';
+    var prompt=KB+'\n\n=== STEP AS IT STANDS ===\n'+stepCtx(st,n)+
+      '\n\n=== HIS PROPOSED VERSION ===\nTitle: '+nt+'\nDetail: '+nd+'\nOwner: '+olabel(no)+'\nUrgency: '+ulabel(nu)+'\nTool: '+ntool+
+      '\n\n=== HIS REASON FOR CHANGING IT ===\n'+reason+
+      '\n\nAudit this edit as his strategist. Does the change improve the roadmap or weaken it? Check especially: is the owner correct given Yash does design and his partner does tech; is the urgency honest given what depends on this step; does the new detail still protect the hard constraints. Be direct if it is a mistake.\n\nRespond ONLY with a JSON object, no markdown fences:\n{"verdict":"approve|caution|reject","headline":"one short sentence verdict","reasoning":"2-4 sentences","consequences":"what this change affects downstream","recommendation":"what you would actually do"}';
+    askClaude(prompt,800).then(function(raw){
+      var v=parseVerdict(raw);
+      document.getElementById('mverdict').innerHTML=verdictBox(v)+
+        '<div class="mrow"><button class="mbtn primary" id="mconfirm">Apply my change</button>'+
+        '<button class="mbtn" id="mkeep">Leave it as it was</button></div>';
+      document.getElementById('mkeep').onclick=closeModal;
+      document.getElementById('mconfirm').onclick=function(){
+        st.t=nt;st.d=nd;st.o=no;st.u=nu;st.tool=ntool;
+        closeModal();renderRoad();
+      };
+    }).catch(function(err){
+      document.getElementById('mverdict').innerHTML='<div class="verdict caution"><div class="vl">Couldn\'t reach Claude</div><p>'+err.message+'</p></div>';
+      btn.disabled=false;
+    });
+  };
+}
+
+/* ---- ADD ---- */
+document.getElementById('addStepBtn').addEventListener('click',function(){
+  modalCard.innerHTML=
+    '<h3>Propose a new step</h3>'+
+    '<div class="mctx">I\'ll check it against the roadmap before it goes in — including whether it\'s already covered, and whether it\'s scope creep at a fixed price.</div>'+
+    '<label>Step title</label><input id="atitle" placeholder="e.g. Record a 2-minute speaking reel at her next event">'+
+    '<label>What does it involve?</label><textarea id="adetail" placeholder="Describe what actually gets done"></textarea>'+
+    '<label>Which stage?</label><select id="astage">'+
+      STAGES.map(function(g){return '<option value="'+g.id+'">'+g.n+' — '+g.t+'</option>';}).join('')+'</select>'+
+    '<label>Owner</label><select id="aowner">'+
+      ['yash','tech','both'].map(function(o){return '<option value="'+o+'">'+olabel(o)+'</option>';}).join('')+'</select>'+
+    '<label>Urgency</label><select id="aurg">'+
+      ['crit','high','med','low'].map(function(u){return '<option value="'+u+'">'+ulabel(u)+'</option>';}).join('')+'</select>'+
+    '<label>Tool / surface</label><input id="atool" placeholder="e.g. Claude Design / Claude Code / Outside Claude">'+
+    '<label>Why does this step need to exist?</label>'+
+    '<textarea id="mreason" placeholder="Explain what gap it fills and why the roadmap is worse without it"></textarea>'+
+    '<div class="mrow"><button class="mbtn primary" id="mreview">Ask Claude to review</button>'+
+    '<button class="mbtn" id="mcancel">Cancel</button></div>'+
+    '<div id="mverdict"></div>';
+  mask.classList.add('on');
+  document.getElementById('mcancel').onclick=closeModal;
+  document.getElementById('mreview').onclick=function(){
+    var t=document.getElementById('atitle').value.trim(),
+        d=document.getElementById('adetail').value.trim(),
+        sg=document.getElementById('astage').value,
+        o=document.getElementById('aowner').value,
+        u=document.getElementById('aurg').value,
+        tool=document.getElementById('atool').value.trim()||'Chat',
+        reason=document.getElementById('mreason').value.trim();
+    if(!t||!reason){ (!t?document.getElementById('atitle'):document.getElementById('mreason')).focus(); return; }
+    var btn=this;btn.disabled=true;
+    document.getElementById('mverdict').innerHTML='<div class="thinking">Auditing the proposal</div>';
+    var existing=STEPS.filter(function(s){return s.s===sg;}).map(function(s,i){return '- '+s.t;}).join('\n');
+    var prompt=KB+'\n\n=== STEPS ALREADY IN THAT STAGE ===\n'+existing+
+      '\n\n=== THE NEW STEP YASH PROPOSES ===\nTitle: '+t+'\nDetail: '+d+'\nStage: '+stageName(sg)+'\nOwner: '+olabel(o)+'\nUrgency: '+ulabel(u)+'\nTool: '+tool+
+      '\n\n=== HIS REASON ===\n'+reason+
+      '\n\nAudit this as his strategist. Is this step genuinely needed, or already covered by an existing step? Is it unpaid scope creep on a fixed $1,549 project — and if so, should it become a paid add-on instead? Is the stage, owner and urgency right? Be direct.\n\nRespond ONLY with a JSON object, no markdown fences:\n{"verdict":"approve|caution|reject","headline":"one short sentence verdict","reasoning":"2-4 sentences","consequences":"what adding this affects — time, scope, money","recommendation":"what you would actually do"}';
+    askClaude(prompt,800).then(function(raw){
+      var v=parseVerdict(raw);
+      document.getElementById('mverdict').innerHTML=verdictBox(v)+
+        '<div class="mrow"><button class="mbtn primary" id="mconfirm">Add the step</button>'+
+        '<button class="mbtn" id="mkeep">Don\'t add it</button></div>';
+      document.getElementById('mkeep').onclick=closeModal;
+      document.getElementById('mconfirm').onclick=function(){
+        var ns={s:sg,t:t,d:d||'(no detail yet)',o:o,tool:tool,u:u,custom:true,_id:'s'+(nextId++)};
+        var lastIdx=-1;
+        STEPS.forEach(function(x,i){if(x.s===sg)lastIdx=i;});
+        if(lastIdx>=0)STEPS.splice(lastIdx+1,0,ns);else STEPS.push(ns);
+        closeModal();renderRoad();
+      };
+    }).catch(function(err){
+      document.getElementById('mverdict').innerHTML='<div class="verdict caution"><div class="vl">Couldn\'t reach Claude</div><p>'+err.message+'</p></div>';
+      btn.disabled=false;
+    });
+  };
+});
+
+/* ============ FILTERS ============ */
+document.querySelectorAll('.fbtn').forEach(function(b){
+  b.addEventListener('click',function(){
+    var f=b.getAttribute('data-f'),v=b.getAttribute('data-v');
+    if(f==='needs'){F.needs=!F.needs;b.classList.toggle('on');}
+    else{F[f]=v;document.querySelectorAll('.fbtn[data-f="'+f+'"]').forEach(function(x){x.classList.remove('on');});b.classList.add('on');}
+    renderRoad();
+  });
+});
+
+/* FROM TIFFANY */
+document.getElementById('tifHost').innerHTML='<div class="gates" style="grid-template-columns:1fr">'+
+ASKS.map(function(a){
+  return '<div class="gate" style="--gc:'+(a.u==='crit'?'var(--burnt)':a.u==='high'?'var(--mustard)':'var(--teal)')+'">'+
+  '<div class="gl">'+ulabel(a.u)+' · needed '+a.when+'</div>'+
+  '<div class="ga" style="font-size:1.08rem;line-height:1.3;margin:8px 0">'+a.w+'</div>'+
+  '<div class="gw"><b style="color:#e7e0cf">Blocks:</b> '+a.blocks+'</div>'+
+  '<div class="gu">'+a.note+'</div></div>';
+}).join('')+'</div>';
+
+/* RESEARCH */
+document.getElementById('resHost').innerHTML=RESEARCH.map(function(r){
+  return '<div class="gate" style="--gc:'+r.c+';margin-bottom:14px">'+
+  '<div class="gl">Research plan</div>'+
+  '<div class="ga" style="font-size:1.25rem;margin:6px 0 12px">'+r.t+'</div>'+
+  '<div class="gu" style="border:0;padding:0"><p style="margin-bottom:9px"><b style="color:var(--gold)">I run this here in chat:</b> '+r.claude+'</p>'+
+  '<p style="margin-bottom:9px"><b style="color:var(--coral)">You gather this outside Claude:</b> '+r.you+'</p>'+
+  '<p style="margin-bottom:9px"><b style="color:#8fd9bd">What good looks like:</b> '+r.look+'</p>'+
+  '<p><b style="color:#e9a7d0">What to avoid:</b> '+r.avoid+'</p></div></div>';
+}).join('');
+
+/* RISKS */
+document.getElementById('riskHost').innerHTML=RISKS.map(function(r){
+  var c=r.sev==='crit'?'var(--burnt)':r.sev==='high'?'var(--mustard)':'var(--teal)';
+  return '<div class="gate" style="--gc:'+c+';margin-bottom:12px">'+
+  '<div class="gl">⚑ '+ulabel(r.sev)+' risk</div>'+
+  '<div class="ga" style="font-size:1.12rem;margin:6px 0 9px">'+r.t+'</div>'+
+  '<div class="gw">'+r.p+'</div>'+
+  '<div class="gu"><b style="color:#8fd9bd">Mitigation:</b> '+r.f+'</div></div>';
+}).join('');
+
+/* KEEP HER */
+document.getElementById('keepHost').innerHTML='<div class="gates" style="grid-template-columns:repeat(auto-fit,minmax(320px,1fr))">'+
+KEEP.map(function(k,i){
+  return '<div class="gate" style="--gc:var(--gold)"><div class="gl">Play '+String(i+1).padStart(2,'0')+'</div>'+
+  '<div class="ga" style="font-size:1.1rem;margin:6px 0 8px;line-height:1.25">'+k.t+'</div>'+
+  '<div class="gu" style="border:0;padding:0">'+k.d+'</div></div>';
+}).join('')+'</div>';
+
+/* TABS */
+document.querySelectorAll('.tabs button').forEach(function(b){
+  b.addEventListener('click',function(){
+    var t=b.getAttribute('data-tab');
+    document.querySelectorAll('.pane').forEach(function(p){p.classList.toggle('on',p.id===t);});
+    document.querySelectorAll('.tabs button').forEach(function(x){x.classList.remove('on');});
+    b.classList.add('on');window.scrollTo({top:0});
+  });
+});
+
+/* dynamic KPI counts */
+(function(){
+  var k=document.querySelectorAll('.kpi b');
+  if(k.length>=5){k[0].textContent=STEPS.length;k[1].textContent=STAGES.length;k[4].textContent=ASKS.length;}
+})();
+renderRoad();
+</script>
+</body>
+</html>

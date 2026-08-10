@@ -1,0 +1,4298 @@
+as a example -Home page , about her , Business , Blog , Newsletter , connect , mission and vision , Booking kit , expertise 
+
+this is not a complete flow it is as a just a example that what should we follow or include we have to create a landing page using claude research my research files - Landing page flow , link and remarks.txt and a deep only current trending in USA Region Landing Page research by researching overall Landing Page and her competitor or related to her work website after combining all this we will get a unified Landing Page Plan that suites her.
+
+her  business planning-
+
+
+                    TIFFANY WEBB
+                         │
+       ┌─────────────────┼──────────────────┐
+       ↓                 ↓                  ↓
+    SPEAKING          BOOKS          GAMBLEFREEGEAR
+       │                 │                  │
+   Conferences        E-books            Products
+   Schools            Resources          Awareness
+   Panels             Education          Prevention
+       │
+       ↓
+   CONTENT
+       │
+       ↓
+   COMMUNITY
+
+
+
+
+From current industry reports and examples, here's what I'm seeing.
+
+✅ Large Typography
+
+Huge headlines.
+
+Minimal text.
+
+Apple style.
+
+Stripe style.
+
+✅ Bento Layouts
+
+Cards.
+
+Cards.
+
+Cards.
+
+Especially for:
+
+AI
+
+SaaS
+
+Personal brands.
+
+✅ Premium Motion
+
+Instead of
+
+Fade In
+
+People now use
+
+scale
+blur
+mask reveals
+stagger
+smooth transforms
+
+Motion is becoming more purposeful rather than decorative.
+
+✅ Micro Interactions
+
+Hover
+
+Cursor
+
+Button
+
+Cards
+
+Icons
+
+Tiny details.
+
+✅ Glassmorphism (Used Carefully)
+
+Glass isn't dead.
+
+It's more refined.
+
+Apple's recent design language has reinforced translucent layers, but designers are using them selectively rather than covering entire interfaces with blur.
+
+✅ Aurora Backgrounds
+
+Instead of
+
+Purple gradients
+
+Now
+
+Moving
+
+Aurora
+
+Mesh
+
+Noise
+
+Blur
+
+Fluid backgrounds.
+
+✅ Interactive Cursors
+
+Hover
+
+Follow cursor
+
+Magnetic buttons
+
+Image reveal
+
+Cursor text
+
+✅ Storytelling
+
+Not
+
+Hero
+
+↓
+
+Features
+
+↓
+
+Pricing
+
+Instead
+
+Story
+
+↓
+
+Problem
+
+↓
+
+Solution
+
+↓
+
+Proof
+
+↓
+
+Book
+
+✅ Scrollytelling
+
+Section transforms.
+
+Sticky sections.
+
+Pinned content.
+
+Timeline.
+
+Reveal.
+
+Used in moderation, this remains a strong storytelling pattern.
+
+
+
+
+
+============================================================
+TIFFANY WEBB — WAY 1
+DETAILED MULTI-PAGE WEBSITE STRUCTURE
+============================================================
+
+PROJECT TYPE
+------------
+
+Premium Personal Brand + Speaker Website
+
+PRIMARY BRAND:
+
+Tiffany Webb
+
+PRIMARY POSITIONING:
+
+Community Impact Strategist
+Public Health Educator & Speaker
+
+
+============================================================
+PRIMARY WEBSITE OBJECTIVE
+============================================================
+
+The website should establish Tiffany Webb as a credible,
+professional and bookable speaker.
+
+The primary business objective is:
+
+                DISCOVER TIFFANY
+                       ↓
+                UNDERSTAND HER
+                       ↓
+                SEE HER EXPERTISE
+                       ↓
+              SEE HER SPEAKING WORK
+                       ↓
+                    TRUST
+                       ↓
+                INVITE TIFFANY
+                       ↓
+               SPEAKING INQUIRY
+                       ↓
+                    BOOKING
+
+
+The website should primarily support:
+
+• Keynote Speaking
+• Conference Speaking
+• School / University Speaking
+• Panel Discussions
+• Workshops
+• Public Health Education
+• Community Outreach
+• Partnerships
+• Media Opportunities
+
+
+Secondary objectives:
+
+• Build Tiffany's personal brand
+• Establish authority
+• Showcase her work
+• Showcase her books
+• Support GambleFreeGear
+• Build an audience through Insights
+• Provide media resources
+• Create an ecosystem around the Tiffany Webb brand
+
+
+============================================================
+WAY 1 — WEBSITE ARCHITECTURE
+============================================================
+
+TIFFANYWEBB.COM
+
+HOME
+│
+├── HERO
+├── ABOUT
+├── EXPERTISE
+├── SPEAKING
+├── IMPACT
+├── SPEAKER REEL
+├── BOOK TIFFANY
+│
+├── BOOKS
+│   ├── E-BOOKS
+│   └── PURCHASE
+│
+├── GAMBLEFREEGEAR
+│   ├── MISSION
+│   ├── PRODUCTS
+│   └── SHOP
+│
+├── INSIGHTS
+│   ├── ARTICLES
+│   └── NEWSLETTER
+│
+└── MEDIA
+    ├── PHOTOS
+    ├── BIO
+    └── PRESS RESOURCES
+
+
+============================================================
+GLOBAL DESIGN DIRECTION
+============================================================
+
+The website should feel:
+
+• Premium
+• Human
+• Warm
+• Credible
+• Modern
+• Editorial
+• Professional
+• Purpose-driven
+
+
+The website should NOT feel like:
+
+• An AI startup
+• A gaming website
+• A generic nonprofit website
+• A developer portfolio
+• A technology demo
+• An overly animated portfolio
+
+
+The visual identity should communicate:
+
+AUTHORITY
++
+WARMTH
++
+COMMUNITY
++
+PUBLIC HEALTH
++
+SPEAKING
++
+PERSONALITY
+
+
+============================================================
+GLOBAL COLOR DIRECTION
+============================================================
+
+PRIMARY:
+
+Deep Teal / Forest Green
+
+Purpose:
+
+• Authority
+• Trust
+• Community
+• Public Health
+
+
+SECONDARY:
+
+Warm Ivory / Cream
+
+Purpose:
+
+• Human
+• Editorial
+• Warm
+• Premium
+
+
+ACCENT:
+
+Muted Gold
+
+Purpose:
+
+• Highlight
+• Premium detail
+• CTA emphasis
+
+
+OPTIONAL:
+
+Deep Burgundy / Plum
+
+Purpose:
+
+• Personality
+• Emotional warmth
+• Secondary visual accent
+
+
+============================================================
+GLOBAL TYPOGRAPHY
+============================================================
+
+HEADINGS:
+
+Elegant editorial serif
+
+Use for:
+
+• Hero headline
+• Section headings
+• Major statements
+• Book titles
+
+
+BODY:
+
+Clean modern sans-serif
+
+Use for:
+
+• Paragraphs
+• Descriptions
+• Navigation
+• Forms
+• Buttons
+
+
+SCRIPT / HANDWRITTEN:
+
+Use very sparingly.
+
+Possible use:
+
+• Tiffany's signature
+• Mission statement
+• Small personal accent
+
+
+Do NOT use script typography for large amounts of text.
+
+
+============================================================
+GLOBAL ANIMATION PRINCIPLE
+============================================================
+
+Animation should make the website feel premium without
+making the website difficult to use.
+
+Use:
+
+• Smooth reveal
+• Image mask reveal
+• Fade + translate
+• Subtle scale
+• Card hover
+• Number counters
+• Video reveal
+• Soft section transitions
+
+
+Avoid:
+
+• Heavy 3D
+• Full WebGL
+• Constant parallax
+• Excessive glassmorphism
+• Large cursor effects
+• Autoplay audio
+• Excessive page transitions
+• Animation on every element
+
+
+RULE:
+
+ONE MAJOR INTERACTION PER SECTION.
+
+Animation supports the content.
+
+Animation should never become the content.
+
+
+============================================================
+01 — HOME
+============================================================
+
+PURPOSE
+-------
+
+Home is the main entry point into Tiffany's brand.
+
+It should introduce Tiffany, establish credibility and direct
+visitors toward speaking opportunities.
+
+Unlike Way 2, the Home page in Way 1 can contain more information
+because other topics will have their own dedicated pages.
+
+
+HOME STRUCTURE:
+
+HOME
+│
+├── HERO
+├── ABOUT
+├── EXPERTISE
+├── SPEAKING
+├── IMPACT
+├── SPEAKER REEL
+├── PROOF / CREDIBILITY
+└── BOOK TIFFANY
+
+
+The homepage should give visitors enough information to
+understand Tiffany without forcing them to visit every page.
+
+
+------------------------------------------------------------
+HOME → HERO
+------------------------------------------------------------
+
+PURPOSE:
+
+Immediately answer:
+
+"Who is Tiffany?"
+
+"What does she do?"
+
+"What should I do next?"
+
+
+CONTENT:
+
+Tiffany Webb
+
+Community Impact Strategist
+Public Health Educator & Speaker
+
+
+SUPPORTING MESSAGE:
+
+A short statement describing her mission / value.
+
+Example direction:
+
+"Creating conversations that strengthen communities,
+advance prevention, and inspire meaningful action."
+
+
+PRIMARY CTA:
+
+INVITE TIFFANY TO SPEAK
+
+
+SECONDARY CTA:
+
+EXPLORE HER WORK
+
+
+VISUAL:
+
+Strong professional Tiffany speaking photograph.
+
+Preferred:
+
+• Stage
+• Audience
+• Conference
+• Panel
+• Presentation
+
+
+ANIMATION:
+
+Image reveal
++
+Headline reveal
++
+CTA reveal
+
+Subtle image movement on scroll.
+
+
+IMPORTANT:
+
+Do not put Tiffany's complete biography here.
+
+The Hero is for:
+
+IDENTITY
++
+POSITIONING
++
+ACTION
+
+
+------------------------------------------------------------
+HOME → ABOUT
+------------------------------------------------------------
+
+PURPOSE:
+
+Introduce Tiffany as a person and professional.
+
+
+CONTENT:
+
+• Short biography
+• Personal story
+• Professional journey
+• Community roots
+• Public health experience
+• Gambling prevention experience
+• Mission
+
+
+VISUAL:
+
+Two-column:
+
+LEFT:
+Tiffany portrait / lifestyle image
+
+RIGHT:
+Biography + mission
+
+
+CREDIBILITY SNAPSHOT:
+
+15+ Years Experience
+4,000+ Hours of Gambling Prevention Outreach
+
+Only use verified statistics.
+
+
+CTA:
+
+LEARN MORE ABOUT TIFFANY
+
+
+This CTA should link to:
+
+ABOUT page
+
+
+------------------------------------------------------------
+HOME → EXPERTISE
+------------------------------------------------------------
+
+PURPOSE:
+
+Quickly show what Tiffany can speak about.
+
+
+FEATURE:
+
+6 major expertise areas.
+
+
+01. Gambling Prevention
+
+02. Youth Gambling Prevention
+
+03. Community Outreach
+
+04. Public Health Education
+
+05. Behavioral Health Awareness
+
+06. Prevention & Early Intervention
+
+
+VISUAL:
+
+Interactive cards.
+
+Hover:
+
+Card expands
++
+Short explanation
+
+
+CTA:
+
+EXPLORE EXPERTISE
+
+
+Links to:
+
+EXPERTISE / SPEAKING page if created later.
+
+
+------------------------------------------------------------
+HOME → SPEAKING
+------------------------------------------------------------
+
+PURPOSE:
+
+Explain how organizations can engage Tiffany.
+
+
+FORMATS:
+
+• Keynote
+• Conference Presentation
+• Panel
+• School / University
+• Workshop
+• Customized Program
+
+
+Each format should have:
+
+Title
+Short description
+Optional visual
+
+
+CTA:
+
+INVITE TIFFANY TO SPEAK
+
+
+------------------------------------------------------------
+HOME → IMPACT
+------------------------------------------------------------
+
+PURPOSE:
+
+Demonstrate experience and relevance.
+
+
+WHO SHE SERVES:
+
+• Conferences
+• Schools
+• Universities
+• Healthcare
+• Government
+• Public Health
+• Community Organizations
+• Nonprofits
+• Behavioral Health Organizations
+
+
+IMPACT:
+
+Use verified numbers.
+
+Example:
+
+15+ Years
+4,000+ Outreach Hours
+
+
+Also show:
+
+• Community Work
+• Outreach
+• Speaking
+• Workshops
+• Partnerships
+• Panels
+
+
+VISUAL:
+
+Real photographs.
+
+
+------------------------------------------------------------
+HOME → SPEAKER REEL
+------------------------------------------------------------
+
+PURPOSE:
+
+PROVE Tiffany can speak.
+
+
+MAIN ELEMENT:
+
+Large speaker reel.
+
+
+VIDEO SHOULD SHOW:
+
+• Tiffany speaking
+• Audience
+• Conference
+• Panel
+• Workshop
+• Applause
+• Strong speaking moments
+
+
+CTA:
+
+WATCH SPEAKER REEL
+
+
+Do not replace the speaker reel with a generic introduction
+video.
+
+
+------------------------------------------------------------
+HOME → PROOF
+------------------------------------------------------------
+
+PURPOSE:
+
+Build trust.
+
+
+CONTENT:
+
+• Testimonials
+• Organization logos
+• Event photos
+• Media appearances
+• Awards
+• Press
+• Partnerships
+
+
+IMPORTANT:
+
+Only genuine proof.
+
+Never invent testimonials or partnerships.
+
+
+------------------------------------------------------------
+HOME → BOOK TIFFANY
+------------------------------------------------------------
+
+PURPOSE:
+
+CONVERSION.
+
+
+HEADLINE:
+
+Bring Tiffany to Your Next Conversation
+
+
+FORMATS:
+
+Keynote
+Conference
+Panel
+School
+Workshop
+
+
+PRIMARY CTA:
+
+INVITE TIFFANY TO SPEAK
+
+
+LINK:
+
+Speaking Inquiry / Booking Form
+
+
+============================================================
+02 — ABOUT
+============================================================
+
+PURPOSE
+-------
+
+The About page provides the complete version of Tiffany's story.
+
+The Home page gives the short version.
+
+The About page gives the deeper version.
+
+
+ABOUT PAGE STRUCTURE:
+
+ABOUT
+│
+├── HERO
+├── TIFFANY'S STORY
+├── PROFESSIONAL JOURNEY
+├── MISSION
+├── VISION
+├── COMMUNITY IMPACT
+└── CTA
+
+
+------------------------------------------------------------
+ABOUT → HERO
+------------------------------------------------------------
+
+Headline:
+
+MEET TIFFANY WEBB
+
+
+Supporting:
+
+Community Impact Strategist
+Public Health Educator & Speaker
+
+
+Visual:
+
+Professional Tiffany portrait.
+
+
+------------------------------------------------------------
+ABOUT → TIFFANY'S STORY
+------------------------------------------------------------
+
+This is the long-form biography.
+
+Possible content:
+
+• Chicago roots
+• Louisiana influence
+• Family / community influence where appropriate
+• Education
+• Professional development
+• Behavioral health
+• Public health
+• Gambling prevention
+• Outreach
+• Community work
+
+
+The goal is storytelling.
+
+Not a resume.
+
+
+------------------------------------------------------------
+ABOUT → PROFESSIONAL JOURNEY
+------------------------------------------------------------
+
+Create a visual timeline.
+
+Example:
+
+EARLY LIFE
+    ↓
+EDUCATION
+    ↓
+COMMUNITY WORK
+    ↓
+BEHAVIORAL HEALTH
+    ↓
+GAMBLING PREVENTION
+    ↓
+PUBLIC HEALTH EDUCATION
+    ↓
+SPEAKING
+    ↓
+COMMUNITY IMPACT STRATEGIST
+
+
+Only include milestones Tiffany confirms.
+
+
+------------------------------------------------------------
+ABOUT → MISSION
+------------------------------------------------------------
+
+Explain:
+
+Why Tiffany does this work.
+
+What problem she wants to address.
+
+What change she wants to create.
+
+
+------------------------------------------------------------
+ABOUT → VISION
+------------------------------------------------------------
+
+Explain Tiffany's future direction.
+
+Potentially:
+
+• National speaking
+• Public health education
+• Community impact
+• Prevention
+• GambleFreeGear
+• Books
+• Future initiatives
+
+
+------------------------------------------------------------
+ABOUT → CTA
+------------------------------------------------------------
+
+EXPLORE TIFFANY'S SPEAKING
+
+OR
+
+INVITE TIFFANY TO SPEAK
+
+
+============================================================
+03 — EXPERTISE
+============================================================
+
+PURPOSE
+-------
+
+This page expands the expertise shown briefly on the homepage.
+
+
+PAGE STRUCTURE:
+
+EXPERTISE
+│
+├── HERO
+├── GAMBLING PREVENTION
+├── YOUTH PREVENTION
+├── COMMUNITY OUTREACH
+├── PUBLIC HEALTH
+├── BEHAVIORAL HEALTH
+└── PREVENTION / EARLY INTERVENTION
+
+
+Each topic should contain:
+
+TITLE
+
+What it means
+
+Why it matters
+
+Tiffany's perspective
+
+Relevant experience
+
+Possible speaking applications
+
+
+Example:
+
+
+GAMBLING PREVENTION
+
+Short explanation.
+
+Why gambling prevention matters.
+
+How Tiffany approaches the topic.
+
+Relevant speaking audiences.
+
+Potential presentation formats.
+
+
+CTA:
+
+INVITE TIFFANY TO SPEAK
+
+
+============================================================
+04 — SPEAKING
+============================================================
+
+PURPOSE
+-------
+
+This is one of the most commercially important pages.
+
+It should function almost like a dedicated sales page for
+Tiffany's speaking business.
+
+
+SPEAKING
+│
+├── HERO
+├── WHY TIFFANY
+├── SPEAKING TOPICS
+├── SPEAKING FORMATS
+├── WHO SHE SERVES
+├── SPEAKER REEL
+├── TESTIMONIALS
+├── EVENT / ORGANIZATION PROOF
+└── BOOK TIFFANY
+
+
+------------------------------------------------------------
+SPEAKING → HERO
+------------------------------------------------------------
+
+Headline:
+
+BRING TIFFANY TO YOUR STAGE
+
+
+Subheadline:
+
+Community Impact Strategist
+Public Health Educator & Speaker
+
+
+CTA:
+
+INVITE TIFFANY TO SPEAK
+
+
+------------------------------------------------------------
+SPEAKING → WHY TIFFANY
+------------------------------------------------------------
+
+Explain her differentiation.
+
+Potential positioning:
+
+• Real community experience
+• Public health education
+• Gambling prevention
+• Outreach
+• Prevention
+• Practical communication
+• Community-centered perspective
+
+
+This section should answer:
+
+"Why Tiffany instead of another speaker?"
+
+
+------------------------------------------------------------
+SPEAKING → TOPICS
+------------------------------------------------------------
+
+Detailed speaking topics.
+
+Examples:
+
+Gambling Prevention
+Youth Gambling
+Community Outreach
+Public Health
+Behavioral Health
+Prevention
+Early Intervention
+
+
+Each topic can have:
+
+• Short description
+• Audience
+• Learning outcome
+• Presentation style
+
+
+------------------------------------------------------------
+SPEAKING → FORMATS
+------------------------------------------------------------
+
+Keynote
+
+Conference Presentation
+
+Panel
+
+School Presentation
+
+Workshop
+
+Customized Session
+
+
+------------------------------------------------------------
+SPEAKING → AUDIENCE
+------------------------------------------------------------
+
+Who should hire Tiffany?
+
+• Conferences
+• Schools
+• Universities
+• Healthcare
+• Government
+• Nonprofits
+• Community Organizations
+• Recovery Organizations
+
+
+------------------------------------------------------------
+SPEAKING → SPEAKER REEL
+------------------------------------------------------------
+
+Large video.
+
+
+------------------------------------------------------------
+SPEAKING → PROOF
+------------------------------------------------------------
+
+Testimonials
+
+Organizations
+
+Events
+
+Media
+
+
+------------------------------------------------------------
+SPEAKING → BOOKING
+------------------------------------------------------------
+
+Strong CTA:
+
+INVITE TIFFANY TO SPEAK
+
+
+Then:
+
+Speaking Inquiry Form
+
+
+============================================================
+05 — IMPACT
+============================================================
+
+PURPOSE
+-------
+
+Show the measurable and human impact of Tiffany's work.
+
+
+IMPACT
+│
+├── HERO
+├── IMPACT NUMBERS
+├── COMMUNITY WORK
+├── OUTREACH
+├── PREVENTION
+├── PARTNERSHIPS
+├── STORIES / CASE STUDIES
+└── CTA
+
+
+------------------------------------------------------------
+IMPACT NUMBERS
+------------------------------------------------------------
+
+Use verified data only.
+
+Examples:
+
+15+ Years
+4,000+ Outreach Hours
+
+
+Additional metrics can include:
+
+• Communities reached
+• Events
+• Organizations
+• Programs
+• Presentations
+
+
+Only if Tiffany provides verified data.
+
+
+------------------------------------------------------------
+COMMUNITY WORK
+------------------------------------------------------------
+
+Show actual examples.
+
+Each example can contain:
+
+Image
+
+What happened
+
+Tiffany's role
+
+Community served
+
+Outcome / impact
+
+
+------------------------------------------------------------
+CASE STUDIES
+------------------------------------------------------------
+
+If Tiffany has strong examples, create short case studies:
+
+CHALLENGE
+
+What was happening?
+
+
+APPROACH
+
+What Tiffany did.
+
+
+RESULT
+
+What changed.
+
+
+This will eventually become very useful for:
+
+• Speaking
+• Consulting
+• Partnerships
+• Grants
+• PR
+
+
+============================================================
+06 — SPEAKER REEL
+============================================================
+
+PURPOSE
+-------
+
+Give Tiffany a dedicated video destination.
+
+
+SPEAKER REEL PAGE:
+
+HERO
+    ↓
+MAIN SPEAKER REEL
+    ↓
+SHORT CLIPS
+    ↓
+CONFERENCE FOOTAGE
+    ↓
+PANEL FOOTAGE
+    ↓
+SCHOOL / COMMUNITY FOOTAGE
+    ↓
+CTA
+
+
+------------------------------------------------------------
+MAIN REEL
+------------------------------------------------------------
+
+Ideal duration:
+
+Approximately 60–90 seconds.
+
+Possible sequence:
+
+Tiffany introduction
+    ↓
+Strong speaking moment
+    ↓
+Audience
+    ↓
+Panel
+    ↓
+Community
+    ↓
+Strong quote
+    ↓
+Applause
+    ↓
+Closing brand screen
+
+
+------------------------------------------------------------
+SHORT CLIPS
+------------------------------------------------------------
+
+Create individual clips around:
+
+• Gambling prevention
+• Youth prevention
+• Public health
+• Community outreach
+• Personal story
+
+
+These clips can also become:
+
+Instagram Reels
+TikToks
+YouTube Shorts
+LinkedIn videos
+
+
+This connects the website directly to Tiffany's future
+social-media marketing service.
+
+
+============================================================
+07 — BOOK TIFFANY
+============================================================
+
+PURPOSE
+-------
+
+This is the primary conversion page.
+
+
+BOOK TIFFANY
+│
+├── HERO
+├── WHY BOOK TIFFANY
+├── SPEAKING OPTIONS
+├── EVENT TYPES
+├── BOOKING PROCESS
+├── INQUIRY FORM
+└── CONFIRMATION
+
+
+------------------------------------------------------------
+HERO
+------------------------------------------------------------
+
+BRING TIFFANY TO YOUR NEXT EVENT
+
+
+Short supporting statement.
+
+
+CTA:
+
+START A SPEAKING REQUEST
+
+
+------------------------------------------------------------
+WHY BOOK TIFFANY
+------------------------------------------------------------
+
+Explain:
+
+• Expertise
+• Experience
+• Community connection
+• Public health knowledge
+• Prevention focus
+• Audience engagement
+
+
+------------------------------------------------------------
+EVENT TYPES
+------------------------------------------------------------
+
+Conference
+
+School
+
+University
+
+Healthcare
+
+Community Event
+
+Panel
+
+Workshop
+
+Government / Public Health
+
+
+------------------------------------------------------------
+BOOKING PROCESS
+------------------------------------------------------------
+
+STEP 1
+
+Submit inquiry.
+
+
+STEP 2
+
+Tiffany's team reviews requirements.
+
+
+STEP 3
+
+Discovery / availability call.
+
+
+STEP 4
+
+Proposal / agreement.
+
+
+STEP 5
+
+Event preparation.
+
+
+STEP 6
+
+Tiffany speaks.
+
+
+This makes the process feel professional and organized.
+
+
+------------------------------------------------------------
+BOOKING FORM
+------------------------------------------------------------
+
+Name
+
+Organization
+
+Email
+
+Phone
+
+Event Type
+
+Event Date
+
+Event Location
+
+Audience
+
+Preferred Topic
+
+Event Website
+
+Budget / Honorarium
+
+Additional Information
+
+
+BUTTON:
+
+SUBMIT SPEAKING REQUEST
+
+
+------------------------------------------------------------
+AUTOMATION
+------------------------------------------------------------
+
+After submission:
+
+FORM
+ ↓
+CRM
+ ↓
+AUTOMATED EMAIL
+ ↓
+AI / WHATSAPP
+ ↓
+QUALIFICATION
+ ↓
+CALENDAR
+ ↓
+Tiffany / Team
+ ↓
+PROPOSAL
+ ↓
+BOOKING
+
+
+============================================================
+08 — BOOKS
+============================================================
+
+PURPOSE
+-------
+
+Create a dedicated destination for Tiffany's books and
+e-books.
+
+The homepage should only promote the books.
+
+The Books page handles the actual product experience.
+
+
+BOOKS
+│
+├── HERO
+├── FEATURED BOOK
+├── ALL E-BOOKS
+├── BOOK DETAILS
+├── REVIEWS
+└── PURCHASE
+
+
+------------------------------------------------------------
+BOOKS → HERO
+------------------------------------------------------------
+
+Headline:
+
+BOOKS & RESOURCES BY TIFFANY WEBB
+
+
+Supporting message about education, prevention and
+community impact.
+
+
+------------------------------------------------------------
+FEATURED BOOK
+------------------------------------------------------------
+
+Large book cover.
+
+Title.
+
+Description.
+
+Why Tiffany wrote it.
+
+What the reader will learn.
+
+Price.
+
+CTA:
+
+BUY NOW
+
+
+------------------------------------------------------------
+ALL E-BOOKS
+------------------------------------------------------------
+
+Each product:
+
+Cover
+Title
+Short description
+Price
+Purchase
+
+
+------------------------------------------------------------
+BOOK DETAIL
+------------------------------------------------------------
+
+Detailed page:
+
+• Book cover
+• Description
+• Author
+• Audience
+• Topics
+• Preview
+• Reviews
+• Purchase
+
+
+============================================================
+09 — GAMBLEFREEGEAR
+============================================================
+
+PURPOSE
+-------
+
+GambleFreeGear should have its own identity because it
+represents an initiative / campaign / product ecosystem.
+
+
+GAMBLEFREEGEAR
+│
+├── HERO
+├── MISSION
+├── STORY
+├── PRODUCTS
+├── SHOP
+└── CTA
+
+
+------------------------------------------------------------
+GAMBLEFREEGEAR → HERO
+------------------------------------------------------------
+
+Strong campaign imagery.
+
+Headline:
+
+GAMBLEFREEGEAR
+
+
+Short statement explaining what it represents.
+
+
+------------------------------------------------------------
+MISSION
+------------------------------------------------------------
+
+Explain:
+
+Why GambleFreeGear exists.
+
+What conversation it wants to create.
+
+How it relates to prevention.
+
+How people can participate.
+
+
+------------------------------------------------------------
+PRODUCTS
+------------------------------------------------------------
+
+Show:
+
+T-Shirts
+
+Merchandise
+
+Campaign Products
+
+Future Products
+
+
+Each product:
+
+Image
+
+Name
+
+Description
+
+Price
+
+Purchase
+
+
+------------------------------------------------------------
+SHOP
+------------------------------------------------------------
+
+If actual inventory / fulfillment is ready:
+
+Implement e-commerce.
+
+
+If not:
+
+Start with:
+
+Product showcase
++
+Purchase / inquiry
+
+
+Do not build unnecessary complexity before demand exists.
+
+
+============================================================
+10 — INSIGHTS
+============================================================
+
+PURPOSE
+-------
+
+Build Tiffany's authority over time.
+
+Insights support:
+
+• SEO
+• Google discovery
+• Thought leadership
+• Social media
+• Newsletter
+• Speaking authority
+
+
+INSIGHTS
+│
+├── HERO
+├── FEATURED ARTICLE
+├── ARTICLE LIBRARY
+└── NEWSLETTER
+
+
+------------------------------------------------------------
+FEATURED ARTICLE
+------------------------------------------------------------
+
+Large article.
+
+Image
+
+Headline
+
+Summary
+
+READ ARTICLE
+
+
+------------------------------------------------------------
+ARTICLE CATEGORIES
+------------------------------------------------------------
+
+Gambling Prevention
+
+Public Health
+
+Community Outreach
+
+Youth Prevention
+
+Behavioral Health
+
+Prevention
+
+
+------------------------------------------------------------
+ARTICLE PAGE
+------------------------------------------------------------
+
+Title
+
+Author
+
+Date
+
+Category
+
+Hero Image
+
+Article
+
+Related Articles
+
+Newsletter CTA
+
+Speaking CTA
+
+
+------------------------------------------------------------
+CONTENT STRATEGY
+------------------------------------------------------------
+
+Do NOT publish dozens of low-quality AI articles.
+
+Start with approximately 3 high-quality articles.
+
+Then build toward:
+
+5
+7
+10+
+articles over time.
+
+
+Each article should support Tiffany's expertise and eventually
+lead readers toward:
+
+ARTICLE
+ ↓
+TRUST
+ ↓
+TIFFANY
+ ↓
+SPEAKING
+ ↓
+INQUIRY
+
+
+============================================================
+11 — NEWSLETTER
+============================================================
+
+PURPOSE
+-------
+
+Build Tiffany's owned audience.
+
+Social media audiences belong to platforms.
+
+Email subscribers become Tiffany's direct audience.
+
+
+------------------------------------------------------------
+NEWSLETTER
+------------------------------------------------------------
+
+Headline:
+
+STAY CONNECTED WITH TIFFANY
+
+
+Supporting copy:
+
+Insights on gambling prevention, public health,
+community outreach and conversations that create change.
+
+
+FORM:
+
+Email
+
+
+CTA:
+
+JOIN THE COMMUNITY
+
+
+------------------------------------------------------------
+NEWSLETTER CONTENT
+------------------------------------------------------------
+
+• New articles
+• Speaking announcements
+• Events
+• Public health insights
+• Gambling prevention
+• Community stories
+• Books
+• GambleFreeGear
+• Important campaigns
+
+
+------------------------------------------------------------
+IMPORTANT
+------------------------------------------------------------
+
+Do NOT start with a paid membership unless Tiffany has
+a real membership product and community model.
+
+Newsletter first.
+
+Membership later if validated.
+
+
+============================================================
+12 — MEDIA
+============================================================
+
+PURPOSE
+-------
+
+Make Tiffany easy to book, interview and feature.
+
+
+MEDIA
+│
+├── HERO
+├── PHOTOS
+├── BIO
+├── SPEAKER INFORMATION
+├── SPEAKER REEL
+├── MEDIA APPEARANCES
+└── PRESS RESOURCES
+
+
+------------------------------------------------------------
+MEDIA → PHOTOS
+------------------------------------------------------------
+
+Professional downloadable photos.
+
+Include:
+
+• Headshots
+• Speaking photos
+• Lifestyle photos
+• Event photos
+
+
+Provide high-resolution versions where appropriate.
+
+
+------------------------------------------------------------
+MEDIA → BIO
+------------------------------------------------------------
+
+Provide:
+
+SHORT BIO
+
+MEDIUM BIO
+
+LONG BIO
+
+SPEAKER BIO
+
+
+This prevents journalists and event organizers from
+having to request basic information manually.
+
+
+------------------------------------------------------------
+MEDIA → SPEAKER INFORMATION
+------------------------------------------------------------
+
+Include:
+
+• Speaker positioning
+• Speaking topics
+• Speaking formats
+• Experience
+• Key statistics
+• Contact information
+
+
+------------------------------------------------------------
+MEDIA → PRESS RESOURCES
+------------------------------------------------------------
+
+Potential downloads:
+
+• Media Kit
+• Capabilities Kit
+• Speaker One Sheet
+• Headshots
+• Bio
+• Brand assets
+• Speaker Reel
+
+
+------------------------------------------------------------
+MEDIA CTA
+------------------------------------------------------------
+
+MEDIA INQUIRIES
+
+or
+
+CONTACT TIFFANY
+
+
+============================================================
+13 — GLOBAL FOOTER
+============================================================
+
+Every page should have a consistent footer.
+
+
+TIFFANY WEBB
+
+Community Impact Strategist
+Public Health Educator & Speaker
+
+
+NAVIGATION:
+
+Home
+About
+Expertise
+Speaking
+Impact
+Speaker Reel
+Books
+GambleFreeGear
+Insights
+Media
+
+
+PRIMARY CTA:
+
+INVITE TIFFANY TO SPEAK
+
+
+SOCIAL:
+
+LinkedIn
+Instagram
+YouTube
+TikTok
+
+
+CONTACT:
+
+Professional Email
+
+Business Contact
+
+
+LEGAL:
+
+Privacy Policy
+Terms
+Copyright
+
+
+============================================================
+14 — GLOBAL NAVIGATION
+============================================================
+
+The navigation should remain simple even though the website
+contains multiple pages.
+
+
+RECOMMENDED:
+
+TIFFANY WEBB
+
+About
+Speaking
+Impact
+Media
+Books
+GambleFreeGear
+Insights
+
+[ INVITE TIFFANY ]
+
+
+Do not put every subpage into the primary navigation.
+
+
+For example:
+
+Do NOT create:
+
+Home
+Mission
+Vision
+Expertise
+Mission Statement
+Speaker Topics
+E-Books
+Articles
+Newsletter
+Photos
+Bio
+Press
+
+
+These belong inside their respective pages.
+
+
+============================================================
+15 — USER JOURNEYS
+============================================================
+
+The website should support different types of visitors.
+
+
+------------------------------------------------------------
+JOURNEY A — CONFERENCE ORGANIZER
+------------------------------------------------------------
+
+Google / LinkedIn / Referral
+        ↓
+HOME
+        ↓
+HERO
+        ↓
+SPEAKING
+        ↓
+EXPERTISE
+        ↓
+SPEAKER REEL
+        ↓
+IMPACT
+        ↓
+BOOK TIFFANY
+        ↓
+INQUIRY
+        ↓
+CRM
+        ↓
+DISCOVERY CALL
+        ↓
+BOOKED
+
+
+------------------------------------------------------------
+JOURNEY B — SCHOOL
+------------------------------------------------------------
+
+Google / Referral
+        ↓
+HOME
+        ↓
+EXPERTISE
+        ↓
+Youth Gambling Prevention
+        ↓
+SPEAKING
+        ↓
+School Program
+        ↓
+BOOK TIFFANY
+        ↓
+INQUIRY
+
+
+------------------------------------------------------------
+JOURNEY C — MEDIA / JOURNALIST
+------------------------------------------------------------
+
+Google
+        ↓
+TIFFANY WEBB
+        ↓
+MEDIA
+        ↓
+BIO
+        ↓
+PHOTOS
+        ↓
+SPEAKER INFORMATION
+        ↓
+PRESS RESOURCES
+        ↓
+MEDIA CONTACT
+
+
+------------------------------------------------------------
+JOURNEY D — GENERAL AUDIENCE
+------------------------------------------------------------
+
+Instagram / TikTok / YouTube
+        ↓
+HOME
+        ↓
+ABOUT
+        ↓
+INSIGHTS
+        ↓
+NEWSLETTER
+        ↓
+COMMUNITY
+
+
+------------------------------------------------------------
+JOURNEY E — PRODUCT BUYER
+------------------------------------------------------------
+
+Social Media / Google
+        ↓
+GAMBLEFREEGEAR
+        ↓
+MISSION
+        ↓
+PRODUCT
+        ↓
+SHOP
+        ↓
+PURCHASE
+
+
+------------------------------------------------------------
+JOURNEY F — BOOK READER
+------------------------------------------------------------
+
+Google / Social
+        ↓
+BOOKS
+        ↓
+E-BOOK
+        ↓
+DETAIL
+        ↓
+PURCHASE
+
+
+============================================================
+16 — HOMEPAGE vs DEDICATED PAGES
+============================================================
+
+The most important distinction in Way 1 is:
+
+HOME = SUMMARY
+
+DEDICATED PAGE = DEPTH
+
+
+HOME should answer:
+
+Who is Tiffany?
+
+What does she do?
+
+What does she speak about?
+
+Can she speak?
+
+Why should I trust her?
+
+How do I book her?
+
+
+ABOUT:
+
+Complete story.
+
+
+EXPERTISE:
+
+Detailed topics.
+
+
+SPEAKING:
+
+Complete speaking sales page.
+
+
+IMPACT:
+
+Detailed impact and case studies.
+
+
+SPEAKER REEL:
+
+Complete video library.
+
+
+BOOK TIFFANY:
+
+Complete booking process.
+
+
+BOOKS:
+
+Products.
+
+
+GAMBLEFREEGEAR:
+
+Initiative + products.
+
+
+INSIGHTS:
+
+Thought leadership.
+
+
+MEDIA:
+
+Press resources.
+
+
+============================================================
+17 — WHY WAY 1 IS DIFFERENT FROM WAY 2
+============================================================
+
+WAY 1:
+
+Multiple dedicated pages.
+
+Best when Tiffany has enough content and wants to build
+a larger long-term personal brand ecosystem.
+
+
+WAY 2:
+
+One highly focused long-form homepage with fewer dedicated
+pages.
+
+Best when the immediate goal is simplicity and speaker
+conversion.
+
+
+WAY 1 gives Tiffany:
+
+• More room for SEO
+• Better content organization
+• Better future scalability
+• Dedicated product pages
+• Dedicated media resources
+• Dedicated thought leadership
+• Dedicated speaking sales page
+• Better separation between different audiences
+
+
+WAY 1 is therefore more suitable if Tiffany genuinely wants
+to build the broader Tiffany Webb ecosystem.
+
+
+============================================================
+18 — V1 PRIORITY
+============================================================
+
+DO FIRST:
+
+✓ Home
+✓ About
+✓ Speaking
+✓ Expertise
+✓ Impact
+✓ Speaker Reel
+✓ Book Tiffany
+✓ Media
+
+
+IF CONTENT / PRODUCTS ARE READY:
+
+✓ Books
+✓ GambleFreeGear
+✓ Insights
+✓ Newsletter
+
+
+FUTURE:
+
+→ Consulting
+→ Training
+→ Podcast
+→ Community
+→ Membership
+→ Advanced e-commerce
+→ AI assistant
+→ WhatsApp automation
+→ CRM
+→ PR
+→ Conference outreach system
+
+
+============================================================
+19 — FINAL WEBSITE PURPOSE
+============================================================
+
+WAY 1 should ultimately create this perception:
+
+"Tiffany Webb is a credible community-impact and public-health
+expert who understands gambling prevention and knows how to
+communicate these issues effectively."
+
+Then:
+
+"I can see her speaking."
+
+Then:
+
+"I understand what she can speak about."
+
+Then:
+
+"I trust her."
+
+Then:
+
+"I want Tiffany at our event."
+
+
+FINAL CONVERSION:
+
+                    INVITE TIFFANY
+                           ↓
+                    SPEAKING FORM
+                           ↓
+                         CRM
+                           ↓
+                    FOLLOW-UP
+                           ↓
+                     DISCOVERY
+                           ↓
+                       PROPOSAL
+                           ↓
+                        BOOKING
+
+
+============================================================
+FINAL DESIGN PRINCIPLE
+============================================================
+
+WAY 1 is NOT:
+
+"Let's make many pages because we need a big website."
+
+
+WAY 1 IS:
+
+"Let's give every important part of Tiffany's brand its own
+appropriate space while keeping the homepage focused on
+introducing and converting visitors."
+
+
+HOME = INTRODUCTION
+
+ABOUT = STORY
+
+EXPERTISE = KNOWLEDGE
+
+SPEAKING = OFFER
+
+IMPACT = EXPERIENCE
+
+SPEAKER REEL = PROOF OF PERFORMANCE
+
+BOOK TIFFANY = CONVERSION
+
+BOOKS = PRODUCTS
+
+GAMBLEFREEGEAR = INITIATIVE + PRODUCTS
+
+INSIGHTS = THOUGHT LEADERSHIP
+
+MEDIA = PROFESSIONAL RESOURCES
+
+
+THE ENTIRE WEBSITE SHOULD WORK TOGETHER AS ONE SYSTEM:
+
+BRAND
+ ↓
+AUTHORITY
+ ↓
+CONTENT
+ ↓
+TRUST
+ ↓
+SPEAKING OPPORTUNITY
+ ↓
+LEAD
+ ↓
+BOOKING
+============================================================
+
+
+
+
+way - 2 
+
+
+============================================================
+TIFFANY WEBB — WEBSITE / HOMEPAGE MASTER STRUCTURE
+============================================================
+
+PROJECT OBJECTIVE
+-----------------
+
+Build a premium personal-brand website for Tiffany Webb that
+positions her as:
+
+Community Impact Strategist
+Public Health Educator & Speaker
+
+The primary business objective of the website is to generate
+speaking opportunities for:
+
+• Conferences
+• Schools
+• Universities
+• Public Health Organizations
+• Healthcare Organizations
+• Community Organizations
+• Nonprofits
+• Panels
+• Workshops
+
+The website should guide a visitor through this journey:
+
+DISCOVER TIFFANY
+        ↓
+UNDERSTAND WHO SHE IS
+        ↓
+UNDERSTAND HER EXPERTISE
+        ↓
+SEE HER AS A SPEAKER
+        ↓
+SEE PROOF / CREDIBILITY
+        ↓
+BUILD TRUST
+        ↓
+INVITE TIFFANY
+        ↓
+SUBMIT SPEAKING INQUIRY
+        ↓
+CRM / FOLLOW-UP
+        ↓
+BOOKING
+
+
+============================================================
+OVERALL HOMEPAGE EXPERIENCE
+============================================================
+
+The homepage should NOT feel like a long corporate website.
+
+Instead, it should feel like a premium digital experience where
+each major section acts like a "scene" in Tiffany's story.
+
+The homepage will contain approximately 7–8 major scenes:
+
+01. HERO
+02. ABOUT / MEET TIFFANY
+03. EXPERTISE
+04. SPEAKING
+05. SPEAKER REEL
+06. IMPACT + WHO SHE SERVES
+07. PROOF / CREDIBILITY
+08. BOOK TIFFANY
+
+The sections should be visually connected through smooth
+scroll transitions and subtle animations.
+
+IMPORTANT:
+
+The animation should support the content.
+
+It should NOT become the main attraction.
+
+The website should feel:
+
+• Premium
+• Human
+• Warm
+• Modern
+• Credible
+• Editorial
+• Professional
+• Speaker-focused
+
+It should NOT feel like:
+
+• An AI startup website
+• A gaming website
+• A developer portfolio
+• A WebGL experiment
+• A website overloaded with glassmorphism
+
+
+============================================================
+01 — HERO SECTION
+============================================================
+
+PURPOSE
+-------
+
+The Hero is the most important first impression.
+
+Its job is to answer three questions immediately:
+
+1. Who is Tiffany?
+2. What does Tiffany do?
+3. What should I do next?
+
+A visitor should understand Tiffany's professional identity
+within approximately 5–10 seconds.
+
+The hero should NOT contain Tiffany's entire biography.
+
+It should create enough clarity and curiosity for the visitor
+to continue.
+
+
+------------------------------------------------------------
+HERO CONTENT
+------------------------------------------------------------
+
+PRIMARY NAME:
+
+Tiffany Webb
+
+
+PRIMARY POSITIONING:
+
+Community Impact Strategist
+Public Health Educator & Speaker
+
+
+SUPPORTING MESSAGE:
+
+A short statement explaining what Tiffany helps people,
+organizations, schools, and communities understand or achieve.
+
+Example direction:
+
+"Creating conversations that strengthen communities,
+advance prevention, and inspire meaningful action."
+
+This copy should be finalized with Tiffany before development.
+
+
+------------------------------------------------------------
+PRIMARY CTA
+------------------------------------------------------------
+
+INVITE TIFFANY TO SPEAK
+
+
+Why:
+
+This is Tiffany's primary business objective.
+
+The website should not make the visitor search for how to
+contact or hire her.
+
+The primary CTA should eventually lead to:
+
+Speaking Inquiry Form
+        ↓
+Lead Capture
+        ↓
+CRM
+        ↓
+Follow-up
+        ↓
+Booking
+
+
+------------------------------------------------------------
+SECONDARY CTA
+------------------------------------------------------------
+
+EXPLORE HER WORK
+
+
+Possible destination:
+
+• Speaking section
+• About section
+• Scroll to next major section
+
+The secondary CTA should NOT compete visually with
+"INVITE TIFFANY TO SPEAK."
+
+The speaking CTA must remain the dominant action.
+
+
+------------------------------------------------------------
+HERO VISUAL
+------------------------------------------------------------
+
+The preferred hero image should be a strong photograph of
+Tiffany speaking or engaging with an audience.
+
+Ideal image:
+
+• Tiffany on stage
+• Audience visible
+• Professional environment
+• Natural expression
+• Strong body language
+• High-quality photography
+• Enough negative space for typography
+
+A generic portrait can be used only if a strong speaking
+photograph is unavailable.
+
+
+------------------------------------------------------------
+HERO LAYOUT
+------------------------------------------------------------
+
+Recommended concept:
+
+LEFT:
+
+Tiffany Webb
+
+Community Impact Strategist
+Public Health Educator & Speaker
+
+Short positioning statement
+
+[ INVITE TIFFANY TO SPEAK ]
+
+[ EXPLORE HER WORK ]
+
+
+RIGHT / BACKGROUND:
+
+Large Tiffany speaking photograph
+
+
+Alternative:
+
+Full-screen photograph with a dark/soft overlay and
+editorial typography positioned over the image.
+
+
+------------------------------------------------------------
+HERO DESIGN STYLE
+------------------------------------------------------------
+
+Recommended visual direction:
+
+• Deep teal / forest green
+• Warm ivory / cream
+• Muted gold
+• Optional deep plum / burgundy accent
+• Elegant serif typography for major headlines
+• Clean sans-serif for body text
+
+The design should feel like a premium speaker / public-health
+brand rather than a technology company.
+
+
+------------------------------------------------------------
+HERO ANIMATION
+------------------------------------------------------------
+
+The animation should be subtle.
+
+Suggested sequence:
+
+PAGE LOAD
+    ↓
+Hero image gently reveals
+    ↓
+"Tiffany Webb" appears
+    ↓
+Positioning appears
+    ↓
+Supporting statement appears
+    ↓
+CTA buttons appear
+
+
+ON SCROLL:
+
+Hero image can subtly scale or move.
+
+The next scene can visually rise upward over the hero.
+
+Do NOT use:
+
+• Heavy 3D
+• Full WebGL
+• Excessive particles
+• Large cursor effects
+• Aggressive parallax
+• Constant background movement
+
+
+------------------------------------------------------------
+HERO OPTIONAL ELEMENTS
+------------------------------------------------------------
+
+OPTIONAL:
+
+A small credibility line underneath the CTA.
+
+Example:
+
+15+ Years of Experience
+Gambling Prevention • Public Health • Community Outreach
+
+
+OR:
+
+A small "Featured / Speaking" indicator.
+
+
+IMPORTANT:
+
+Only use verified statistics and claims supplied or approved
+by Tiffany.
+
+Do not invent numbers.
+
+
+------------------------------------------------------------
+HERO USER EXPERIENCE
+------------------------------------------------------------
+
+The visitor should think:
+
+"I immediately understand who Tiffany is."
+
+Then:
+
+"She is a speaker."
+
+Then:
+
+"I want to know what she speaks about."
+
+
+============================================================
+02 — ABOUT / MEET TIFFANY SECTION
+============================================================
+
+PURPOSE
+-------
+
+The Hero tells visitors WHAT Tiffany does.
+
+The About section tells visitors:
+
+"WHO is Tiffany?"
+
+
+The purpose is to make Tiffany feel human and memorable.
+
+This section should combine:
+
+• About
+• Personal Story
+• Professional Background
+• Mission
+• Brief Experience
+
+
+------------------------------------------------------------
+LAYOUT
+------------------------------------------------------------
+
+Recommended:
+
+LEFT:
+
+Large professional / lifestyle photograph of Tiffany.
+
+RIGHT:
+
+MEET TIFFANY
+
+Short biography.
+
+Then a short mission statement.
+
+Then important credibility statistics.
+
+
+------------------------------------------------------------
+CONTENT STRUCTURE
+------------------------------------------------------------
+
+HEADING:
+
+Meet Tiffany
+
+
+INTRODUCTION:
+
+A short 100–150 word version of Tiffany's story.
+
+Use information from Tiffany's existing materials rather than
+creating a generic biography.
+
+
+POSSIBLE STORY ELEMENTS:
+
+• Chicago roots
+• Louisiana cultural influence
+• Community connection
+• Behavioral health experience
+• Public health
+• Gambling prevention
+• Community outreach
+• Education
+• Prevention
+
+
+------------------------------------------------------------
+CREDIBILITY SNAPSHOT
+------------------------------------------------------------
+
+Example:
+
+15+
+Years of Experience
+
+
+4,000+
+Hours of Gambling Prevention Outreach
+
+
+Other statistics can be added only after Tiffany verifies them.
+
+
+------------------------------------------------------------
+MISSION
+------------------------------------------------------------
+
+Include a short mission statement.
+
+The full Mission & Vision content does NOT need its own
+large homepage section.
+
+It can be integrated into the About story.
+
+
+------------------------------------------------------------
+CTA
+------------------------------------------------------------
+
+Possible:
+
+DISCOVER TIFFANY'S STORY
+
+
+This can eventually lead to a dedicated About page if
+Tiffany develops enough content.
+
+
+------------------------------------------------------------
+VISUAL DIRECTION
+------------------------------------------------------------
+
+Use a different photograph from the Hero.
+
+The Hero should show Tiffany as a SPEAKER.
+
+The About section should show Tiffany as a PERSON / LEADER.
+
+
+============================================================
+03 — EXPERTISE SECTION
+============================================================
+
+PURPOSE
+-------
+
+Answer:
+
+"What can Tiffany speak about?"
+
+This is one of the most important sections for conference
+organizers and schools.
+
+The visitor should immediately understand whether Tiffany's
+expertise matches their event.
+
+
+------------------------------------------------------------
+RECOMMENDED EXPERTISE PILLARS
+------------------------------------------------------------
+
+Instead of showing 15–20 small topics, group her expertise
+into approximately 6 major pillars.
+
+01. GAMBLING PREVENTION
+
+Awareness, prevention, education and conversations around
+gambling-related harm.
+
+
+02. YOUTH GAMBLING PREVENTION
+
+Helping young people, families, schools and communities
+understand gambling risks early.
+
+
+03. COMMUNITY OUTREACH
+
+Building meaningful relationships with communities and
+connecting people with prevention resources.
+
+
+04. PUBLIC HEALTH EDUCATION
+
+Making complex public-health topics understandable and
+actionable.
+
+
+05. BEHAVIORAL HEALTH AWARENESS
+
+Increasing awareness and reducing stigma around behavioral
+health challenges.
+
+
+06. PREVENTION & EARLY INTERVENTION
+
+Helping communities move from reacting to problems toward
+earlier prevention and education.
+
+
+------------------------------------------------------------
+INTERACTION
+------------------------------------------------------------
+
+Use interactive cards.
+
+Example:
+
+[ GAMBLING PREVENTION ]
+
+When hovered/clicked:
+
+Gambling Prevention
+
+Short explanation
+
+Relevant speaking context
+
+Optional visual
+
+
+The card can expand or reveal additional information.
+
+This provides interaction without making the homepage longer.
+
+
+------------------------------------------------------------
+IMPORTANT
+------------------------------------------------------------
+
+The complete list of Tiffany's expertise can remain in the
+Capabilities Deck.
+
+The homepage should only show the most important categories.
+
+
+------------------------------------------------------------
+CTA
+------------------------------------------------------------
+
+EXPLORE SPEAKING TOPICS
+
+OR
+
+VIEW SPEAKING PROGRAMS
+
+
+============================================================
+04 — SPEAKING SECTION
+============================================================
+
+PURPOSE
+-------
+
+Expertise answers:
+
+"What does Tiffany know?"
+
+Speaking answers:
+
+"What can Tiffany actually deliver?"
+
+
+This section should explain the formats in which an organization
+can hire Tiffany.
+
+
+------------------------------------------------------------
+SPEAKING FORMATS
+------------------------------------------------------------
+
+01. KEYNOTE SPEAKING
+
+High-impact keynote presentations designed to create
+awareness, inspire action and start meaningful conversations.
+
+
+02. CONFERENCE PRESENTATIONS
+
+Educational presentations adapted to the event, topic
+and audience.
+
+
+03. PANEL DISCUSSIONS
+
+Tiffany participates as an expert voice in conversations
+around gambling prevention, public health, behavioral health
+and community impact.
+
+
+04. SCHOOL & UNIVERSITY PROGRAMS
+
+Educational sessions designed for students, educators,
+administrators and youth audiences.
+
+
+05. WORKSHOPS
+
+Interactive sessions for organizations, communities,
+educators and professionals.
+
+
+06. CUSTOMIZED PROGRAMS
+
+Sessions can be adapted according to:
+
+• Audience
+• Organization
+• Event objectives
+• Topic
+• Format
+
+
+------------------------------------------------------------
+VISUAL DESIGN
+------------------------------------------------------------
+
+Use 4–6 large cards rather than many small cards.
+
+Each card can contain:
+
+Title
+Short description
+Visual/icon
+Optional "Learn More"
+
+
+------------------------------------------------------------
+CTA
+------------------------------------------------------------
+
+INVITE TIFFANY TO SPEAK
+
+
+This CTA should connect directly to the booking journey.
+
+
+============================================================
+05 — SPEAKER REEL SECTION
+============================================================
+
+PURPOSE
+-------
+
+This section answers:
+
+"Can Tiffany actually speak?"
+
+This is extremely important.
+
+Instead of telling visitors:
+
+"Tiffany is an experienced speaker."
+
+Show them.
+
+
+------------------------------------------------------------
+MAIN ELEMENT
+------------------------------------------------------------
+
+Large speaker reel.
+
+
+Possible structure:
+
+SEE TIFFANY IN ACTION
+
+[ LARGE VIDEO ]
+
+Play Button
+
+Short description
+
+
+Example:
+
+"See Tiffany turn conversations around prevention,
+public health and community impact into meaningful
+audience experiences."
+
+
+CTA:
+
+WATCH SPEAKER REEL
+
+
+------------------------------------------------------------
+VIDEO CONTENT
+------------------------------------------------------------
+
+The ideal speaker reel can include:
+
+• Tiffany speaking
+• Conference footage
+• Panel discussions
+• School presentations
+• Audience reactions
+• Workshop moments
+• Applause
+• Strong quotes
+• Event environments
+
+
+------------------------------------------------------------
+IMPORTANT
+------------------------------------------------------------
+
+Do NOT create a generic:
+
+"Hi, I'm Tiffany."
+
+video simply because a website needs a video.
+
+The speaker reel should demonstrate her speaking ability.
+
+
+------------------------------------------------------------
+VISUAL DESIGN
+------------------------------------------------------------
+
+This is a good location for your idea of a large square /
+portrait video card.
+
+Possible:
+
+LEFT:
+
+Large video
+
+RIGHT:
+
+"See Tiffany in Action"
+
+Short description
+
+Speaking formats
+
+CTA
+
+
+============================================================
+06 — IMPACT & WHO TIFFANY SERVES
+============================================================
+
+PURPOSE
+-------
+
+Answer:
+
+"Is Tiffany relevant to my organization?"
+
+This section combines:
+
+• Audience
+• Experience
+• Impact
+• Organizations
+• Career activity
+
+
+------------------------------------------------------------
+WHO TIFFANY SERVES
+------------------------------------------------------------
+
+CONFERENCES
+
+SCHOOLS & UNIVERSITIES
+
+HEALTHCARE ORGANIZATIONS
+
+GOVERNMENT / PUBLIC HEALTH
+
+COMMUNITY ORGANIZATIONS
+
+NONPROFITS
+
+BEHAVIORAL HEALTH ORGANIZATIONS
+
+RECOVERY ORGANIZATIONS
+
+
+------------------------------------------------------------
+IMPACT NUMBERS
+------------------------------------------------------------
+
+Use only verified statistics.
+
+Example:
+
+15+
+YEARS EXPERIENCE
+
+
+4,000+
+HOURS OF GAMBLING PREVENTION OUTREACH
+
+
+Additional verified statistics can be added later.
+
+
+------------------------------------------------------------
+ACTIVITY / EXPERIENCE
+------------------------------------------------------------
+
+Possible items:
+
+• Community Screenings
+• Conference Speaking
+• Panel Discussions
+• Workshop Facilitation
+• Coalition Leadership
+• Community Partnerships
+• Public Health Outreach
+
+
+------------------------------------------------------------
+VISUAL DIRECTION
+------------------------------------------------------------
+
+Use real photographs from Tiffany's:
+
+• Events
+• Community work
+• Speaking engagements
+• Outreach
+• Panels
+
+
+Do not use stock photographs when real Tiffany photography
+is available.
+
+
+============================================================
+07 — PROOF / CREDIBILITY SECTION
+============================================================
+
+PURPOSE
+-------
+
+Answer:
+
+"Why should I trust Tiffany?"
+
+
+This section should provide evidence rather than simply
+making claims.
+
+
+------------------------------------------------------------
+PROOF TYPES
+------------------------------------------------------------
+
+01. TESTIMONIALS
+
+Use 2–3 strong, genuine testimonials.
+
+Do not create fake testimonials.
+
+If Tiffany does not have enough testimonials at launch,
+this section can initially rely more heavily on other proof.
+
+
+02. ORGANIZATION LOGOS
+
+Show legitimate organizations Tiffany has:
+
+• Worked with
+• Partnered with
+• Spoken for
+• Supported
+
+Only use logos where usage is appropriate / permitted.
+
+
+03. EVENT PHOTOS
+
+Show Tiffany actually doing the work.
+
+
+04. MEDIA / RECOGNITION
+
+If available:
+
+• Podcasts
+• Interviews
+• Publications
+• Awards
+• Articles
+• Media appearances
+
+
+------------------------------------------------------------
+WHY THIS SECTION MATTERS
+------------------------------------------------------------
+
+There is a major difference between:
+
+"I am an experienced speaker."
+
+and:
+
+"Here is evidence of my experience."
+
+
+The second is stronger.
+
+
+============================================================
+08 — BOOK TIFFANY SECTION
+============================================================
+
+PURPOSE
+-------
+
+This is the final conversion section.
+
+Everything before this point answers:
+
+Who is Tiffany?
+        ↓
+What does she know?
+        ↓
+What does she speak about?
+        ↓
+Can she actually speak?
+        ↓
+Who does she serve?
+        ↓
+Why should I trust her?
+
+Now:
+
+"Do you want Tiffany at your event?"
+
+
+------------------------------------------------------------
+HEADLINE
+------------------------------------------------------------
+
+BRING TIFFANY TO YOUR NEXT CONVERSATION
+
+
+Supporting copy:
+
+Looking for a keynote speaker, panelist, educator or
+community-impact voice for your next event?
+
+
+------------------------------------------------------------
+SPEAKING FORMATS
+------------------------------------------------------------
+
+Keynote
+Conference
+Panel
+School
+Workshop
+
+
+------------------------------------------------------------
+PRIMARY CTA
+------------------------------------------------------------
+
+INVITE TIFFANY TO SPEAK
+
+
+------------------------------------------------------------
+BOOKING FORM
+------------------------------------------------------------
+
+The form should capture enough information to qualify
+the opportunity.
+
+
+FIELDS:
+
+Name
+
+Organization
+
+Email
+
+Phone
+
+Event Type
+
+Event Date
+
+Location
+
+Expected Audience
+
+Preferred Topic
+
+Event Website
+
+Budget / Honorarium (OPTIONAL — decide with Tiffany)
+
+Tell us about your event
+
+
+BUTTON:
+
+SUBMIT SPEAKING REQUEST
+
+
+------------------------------------------------------------
+POST-SUBMISSION JOURNEY
+------------------------------------------------------------
+
+Form submitted
+        ↓
+Lead captured
+        ↓
+CRM
+        ↓
+Automatic confirmation
+        ↓
+AI / WhatsApp assistant
+        ↓
+Lead qualification
+        ↓
+Team notification
+        ↓
+Calendar booking
+        ↓
+Discovery call
+        ↓
+Proposal
+        ↓
+Booking
+
+
+This is where the future AI + WhatsApp + CRM service
+connects directly with the website.
+
+
+============================================================
+SECONDARY WEBSITE PAGES
+============================================================
+
+
+============================================================
+09 — BOOKS
+============================================================
+
+PURPOSE
+-------
+
+Give Tiffany a dedicated place to showcase and eventually
+sell her books / e-books.
+
+The homepage should NOT contain a complete bookstore.
+
+It should only have a small promotional block such as:
+
+"Explore Tiffany's Books"
+
+        ↓
+
+[ VIEW BOOKS ]
+
+
+------------------------------------------------------------
+BOOKS PAGE
+------------------------------------------------------------
+
+Hero:
+
+Tiffany's Books
+
+
+Then:
+
+Book Cover
+Book Title
+Short Description
+What the reader will learn
+Price
+Purchase CTA
+
+
+------------------------------------------------------------
+BOOK DETAIL PAGE
+------------------------------------------------------------
+
+Each book can eventually have:
+
+• Cover
+• Title
+• Description
+• Author introduction
+• Table of contents
+• Short preview
+• Reviews
+• Purchase button
+
+
+------------------------------------------------------------
+IMPORTANT
+------------------------------------------------------------
+
+Do not build a complicated e-commerce system if Tiffany
+does not yet have actual books/products ready.
+
+Start simple.
+
+Expand later when the product library grows.
+
+
+============================================================
+10 — GAMBLEFREEGEAR
+============================================================
+
+PURPOSE
+-------
+
+GambleFreeGear should have its own identity because it is
+more than a product.
+
+It represents Tiffany's prevention / awareness initiative.
+
+
+------------------------------------------------------------
+GAMBLEFREEGEAR PAGE
+------------------------------------------------------------
+
+HERO:
+
+GambleFreeGear
+
+Short mission statement.
+
+
+MISSION
+
+Explain:
+
+• Why GambleFreeGear exists
+• What it represents
+• What conversation it wants to create
+• How it relates to gambling prevention
+
+
+------------------------------------------------------------
+PRODUCTS
+------------------------------------------------------------
+
+Show:
+
+T-Shirts
+Merchandise
+Campaign Products
+Future Products
+
+
+Each product:
+
+Image
+Name
+Description
+Price
+Purchase CTA
+
+
+------------------------------------------------------------
+SHOP
+------------------------------------------------------------
+
+If actual products and fulfillment are ready:
+
+Add shopping functionality.
+
+
+If not:
+
+Start with:
+
+Product showcase
+        ↓
+Purchase / inquiry
+
+
+Do not overbuild the store before validating demand.
+
+
+============================================================
+11 — INSIGHTS
+============================================================
+
+PURPOSE
+-------
+
+Build Tiffany's long-term thought leadership.
+
+This section supports:
+
+• SEO
+• Google discovery
+• Expertise
+• Social media content
+• Newsletter
+• Speaking authority
+
+
+------------------------------------------------------------
+ARTICLES
+------------------------------------------------------------
+
+Initial goal:
+
+Start with approximately 3 strong articles.
+
+Eventually grow toward 5–7+.
+
+
+Potential topics:
+
+01. What Gambling Prevention Really Means
+
+02. Why Youth Gambling Prevention Starts With Conversation
+
+03. How Community Outreach Can Prevent Problems Before
+They Become Crises
+
+
+Future articles should come from Tiffany's actual experience,
+knowledge and current issues.
+
+
+------------------------------------------------------------
+ARTICLE PAGE
+------------------------------------------------------------
+
+Each article should contain:
+
+Title
+
+Date
+
+Category
+
+Author
+
+Hero Image
+
+Article
+
+Related Articles
+
+Newsletter CTA
+
+Speaking CTA
+
+
+Every article should ultimately lead the reader toward:
+
+Learn → Trust → Explore Tiffany → Speaking → Inquiry
+
+
+============================================================
+12 — NEWSLETTER
+============================================================
+
+PURPOSE
+-------
+
+Convert anonymous website visitors into an audience Tiffany
+can communicate with directly.
+
+
+------------------------------------------------------------
+NEWSLETTER CONTENT
+------------------------------------------------------------
+
+Possible topics:
+
+• Gambling prevention
+• Public health
+• Community outreach
+• Youth prevention
+• Behavioral health
+• Speaking updates
+• New articles
+• Events
+• Books
+• GambleFreeGear
+
+
+------------------------------------------------------------
+SIGNUP SECTION
+------------------------------------------------------------
+
+STAY CONNECTED WITH TIFFANY
+
+"Insights on gambling prevention, public health,
+community outreach and conversations that create change."
+
+
+Email field
+
+[ JOIN THE COMMUNITY ]
+
+
+------------------------------------------------------------
+IMPORTANT
+------------------------------------------------------------
+
+Do NOT build a paid membership system right now unless
+Tiffany has a clear membership product, community offering
+and business model.
+
+Newsletter first.
+
+Membership later if there is a validated reason.
+
+
+============================================================
+13 — MEDIA
+============================================================
+
+PURPOSE
+-------
+
+Make it easy for:
+
+• Journalists
+• Podcasts
+• Conference organizers
+• Event planners
+• Publications
+• Media agencies
+
+to obtain Tiffany's professional information.
+
+
+------------------------------------------------------------
+MEDIA PAGE STRUCTURE
+------------------------------------------------------------
+
+MEDIA
+
+├── Professional Photos
+├── Short Bio
+├── Long Bio
+├── Speaker Bio
+├── Speaker Topics
+├── Headshots
+├── Speaker Reel
+├── Media Appearances
+├── Press Resources
+└── Contact
+
+
+------------------------------------------------------------
+DOWNLOADABLE RESOURCES
+------------------------------------------------------------
+
+Possible downloads:
+
+• Media Kit
+• Capabilities Kit
+• Speaker One Sheet
+• Headshots
+• Biography
+• Logo / Brand Assets
+• Speaker Reel
+
+
+============================================================
+14 — FOOTER
+============================================================
+
+The footer should provide a final navigation layer.
+
+------------------------------------------------------------
+
+TIFFANY WEBB
+
+Community Impact Strategist
+Public Health Educator & Speaker
+
+
+NAVIGATION
+
+About
+Speaking
+Impact
+Media
+Books
+GambleFreeGear
+Insights
+Contact
+
+
+SOCIAL
+
+LinkedIn
+Instagram
+YouTube
+TikTok
+
+
+CTA
+
+INVITE TIFFANY TO SPEAK
+
+
+CONTACT
+
+Email
+Phone / Business Contact
+
+
+LEGAL
+
+Privacy Policy
+Terms
+Copyright
+
+
+============================================================
+VISUAL / INTERACTION SYSTEM
+============================================================
+
+The entire homepage should feel like a sequence of
+premium visual scenes.
+
+The concept:
+
+SCENE 01
+HERO
+        ↓
+SCENE 02
+ABOUT
+        ↓
+SCENE 03
+EXPERTISE
+        ↓
+SCENE 04
+SPEAKING
+        ↓
+SCENE 05
+SPEAKER REEL
+        ↓
+SCENE 06
+IMPACT
+        ↓
+SCENE 07
+PROOF
+        ↓
+SCENE 08
+BOOK TIFFANY
+
+
+------------------------------------------------------------
+SCROLL EXPERIENCE
+------------------------------------------------------------
+
+When the user scrolls:
+
+Current scene can subtly move upward.
+
+Next scene can visually rise from below.
+
+The transition should feel like a new "chapter" entering
+the screen.
+
+
+IMPORTANT:
+
+Do NOT force every mouse wheel movement to equal exactly
+one page.
+
+Use normal browser scrolling with enhanced visual transitions.
+
+This keeps:
+
+• Usability
+• Accessibility
+• Mobile experience
+• Trackpad experience
+
+intact.
+
+
+------------------------------------------------------------
+ANIMATION PRINCIPLE
+------------------------------------------------------------
+
+ONE MAJOR INTERACTION PER SCENE.
+
+
+HERO:
+Image reveal
+
+
+ABOUT:
+Image transition
+
+
+EXPERTISE:
+Interactive cards
+
+
+SPEAKING:
+Card hover / expansion
+
+
+SPEAKER REEL:
+Video reveal
+
+
+IMPACT:
+Number counter
+
+
+PROOF:
+Testimonial transition
+
+
+BOOKING:
+CTA reveal
+
+
+Avoid putting 5 different animations into one section.
+
+
+============================================================
+DESIGN DIRECTION
+============================================================
+
+PRIMARY FEEL:
+
+Premium
+Human
+Warm
+Editorial
+Modern
+Credible
+
+
+COLOR DIRECTION:
+
+Deep Teal / Forest Green
+Warm Ivory / Cream
+Muted Gold
+Optional Burgundy / Deep Plum
+
+
+TYPOGRAPHY:
+
+Headings:
+Elegant editorial serif
+
+
+Body:
+Modern clean sans-serif
+
+
+Accent:
+Optional script / handwritten Tiffany signature
+
+
+IMPORTANT:
+
+Do not use script typography everywhere.
+
+Use it sparingly for:
+
+• Tiffany's signature
+• Small personal statements
+• Mission emphasis
+
+
+============================================================
+IMAGE STRATEGY
+============================================================
+
+Use different photographs wherever practical.
+
+HERO:
+Tiffany speaking
+
+
+ABOUT:
+Tiffany portrait / lifestyle
+
+
+EXPERTISE:
+Relevant community / speaking image if available
+
+
+SPEAKING:
+Stage / conference image
+
+
+SPEAKER REEL:
+Video
+
+
+IMPACT:
+Community / outreach image
+
+
+PROOF:
+Event / audience image
+
+
+BOOKING:
+Strong professional Tiffany image
+
+
+Do not repeatedly use the exact same photograph just to fill
+space.
+
+However, this should not become a rigid rule.
+
+The priority is always:
+
+RELEVANT IMAGE > FORCED IMAGE VARIETY.
+
+
+============================================================
+HOMEPAGE CONTENT PRIORITY
+============================================================
+
+MUST HAVE FOR V1:
+
+✓ Strong positioning
+✓ Hero
+✓ About
+✓ Expertise
+✓ Speaking formats
+✓ Speaker Reel
+✓ Who Tiffany serves
+✓ Verified impact / experience
+✓ Organizations / credibility
+✓ Booking CTA
+✓ Speaking inquiry form
+✓ Social links
+
+
+SHOULD HAVE IF ASSETS ARE READY:
+
+✓ Testimonials
+✓ Media appearances
+✓ Blog / Insights
+✓ Newsletter
+✓ Downloadable Media Kit
+✓ Downloadable Capabilities Kit
+
+
+FUTURE:
+
+→ Consulting
+→ Training
+→ Podcast
+→ Books expansion
+→ GambleFreeGear expansion
+→ Membership / community
+→ Advanced CRM
+→ AI assistant
+→ WhatsApp automation
+→ Conference outreach
+→ PR campaigns
+
+
+============================================================
+FINAL USER JOURNEY
+============================================================
+
+GOOGLE / LINKEDIN / INSTAGRAM / YOUTUBE / TIKTOK
+                         ↓
+                       HERO
+                         ↓
+                "WHO IS TIFFANY?"
+                         ↓
+                  ABOUT TIFFANY
+                         ↓
+              "WHAT DOES SHE KNOW?"
+                         ↓
+                    EXPERTISE
+                         ↓
+             "CAN SHE SPEAK ABOUT IT?"
+                         ↓
+                    SPEAKING
+                         ↓
+             "CAN SHE ACTUALLY SPEAK?"
+                         ↓
+                 SPEAKER REEL
+                         ↓
+              "WHO HAS SHE HELPED?"
+                         ↓
+               IMPACT + AUDIENCE
+                         ↓
+                "CAN I TRUST HER?"
+                         ↓
+               PROOF / CREDIBILITY
+                         ↓
+             "I WANT TO BOOK HER."
+                         ↓
+                  BOOK TIFFANY
+                         ↓
+               INQUIRY FORM
+                         ↓
+                      CRM
+                         ↓
+             AI / WHATSAPP FOLLOW-UP
+                         ↓
+                  DISCOVERY CALL
+                         ↓
+                    PROPOSAL
+                         ↓
+                     BOOKED
+
+
+============================================================
+FINAL WEBSITE PHILOSOPHY
+============================================================
+
+The website should NOT try to tell Tiffany's entire life story
+on the homepage.
+
+It should tell the visitor enough of the right story to create
+confidence and move them toward action.
+
+The homepage has one primary conversion:
+
+                "INVITE TIFFANY TO SPEAK"
+
+Books, GambleFreeGear, Insights and Media are supporting
+parts of the larger Tiffany Webb ecosystem.
+
+They should strengthen the personal brand without distracting
+from the primary objective:
+
+        DISCOVER → TRUST → INVITE → BOOK
+
+
+FINAL DESIGN PRINCIPLE:
+
+"Make the website feel like a premium speaker experience,
+not a collection of website sections."
+
+Every section should answer one question.
+
+HERO:
+Who is Tiffany?
+
+ABOUT:
+Who is she as a person and professional?
+
+EXPERTISE:
+What does she know?
+
+SPEAKING:
+What can she deliver?
+
+SPEAKER REEL:
+Can she actually do it?
+
+IMPACT:
+Who does she serve and what has she done?
+
+PROOF:
+Why should I trust her?
+
+BOOK:
+How do I hire her?
+
+Everything else is secondary.
+============================================================

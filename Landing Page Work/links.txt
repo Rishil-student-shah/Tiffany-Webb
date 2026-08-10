@@ -1,0 +1,179 @@
+https://www.danpallotta.com/book-dan - i liked scrolling feature and found clean website 
+
+https://www.stevenkotler.com/?ref=land-book.com - Landing Page looks too good , used good fonts , landing photo animation is too good.
+
+https://www.profilepicture.ai/studio - should try this for studio ai photoshoot
+
+should i add tiffany signature at any topic ? - for good style.
+
+https://www.jasonbriscoe.com/?ref=landingfolio - found very good page not related to topic
+
+https://secfi.com/?ref=landingfolio - found very premium looking.
+
+https://sevora.framer.website/?ref=landdding.com - a perfect website but it is for a developer type portfolio , i liked sevora text at bottom very much! also i should design whole website on glasmorphisam or any just any 1-2 section 
+
+https://www.gavinoattes.com/?ref=onepagelove -fonts play is good.
+
+https://www.jesshill.com.au/- perfect website but i think it is for someone who is successful so he can add more content or video or achievement bcz tiffany is going to start!!
+
+https://www.melrobbins.com/ - best for tiffany perfect example and found simple without animation and effect.
+
+https://www.drshemeka.com/ - kind of website i was thinking to build (pages animation)
+
+
+
+
+Animation Inspiration
+
+This is where you'll learn premium interactions.
+
+GSAP Showcase
+
+https://gsap.com/showcase/
+
+Probably the best resource.
+
+You'll learn:
+
+ScrollTrigger
+Pinning
+Horizontal scrolling
+Reveal animations
+Parallax
+Codrops
+
+https://tympanus.net/codrops/
+
+This is where designers discover new UI effects.
+
+Learn:
+
+Hover effects
+Text animations
+Scroll interactions
+WebGL
+Framer Showcase
+
+https://www.framer.com/showcase/
+
+This is currently one of the biggest influences on premium websites.
+
+Notice:
+
+layouts
+animations
+typography
+gradients
+3. Premium Agency Inspiration
+
+Study agencies, not templates.
+
+These companies create websites for million-dollar startups.
+
+Ramotion
+Clay
+Locomotive
+Instrument
+Fantasy
+Basic Agency
+Active Theory
+
+Study:
+
+spacing
+storytelling
+interactions
+section order
+4. Real Companies (MOST IMPORTANT)
+
+Don't copy Dribbble.
+
+Study companies making money.
+
+For Tiffany, look at:
+
+Personal Brand
+Simon Sinek
+Mel Robbins
+Brené Brown
+Jay Shetty
+Adam Grant
+
+Notice:
+
+hero
+testimonials
+booking flow
+newsletters
+SaaS
+Linear
+Stripe
+Vercel
+OpenAI
+Anthropic
+Notion
+Perplexity
+
+These companies influence modern design trends.
+
+Healthcare
+
+Look at:
+
+Mayo Clinic innovation
+Cleveland Clinic
+Kaiser Permanente innovation
+
+Study:
+
+Trust
+
+Authority
+
+Accessibility
+
+Professionalism
+
+5. UI Inspiration
+Mobbin
+
+https://mobbin.com
+
+Excellent.
+
+Shows:
+
+landing pages
+onboarding
+dashboards
+mobile UI
+UI Garage
+
+https://uigarage.net
+
+Great for:
+
+Hero Sections
+Cards
+Testimonials
+Dribbble
+
+https://dribbble.com
+
+Good for inspiration.
+
+Bad for UX.
+
+Don't copy.
+
+Behance
+
+https://behance.net
+
+Excellent for:
+
+Branding
+
+Landing pages
+
+Case studies

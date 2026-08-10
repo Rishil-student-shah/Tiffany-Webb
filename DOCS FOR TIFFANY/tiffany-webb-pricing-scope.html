@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Internal Scope & Pricing — Tiffany Webb Build</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#14130E;--char:#23211B;--ivory:#FBF6EA;--cream:#F3EAD6;--cream2:#EEE2C9;
+  --emerald:#0E6B54;--teal:#0B5C63;--tealblue:#1C6E7A;--royal:#223A82;--berry:#6C2D5A;
+  --burnt:#C15427;--mustard:#D9A23A;--coral:#E17356;--wood:#9A6A3E;--gold:#C8A24C;
+  --line:rgba(20,19,14,.12);--muted:#6d6656;--accent:var(--emerald);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--ivory);color:var(--char);
+  line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+::selection{background:var(--gold);color:var(--ink)}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+.top{background:radial-gradient(120% 130% at 10% 0%,#1c2a25,var(--ink) 60%);color:var(--ivory);
+  padding:54px 0 40px;position:relative;overflow:hidden}
+.badge{font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.28em;text-transform:uppercase;
+  color:var(--ink);background:var(--gold);display:inline-block;padding:5px 12px;border-radius:30px;margin-bottom:18px}
+.top h1{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(2rem,5vw,3.4rem);line-height:1.02}
+.top h1 em{font-style:italic;background:linear-gradient(92deg,var(--mustard),var(--coral));
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.top p{color:#d9d2c0;max-width:660px;margin-top:14px;font-size:1.02rem}
+.confidential{position:absolute;top:18px;right:20px;font-family:'Space Mono',monospace;font-size:.6rem;
+  letter-spacing:.18em;text-transform:uppercase;color:var(--coral);border:1px solid rgba(225,115,86,.4);
+  padding:5px 10px;border-radius:20px}
+.controls{position:sticky;top:0;z-index:40;background:rgba(251,246,234,.92);backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line);padding:12px 0}
+.controls .wrap{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.seg{display:inline-flex;background:var(--cream);border:1px solid var(--line);border-radius:40px;padding:3px}
+.seg button{font-family:'Space Mono',monospace;font-size:.7rem;letter-spacing:.05em;border:0;background:transparent;
+  color:var(--char);padding:8px 15px;border-radius:30px;cursor:pointer;transition:.2s}
+.seg button.on{background:var(--ink);color:var(--ivory)}
+.gtotal{font-family:'Space Mono',monospace;font-size:.82rem;color:var(--char)}
+.gtotal b{font-family:'Fraunces',serif;font-size:1.5rem;color:var(--emerald);margin-left:8px}
+.hint{font-family:'Space Mono',monospace;font-size:.62rem;color:var(--muted);letter-spacing:.04em}
+.legend{display:flex;flex-wrap:wrap;gap:10px;padding:26px 0 6px}
+.chip{font-family:'Space Mono',monospace;font-size:.66rem;letter-spacing:.05em;padding:6px 12px;border-radius:30px;
+  border:1px solid var(--line);background:#fff;display:flex;align-items:center;gap:8px;cursor:pointer;transition:.2s}
+.chip:hover{transform:translateY(-2px)}
+.chip .d{width:10px;height:10px;border-radius:3px}
+.phase{margin:22px 0;border:1px solid var(--line);border-radius:18px;overflow:hidden;background:#fff;
+  box-shadow:0 10px 30px -22px rgba(0,0,0,.5)}
+.phase-head{display:flex;align-items:center;gap:16px;padding:20px 22px;cursor:pointer;position:relative;transition:.2s}
+.phase-head:hover{background:var(--cream)}
+.phase-head .pbar{position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--accent)}
+.pnum{font-family:'Space Mono',monospace;font-weight:700;color:#fff;background:var(--accent);
+  min-width:52px;height:52px;border-radius:13px;display:flex;align-items:center;justify-content:center;flex:none;
+  font-size:.82rem;text-align:center;line-height:1;box-shadow:0 8px 18px -8px var(--accent)}
+.phase-head h2{font-family:'Fraunces',serif;font-weight:600;font-size:1.32rem;flex:1;line-height:1.1}
+.phase-head .eb{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--accent);display:block;margin-bottom:4px}
+.phase-sum{text-align:right;flex:none}
+.phase-sum .ps{font-family:'Fraunces',serif;font-size:1.2rem;color:var(--ink)}
+.phase-sum .pl{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.tog{font-family:'Space Mono',monospace;font-size:1.3rem;color:var(--accent);transition:transform .35s;flex:none;margin-left:6px}
+.phase.open .tog{transform:rotate(45deg)}
+.phase-body{max-height:0;overflow:hidden;transition:max-height .55s cubic-bezier(.4,0,.2,1)}
+.phase.open .phase-body{max-height:4000px}
+.pmeta{padding:0 22px 6px;color:var(--muted);font-size:.9rem}
+table{width:100%;border-collapse:collapse}
+.li{border-top:1px dashed var(--line)}
+.li td{padding:13px 22px;vertical-align:top;font-size:.93rem}
+.li td.name{font-weight:600;color:var(--ink);width:40%}
+.li td.name small{display:block;font-weight:400;color:var(--muted);font-size:.8rem;margin-top:3px;line-height:1.4}
+.li td.tool{width:24%}
+.li td.price{width:17%;text-align:right;font-family:'Space Mono',monospace;font-weight:700;color:var(--emerald);white-space:nowrap}
+.toolpill{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.03em;background:var(--cream);
+  border:1px solid var(--line);padding:4px 9px;border-radius:20px;color:var(--char);display:inline-block;margin:2px 3px 2px 0}
+.foot-row td{padding:15px 22px;background:var(--cream);border-top:2px solid var(--accent)}
+.foot-row .flabel{font-family:'Space Mono',monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--char)}
+.foot-row .fval{text-align:right;font-family:'Fraunces',serif;font-size:1.3rem;color:var(--emerald);font-weight:600}
+.freepill{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.06em;text-transform:uppercase;
+  background:var(--emerald);color:#fff;padding:3px 8px;border-radius:20px}
+.offer{margin:40px 0 10px}
+.offer h3{font-family:'Fraunces',serif;font-size:1.7rem;margin-bottom:4px}
+.offer .sub{color:var(--muted);margin-bottom:20px;font-size:.94rem}
+.offer-card{border:2px solid var(--gold);border-radius:18px;background:linear-gradient(180deg,#fff,var(--cream));
+  padding:28px;display:grid;grid-template-columns:1.2fr 1fr;gap:24px;align-items:center}
+.offer-card .breakdown div{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px dashed var(--line);font-size:.95rem}
+.offer-card .breakdown div:last-child{border-bottom:0}
+.offer-card .breakdown .k{color:var(--char)}
+.offer-card .breakdown .v{font-family:'Space Mono',monospace;font-weight:700;color:var(--emerald)}
+.offer-card .allin{text-align:center;background:var(--ink);color:var(--ivory);border-radius:14px;padding:22px}
+.offer-card .allin .lab{font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--mustard)}
+.offer-card .allin .big{font-family:'Fraunces',serif;font-size:2.8rem;color:#fff;line-height:1;margin:8px 0}
+.offer-card .allin .then{font-size:.82rem;color:#cfc8b4;margin-top:8px}
+.offer-card .allin .then b{color:var(--gold)}
+.recur{margin:34px 0;border:1px solid var(--line);border-radius:16px;background:linear-gradient(120deg,var(--ink),#20272a);
+  color:var(--ivory);padding:26px}
+.recur .eb{font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--mustard)}
+.recur h3{font-family:'Fraunces',serif;font-size:1.5rem;margin:6px 0 4px}
+.recur p{color:#cfc8b4;font-size:.9rem;max-width:660px}
+.recur .rgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px}
+.rcard{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:16px}
+.rcard .rn{font-family:'Fraunces',serif;font-size:1.02rem}
+.rcard .rd{font-size:.78rem;color:#b7b09a;margin-top:6px}
+.notes{background:#fff;border:1px solid var(--line);border-left:5px solid var(--burnt);border-radius:14px;
+  padding:20px 22px;margin:26px 0}
+.notes h4{font-family:'Space Mono',monospace;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--burnt);margin-bottom:10px}
+.notes ul{list-style:none}
+.notes li{padding:7px 0 7px 22px;position:relative;font-size:.9rem;border-bottom:1px dashed var(--line)}
+.notes li:last-child{border:0}
+.notes li::before{content:"⚑";position:absolute;left:0;color:var(--burnt)}
+.foot{background:var(--ink);color:#cfc8b4;text-align:center;padding:36px 20px;margin-top:30px}
+.foot .fq{font-family:'Fraunces',serif;font-style:italic;color:var(--ivory);font-size:1.05rem;max-width:600px;margin:0 auto}
+.foot .fm{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-top:12px}
+@media(max-width:820px){.recur .rgrid{grid-template-columns:1fr}.offer-card{grid-template-columns:1fr}
+  .li td.tool{display:none}.li td.name{width:62%}.li td.price{width:38%}.phase-head h2{font-size:1.1rem}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="top">
+  <span class="confidential">● Internal · Not for client</span>
+  <div class="wrap">
+    <span class="badge">Studio Scope & Pricing · USD confirmed</span>
+    <h1>The Tiffany Webb Build — <em>confirmed pricing model</em></h1>
+    <p>Our internal deliverables map, priced to your confirmed USD figures. Every main deliverable broken into real sub-deliverables, each tagged with the Claude tool that produces it. All-in one-time build lands at <b style="color:var(--mustard)">$1,549</b>, then a low monthly social engine. For us only — it shapes the client pitch; Tiffany never sees this sheet.</p>
+  </div>
+</div>
+<div class="controls"><div class="wrap">
+  <div class="seg" id="curseg">
+    <button data-cur="usd" class="on">$ US (USD) · confirmed</button>
+    <button data-cur="inr">₹ India (indicative ×40)</button>
+  </div>
+  <div class="gtotal">All-in one-time build:<b id="grand">—</b></div>
+  <span class="hint">Click a phase to expand · WhatsApp AI is included in the total</span>
+</div></div>
+<div class="wrap">
+  <div class="legend" id="legend"></div>
+  <div id="phases"></div>
+  <div class="offer">
+    <h3>The offer, one glance</h3>
+    <p class="sub">How the confirmed numbers add up — and the clean story we tell in the pitch.</p>
+    <div class="offer-card">
+      <div class="breakdown" id="breakdown"></div>
+      <div class="allin">
+        <div class="lab">All-in one-time</div>
+        <div class="big" id="allinBig">—</div>
+        <div class="then">then <b id="recurInline">—</b> · <b>first month free</b></div>
+      </div>
+    </div>
+  </div>
+  <div class="recur" id="recurBox"></div>
+  <div class="notes">
+    <h4>Strategist notes — read before pitching</h4>
+    <ul id="notesList"></ul>
+  </div>
+</div>
+<div class="foot">
+  <p class="fq">Land the build at $1,549. Grow with her success through the monthly engine. The recurring revenue is the real business.</p>
+  <p class="fm">Internal Scope & Pricing · Tiffany Webb Project · Confidential</p>
+</div>
+<script>
+var DATA={
+  currency:'usd', rate:40,
+  sym:{usd:'$',inr:'₹'},
+  val:function(usd){return this.currency==='usd'?usd:Math.round(usd*this.rate);},
+  fmt:function(usd){var v=this.val(usd);return this.sym[this.currency]+v.toLocaleString(this.currency==='inr'?'en-IN':'en-US');},
+  phases:[
+    {n:'0',accent:'var(--wood)',eb:'Pre-engagement',title:'The Client Pitch Deck',meta:'Our investment to win the engagement — unbilled to the client.',billed:false,items:[
+      {name:'16-slide client pitch deck',sub:'Vision, scope, roadmap, investment framing. Wins the project.',tool:['Claude Design'],usd:0}
+    ]},
+    {n:'1',accent:'var(--emerald)',eb:'Foundation',title:'Core Brand Assets',meta:'The identity layer everything else is built on. Phase total $149.',billed:true,items:[
+      {name:'Logo / wordmark lockup',sub:'Primary + stacked marks, "by Tiffany Webb" endorsement lockup for GambleFreeGear.',tool:['Claude Design'],usd:79},
+      {name:'Palette & type style sheet',sub:'1-page brand guide: hex values, fonts, usage rules from the Codex.',tool:['Claude Design','Artifacts'],usd:45},
+      {name:'Headshot & photo direction guide',sub:'Shot list, styling, mood — what to capture for site + social.',tool:['Chat','Claude Design'],usd:25}
+    ]},
+    {n:'2',accent:'var(--royal)',eb:'Home base',title:'Landing Page (tiffanywebb.com)',meta:'The bookable home — six sub-deliverables inside one page. Phase total $399.',billed:true,items:[
+      {name:'Information architecture + wireframe',sub:'Section order, user flow to the booking CTA.',tool:['Chat','Artifacts'],usd:45},
+      {name:'Full section copywriting',sub:'Hero, tracks, about, proof, CTA — Codex voice.',tool:['Chat'],usd:65},
+      {name:'Visual design + responsive build',sub:'Desktop + mobile, editorial system, animations.',tool:['Claude Code','Claude Design'],usd:175},
+      {name:'Booking form integration',sub:'Independent booking email — never the HAS employer email.',tool:['Claude Code'],usd:40},
+      {name:'Basic SEO, meta & analytics',sub:'Titles, OG tags, search-console + analytics setup.',tool:['Claude Code'],usd:40},
+      {name:'Domain & hosting setup',sub:'Connect tiffanywebb.com, SSL, deploy.',tool:['Claude in Chrome'],usd:34}
+    ]},
+    {n:'3',accent:'var(--berry)',eb:'The booking weapons',title:'Media Kit · Capability Kit · One-Sheet',meta:'The documents that get her booked and partnered. No agency branding. Phase total $250.',billed:true,items:[
+      {name:'Media Kit (12–15 pages)',sub:'Cover, 3 bios, 21-topic/4-track layout, why-book, partnership framework, media resources, contact.',tool:['Claude Design'],usd:100},
+      {name:'Capability Kit (12–18 pages)',sub:'Partnership/consulting counterpart: SPEAK/PARTNER/STRATEGIZE/STRENGTHEN, scope, outcomes.',tool:['Claude Design'],usd:100},
+      {name:'Speaker one-sheet (1 page)',sub:'The asset committees forward internally. ~80% pre-built in the Codex.',tool:['Claude Design'],usd:50}
+    ]},
+    {n:'4',accent:'var(--coral)',eb:'The social engine',title:'Social Media Launch Kit',meta:'Setup + system across 2 lead platforms (Instagram + LinkedIn), ready to run. Phase total $402.',billed:true,items:[
+      {name:'Account setup + optimization ×2',sub:'Instagram (lead) + LinkedIn (authority) — profiles, handles, links.',tool:['Claude in Chrome'],usd:60},
+      {name:'Optimized platform bios ×2',sub:'Per-platform bios in Codex voice with correct CTAs ($20 each).',tool:['Chat'],usd:40},
+      {name:'Visual template kit (~10 editable templates)',sub:'Quote, topic, event, carousel, reel-cover templates in brand system.',tool:['Claude Design'],usd:120},
+      {name:'5 content pillars + voice guide',sub:'What she posts and why — repeatable content buckets.',tool:['Chat'],usd:45},
+      {name:'30-day launch content calendar',sub:'Day-by-day plan with captions + hooks for launch month.',tool:['Chat','Artifacts'],usd:67},
+      {name:'Instagram highlight cover set',sub:'Branded covers: Speaking, Topics, Press, GambleFreeGear, About.',tool:['Claude Design','Adobe'],usd:70}
+    ]},
+    {n:'5',accent:'var(--mustard)',eb:'Automation & handoff',title:'WhatsApp AI + PR Workflow',meta:'The automation that pays for itself. WhatsApp AI is billed & included in the total; PR setup is free.',billed:true,items:[
+      {name:'WhatsApp AI assistant + CRM/booking automation',sub:'24/7 lead capture, auto-replies, pipeline, calendar booking. API/dashboard purchase included in this one-time price.',tool:['Claude Code','Connectors'],usd:349},
+      {name:'PR & content-team workflow setup',sub:'SOP: she sends raw footage → edit → multi-platform distribution. First month free, then Basic Social Media Marketing from $199/mo.',tool:['Chat','Cowork'],usd:0,free:true}
+    ]}
+  ],
+  recurring:{eb:'Monthly engine',title:'Basic Social Media Marketing',from:199,
+    desc:'Once launched, this is the ongoing engine — and the sustainable revenue for us. Starts from $199/mo. First month free (bundled with the PR/content workflow setup). Higher tiers scale as she books.',
+    items:[
+      {name:'Content creation & scheduling',desc:'Ongoing posts across her lead platforms, on-brand.'},
+      {name:'Community management',desc:'Replies, engagement, inbound lead routing.'},
+      {name:'Monthly analytics snapshot',desc:'What worked, what to double down on.'}
+    ]},
+  notes:[
+    'Reconciliation: your stated phase totals (149+399+249+399+349) summed to $1,545. Phase 3 line items (100+100+50) equal $250, not $249; using the correct $250 and setting Phase 4 to $402 lands the all-in total on your requested $1,549. Say the word to instead hold Phase 4 at $399 (headline $1,546).',
+    'Scope note: Phase 4 now covers 2 accounts (Instagram + LinkedIn) per your instruction — YouTube + TikTok are deferred. YouTube matters for booking committees who want speaker video, so plan to add it in a later phase once a reel exists.',
+    'WhatsApp API: the $349 includes the initial API/dashboard purchase/setup. Flag for the pitch — the WhatsApp Business API and any dashboard SaaS usually carry a small RECURRING monthly fee that should be passed to the client, not absorbed by us. Confirm who pays that ongoing cost.',
+    'The PR/content workflow is free to set up (first month), then converts to the $199/mo basic package — that conversion is where recurring revenue begins. Make the free month explicit in the pitch as goodwill.',
+    'INR is indicative only (USD ×40) to keep the affordable-India band visible; USD figures are the confirmed ones.',
+    'Phase 0 (pitch deck) stays unbilled — our investment to win her. Two-deck rule holds: Tiffany sees only the pitch deck framing value/outcomes, never this line-item sheet.',
+    'Payment structure to offer: per-phase billing (she pays one phase at a time) is friendliest for a low-budget, pre-ROI client; alternatively 40% deposit / 40% at design approval / 20% on handover.'
+  ]
+};
+function toolPills(a){return a.map(function(t){return '<span class="toolpill">'+t+'</span>';}).join('');}
+function renderPhases(){
+  var box=document.getElementById('phases');box.innerHTML='';
+  DATA.phases.forEach(function(p,idx){
+    var sec=document.createElement('section');sec.className='phase'+(idx===0?' open':'');
+    sec.style.setProperty('--accent',p.accent);
+    var subtotal=p.items.reduce(function(s,i){return s+(i.free?0:i.usd);},0);
+    var rows=p.items.map(function(i){
+      var pcell;
+      if(i.free)pcell='<span class="freepill">Free</span>';
+      else if(!p.billed||i.usd===0)pcell='<span style="color:var(--wood)">Unbilled</span>';
+      else pcell=DATA.fmt(i.usd);
+      return '<tr class="li"><td class="name">'+i.name+'<small>'+i.sub+'</small></td>'+
+        '<td class="tool">'+toolPills(i.tool)+'</td><td class="price">'+pcell+'</td></tr>';
+    }).join('');
+    var subLabel=p.billed?'Phase subtotal':'Our investment';
+    var subVal=(!p.billed)?'—':DATA.fmt(subtotal);
+    sec.innerHTML='<div class="phase-head"><span class="pbar"></span><span class="pnum">PHASE<br>'+p.n+'</span>'+
+      '<div style="flex:1"><span class="eb">'+p.eb+'</span><h2>'+p.title+'</h2></div>'+
+      '<div class="phase-sum"><div class="ps">'+subVal+'</div><div class="pl">'+subLabel+'</div></div>'+
+      '<span class="tog">+</span></div>'+
+      '<div class="phase-body"><div class="pmeta">'+p.meta+'</div><table><tbody>'+rows+
+      '<tr class="foot-row"><td class="flabel">'+subLabel+'</td><td></td><td class="fval">'+subVal+'</td></tr>'+
+      '</tbody></table></div>';
+    box.appendChild(sec);
+    sec.querySelector('.phase-head').addEventListener('click',function(){sec.classList.toggle('open');});
+  });
+}
+function coreBuild(){var s=0;DATA.phases.forEach(function(p){if(p.billed&&p.n!=='5')p.items.forEach(function(i){if(!i.free)s+=i.usd;});});return s;}
+function whatsapp(){var s=0;DATA.phases[5].items.forEach(function(i){if(!i.free)s+=i.usd;});return s;}
+function grand(){return coreBuild()+whatsapp();}
+function renderTotals(){
+  document.getElementById('grand').textContent=DATA.fmt(grand());
+  document.getElementById('allinBig').textContent=DATA.fmt(grand());
+  document.getElementById('recurInline').textContent=DATA.fmt(DATA.recurring.from)+'/mo';
+  var bd=document.getElementById('breakdown');
+  bd.innerHTML=
+    '<div><span class="k">Core Build · Phases 1–4</span><span class="v">'+DATA.fmt(coreBuild())+'</span></div>'+
+    '<div><span class="k">WhatsApp AI + Automation · Phase 5</span><span class="v">'+DATA.fmt(whatsapp())+'</span></div>'+
+    '<div><span class="k">PR / content workflow setup</span><span class="v">Free</span></div>'+
+    '<div><span class="k"><b>All-in one-time</b></span><span class="v">'+DATA.fmt(grand())+'</span></div>'+
+    '<div><span class="k">Then · monthly engine</span><span class="v">'+DATA.fmt(DATA.recurring.from)+'/mo</span></div>';
+}
+function renderRecurring(){
+  var r=DATA.recurring;
+  document.getElementById('recurBox').innerHTML='<span class="eb">'+r.eb+'</span>'+
+    '<h3>'+r.title+' — from '+DATA.fmt(r.from)+'/mo</h3><p>'+r.desc+'</p>'+
+    '<div class="rgrid">'+r.items.map(function(i){return '<div class="rcard"><div class="rn">'+i.name+'</div><div class="rd">'+i.desc+'</div></div>';}).join('')+'</div>';
+}
+function renderNotes(){document.getElementById('notesList').innerHTML=DATA.notes.map(function(n){return '<li>'+n+'</li>';}).join('');}
+function renderAll(){renderPhases();renderTotals();renderRecurring();}
+document.getElementById('curseg').addEventListener('click',function(e){
+  var b=e.target.closest('button');if(!b)return;DATA.currency=b.getAttribute('data-cur');
+  Array.prototype.forEach.call(this.children,function(x){x.classList.remove('on');});b.classList.add('on');renderAll();
+});
+var legendBox=document.getElementById('legend');
+DATA.phases.forEach(function(p,i){var c=document.createElement('div');c.className='chip';
+  c.innerHTML='<span class="d" style="background:'+p.accent+'"></span>Phase '+p.n+' · '+p.title;
+  c.addEventListener('click',function(){var t=document.querySelectorAll('.phase')[i];t.classList.add('open');t.scrollIntoView({behavior:'smooth',block:'start'});});
+  legendBox.appendChild(c);});
+renderNotes();renderAll();
+</script>
+</body>
+</html>
