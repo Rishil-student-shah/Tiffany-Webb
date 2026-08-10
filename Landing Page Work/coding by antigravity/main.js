@@ -1,154 +1,205 @@
-/**
- * Tiffany Webb - Interactive JavaScript Engine
- * Reliable, fast, smooth reveal animations & micro-interactions
- */
+/* ============================================================
+   TIFFANY WEBB — PRO-LEVEL INTERACTIVE ENGINE (USA TRENDS 2026)
+   Custom Interactive Cursor · Magnetic Buttons · Video Modal
+   Scrollytelling Engine · Scroll Progress · Glass Navbar
+   Location: Landing Page Work/coding by antigravity/main.js
+   ============================================================ */
 
 document.addEventListener('DOMContentLoaded', () => {
-    // --- 1. PAGE LOADER ---
-    const loader = document.getElementById('pageLoader');
-    if (loader) {
-        setTimeout(() => {
-            loader.style.opacity = '0';
-            setTimeout(() => {
-                loader.style.display = 'none';
-            }, 600);
-        }, 500); // Quick load transition
+
+  // Add observer class to document element to activate smooth reveals
+  document.documentElement.classList.add('js-observer');
+
+  // 1. Scroll Progress Bar
+  let progressBar = document.getElementById('scroll-progress');
+  if (!progressBar) {
+    progressBar = document.createElement('div');
+    progressBar.id = 'scroll-progress';
+    document.body.appendChild(progressBar);
+  }
+
+  window.addEventListener('scroll', () => {
+    const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+    if (totalHeight > 0) {
+      const progress = (window.scrollY / totalHeight) * 100;
+      progressBar.style.width = `${progress}%`;
     }
+  }, { passive: true });
 
-    // --- 2. CUSTOM CURSOR ---
-    const isTouchDevice = () => 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-    const cursor = id('customCursor');
-    if (cursor && !isTouchDevice()) {
-        let mouseX = window.innerWidth / 2;
-        let mouseY = window.innerHeight / 2;
-        let cursorX = mouseX, cursorY = mouseY;
+  // 2. Custom Interactive Cursor
+  if (window.matchMedia('(pointer: fine)').matches) {
+    const cursor = document.createElement('div');
+    cursor.className = 'custom-cursor';
+    const follower = document.createElement('div');
+    follower.className = 'cursor-follower';
 
-        window.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-        });
+    document.body.appendChild(cursor);
+    document.body.appendChild(follower);
 
-        const updateCursor = () => {
-            cursorX += (mouseX - cursorX) * 0.2;
-            cursorY += (mouseY - cursorY) * 0.2;
-            cursor.style.transform = `translate3d(${cursorX}px, ${cursorY}px, 0) translate(-50%, -50%)`;
-            requestAnimationFrame(updateCursor);
-        };
-        updateCursor();
+    let mouseX = 0, mouseY = 0;
+    let followerX = 0, followerY = 0;
 
-        document.querySelectorAll('a, button, input, select, textarea').forEach(el => {
-            el.addEventListener('mouseenter', () => cursor.classList.add('hovering'));
-            el.addEventListener('mouseleave', () => cursor.classList.remove('hovering'));
-        });
-    }
-
-    // --- 3. SCROLL PROGRESS BAR ---
-    const progressBar = id('scroll-progress');
-    window.addEventListener('scroll', () => {
-        if (progressBar) {
-            const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
-            const progress = totalScroll > 0 ? (window.scrollY / totalScroll) * 100 : 0;
-            progressBar.style.width = `${progress}%`;
-        }
+    window.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      cursor.style.left = `${mouseX}px`;
+      cursor.style.top = `${mouseY}px`;
     }, { passive: true });
 
-    // --- 4. MOBILE MENU & HAMBURGER ---
-    const hamburger = id('hamburger');
-    const mobileMenu = id('mobileMenu');
-    const mobileClose = id('mobileClose');
-
-    if (hamburger && mobileMenu) {
-        hamburger.addEventListener('click', () => mobileMenu.classList.add('active'));
+    function renderCursor() {
+      followerX += (mouseX - followerX) * 0.15;
+      followerY += (mouseY - followerY) * 0.15;
+      follower.style.left = `${followerX}px`;
+      follower.style.top = `${followerY}px`;
+      requestAnimationFrame(renderCursor);
     }
-    if (mobileClose && mobileMenu) {
-        mobileClose.addEventListener('click', () => mobileMenu.classList.remove('active'));
+    requestAnimationFrame(renderCursor);
+
+    // Hover detection
+    const interactiveElements = document.querySelectorAll('a, button, .glass-card, .glass-card-dark, .topic-track-card, .reel-container');
+    interactiveElements.forEach(el => {
+      el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+      el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+    });
+  }
+
+  // 3. Pro-Level Magnetic Button Effect
+  const magneticButtons = document.querySelectorAll('.btn');
+  magneticButtons.forEach(btn => {
+    btn.addEventListener('mousemove', (e) => {
+      const rect = btn.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+      btn.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px) scale(1.02)`;
+    });
+
+    btn.addEventListener('mouseleave', () => {
+      btn.style.transform = 'translate(0px, 0px) scale(1)';
+    });
+  });
+
+  // 4. Mobile Menu Handling
+  const hamburger = document.querySelector('.hamburger');
+  const mobileMenu = document.querySelector('.mobile-menu');
+  const mobileClose = document.querySelector('.mobile-close');
+
+  if (hamburger && mobileMenu) {
+    hamburger.addEventListener('click', () => {
+      mobileMenu.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+  }
+
+  if (mobileClose && mobileMenu) {
+    mobileClose.addEventListener('click', () => {
+      mobileMenu.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+  }
+
+  document.querySelectorAll('.mobile-nav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      if (mobileMenu) mobileMenu.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+  });
+
+  // 5. Active Nav Link Highlighting
+  const currentPath = window.location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('.nav-link').forEach(link => {
+    const href = link.getAttribute('href');
+    if (href === currentPath || (currentPath === '' && href === 'index.html')) {
+      link.classList.add('active');
     }
+  });
 
-    // --- 5. INTERSECTION OBSERVER REVEALS ---
-    const revealElements = document.querySelectorAll('[data-reveal]');
-    
-    if ('IntersectionObserver' in window) {
-        const observerOptions = {
-            threshold: 0.05,
-            rootMargin: '0px 0px 50px 0px'
-        };
-
-        const revealObserver = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const el = entry.target;
-                    const delay = el.getAttribute('data-delay');
-                    if (delay) {
-                        const ms = parseFloat(delay) < 10 ? parseFloat(delay) * 1000 : parseFloat(delay);
-                        el.style.transitionDelay = `${ms}ms`;
-                    }
-                    el.classList.add('revealed');
-
-                    if (el.hasAttribute('data-counter')) {
-                        animateCounter(el);
-                    }
-                    observer.unobserve(el);
-                }
-            });
-        }, observerOptions);
-
-        revealElements.forEach(el => revealObserver.observe(el));
-    } else {
-        // Fallback for older browsers
-        revealElements.forEach(el => el.classList.add('revealed'));
-    }
-
-    // Safety fallback: Ensure all reveal elements become visible after 800ms
-    setTimeout(() => {
-        revealElements.forEach(el => {
-            el.classList.add('revealed');
-            if (el.hasAttribute('data-counter') && (el.textContent === '0' || el.textContent === '')) {
-                animateCounter(el);
-            }
-        });
-    }, 800);
-
-    // --- 6. COUNTER ANIMATION ---
-    function animateCounter(el) {
-        const target = parseInt(el.getAttribute('data-counter'), 10);
-        if (isNaN(target)) return;
-        const duration = 1800;
-        const startTime = performance.now();
-
-        function updateNumber(currentTime) {
-            const elapsedTime = currentTime - startTime;
-            const progress = Math.min(elapsedTime / duration, 1);
-            const easeProgress = 1 - Math.pow(1 - progress, 3); // easeOutCubic
-            const currentVal = Math.floor(easeProgress * target);
-            
-            el.textContent = currentVal;
-            if (progress < 1) {
-                requestAnimationFrame(updateNumber);
-            } else {
-                el.textContent = target;
-            }
+  // 6. Scroll Reveal Engine
+  const revealElements = document.querySelectorAll('[data-reveal]');
+  if (revealElements.length && 'IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+          observer.unobserve(entry.target);
         }
-        requestAnimationFrame(updateNumber);
-    }
+      });
+    }, {
+      threshold: 0.05,
+      rootMargin: '0px 0px -20px 0px'
+    });
 
-    // --- 7. VIDEO REEL MODAL ---
-    const openReelBtn = id('openReelBtn');
-    const videoModal = id('videoModal');
-    const modalClose = id('modalClose');
-    const modalOverlay = id('modalOverlay');
+    revealElements.forEach(el => observer.observe(el));
+  } else {
+    revealElements.forEach(el => el.classList.add('revealed'));
+  }
 
-    if (openReelBtn && videoModal) {
-        openReelBtn.addEventListener('click', () => videoModal.classList.add('active'));
-    }
-    if (modalClose && videoModal) {
-        modalClose.addEventListener('click', () => videoModal.classList.remove('active'));
-    }
-    if (modalOverlay && videoModal) {
-        modalOverlay.addEventListener('click', () => videoModal.classList.remove('active'));
-    }
+  // Safety Fallback: Ensure all elements are revealed after 500ms
+  setTimeout(() => {
+    document.querySelectorAll('[data-reveal]').forEach(el => el.classList.add('revealed'));
+  }, 500);
 
-    // Utility helper
-    function id(name) {
-        return document.getElementById(name);
-    }
+  // 7. Animated Number Counter
+  const counters = document.querySelectorAll('[data-counter]');
+  if (counters.length && 'IntersectionObserver' in window) {
+    const counterObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          runCounter(entry.target);
+          counterObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2 });
+
+    counters.forEach(counter => counterObserver.observe(counter));
+  }
+
+  function runCounter(counterEl) {
+    const target = parseInt(counterEl.getAttribute('data-counter'), 10);
+    const suffix = counterEl.getAttribute('data-suffix') || '';
+    if (isNaN(target)) return;
+
+    let current = 0;
+    const duration = 2000;
+    const stepTime = 30;
+    const steps = duration / stepTime;
+    const increment = target / steps;
+
+    const timer = setInterval(() => {
+      current += increment;
+      if (current >= target) {
+        counterEl.textContent = target + suffix;
+        clearInterval(timer);
+      } else {
+        counterEl.textContent = Math.floor(current) + suffix;
+      }
+    }, stepTime);
+  }
+
+  // 8. Reel Video Modal Logic
+  const reelContainers = document.querySelectorAll('.reel-container');
+  const reelModal = document.querySelector('.reel-modal');
+  const reelClose = document.querySelector('.reel-modal-close');
+
+  if (reelContainers.length && reelModal) {
+    reelContainers.forEach(container => {
+      container.addEventListener('click', () => {
+        reelModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      });
+    });
+  }
+
+  if (reelClose && reelModal) {
+    reelClose.addEventListener('click', () => {
+      reelModal.classList.remove('active');
+      document.body.style.overflow = '';
+    });
+
+    reelModal.addEventListener('click', (e) => {
+      if (e.target === reelModal) {
+        reelModal.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    });
+  }
 });

@@ -1,36 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Books & Resources | Tiffany Webb</title>
-  <meta name="description" content="Books, E-Books, and educational resources authored by Tiffany Webb to support public health and community impact.">
-  <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Books & Resources — Tiffany Webb</title>
+  <meta name="description" content="Explore e-books, prevention playbooks, and educational toolkits authored by Tiffany Webb." />
+  <link rel="stylesheet" href="styles.css" />
 </head>
-<body>
-  <!-- NAVBAR -->
-  <div class="page-loader" id="pageLoader"><div class="loader-monogram">TW</div></div>
-  <div class="custom-cursor" id="customCursor"></div>
-  <div id="scroll-progress"></div>
-  <nav class="navbar" id="navbar">
-    <div class="nav-inner">
-      <a href="index.html" class="nav-logo"><span class="nav-logo-name">Tiffany Webb</span><span class="nav-logo-title">Community Impact Strategist</span></a>
-      <ul class="nav-links">
-        <li><a href="about.html" class="nav-link">About</a></li>
-        <li><a href="speaking.html" class="nav-link">Speaking</a></li>
-        <li><a href="expertise.html" class="nav-link">Expertise</a></li>
-        <li><a href="impact.html" class="nav-link">Impact</a></li>
-        <li><a href="books.html" class="nav-link">Books</a></li>
-        <li><a href="gamble.html" class="nav-link">GambleFreeGear</a></li>
-        <li><a href="insights.html" class="nav-link">Insights</a></li>
-        <li><a href="media.html" class="nav-link">Media</a></li>
-      </ul>
-      <a href="book.html" class="btn btn-orange nav-cta" data-magnetic>Book Tiffany</a>
-      <button class="hamburger" id="hamburger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
-    </div>
-  </nav>
-  <div class="mobile-menu" id="mobileMenu">
-    <button class="mobile-close" id="mobileClose" aria-label="Close menu">✕</button>
+<body class="aurora-bg">
+
+  <!-- FLOATING GLASS PILL NAVBAR -->
+  <div class="navbar-wrapper">
+    <nav class="navbar" id="navbar">
+      <div class="nav-inner">
+        <a href="index.html" class="nav-logo">
+          <span class="nav-logo-name">Tiffany Webb</span>
+          <span class="nav-logo-title">Community Impact Strategist</span>
+        </a>
+        <ul class="nav-links">
+          <li><a href="about.html" class="nav-link">About</a></li>
+          <li><a href="speaking.html" class="nav-link">Speaking</a></li>
+          <li><a href="expertise.html" class="nav-link">Expertise</a></li>
+          <li><a href="impact.html" class="nav-link">Impact</a></li>
+          <li><a href="books.html" class="nav-link active">Books</a></li>
+          <li><a href="gamble.html" class="nav-link">GambleFreeGear</a></li>
+          <li><a href="insights.html" class="nav-link">Insights</a></li>
+          <li><a href="media.html" class="nav-link">Media</a></li>
+        </ul>
+        <a href="book.html" class="btn btn-primary nav-cta">Invite Tiffany to Speak</a>
+        <button class="hamburger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+      </div>
+    </nav>
+  </div>
+
+  <div class="mobile-menu">
+    <button class="mobile-close" style="align-self:flex-end;background:none;border:none;font-size:2rem;cursor:pointer;color:var(--ivory);">✕</button>
     <a href="about.html" class="mobile-nav-link">About</a>
     <a href="speaking.html" class="mobile-nav-link">Speaking</a>
     <a href="expertise.html" class="mobile-nav-link">Expertise</a>
@@ -39,97 +43,105 @@
     <a href="gamble.html" class="mobile-nav-link">GambleFreeGear</a>
     <a href="insights.html" class="mobile-nav-link">Insights</a>
     <a href="media.html" class="mobile-nav-link">Media</a>
-    <a href="book.html" class="btn btn-orange" data-magnetic>Book Tiffany</a>
+    <a href="book.html" class="btn btn-orange" style="margin-top:1rem;">Invite Tiffany to Speak</a>
   </div>
 
   <main>
-    <header class="hero section bg-dark">
-      <div class="container hero-content text-center">
-        <h1 class="display-1" data-reveal="up" style="color: var(--ivory);">Books & Resources</h1>
-        <p class="hero-subtitle" data-reveal="up" data-delay="0.2" style="color: var(--emerald);">Equipping Communities with Knowledge</p>
+    <!-- HERO -->
+    <section class="section-pad" style="background:var(--soft-black); color:var(--ivory); padding-top:9rem;">
+      <div class="container" data-reveal="scale">
+        <span class="eyebrow" style="color:var(--gold);"><span class="eyebrow-dot"></span> Author & Educator</span>
+        <h1 class="display-hero" style="font-size:clamp(2.8rem, 6vw, 5.5rem); margin: 1rem 0;">
+          Books & <em>Resources</em>
+        </h1>
+        <p class="section-desc light" style="font-size:1.15rem;">
+          Productized playbooks, educational e-books, and downloadable toolkits designed for community leaders, educators, and prevention specialists.
+        </p>
       </div>
-    </header>
+    </section>
 
-    <section class="section container">
-      <h2 class="h2 text-center" data-reveal="up">Featured Publications</h2>
-      <div class="grid" style="grid-template-columns: repeat(2, 1fr); gap: 3rem; margin-top: 3rem;">
-        <div class="glass-card" data-reveal="fade">
-          <h3 class="h3">Breaking the Silence: A Guide</h3>
-          <p>An in-depth look at initiating hard conversations around behavioral health and gambling addiction.</p>
-          <a href="#" class="btn btn-outline" style="margin-top: 1rem;">View Details</a>
-        </div>
-        <div class="glass-card" data-reveal="fade" data-delay="0.2">
-          <h3 class="h3">The Community Strategist E-Book</h3>
-          <p>A digital workbook for leaders looking to implement impactful grassroots campaigns.</p>
-          <a href="#" class="btn btn-outline" style="margin-top: 1rem;">Download Now</a>
+    <!-- FEATURED BOOK / PLAYBOOK -->
+    <section class="section-pad">
+      <div class="container">
+        <div class="bento-grid" style="align-items:center;">
+          <div class="bento-col-4" data-reveal="left">
+            <div style="background:var(--emerald); border-radius:var(--radius-xl); height:340px; display:flex; align-items:center; justify-content:center; text-align:center; padding:2rem; color:var(--ivory); box-shadow:var(--shadow-lg);">
+              <div>
+                <span class="eyebrow" style="color:var(--gold);">E-BOOK</span>
+                <h3 style="font-family:var(--font-display); font-size:1.6rem; font-weight:900; margin:0.8rem 0;">Break the Silence Playbook</h3>
+                <p style="font-size:0.85rem; opacity:0.8;">A Community Guide to Gambling Harm Prevention</p>
+              </div>
+            </div>
+          </div>
+          <div class="bento-col-8 glass-card" data-reveal="right">
+            <span class="eyebrow" style="color:var(--orange);">Featured Publication</span>
+            <h2 class="section-title" style="font-size:2.2rem; margin:0.5rem 0 1rem;">
+              The "Break the Silence" Community Playbook
+            </h2>
+            <p style="color:#555044; font-size:1.05rem; line-height:1.8; margin-bottom:1.5rem;">
+              A comprehensive action guide for ROSC councils, school administrators, and community leaders. Learn how to launch screening days, host youth workshops, and partner with local organizations to reduce gambling harm.
+            </p>
+            <div style="display:flex; gap:1rem; align-items:center;">
+              <a href="#" class="btn btn-primary">Download Sample Chapter</a>
+              <span style="font-family:var(--font-mono); font-weight:700; color:var(--emerald);">Digital E-Book</span>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="section container bg-light">
-      <h2 class="h2 text-center" data-reveal="up">Prevention Toolkit</h2>
-      <div class="bento-grid" style="margin-top: 3rem;">
-        <div class="glass-card" data-reveal="up">
-          <h4 class="h4">Youth Handouts</h4>
-          <p>Quick facts on digital wellness.</p>
+    <!-- RESOURCE GRID -->
+    <section class="section-pad" style="background:var(--cream);">
+      <div class="container">
+        <div style="margin-bottom:3rem;" data-reveal>
+          <span class="eyebrow"><span class="eyebrow-dot"></span> Toolkits</span>
+          <h2 class="section-title">Educational Toolkits & Guides</h2>
         </div>
-        <div class="glass-card" data-reveal="up" data-delay="0.1">
-          <h4 class="h4">Clinical Checklists</h4>
-          <p>Tools for early identification.</p>
-        </div>
-        <div class="glass-card" data-reveal="up" data-delay="0.2">
-          <h4 class="h4">Parent Guides</h4>
-          <p>Fostering open dialogue at home.</p>
+
+        <div class="bento-grid">
+          <div class="bento-col-6 glass-card" data-reveal="left">
+            <span class="eyebrow" style="color:var(--teal);">Youth Prevention</span>
+            <h3 style="font-family:var(--font-display); font-size:1.4rem; font-weight:800; margin:0.5rem 0;">
+              High School & College Sports Betting Awareness Kit
+            </h3>
+            <p style="color:#555044; font-size:0.92rem; margin-bottom:1.2rem;">
+              Includes presentation slides, discussion prompts for coaches, and parent awareness handouts.
+            </p>
+            <a href="#" class="btn btn-outline-dark" style="font-size:0.78rem;">Explore Toolkit</a>
+          </div>
+
+          <div class="bento-col-6 glass-card" data-reveal="right">
+            <span class="eyebrow" style="color:var(--berry);">Clinical Screening</span>
+            <h3 style="font-family:var(--font-display); font-size:1.4rem; font-weight:800; margin:0.5rem 0;">
+              Primary Care Screening & Motivational Referral Guide
+            </h3>
+            <p style="color:#555044; font-size:0.92rem; margin-bottom:1.2rem;">
+              Quick-reference guide for clinicians and social workers linking problem gambling screening to treatment options.
+            </p>
+            <a href="#" class="btn btn-outline-dark" style="font-size:0.78rem;">Explore Guide</a>
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="section container text-center">
-      <h2 class="h2" data-reveal="up">Community Education Materials</h2>
-      <p data-reveal="up" data-delay="0.1" style="max-width: 600px; margin: 0 auto 2rem;">Access a library of free, downloadable resources designed to empower educators, leaders, and families.</p>
-      <a href="#" class="btn btn-emerald btn-lg" data-magnetic>Download Resources</a>
+    <!-- CTA -->
+    <section class="section-pad" style="background:var(--emerald); color:var(--ivory); text-align:center;">
+      <div class="container-narrow" data-reveal="scale">
+        <h2 class="section-title light" style="margin-bottom:1.5rem;">Need Custom Training Resources for Your Team?</h2>
+        <a href="book.html" class="btn btn-orange btn-lg">Invite Tiffany for a Workshop</a>
+      </div>
     </section>
   </main>
 
-  <!-- FOOTER -->
   <footer class="site-footer">
     <div class="container">
-      <div class="footer-grid">
-        <div>
-          <div class="footer-brand-name">Tiffany Webb</div>
-          <div class="footer-brand-title">Community Impact Strategist · Public Health Educator & Speaker</div>
-          <p style="font-size:0.88rem; line-height:1.6; max-width:320px;">"Rooted in Community. Committed to Change."</p>
-        </div>
-        <div>
-          <h4 class="footer-heading">Navigation</h4>
-          <ul class="footer-list">
-            <li><a href="about.html" class="footer-link">About Tiffany</a></li>
-            <li><a href="speaking.html" class="footer-link">Speaking & Topics</a></li>
-            <li><a href="expertise.html" class="footer-link">Areas of Expertise</a></li>
-            <li><a href="impact.html" class="footer-link">Community Impact</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4 class="footer-heading">Explore</h4>
-          <ul class="footer-list">
-            <li><a href="books.html" class="footer-link">Books & E-Books</a></li>
-            <li><a href="gamble.html" class="footer-link">GambleFreeGear</a></li>
-            <li><a href="insights.html" class="footer-link">Insights & Blog</a></li>
-            <li><a href="media.html" class="footer-link">Media Kit & Press</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4 class="footer-heading">Bookings</h4>
-          <p style="font-size:0.85rem; margin-bottom:1rem;">Independent booking inquiries:</p>
-          <a href="mailto:booking@tiffanywebb.com" class="footer-link" style="color:var(--gold); font-family:var(--font-mono); font-weight:700;">booking@tiffanywebb.com</a>
-        </div>
-      </div>
       <div class="footer-bottom">
         <div>&copy; 2026 Tiffany Webb. All rights reserved. · "Break the Silence."</div>
-        <div style="display:flex; gap:1.5rem;"><a href="#" class="footer-link">Privacy Policy</a><a href="#" class="footer-link">Terms of Use</a></div>
+        <a href="index.html" class="footer-link">Back to Home</a>
       </div>
     </div>
   </footer>
+
   <script src="main.js"></script>
 </body>
 </html>
