@@ -1,5 +1,7 @@
 /* ============================================================
-   TIFFANY WEBB — MAIN INTERACTIVE SCRIPT (USA TRENDS 2026)
+   TIFFANY WEBB — PRO-LEVEL INTERACTIVE ENGINE (USA TRENDS 2026)
+   Custom Interactive Cursor · Magnetic Buttons · Video Modal
+   Scrollytelling Engine · Scroll Progress · Glass Navbar
    Location: Landing Page Work/coding by antigravity/main.js
    ============================================================ */
 
@@ -24,19 +26,59 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }, { passive: true });
 
-  // 2. Navbar Glassmorphism on Scroll
-  const navbar = document.querySelector('.navbar');
-  if (navbar) {
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 40) {
-        navbar.classList.add('scrolled');
-      } else {
-        navbar.classList.remove('scrolled');
-      }
+  // 2. Custom Interactive Cursor (USA Trend 2026)
+  if (window.matchMedia('(pointer: fine)').matches) {
+    const cursor = document.createElement('div');
+    cursor.className = 'custom-cursor';
+    const follower = document.createElement('div');
+    follower.className = 'cursor-follower';
+
+    document.body.appendChild(cursor);
+    document.body.appendChild(follower);
+
+    let mouseX = 0, mouseY = 0;
+    let followerX = 0, followerY = 0;
+
+    window.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      cursor.style.left = `${mouseX}px`;
+      cursor.style.top = `${mouseY}px`;
     }, { passive: true });
+
+    function renderCursor() {
+      followerX += (mouseX - followerX) * 0.15;
+      followerY += (mouseY - followerY) * 0.15;
+      follower.style.left = `${followerX}px`;
+      follower.style.top = `${followerY}px`;
+      requestAnimationFrame(renderCursor);
+    }
+    requestAnimationFrame(renderCursor);
+
+    // Hover detection on interactive elements
+    const interactiveElements = document.querySelectorAll('a, button, .glass-card, .glass-card-dark, .topic-track-card, .reel-container');
+    interactiveElements.forEach(el => {
+      el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+      el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+    });
   }
 
-  // 3. Mobile Menu Handling
+  // 3. Pro-Level Magnetic Button Effect
+  const magneticButtons = document.querySelectorAll('.btn');
+  magneticButtons.forEach(btn => {
+    btn.addEventListener('mousemove', (e) => {
+      const rect = btn.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+      btn.style.transform = `translate(${x * 0.25}px, ${y * 0.25}px) scale(1.02)`;
+    });
+
+    btn.addEventListener('mouseleave', () => {
+      btn.style.transform = 'translate(0px, 0px) scale(1)';
+    });
+  });
+
+  // 4. Mobile Menu Handling
   const hamburger = document.querySelector('.hamburger');
   const mobileMenu = document.querySelector('.mobile-menu');
   const mobileClose = document.querySelector('.mobile-close');
@@ -62,7 +104,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // 4. Scroll Reveal Animations (Intersection Observer)
+  // 5. Active Nav Link Highlighting
+  const currentPath = window.location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('.nav-link').forEach(link => {
+    const href = link.getAttribute('href');
+    if (href === currentPath || (currentPath === '' && href === 'index.html')) {
+      link.classList.add('active');
+    }
+  });
+
+  // 6. Scroll Reveal Engine (Intersection Observer)
   const revealElements = document.querySelectorAll('[data-reveal]');
   if (revealElements.length && 'IntersectionObserver' in window) {
     const observer = new IntersectionObserver((entries) => {
@@ -74,16 +125,15 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }, {
       threshold: 0.05,
-      rootMargin: '0px 0px -20px 0px'
+      rootMargin: '0px 0px -30px 0px'
     });
 
     revealElements.forEach(el => observer.observe(el));
   } else {
-    // Fallback if IntersectionObserver is not supported
     revealElements.forEach(el => el.classList.add('revealed'));
   }
 
-  // 5. Number Counter Animations
+  // 7. Animated Number Counter
   const counters = document.querySelectorAll('[data-counter]');
   if (counters.length && 'IntersectionObserver' in window) {
     const counterObserver = new IntersectionObserver((entries) => {
@@ -122,29 +172,26 @@ document.addEventListener('DOMContentLoaded', () => {
     requestAnimationFrame(step);
   }
 
-  // 6. Subtle 3D Tilt Effect on Hover
-  const tiltCards = document.querySelectorAll('.glass-card, .glass-card-dark, .topic-track-card');
-  tiltCards.forEach(card => {
-    card.addEventListener('mousemove', (e) => {
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
+  // 8. Speaker Reel Video Modal
+  const reelContainers = document.querySelectorAll('.reel-container');
+  const reelModal = document.querySelector('.reel-modal');
+  const modalClose = document.querySelector('.reel-modal-close');
 
-      const centerX = rect.width / 2;
-      const centerY = rect.height / 2;
-
-      const rotateX = ((y - centerY) / centerY) * -3;
-      const rotateY = ((x - centerX) / centerX) * 3;
-
-      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-5px)`;
-    });
-
-    card.addEventListener('mouseleave', () => {
-      card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)';
+  reelContainers.forEach(container => {
+    container.addEventListener('click', () => {
+      if (reelModal) {
+        reelModal.classList.add('active');
+      }
     });
   });
 
-  // 7. Booking Form Handler
+  if (modalClose && reelModal) {
+    modalClose.addEventListener('click', () => {
+      reelModal.classList.remove('active');
+    });
+  }
+
+  // 9. Booking Form Handler
   const bookingForm = document.querySelector('#booking-form');
   if (bookingForm) {
     bookingForm.addEventListener('submit', (e) => {
