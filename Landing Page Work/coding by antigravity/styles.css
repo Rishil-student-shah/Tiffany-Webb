@@ -98,6 +98,40 @@ img, video { max-width: 100%; height: auto; display: block; }
   background-size: 24px 24px;
 }
 
+/* Aurora Gradient Background (Multi-Layer Floating Gradient Orb) */
+.aurora-bg {
+  background-color: var(--ivory);
+}
+
+/* Page Load Fade-In Transition */
+body {
+  opacity: 0;
+  transition: opacity 0.45s ease;
+}
+
+body.page-loaded {
+  opacity: 1;
+}
+
+/* Glass Card 3D Tilt (via JS) */
+.glass-card {
+  perspective: 800px;
+  transform-style: preserve-3d;
+}
+
+/* Scroll-triggered heading split reveal */
+.split-char {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(100%);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.split-char.in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 /* ============================================================
    1. STEVEN KOTLER INSPIRED INTRO CURTAIN REVEAL ANIMATION
    ============================================================ */

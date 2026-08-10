@@ -13,13 +13,15 @@ document.addEventListener('DOMContentLoaded', () => {
   // 1. Steven Kotler Inspired Intro Curtain Opening Animation
   const introCurtain = document.getElementById('introCurtain');
   if (introCurtain) {
-    // Show curtain briefly for 1 second, then smoothly animate out
+    // Body is transparent by default (CSS opacity:0)
+    // Show curtain briefly for 1.1s, then slide up + reveal body
     setTimeout(() => {
       introCurtain.classList.add('loaded');
       document.body.classList.add('page-loaded');
     }, 1100);
   } else {
-    document.body.classList.add('page-loaded');
+    // No curtain — just fade the body in immediately
+    requestAnimationFrame(() => document.body.classList.add('page-loaded'));
   }
 
   // 2. Scroll Progress Bar
@@ -220,7 +222,6 @@ document.addEventListener('DOMContentLoaded', () => {
       reelModal.classList.remove('active');
       document.body.style.overflow = '';
     });
-
     reelModal.addEventListener('click', (e) => {
       if (e.target === reelModal) {
         reelModal.classList.remove('active');
@@ -228,4 +229,83 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+
+  // 11. Hero Background Parallax on Scroll
+  const heroBgImg = document.querySelector('.hero-bg-img');
+  if (heroBgImg) {
+    window.addEventListener('scroll', () => {
+      const scrollY = window.scrollY;
+      // Move background at 30% of scroll speed for subtle depth
+      heroBgImg.style.transform = `scale(1.04) translateY(${scrollY * 0.18}px)`;
+    }, { passive: true });
+  }
+
+  // 12. 3D Glass Card Tilt on Mouse Move (Sevora-level interaction)
+  const glassCards = document.querySelectorAll('.glass-card');
+  glassCards.forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      const rotateX = ((y - centerY) / centerY) * -6;
+      const rotateY = ((x - centerX) / centerX) * 6;
+      card.style.transform = `translateY(-6px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    });
+
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+      card.style.transition = 'transform 0.5s var(--ease-expo), box-shadow 0.5s var(--ease-expo), border-color 0.4s';
+    });
+  });
+
+  // 13. Booking Form Success Toast
+  const bookingForm = document.getElementById('booking-form');
+  if (bookingForm) {
+    bookingForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const toast = document.createElement('div');
+      toast.style.cssText = `
+        position: fixed; bottom: 2rem; right: 2rem; z-index: 100000;
+        background: var(--emerald); color: var(--ivory);
+        padding: 1.2rem 2rem; border-radius: 999px;
+        font-family: var(--font-mono); font-size: 0.85rem;
+        letter-spacing: 0.08em; font-weight: 700;
+        box-shadow: 0 12px 40px rgba(14, 107, 84, 0.45);
+        transform: translateY(100px); opacity: 0;
+        transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      `;
+      toast.textContent = '✓ Thank you! We will be in touch within 48 hours.';
+      document.body.appendChild(toast);
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          toast.style.transform = 'translateY(0)';
+          toast.style.opacity = '1';
+        });
+      });
+      setTimeout(() => {
+        toast.style.transform = 'translateY(100px)';
+        toast.style.opacity = '0';
+        setTimeout(() => toast.remove(), 400);
+      }, 4000);
+      bookingForm.reset();
+    });
+  }
+
+  // 14. Newsletter Form Handling
+  const newsletterForms = document.querySelectorAll('.newsletter-form-el');
+  newsletterForms.forEach(form => {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const btn = form.querySelector('.newsletter-submit');
+      if (btn) {
+        btn.textContent = '✓ You\'re in!';
+        btn.style.background = 'var(--emerald)';
+        setTimeout(() => { btn.textContent = 'Join Community'; btn.style.background = ''; }, 3000);
+      }
+      form.reset();
+    });
+  });
+
 });
