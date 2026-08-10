@@ -1,25 +1,34 @@
 /* ============================================================
    TIFFANY WEBB — MAIN INTERACTIVE SCRIPT (USA TRENDS 2026)
+   Location: Landing Page Work/coding by antigravity/main.js
    ============================================================ */
 
 document.addEventListener('DOMContentLoaded', () => {
 
+  // Add observer class to body to activate animations safely
+  document.documentElement.classList.add('js-observer');
+
   // 1. Scroll Progress Bar
-  const progressBar = document.createElement('div');
-  progressBar.id = 'scroll-progress';
-  document.body.appendChild(progressBar);
+  let progressBar = document.getElementById('scroll-progress');
+  if (!progressBar) {
+    progressBar = document.createElement('div');
+    progressBar.id = 'scroll-progress';
+    document.body.appendChild(progressBar);
+  }
 
   window.addEventListener('scroll', () => {
     const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const progress = (window.scrollY / totalHeight) * 100;
-    progressBar.style.width = `${progress}%`;
+    if (totalHeight > 0) {
+      const progress = (window.scrollY / totalHeight) * 100;
+      progressBar.style.width = `${progress}%`;
+    }
   }, { passive: true });
 
-  // 2. Navbar Scroll Glassmorphism
+  // 2. Navbar Glassmorphism on Scroll
   const navbar = document.querySelector('.navbar');
   if (navbar) {
     window.addEventListener('scroll', () => {
-      if (window.scrollY > 50) {
+      if (window.scrollY > 40) {
         navbar.classList.add('scrolled');
       } else {
         navbar.classList.remove('scrolled');
@@ -27,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { passive: true });
   }
 
-  // 3. Mobile Menu Toggle
+  // 3. Mobile Menu Handling
   const hamburger = document.querySelector('.hamburger');
   const mobileMenu = document.querySelector('.mobile-menu');
   const mobileClose = document.querySelector('.mobile-close');
@@ -46,7 +55,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Close mobile menu on link click
   document.querySelectorAll('.mobile-nav-link').forEach(link => {
     link.addEventListener('click', () => {
       if (mobileMenu) mobileMenu.classList.remove('open');
@@ -56,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 4. Scroll Reveal Animations (Intersection Observer)
   const revealElements = document.querySelectorAll('[data-reveal]');
-  if (revealElements.length) {
+  if (revealElements.length && 'IntersectionObserver' in window) {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -65,16 +73,19 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       });
     }, {
-      threshold: 0.12,
-      rootMargin: '0px 0px -50px 0px'
+      threshold: 0.05,
+      rootMargin: '0px 0px -20px 0px'
     });
 
     revealElements.forEach(el => observer.observe(el));
+  } else {
+    // Fallback if IntersectionObserver is not supported
+    revealElements.forEach(el => el.classList.add('revealed'));
   }
 
-  // 5. Animated Number Counters
+  // 5. Number Counter Animations
   const counters = document.querySelectorAll('[data-counter]');
-  if (counters.length) {
+  if (counters.length && 'IntersectionObserver' in window) {
     const counterObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -82,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
           counterObserver.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.5 });
+    }, { threshold: 0.3 });
 
     counters.forEach(counter => counterObserver.observe(counter));
   }
@@ -91,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const target = parseInt(el.getAttribute('data-counter'), 10);
     const suffix = el.getAttribute('data-suffix') || '';
     const prefix = el.getAttribute('data-prefix') || '';
-    const duration = 2000;
+    const duration = 1800;
     const start = performance.now();
 
     function step(now) {
@@ -111,7 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
     requestAnimationFrame(step);
   }
 
-  // 6. 3D Tilt Micro-Interaction on Glass Cards
+  // 6. Subtle 3D Tilt Effect on Hover
   const tiltCards = document.querySelectorAll('.glass-card, .glass-card-dark, .topic-track-card');
   tiltCards.forEach(card => {
     card.addEventListener('mousemove', (e) => {
@@ -122,10 +133,10 @@ document.addEventListener('DOMContentLoaded', () => {
       const centerX = rect.width / 2;
       const centerY = rect.height / 2;
 
-      const rotateX = ((y - centerY) / centerY) * -4;
-      const rotateY = ((x - centerX) / centerX) * 4;
+      const rotateX = ((y - centerY) / centerY) * -3;
+      const rotateY = ((x - centerX) / centerX) * 3;
 
-      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-6px)`;
+      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-5px)`;
     });
 
     card.addEventListener('mouseleave', () => {
