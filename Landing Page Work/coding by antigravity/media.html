@@ -1,40 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Media Kit & Press Resources — Tiffany Webb</title>
-  <meta name="description" content="Download Tiffany Webb's press kit, speaker one-sheet, high-res headshots, and approved biographical copy for media and conference hosts." />
-  <link rel="stylesheet" href="styles.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Media Kit & Press | Tiffany Webb</title>
+  <meta name="description" content="Download Tiffany Webb's Media Kit, official bios, and headshots for press and event marketing.">
+  <link rel="stylesheet" href="styles.css">
 </head>
-<body class="aurora-bg">
-
-  <!-- FLOATING GLASS PILL NAVBAR -->
-  <div class="navbar-wrapper">
-    <nav class="navbar" id="navbar">
-      <div class="nav-inner">
-        <a href="index.html" class="nav-logo">
-          <span class="nav-logo-name">Tiffany Webb</span>
-          <span class="nav-logo-title">Community Impact Strategist</span>
-        </a>
-        <ul class="nav-links">
-          <li><a href="about.html" class="nav-link">About</a></li>
-          <li><a href="speaking.html" class="nav-link">Speaking</a></li>
-          <li><a href="expertise.html" class="nav-link">Expertise</a></li>
-          <li><a href="impact.html" class="nav-link">Impact</a></li>
-          <li><a href="books.html" class="nav-link">Books</a></li>
-          <li><a href="gamble.html" class="nav-link">GambleFreeGear</a></li>
-          <li><a href="insights.html" class="nav-link">Insights</a></li>
-          <li><a href="media.html" class="nav-link active">Media</a></li>
-        </ul>
-        <a href="book.html" class="btn btn-primary nav-cta">Invite Tiffany to Speak</a>
-        <button class="hamburger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
-      </div>
-    </nav>
-  </div>
-
-  <div class="mobile-menu">
-    <button class="mobile-close" style="align-self:flex-end;background:none;border:none;font-size:2rem;cursor:pointer;color:var(--ivory);">✕</button>
+<body>
+  <!-- NAVBAR -->
+  <div class="page-loader" id="pageLoader"><div class="loader-monogram">TW</div></div>
+  <div class="custom-cursor" id="customCursor"></div>
+  <div id="scroll-progress"></div>
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo"><span class="nav-logo-name">Tiffany Webb</span><span class="nav-logo-title">Community Impact Strategist</span></a>
+      <ul class="nav-links">
+        <li><a href="about.html" class="nav-link">About</a></li>
+        <li><a href="speaking.html" class="nav-link">Speaking</a></li>
+        <li><a href="expertise.html" class="nav-link">Expertise</a></li>
+        <li><a href="impact.html" class="nav-link">Impact</a></li>
+        <li><a href="books.html" class="nav-link">Books</a></li>
+        <li><a href="gamble.html" class="nav-link">GambleFreeGear</a></li>
+        <li><a href="insights.html" class="nav-link">Insights</a></li>
+        <li><a href="media.html" class="nav-link">Media</a></li>
+      </ul>
+      <a href="book.html" class="btn btn-orange nav-cta" data-magnetic>Book Tiffany</a>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-close" id="mobileClose" aria-label="Close menu">✕</button>
     <a href="about.html" class="mobile-nav-link">About</a>
     <a href="speaking.html" class="mobile-nav-link">Speaking</a>
     <a href="expertise.html" class="mobile-nav-link">Expertise</a>
@@ -43,108 +39,113 @@
     <a href="gamble.html" class="mobile-nav-link">GambleFreeGear</a>
     <a href="insights.html" class="mobile-nav-link">Insights</a>
     <a href="media.html" class="mobile-nav-link">Media</a>
-    <a href="book.html" class="btn btn-orange" style="margin-top:1rem;">Invite Tiffany to Speak</a>
+    <a href="book.html" class="btn btn-orange" data-magnetic>Book Tiffany</a>
   </div>
 
   <main>
-    <!-- HERO -->
-    <section class="section-pad" style="background:var(--soft-black); color:var(--ivory); padding-top:9rem;">
-      <div class="container" data-reveal="scale">
-        <span class="eyebrow" style="color:var(--gold);"><span class="eyebrow-dot"></span> Press & Event Organizers</span>
-        <h1 class="display-hero" style="font-size:clamp(2.8rem, 6vw, 5.5rem); margin: 1rem 0;">
-          Media Kit & <em>Press</em>
-        </h1>
-        <p class="section-desc light" style="font-size:1.15rem;">
-          Download approved headshots, bios, speaker one-sheets, and media resources for conference programs and press features.
-        </p>
+    <header class="hero section bg-dark">
+      <div class="container hero-content text-center">
+        <h1 class="display-1" data-reveal="up" style="color: var(--ivory);">Media Kit & Press Resources</h1>
+        <p class="hero-subtitle" data-reveal="up" data-delay="0.2" style="color: var(--emerald);">Assets for Event Planners & Media</p>
       </div>
-    </section>
+    </header>
 
-    <!-- DOWNLOADABLE RESOURCES GRID -->
-    <section class="section-pad">
-      <div class="container">
-        <div style="margin-bottom:3rem;" data-reveal>
-          <span class="eyebrow"><span class="eyebrow-dot"></span> Event & Press Assets</span>
-          <h2 class="section-title">Media Resources</h2>
+    <section class="section container text-center">
+      <div class="grid" style="grid-template-columns: repeat(2, 1fr); gap: 2rem;">
+        <div class="glass-card" data-reveal="fade">
+          <h3 class="h3">Official Media Kit</h3>
+          <p>Comprehensive overview of Tiffany's expertise, impact metrics, and offerings.</p>
+          <a href="#" class="btn btn-emerald" style="margin-top: 1rem;">Download PDF</a>
         </div>
-
-        <div class="bento-grid">
-          <div class="bento-col-6 glass-card" data-reveal="left">
-            <span class="eyebrow" style="color:var(--emerald);">PDF Document</span>
-            <h3 style="font-family:var(--font-display); font-size:1.4rem; font-weight:800; margin:0.5rem 0;">Speaker One-Sheet</h3>
-            <p style="color:#555044; font-size:0.9rem; margin-bottom:1.2rem;">Single-page overview for booking committees featuring topics, bios, and key statistics.</p>
-            <a href="#" class="btn btn-outline-dark" style="font-size:0.78rem;">Download One-Sheet PDF</a>
-          </div>
-
-          <div class="bento-col-6 glass-card" data-reveal="right">
-            <span class="eyebrow" style="color:var(--orange);">PDF Document</span>
-            <h3 style="font-family:var(--font-display); font-size:1.4rem; font-weight:800; margin:0.5rem 0;">Full Media Kit</h3>
-            <p style="color:#555044; font-size:0.9rem; margin-bottom:1.2rem;">Comprehensive brand kit including full background, 4 talk tracks, and sub-brand information.</p>
-            <a href="#" class="btn btn-outline-dark" style="font-size:0.78rem;">Download Media Kit PDF</a>
-          </div>
-
-          <div class="bento-col-6 glass-card" data-reveal="left">
-            <span class="eyebrow" style="color:var(--gold);">Photo Package</span>
-            <h3 style="font-family:var(--font-display); font-size:1.4rem; font-weight:800; margin:0.5rem 0;">High-Resolution Headshots</h3>
-            <p style="color:#555044; font-size:0.9rem; margin-bottom:1.2rem;">High-resolution stage, editorial, and portrait photography for event programs.</p>
-            <a href="#" class="btn btn-outline-dark" style="font-size:0.78rem;">Download Photo Assets</a>
-          </div>
-
-          <div class="bento-col-6 glass-card" data-reveal="right">
-            <span class="eyebrow" style="color:var(--berry);">Logos & Branding</span>
-            <h3 style="font-family:var(--font-display); font-size:1.4rem; font-weight:800; margin:0.5rem 0;">Brand Assets & Signatures</h3>
-            <p style="color:#555044; font-size:0.9rem; margin-bottom:1.2rem;">Approved logos for Tiffany Webb master brand and GambleFreeGear endorsed sub-brand.</p>
-            <a href="#" class="btn btn-outline-dark" style="font-size:0.78rem;">Download Brand Assets</a>
-          </div>
+        <div class="glass-card" data-reveal="fade" data-delay="0.2">
+          <h3 class="h3">Speaker One-Sheet</h3>
+          <p>Quick reference guide for event planners, including keynotes and topics.</p>
+          <a href="#" class="btn btn-emerald" style="margin-top: 1rem;">Download PDF</a>
         </div>
       </div>
     </section>
 
-    <!-- APPROVED BIO VERSIONS FOR CONFERENCES -->
-    <section class="section-pad" style="background:var(--cream);">
-      <div class="container">
-        <div style="text-align:center; margin-bottom:3.5rem;" data-reveal>
-          <span class="eyebrow"><span class="eyebrow-dot"></span> Official Bios</span>
-          <h2 class="section-title">Approved Bio Copy</h2>
+    <section class="section container bg-light">
+      <h2 class="h2 text-center" data-reveal="up">Approved Bio Copy</h2>
+      <div class="bento-grid" style="margin-top: 3rem;">
+        <div class="glass-card" data-reveal="up">
+          <h4 class="h4">Short Bio (100 words)</h4>
+          <p>Tiffany Webb is a Community Impact Strategist and Public Health Educator with over 15 years of experience. Specializing in gambling prevention and behavioral health, she transforms communities through evidence-based outreach. Known for her powerful message, "Break the Silence," Tiffany empowers youth, clinicians, and leaders nationwide.</p>
+          <button class="btn btn-outline btn-sm" style="margin-top: 1rem;">Copy Text</button>
         </div>
-
-        <div style="display:flex; flex-direction:column; gap:2rem;">
-          <div class="glass-card" data-reveal="left">
-            <span class="eyebrow" style="color:var(--emerald);">Short Bio (≈40 words)</span>
-            <p style="color:#555044; font-size:1rem; line-height:1.7; margin-top:0.8rem;">
-              "Tiffany Webb is a public-health educator and Community Impact Strategist with 15+ years and 4,000+ hours preventing gambling harm. She helps conferences, schools, and health systems turn hard conversations into action — with the cultural fluency to reach the people other programs miss."
-            </p>
-          </div>
-
-          <div class="glass-card" data-reveal="right">
-            <span class="eyebrow" style="color:var(--orange);">Medium Bio (≈90 words)</span>
-            <p style="color:#555044; font-size:0.98rem; line-height:1.75; margin-top:0.8rem;">
-              "Tiffany Webb, BBA, MHP, is a Chicago-born public-health educator, gambling-prevention leader, and Community Impact Strategist with deep Louisiana family roots. Over 15+ years and 4,000+ hours of frontline outreach, she has built coalitions, trained professionals, and led community screenings across Illinois — partnering with health systems, schools, government, and recovery organizations. A dynamic keynote speaker, panelist, and workshop facilitator, she makes difficult topics approachable and leaves organizations with practical tools. She is also the founder of GambleFreeGear, an awareness apparel brand built to 'Break the Silence' on gambling addiction."
-            </p>
-          </div>
+        <div class="glass-card" data-reveal="up" data-delay="0.2">
+          <h4 class="h4">Medium Bio (250 words)</h4>
+          <p>With roots in Chicago and a heart for Louisiana, Tiffany Webb has dedicated her career to public health and grassroots community impact. For over 15 years, she has been a leading voice in gambling prevention, youth engagement, and behavioral health advocacy. Through her consultancy and keynote presentations, Tiffany addresses the often-overlooked intersections of mental wellness and community resilience. Her flagship initiative, GambleFreeGear, blends lifestyle branding with critical awareness campaigns. Tiffany has spent over 4,000 hours in direct community outreach, bridging the gap between clinical research and real-world application to foster systemic change.</p>
+          <button class="btn btn-outline btn-sm" style="margin-top: 1rem;">Copy Text</button>
         </div>
       </div>
     </section>
 
-    <!-- PRESS CONTACT CTA -->
-    <section class="section-pad" style="background:var(--teal); color:var(--ivory); text-align:center;">
-      <div class="container-narrow" data-reveal="scale">
-        <h2 class="section-title light" style="margin-bottom:1rem;">Media & Interview Inquiries</h2>
-        <p class="section-desc light" style="margin:0 auto 2rem;">For press interviews, podcast guesting, or keynote booking requests:</p>
-        <a href="mailto:booking@tiffanywebb.com" class="btn btn-orange btn-lg">Email booking@tiffanywebb.com</a>
+    <section class="section container">
+      <h2 class="h2 text-center" data-reveal="up">Approved Headshots</h2>
+      <div class="grid" style="grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 2rem;">
+        <div data-reveal="scale">
+          <img src="assets/images/about-portrait.jpg" alt="Headshot 1" style="width: 100%; border-radius: 8px;">
+          <div class="text-center" style="margin-top: 1rem;"><a href="#" class="small" style="color: var(--teal);">Download Hi-Res</a></div>
+        </div>
+        <!-- Placeholders for more headshots -->
+        <div data-reveal="scale" data-delay="0.1">
+          <div style="width: 100%; height: 250px; background: #e0e0e0; border-radius: 8px; display: flex; align-items: center; justify-content: center;">[ Image ]</div>
+          <div class="text-center" style="margin-top: 1rem;"><a href="#" class="small" style="color: var(--teal);">Download Hi-Res</a></div>
+        </div>
+        <div data-reveal="scale" data-delay="0.2">
+          <div style="width: 100%; height: 250px; background: #e0e0e0; border-radius: 8px; display: flex; align-items: center; justify-content: center;">[ Image ]</div>
+          <div class="text-center" style="margin-top: 1rem;"><a href="#" class="small" style="color: var(--teal);">Download Hi-Res</a></div>
+        </div>
       </div>
+    </section>
+
+    <section class="section container text-center bg-light">
+      <h2 class="h2" data-reveal="up">Media Contact</h2>
+      <p data-reveal="up" data-delay="0.1">For press inquiries, interviews, and media appearances, please contact our team.</p>
+      <a href="mailto:media@tiffanywebb.com" class="h3" style="color: var(--orange); display: block; margin-top: 1rem;" data-reveal="up" data-delay="0.2">media@tiffanywebb.com</a>
     </section>
   </main>
 
+  <!-- FOOTER -->
   <footer class="site-footer">
     <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand-name">Tiffany Webb</div>
+          <div class="footer-brand-title">Community Impact Strategist · Public Health Educator & Speaker</div>
+          <p style="font-size:0.88rem; line-height:1.6; max-width:320px;">"Rooted in Community. Committed to Change."</p>
+        </div>
+        <div>
+          <h4 class="footer-heading">Navigation</h4>
+          <ul class="footer-list">
+            <li><a href="about.html" class="footer-link">About Tiffany</a></li>
+            <li><a href="speaking.html" class="footer-link">Speaking & Topics</a></li>
+            <li><a href="expertise.html" class="footer-link">Areas of Expertise</a></li>
+            <li><a href="impact.html" class="footer-link">Community Impact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer-heading">Explore</h4>
+          <ul class="footer-list">
+            <li><a href="books.html" class="footer-link">Books & E-Books</a></li>
+            <li><a href="gamble.html" class="footer-link">GambleFreeGear</a></li>
+            <li><a href="insights.html" class="footer-link">Insights & Blog</a></li>
+            <li><a href="media.html" class="footer-link">Media Kit & Press</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer-heading">Bookings</h4>
+          <p style="font-size:0.85rem; margin-bottom:1rem;">Independent booking inquiries:</p>
+          <a href="mailto:booking@tiffanywebb.com" class="footer-link" style="color:var(--gold); font-family:var(--font-mono); font-weight:700;">booking@tiffanywebb.com</a>
+        </div>
+      </div>
       <div class="footer-bottom">
         <div>&copy; 2026 Tiffany Webb. All rights reserved. · "Break the Silence."</div>
-        <a href="index.html" class="footer-link">Back to Home</a>
+        <div style="display:flex; gap:1.5rem;"><a href="#" class="footer-link">Privacy Policy</a><a href="#" class="footer-link">Terms of Use</a></div>
       </div>
     </div>
   </footer>
-
   <script src="main.js"></script>
 </body>
 </html>

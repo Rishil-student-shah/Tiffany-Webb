@@ -1,40 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Book Tiffany Webb — Speaking Inquiry & Booking</title>
-  <meta name="description" content="Submit a speaking inquiry to book Tiffany Webb for keynotes, workshops, panels, and community prevention events." />
-  <link rel="stylesheet" href="styles.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Tiffany | Tiffany Webb</title>
+  <meta name="description" content="Bring Tiffany Webb to your stage. View the booking process and submit an inquiry.">
+  <link rel="stylesheet" href="styles.css">
 </head>
-<body class="aurora-bg">
-
-  <!-- FLOATING GLASS PILL NAVBAR -->
-  <div class="navbar-wrapper">
-    <nav class="navbar" id="navbar">
-      <div class="nav-inner">
-        <a href="index.html" class="nav-logo">
-          <span class="nav-logo-name">Tiffany Webb</span>
-          <span class="nav-logo-title">Community Impact Strategist</span>
-        </a>
-        <ul class="nav-links">
-          <li><a href="about.html" class="nav-link">About</a></li>
-          <li><a href="speaking.html" class="nav-link">Speaking</a></li>
-          <li><a href="expertise.html" class="nav-link">Expertise</a></li>
-          <li><a href="impact.html" class="nav-link">Impact</a></li>
-          <li><a href="books.html" class="nav-link">Books</a></li>
-          <li><a href="gamble.html" class="nav-link">GambleFreeGear</a></li>
-          <li><a href="insights.html" class="nav-link">Insights</a></li>
-          <li><a href="media.html" class="nav-link">Media</a></li>
-        </ul>
-        <a href="book.html" class="btn btn-primary nav-cta">Invite Tiffany to Speak</a>
-        <button class="hamburger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
-      </div>
-    </nav>
-  </div>
-
-  <div class="mobile-menu">
-    <button class="mobile-close" style="align-self:flex-end;background:none;border:none;font-size:2rem;cursor:pointer;color:var(--ivory);">✕</button>
+<body>
+  <!-- NAVBAR -->
+  <div class="page-loader" id="pageLoader"><div class="loader-monogram">TW</div></div>
+  <div class="custom-cursor" id="customCursor"></div>
+  <div id="scroll-progress"></div>
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo"><span class="nav-logo-name">Tiffany Webb</span><span class="nav-logo-title">Community Impact Strategist</span></a>
+      <ul class="nav-links">
+        <li><a href="about.html" class="nav-link">About</a></li>
+        <li><a href="speaking.html" class="nav-link">Speaking</a></li>
+        <li><a href="expertise.html" class="nav-link">Expertise</a></li>
+        <li><a href="impact.html" class="nav-link">Impact</a></li>
+        <li><a href="books.html" class="nav-link">Books</a></li>
+        <li><a href="gamble.html" class="nav-link">GambleFreeGear</a></li>
+        <li><a href="insights.html" class="nav-link">Insights</a></li>
+        <li><a href="media.html" class="nav-link">Media</a></li>
+      </ul>
+      <a href="book.html" class="btn btn-orange nav-cta" data-magnetic>Book Tiffany</a>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-close" id="mobileClose" aria-label="Close menu">✕</button>
     <a href="about.html" class="mobile-nav-link">About</a>
     <a href="speaking.html" class="mobile-nav-link">Speaking</a>
     <a href="expertise.html" class="mobile-nav-link">Expertise</a>
@@ -43,153 +39,136 @@
     <a href="gamble.html" class="mobile-nav-link">GambleFreeGear</a>
     <a href="insights.html" class="mobile-nav-link">Insights</a>
     <a href="media.html" class="mobile-nav-link">Media</a>
-    <a href="book.html" class="btn btn-orange" style="margin-top:1rem;">Invite Tiffany to Speak</a>
+    <a href="book.html" class="btn btn-orange" data-magnetic>Book Tiffany</a>
   </div>
 
   <main>
-    <!-- HERO -->
-    <section class="section-pad" style="background:var(--soft-black); color:var(--ivory); padding-top:9rem;">
-      <div class="container-narrow" data-reveal="scale" style="text-align:center;">
-        <span class="eyebrow" style="color:var(--gold);"><span class="eyebrow-dot"></span> Booking & Inquiries</span>
-        <h1 class="display-hero" style="font-size:clamp(2.5rem, 5.5vw, 5rem); margin: 1rem 0;">
-          Bring Tiffany to <em>Your Next Event</em>
-        </h1>
-        <p class="section-desc light" style="margin:0 auto;">
-          Complete the inquiry form below. Tiffany's team will be in touch within 48 hours to discuss date availability, format, and custom program alignment.
-        </p>
+    <header class="hero section bg-dark">
+      <div class="container hero-content text-center">
+        <h1 class="display-1" data-reveal="up" style="color: var(--ivory);">Bring Tiffany to Your Stage</h1>
+        <p class="hero-subtitle" data-reveal="up" data-delay="0.2" style="color: var(--orange);">Inspire. Educate. Transform.</p>
       </div>
-    </section>
+    </header>
 
-    <!-- 6-STEP PROCESS -->
-    <section class="section-pad" style="background:var(--cream);">
-      <div class="container">
-        <div style="text-align:center; margin-bottom:3.5rem;" data-reveal>
-          <span class="eyebrow"><span class="eyebrow-dot"></span> Simple & Professional</span>
-          <h2 class="section-title">The Booking Process</h2>
+    <section class="section container">
+      <h2 class="h2 text-center" data-reveal="up">Why Choose Tiffany?</h2>
+      <div class="bento-grid" style="margin-top: 3rem;">
+        <div class="glass-card" data-reveal="fade">
+          <h4 class="h4">Authenticity</h4>
+          <p>Real stories that resonate with every audience.</p>
         </div>
-
-        <div class="bento-grid">
-          <div class="bento-col-4 glass-card" data-reveal="left">
-            <span class="eyebrow" style="color:var(--emerald);">Step 01</span>
-            <h4 style="font-family:var(--font-display); font-weight:800; font-size:1.2rem; margin:0.3rem 0;">Submit Inquiry</h4>
-            <p style="font-size:0.88rem; color:#555044;">Fill out the event details and preferred topics in the form below.</p>
-          </div>
-          <div class="bento-col-4 glass-card" data-reveal="scale">
-            <span class="eyebrow" style="color:var(--orange);">Step 02</span>
-            <h4 style="font-family:var(--font-display); font-weight:800; font-size:1.2rem; margin:0.3rem 0;">Team Review</h4>
-            <p style="font-size:0.88rem; color:#555044;">Our team evaluates schedule availability and alignment.</p>
-          </div>
-          <div class="bento-col-4 glass-card" data-reveal="right">
-            <span class="eyebrow" style="color:var(--gold);">Step 03</span>
-            <h4 style="font-family:var(--font-display); font-weight:800; font-size:1.2rem; margin:0.3rem 0;">Discovery Call</h4>
-            <p style="font-size:0.88rem; color:#555044;">A brief call to align on audience goals, logistics, and presentation flow.</p>
-          </div>
-          <div class="bento-col-4 glass-card" data-reveal="left">
-            <span class="eyebrow" style="color:var(--royal);">Step 04</span>
-            <h4 style="font-family:var(--font-display); font-weight:800; font-size:1.2rem; margin:0.3rem 0;">Proposal & Agreement</h4>
-            <p style="font-size:0.88rem; color:#555044;">Formalize terms, customized topic details, and logistical setup.</p>
-          </div>
-          <div class="bento-col-4 glass-card" data-reveal="scale">
-            <span class="eyebrow" style="color:var(--teal);">Step 05</span>
-            <h4 style="font-family:var(--font-display); font-weight:800; font-size:1.2rem; margin:0.3rem 0;">Event Preparation</h4>
-            <p style="font-size:0.88rem; color:#555044;">Pre-event alignment, material distribution, and AV check.</p>
-          </div>
-          <div class="bento-col-4 glass-card" data-reveal="right">
-            <span class="eyebrow" style="color:var(--berry);">Step 06</span>
-            <h4 style="font-family:var(--font-display); font-weight:800; font-size:1.2rem; margin:0.3rem 0;">Tiffany Speaks!</h4>
-            <p style="font-size:0.88rem; color:#555044;">An inspiring, evidence-based presentation that leaves lasting impact.</p>
-          </div>
+        <div class="glass-card" data-reveal="fade" data-delay="0.1">
+          <h4 class="h4">Actionable Strategies</h4>
+          <p>More than inspiration; practical steps for change.</p>
+        </div>
+        <div class="glass-card" data-reveal="fade" data-delay="0.2">
+          <h4 class="h4">Evidence-Based</h4>
+          <p>Grounded in public health research and data.</p>
+        </div>
+        <div class="glass-card" data-reveal="fade" data-delay="0.3">
+          <h4 class="h4">Engaging Delivery</h4>
+          <p>Dynamic presence that commands the room.</p>
         </div>
       </div>
     </section>
 
-    <!-- INTAKE FORM SECTION -->
-    <section class="section-pad">
-      <div class="container-narrow">
-        <div class="glass-card" style="padding:3.5rem 3rem;" data-reveal="scale">
-          <h2 class="section-title" style="margin-bottom:1.5rem; text-align:center;">Speaking Inquiry Form</h2>
-
-          <form id="booking-form" style="display:flex; flex-direction:column; gap:1.5rem;">
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem;">
-              <div>
-                <label style="font-family:var(--font-mono); font-size:0.75rem; font-weight:700; text-transform:uppercase; display:block; margin-bottom:0.4rem;">Full Name *</label>
-                <input type="text" required style="width:100%; padding:0.9rem; border-radius:var(--radius-md); border:1px solid var(--cream-dark); font-family:var(--font-body);" placeholder="Jane Doe" />
-              </div>
-              <div>
-                <label style="font-family:var(--font-mono); font-size:0.75rem; font-weight:700; text-transform:uppercase; display:block; margin-bottom:0.4rem;">Organization / Host *</label>
-                <input type="text" required style="width:100%; padding:0.9rem; border-radius:var(--radius-md); border:1px solid var(--cream-dark); font-family:var(--font-body);" placeholder="Illinois Prevention Association" />
-              </div>
-            </div>
-
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem;">
-              <div>
-                <label style="font-family:var(--font-mono); font-size:0.75rem; font-weight:700; text-transform:uppercase; display:block; margin-bottom:0.4rem;">Email Address *</label>
-                <input type="email" required style="width:100%; padding:0.9rem; border-radius:var(--radius-md); border:1px solid var(--cream-dark); font-family:var(--font-body);" placeholder="jane@organization.org" />
-              </div>
-              <div>
-                <label style="font-family:var(--font-mono); font-size:0.75rem; font-weight:700; text-transform:uppercase; display:block; margin-bottom:0.4rem;">Phone Number</label>
-                <input type="tel" style="width:100%; padding:0.9rem; border-radius:var(--radius-md); border:1px solid var(--cream-dark); font-family:var(--font-body);" placeholder="(555) 000-0000" />
-              </div>
-            </div>
-
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem;">
-              <div>
-                <label style="font-family:var(--font-mono); font-size:0.75rem; font-weight:700; text-transform:uppercase; display:block; margin-bottom:0.4rem;">Event Type *</label>
-                <select required style="width:100%; padding:0.9rem; border-radius:var(--radius-md); border:1px solid var(--cream-dark); font-family:var(--font-body); background:var(--ivory);">
-                  <option value="">Select Event Format...</option>
-                  <option value="keynote">Conference Keynote</option>
-                  <option value="workshop">Clinical / Professional Workshop</option>
-                  <option value="panel">Panel Discussion</option>
-                  <option value="school">School / University Assembly</option>
-                  <option value="community">Community Health Event / Fair</option>
-                  <option value="other">Other / Custom Event</option>
-                </select>
-              </div>
-              <div>
-                <label style="font-family:var(--font-mono); font-size:0.75rem; font-weight:700; text-transform:uppercase; display:block; margin-bottom:0.4rem;">Target Event Date</label>
-                <input type="date" style="width:100%; padding:0.9rem; border-radius:var(--radius-md); border:1px solid var(--cream-dark); font-family:var(--font-body); background:var(--ivory);" />
-              </div>
-            </div>
-
-            <div>
-              <label style="font-family:var(--font-mono); font-size:0.75rem; font-weight:700; text-transform:uppercase; display:block; margin-bottom:0.4rem;">Preferred Topic Track</label>
-              <select style="width:100%; padding:0.9rem; border-radius:var(--radius-md); border:1px solid var(--cream-dark); font-family:var(--font-body); background:var(--ivory);">
-                <option value="flagship">Flagship Keynote: Break the Silence</option>
-                <option value="track1">Track 1: Prevention & Awareness (5 Topics)</option>
-                <option value="track2">Track 2: Clinical & Professional Training (8 Topics)</option>
-                <option value="track3">Track 3: Family & Community Impact (4 Topics)</option>
-                <option value="track4">Track 4: Creative & Promotional Engagement (3 Topics)</option>
-                <option value="custom">Customized Topic Alignment</option>
-              </select>
-            </div>
-
-            <div>
-              <label style="font-family:var(--font-mono); font-size:0.75rem; font-weight:700; text-transform:uppercase; display:block; margin-bottom:0.4rem;">Event Details & Audience Goals</label>
-              <textarea rows="4" style="width:100%; padding:0.9rem; border-radius:var(--radius-md); border:1px solid var(--cream-dark); font-family:var(--font-body);" placeholder="Tell us about your audience, location (in-person/virtual), expected attendance, and goals..."></textarea>
-            </div>
-
-            <button type="submit" class="btn btn-orange btn-lg" style="margin-top:1rem; width:100%;">
-              Submit Speaking Request
-            </button>
-          </form>
-
-          <p style="text-align:center; font-size:0.8rem; color:#777; margin-top:1.5rem;">
-            Or email directly: <a href="mailto:booking@tiffanywebb.com" style="color:var(--emerald); font-family:var(--font-mono); font-weight:700;">booking@tiffanywebb.com</a>
-          </p>
+    <section class="section container bg-light">
+      <h2 class="h2 text-center" data-reveal="up">6-Step Booking Process</h2>
+      <div class="grid" style="grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 3rem;">
+        <div class="glass-card text-center" data-reveal="up">
+          <div class="h3" style="color: var(--teal);">1</div>
+          <p>Submit Inquiry</p>
         </div>
+        <div class="glass-card text-center" data-reveal="up" data-delay="0.1">
+          <div class="h3" style="color: var(--teal);">2</div>
+          <p>Discovery Call</p>
+        </div>
+        <div class="glass-card text-center" data-reveal="up" data-delay="0.2">
+          <div class="h3" style="color: var(--teal);">3</div>
+          <p>Proposal</p>
+        </div>
+        <div class="glass-card text-center" data-reveal="up" data-delay="0.3">
+          <div class="h3" style="color: var(--teal);">4</div>
+          <p>Agreement</p>
+        </div>
+        <div class="glass-card text-center" data-reveal="up" data-delay="0.4">
+          <div class="h3" style="color: var(--teal);">5</div>
+          <p>Preparation</p>
+        </div>
+        <div class="glass-card text-center" data-reveal="up" data-delay="0.5">
+          <div class="h3" style="color: var(--teal);">6</div>
+          <p>Event Day</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="glass-card" data-reveal="fade" style="max-width: 800px; margin: 0 auto;">
+        <h2 class="h2 text-center">Booking Inquiry</h2>
+        <form action="mailto:booking@tiffanywebb.com" method="post" enctype="text/plain" style="display: flex; flex-direction: column; gap: 1.5rem; margin-top: 2rem;">
+          <div style="display: flex; gap: 1rem;">
+            <input type="text" name="Name" placeholder="Full Name" required style="flex: 1; padding: 1rem; border: 1px solid #ccc; border-radius: 4px;">
+            <input type="email" name="Email" placeholder="Email Address" required style="flex: 1; padding: 1rem; border: 1px solid #ccc; border-radius: 4px;">
+          </div>
+          <input type="text" name="Organization" placeholder="Organization" required style="padding: 1rem; border: 1px solid #ccc; border-radius: 4px;">
+          <select name="EventType" required style="padding: 1rem; border: 1px solid #ccc; border-radius: 4px;">
+            <option value="" disabled selected>Select Event Type</option>
+            <option value="Keynote">Keynote</option>
+            <option value="Workshop">Workshop</option>
+            <option value="Panel">Panel</option>
+            <option value="Other">Other</option>
+          </select>
+          <div style="display: flex; gap: 1rem;">
+            <input type="date" name="Date" required style="flex: 1; padding: 1rem; border: 1px solid #ccc; border-radius: 4px;">
+            <input type="text" name="Location" placeholder="Location" required style="flex: 1; padding: 1rem; border: 1px solid #ccc; border-radius: 4px;">
+          </div>
+          <input type="text" name="AudienceSize" placeholder="Estimated Audience Size" required style="padding: 1rem; border: 1px solid #ccc; border-radius: 4px;">
+          <textarea name="Message" rows="5" placeholder="Tell us more about your event..." required style="padding: 1rem; border: 1px solid #ccc; border-radius: 4px;"></textarea>
+          <button type="submit" class="btn btn-emerald" data-magnetic style="align-self: center;">Submit Inquiry</button>
+        </form>
       </div>
     </section>
   </main>
 
+  <!-- FOOTER -->
   <footer class="site-footer">
     <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand-name">Tiffany Webb</div>
+          <div class="footer-brand-title">Community Impact Strategist · Public Health Educator & Speaker</div>
+          <p style="font-size:0.88rem; line-height:1.6; max-width:320px;">"Rooted in Community. Committed to Change."</p>
+        </div>
+        <div>
+          <h4 class="footer-heading">Navigation</h4>
+          <ul class="footer-list">
+            <li><a href="about.html" class="footer-link">About Tiffany</a></li>
+            <li><a href="speaking.html" class="footer-link">Speaking & Topics</a></li>
+            <li><a href="expertise.html" class="footer-link">Areas of Expertise</a></li>
+            <li><a href="impact.html" class="footer-link">Community Impact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer-heading">Explore</h4>
+          <ul class="footer-list">
+            <li><a href="books.html" class="footer-link">Books & E-Books</a></li>
+            <li><a href="gamble.html" class="footer-link">GambleFreeGear</a></li>
+            <li><a href="insights.html" class="footer-link">Insights & Blog</a></li>
+            <li><a href="media.html" class="footer-link">Media Kit & Press</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer-heading">Bookings</h4>
+          <p style="font-size:0.85rem; margin-bottom:1rem;">Independent booking inquiries:</p>
+          <a href="mailto:booking@tiffanywebb.com" class="footer-link" style="color:var(--gold); font-family:var(--font-mono); font-weight:700;">booking@tiffanywebb.com</a>
+        </div>
+      </div>
       <div class="footer-bottom">
         <div>&copy; 2026 Tiffany Webb. All rights reserved. · "Break the Silence."</div>
-        <a href="index.html" class="footer-link">Back to Home</a>
+        <div style="display:flex; gap:1.5rem;"><a href="#" class="footer-link">Privacy Policy</a><a href="#" class="footer-link">Terms of Use</a></div>
       </div>
     </div>
   </footer>
-
   <script src="main.js"></script>
 </body>
 </html>

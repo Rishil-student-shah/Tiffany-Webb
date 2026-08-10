@@ -1,40 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GambleFreeGear — Endorsed Sub-Brand by Tiffany Webb</title>
-  <meta name="description" content="GambleFreeGear is an awareness apparel sub-brand founded by Tiffany Webb to Break the Silence on gambling addiction through cause merchandise." />
-  <link rel="stylesheet" href="styles.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GambleFreeGear | Tiffany Webb</title>
+  <meta name="description" content="Shop GambleFreeGear - A lifestyle brand and awareness campaign promoting gambling prevention.">
+  <link rel="stylesheet" href="styles.css">
 </head>
-<body class="aurora-bg">
-
-  <!-- FLOATING GLASS PILL NAVBAR -->
-  <div class="navbar-wrapper">
-    <nav class="navbar" id="navbar">
-      <div class="nav-inner">
-        <a href="index.html" class="nav-logo">
-          <span class="nav-logo-name">Tiffany Webb</span>
-          <span class="nav-logo-title">Community Impact Strategist</span>
-        </a>
-        <ul class="nav-links">
-          <li><a href="about.html" class="nav-link">About</a></li>
-          <li><a href="speaking.html" class="nav-link">Speaking</a></li>
-          <li><a href="expertise.html" class="nav-link">Expertise</a></li>
-          <li><a href="impact.html" class="nav-link">Impact</a></li>
-          <li><a href="books.html" class="nav-link">Books</a></li>
-          <li><a href="gamble.html" class="nav-link active">GambleFreeGear</a></li>
-          <li><a href="insights.html" class="nav-link">Insights</a></li>
-          <li><a href="media.html" class="nav-link">Media</a></li>
-        </ul>
-        <a href="book.html" class="btn btn-primary nav-cta">Invite Tiffany to Speak</a>
-        <button class="hamburger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
-      </div>
-    </nav>
-  </div>
-
-  <div class="mobile-menu">
-    <button class="mobile-close" style="align-self:flex-end;background:none;border:none;font-size:2rem;cursor:pointer;color:var(--ivory);">✕</button>
+<body style="background-color: var(--soft-black); color: var(--ivory);">
+  <!-- NAVBAR -->
+  <div class="page-loader" id="pageLoader"><div class="loader-monogram">TW</div></div>
+  <div class="custom-cursor" id="customCursor"></div>
+  <div id="scroll-progress"></div>
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo"><span class="nav-logo-name">Tiffany Webb</span><span class="nav-logo-title">Community Impact Strategist</span></a>
+      <ul class="nav-links">
+        <li><a href="about.html" class="nav-link">About</a></li>
+        <li><a href="speaking.html" class="nav-link">Speaking</a></li>
+        <li><a href="expertise.html" class="nav-link">Expertise</a></li>
+        <li><a href="impact.html" class="nav-link">Impact</a></li>
+        <li><a href="books.html" class="nav-link">Books</a></li>
+        <li><a href="gamble.html" class="nav-link">GambleFreeGear</a></li>
+        <li><a href="insights.html" class="nav-link">Insights</a></li>
+        <li><a href="media.html" class="nav-link">Media</a></li>
+      </ul>
+      <a href="book.html" class="btn btn-orange nav-cta" data-magnetic>Book Tiffany</a>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-close" id="mobileClose" aria-label="Close menu">✕</button>
     <a href="about.html" class="mobile-nav-link">About</a>
     <a href="speaking.html" class="mobile-nav-link">Speaking</a>
     <a href="expertise.html" class="mobile-nav-link">Expertise</a>
@@ -43,115 +39,92 @@
     <a href="gamble.html" class="mobile-nav-link">GambleFreeGear</a>
     <a href="insights.html" class="mobile-nav-link">Insights</a>
     <a href="media.html" class="mobile-nav-link">Media</a>
-    <a href="book.html" class="btn btn-orange" style="margin-top:1rem;">Invite Tiffany to Speak</a>
+    <a href="book.html" class="btn btn-orange" data-magnetic>Book Tiffany</a>
   </div>
 
   <main>
-    <!-- HERO -->
-    <section class="hero-section" style="min-height:75vh;">
-      <img src="assets/images/gamblefreegear-hero.jpg" alt="GambleFreeGear Campaign" class="hero-bg-img" />
-      <div class="hero-overlay"></div>
-      <div class="container hero-content">
-        <div data-reveal="scale">
-          <span class="eyebrow" style="color:var(--gold);"><span class="eyebrow-dot"></span> Endorsed Sub-Brand</span>
-        </div>
-        <h1 class="display-hero" style="font-size:clamp(2.8rem, 6.5vw, 6rem); margin: 1rem 0;">
-          GambleFreeGear<br /><em>by Tiffany Webb</em>
-        </h1>
-        <p class="section-desc light" style="font-size:1.2rem; margin-bottom:2rem;">
-          Awareness apparel built to "Break the Silence" — turning prevention into a walking campaign that opens doors in every neighborhood.
-        </p>
-        <a href="#mission" class="btn btn-orange btn-lg">Explore the Movement</a>
+    <header class="hero section" style="background-image: url('assets/images/gamblefreegear-hero.jpg'); background-size: cover; background-position: center; position: relative;">
+      <div class="hero-overlay" style="background: rgba(18, 17, 13, 0.7);"></div>
+      <div class="container hero-content text-center">
+        <h1 class="display-1" data-reveal="up" style="color: var(--orange);">GambleFreeGear</h1>
+        <p class="hero-subtitle" data-reveal="up" data-delay="0.2">Wear the Movement. Break the Silence.</p>
+      </div>
+    </header>
+
+    <section class="section container text-center">
+      <div class="glass-card" style="background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.1);" data-reveal="scale">
+        <h2 class="h2" style="color: var(--ivory);">Awareness Campaign</h2>
+        <p class="lead">More than apparel—a statement of advocacy and a commitment to prevention.</p>
       </div>
     </section>
 
-    <!-- MISSION -->
-    <section id="mission" class="section-pad">
-      <div class="container">
-        <div class="bento-grid" style="align-items:center;">
-          <div class="bento-col-6 glass-card" data-reveal="left">
-            <span class="eyebrow" style="color:var(--orange);">Movement Purpose</span>
-            <h2 class="section-title" style="font-size:2.2rem; margin:0.5rem 0 1rem;">Why GambleFreeGear Exists</h2>
-            <p style="color:#555044; line-height:1.8; margin-bottom:1.2rem;">
-              Traditional brochures often stay on tables. GambleFreeGear turns awareness into cause apparel that people wear into schools, community centers, and neighborhood spaces — starting conversations where shame used to live.
-            </p>
-            <p style="color:#555044; line-height:1.8;">
-              As an endorsed sub-brand of Tiffany Webb's master brand, GambleFreeGear visibly proves the mission while reinforcing community outreach.
-            </p>
-          </div>
-
-          <div class="bento-col-6 glass-card-dark" style="background:var(--emerald);" data-reveal="right">
-            <span class="eyebrow" style="color:var(--gold);">Three Vision Pillars</span>
-            <div style="display:flex; flex-direction:column; gap:1.2rem; margin-top:1rem;">
-              <div>
-                <strong style="color:var(--gold); font-family:var(--font-display); font-size:1.1rem; display:block;">1. Capsule Collection</strong>
-                <p style="font-size:0.88rem; opacity:0.85;">High-quality, minimalist awareness apparel for advocates and partners.</p>
-              </div>
-              <div>
-                <strong style="color:var(--gold); font-family:var(--font-display); font-size:1.1rem; display:block;">2. Strategic Partnerships</strong>
-                <p style="font-size:0.88rem; opacity:0.85;">Collaborations with health systems, schools, and recovery councils.</p>
-              </div>
-              <div>
-                <strong style="color:var(--gold); font-family:var(--font-display); font-size:1.1rem; display:block;">3. Mentoring Women in Recovery</strong>
-                <p style="font-size:0.88rem; opacity:0.85;">Empowering women through peer support and recovery cohorts.</p>
-              </div>
-            </div>
-          </div>
+    <section class="section container">
+      <h2 class="h2 text-center" data-reveal="up" style="color: var(--gold);">3 Vision Pillars</h2>
+      <div class="grid" style="grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 3rem;">
+        <div class="glass-card" style="background: rgba(255,255,255,0.05);" data-reveal="fade">
+          <h4 class="h4" style="color: var(--emerald);">Advocacy</h4>
+          <p>Sparking conversations in everyday spaces.</p>
+        </div>
+        <div class="glass-card" style="background: rgba(255,255,255,0.05);" data-reveal="fade" data-delay="0.2">
+          <h4 class="h4" style="color: var(--teal);">Education</h4>
+          <p>Proceeds support community outreach programs.</p>
+        </div>
+        <div class="glass-card" style="background: rgba(255,255,255,0.05);" data-reveal="fade" data-delay="0.4">
+          <h4 class="h4" style="color: var(--orange);">Unity</h4>
+          <p>Standing together against addiction stigma.</p>
         </div>
       </div>
     </section>
 
-    <!-- CAPSULE COLLECTION PREVIEW -->
-    <section class="section-pad" style="background:var(--cream);">
-      <div class="container">
-        <div style="text-align:center; margin-bottom:3.5rem;" data-reveal>
-          <span class="eyebrow"><span class="eyebrow-dot"></span> Awareness Apparel</span>
-          <h2 class="section-title">The Capsule Collection</h2>
-        </div>
-
-        <div class="bento-grid">
-          <div class="bento-col-4 glass-card" data-reveal="left">
-            <span class="eyebrow" style="color:var(--emerald);">Apparel Item</span>
-            <h3 style="font-family:var(--font-display); font-size:1.3rem; font-weight:800; margin:0.5rem 0;">"Break the Silence" Statement Tee</h3>
-            <p style="font-size:0.88rem; color:#555044; margin-bottom:1rem;">Premium emerald & warm gold typography tee.</p>
-            <span style="font-family:var(--font-mono); font-weight:700; color:var(--emerald);">Cause Awareness Gear</span>
-          </div>
-
-          <div class="bento-col-4 glass-card" data-reveal="scale">
-            <span class="eyebrow" style="color:var(--orange);">Apparel Item</span>
-            <h3 style="font-family:var(--font-display); font-size:1.3rem; font-weight:800; margin:0.5rem 0;">"Rooted in Community" Hoodie</h3>
-            <p style="font-size:0.88rem; color:#555044; margin-bottom:1rem;">Cozy dark charcoal fleece hoodie for outreach teams.</p>
-            <span style="font-family:var(--font-mono); font-weight:700; color:var(--emerald);">Community Team Gear</span>
-          </div>
-
-          <div class="bento-col-4 glass-card" data-reveal="right">
-            <span class="eyebrow" style="color:var(--gold);">Apparel Item</span>
-            <h3 style="font-family:var(--font-display); font-size:1.3rem; font-weight:800; margin:0.5rem 0;">Prevention Specialist Cap</h3>
-            <p style="font-size:0.88rem; color:#555044; margin-bottom:1rem;">Adjustable embroidered cap for health fairs & events.</p>
-            <span style="font-family:var(--font-mono); font-weight:700; color:var(--emerald);">Event Apparel</span>
-          </div>
-        </div>
+    <section class="section container text-center">
+      <h2 class="h2" data-reveal="up" style="color: var(--ivory);">Capsule Collection</h2>
+      <p data-reveal="up" data-delay="0.1" style="margin-bottom: 2rem;">Premium hoodies, tees, and accessories designed for impact.</p>
+      <div class="glass-card" style="background: rgba(255,255,255,0.05); height: 300px; display: flex; align-items: center; justify-content: center; margin-bottom: 2rem;">
+        <p>[ Product Grid Placeholder ]</p>
       </div>
-    </section>
-
-    <!-- CTA -->
-    <section class="section-pad" style="background:var(--soft-black); color:var(--ivory); text-align:center;">
-      <div class="container-narrow" data-reveal="scale">
-        <h2 class="section-title light" style="margin-bottom:1.5rem;">Partner with GambleFreeGear for Your Next Campaign</h2>
-        <a href="book.html" class="btn btn-orange btn-lg">Inquire for Bulk & Partnership Orders</a>
-      </div>
+      <a href="#" class="btn btn-orange btn-lg" data-magnetic>Shop GambleFreeGear</a>
     </section>
   </main>
 
+  <!-- FOOTER -->
   <footer class="site-footer">
     <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand-name">Tiffany Webb</div>
+          <div class="footer-brand-title">Community Impact Strategist · Public Health Educator & Speaker</div>
+          <p style="font-size:0.88rem; line-height:1.6; max-width:320px;">"Rooted in Community. Committed to Change."</p>
+        </div>
+        <div>
+          <h4 class="footer-heading">Navigation</h4>
+          <ul class="footer-list">
+            <li><a href="about.html" class="footer-link">About Tiffany</a></li>
+            <li><a href="speaking.html" class="footer-link">Speaking & Topics</a></li>
+            <li><a href="expertise.html" class="footer-link">Areas of Expertise</a></li>
+            <li><a href="impact.html" class="footer-link">Community Impact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer-heading">Explore</h4>
+          <ul class="footer-list">
+            <li><a href="books.html" class="footer-link">Books & E-Books</a></li>
+            <li><a href="gamble.html" class="footer-link">GambleFreeGear</a></li>
+            <li><a href="insights.html" class="footer-link">Insights & Blog</a></li>
+            <li><a href="media.html" class="footer-link">Media Kit & Press</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer-heading">Bookings</h4>
+          <p style="font-size:0.85rem; margin-bottom:1rem;">Independent booking inquiries:</p>
+          <a href="mailto:booking@tiffanywebb.com" class="footer-link" style="color:var(--gold); font-family:var(--font-mono); font-weight:700;">booking@tiffanywebb.com</a>
+        </div>
+      </div>
       <div class="footer-bottom">
         <div>&copy; 2026 Tiffany Webb. All rights reserved. · "Break the Silence."</div>
-        <a href="index.html" class="footer-link">Back to Home</a>
+        <div style="display:flex; gap:1.5rem;"><a href="#" class="footer-link">Privacy Policy</a><a href="#" class="footer-link">Terms of Use</a></div>
       </div>
     </div>
   </footer>
-
   <script src="main.js"></script>
 </body>
 </html>
