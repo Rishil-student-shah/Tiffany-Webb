@@ -380,7 +380,7 @@ app.get('/cms/:slug', requireAuth, async (req, res) => {
 
     let definedCollections = [];
     if (page.slug === 'home') {
-      definedCollections = ['impact_band', 'credibility_bar', 'expertise', 'speaking_formats', 'who_can_benefit', 'proof_attributes', 'proof_testimonials'];
+      definedCollections = ['impact_band', 'credibility_bar', 'expertise', 'who_can_benefit', 'proof_attributes', 'proof_testimonials'];
     }
 
     res.render('cms-page', { 
