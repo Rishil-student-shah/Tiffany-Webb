@@ -494,6 +494,19 @@ app.get('/cms/collection/:id/delete', requireAuth, async (req, res) => {
   }
 });
 
+
+// Toggle Page Status
+app.post('/api/pages/:id/toggle', requireAuth, async (req, res) => {
+    try {
+        const { is_active } = req.body;
+        await pool.query('UPDATE website_pages SET is_active = ? WHERE id = ?', [is_active, req.params.id]);
+        res.json({ success: true });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Failed to update page status' });
+    }
+});
+
 app.post('/cms/:slug', requireAuth, upload.any(), async (req, res) => {
   try {
     const [pages] = await pool.query('SELECT id FROM website_pages WHERE slug = ?', [req.params.slug]);

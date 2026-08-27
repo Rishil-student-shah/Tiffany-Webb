@@ -812,7 +812,9 @@
                                 /<%= page.slug === 'home' ? '' : page.slug %>
                             </td>
                             <td style="padding: 1rem 1.5rem;">
-                                <span style="display: inline-block; padding: 0.25rem 0.75rem; background: #dcfce3; color: #166534; border-radius: 9999px; font-size: 0.75rem; font-weight: 600;">Active</span>
+                                <button onclick="togglePageStatus(<%= page.id %>, <%= typeof page.is_active !== 'undefined' ? page.is_active : 1 %>)" id="status-btn-<%= page.id %>" style="display: inline-block; padding: 0.25rem 0.75rem; border: none; cursor: pointer; background: <%= (typeof page.is_active === 'undefined' || page.is_active) ? '#dcfce3' : '#fce3e3' %>; color: <%= (typeof page.is_active === 'undefined' || page.is_active) ? '#166534' : '#991b1b' %>; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; transition: opacity 0.2s;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
+    <%= (typeof page.is_active === 'undefined' || page.is_active) ? 'Active' : 'Inactive' %>
+</button>
                             </td>
                             <td style="padding: 1rem 1.5rem; text-align: right;">
                                 <a href="/cms/<%= page.slug %>" style="display: inline-flex; align-items: center; gap: 0.25rem; padding: 0.4rem 0.8rem; border: 1px solid var(--color-gold); color: var(--color-gold); border-radius: 6px; text-decoration: none; font-size: 0.85rem; font-weight: 500; transition: all 0.2s;" onmouseover="this.style.background='rgba(194,149,69,0.1)'" onmouseout="this.style.background='transparent'">
@@ -826,5 +828,26 @@
             </table>
         </div>
     </div>
+
+<script>
+    async function togglePageStatus(pageId, currentStatus) {
+        const newStatus = currentStatus ? 0 : 1;
+        try {
+            const res = await fetch(`/api/pages/${pageId}/toggle`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ is_active: newStatus })
+            });
+            if (res.ok) {
+                window.location.reload();
+            } else {
+                alert('Failed to update status');
+            }
+        } catch (e) {
+            alert('Error updating status');
+        }
+    }
+</script>
 </body>
+
 </html>
