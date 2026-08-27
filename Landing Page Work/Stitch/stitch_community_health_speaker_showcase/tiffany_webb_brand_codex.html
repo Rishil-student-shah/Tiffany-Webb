@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tiffany Webb — Brand Codex</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#14130E; --char:#23211B; --char2:#2E2B23;
+  --ivory:#FBF6EA; --cream:#F3EAD6; --cream2:#EEE2C9;
+  --emerald:#0E6B54; --teal:#0B5C63; --tealblue:#1C6E7A;
+  --royal:#223A82; --berry:#6C2D5A; --burnt:#C15427;
+  --mustard:#D9A23A; --coral:#E17356; --wood:#9A6A3E; --gold:#C8A24C;
+  --line:rgba(20,19,14,.12); --muted:#6d6656;
+  --accent:var(--gold);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Inter',system-ui,sans-serif;
+  background:var(--ivory); color:var(--char);
+  line-height:1.62; -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+::selection{background:var(--gold);color:var(--ink)}
+
+/* ---------- progress + topbar ---------- */
+.progress{position:fixed;top:0;left:0;height:3px;width:0;z-index:120;
+  background:linear-gradient(90deg,var(--emerald),var(--teal),var(--royal),var(--berry),var(--burnt),var(--mustard),var(--coral));}
+.topbar{position:fixed;top:0;left:0;right:0;height:60px;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 22px;background:rgba(20,19,14,.86);backdrop-filter:blur(10px);
+  border-bottom:1px solid rgba(200,162,76,.25);}
+.topbar .wm{font-family:'Fraunces',serif;color:var(--ivory);font-weight:600;
+  font-size:1.02rem;letter-spacing:.02em;display:flex;align-items:center;gap:10px}
+.topbar .wm b{color:var(--gold);font-weight:600}
+.topbar .wm .dot{width:9px;height:9px;border-radius:50%;
+  background:conic-gradient(var(--emerald),var(--teal),var(--royal),var(--berry),var(--burnt),var(--mustard),var(--coral),var(--emerald));
+  box-shadow:0 0 0 3px rgba(200,162,76,.18)}
+.topbar .tools{display:flex;gap:8px}
+.topbar button{font-family:'Space Mono',monospace;font-size:.66rem;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--ivory);background:transparent;
+  border:1px solid rgba(200,162,76,.4);padding:7px 11px;border-radius:40px;cursor:pointer;
+  transition:.25s}
+.topbar button:hover{background:var(--gold);color:var(--ink);border-color:var(--gold)}
+.menu-btn{display:none}
+
+/* ---------- layout ---------- */
+.layout{display:grid;grid-template-columns:290px 1fr;max-width:1500px;margin:0 auto}
+.sidebar{position:sticky;top:60px;align-self:start;height:calc(100vh - 60px);
+  overflow-y:auto;padding:26px 14px 60px 24px;
+  border-right:1px solid var(--line);background:linear-gradient(180deg,var(--ivory),#f6efdf);}
+.sidebar::-webkit-scrollbar{width:7px}
+.sidebar::-webkit-scrollbar-thumb{background:var(--cream2);border-radius:6px}
+.sb-title{font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--muted);margin:0 0 14px 6px}
+.nav-branch{margin-bottom:3px}
+.nav-item{display:flex;align-items:center;gap:10px;width:100%;text-align:left;
+  background:transparent;border:0;cursor:pointer;padding:8px 10px;border-radius:9px;
+  font-size:.86rem;color:var(--char);font-family:'Inter';transition:.2s;line-height:1.3}
+.nav-item:hover{background:var(--cream)}
+.nav-item.active{background:var(--ink);color:var(--ivory)}
+.nav-item.active .nav-key{color:var(--ivory)}
+.nav-key{font-family:'Space Mono',monospace;font-size:.7rem;font-weight:700;
+  width:22px;flex:none;color:var(--accent-key,var(--wood));}
+.nav-tick{width:8px;height:8px;border-radius:50%;flex:none;background:var(--tick,var(--gold))}
+
+/* ---------- content shell ---------- */
+.content{min-width:0;padding-top:60px}
+
+/* ---------- hero ---------- */
+.hero{position:relative;background:radial-gradient(120% 120% at 12% 0%,#1c2a25 0%,var(--ink) 55%);
+  color:var(--ivory);padding:80px 7vw 70px;overflow:hidden}
+.hero .eyebrow{font-family:'Space Mono',monospace;font-size:.7rem;letter-spacing:.34em;
+  text-transform:uppercase;color:var(--gold);margin-bottom:22px}
+.hero h1{font-family:'Fraunces',serif;font-weight:600;line-height:.98;
+  font-size:clamp(2.6rem,6.4vw,5.4rem);letter-spacing:-.01em;margin-bottom:8px}
+.hero h1 .l1{display:block;color:var(--ivory)}
+.hero h1 .l2{display:block;font-style:italic;font-weight:400;
+  background:linear-gradient(92deg,var(--mustard),var(--coral),var(--berry));
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .role{font-family:'Space Mono',monospace;font-size:.74rem;letter-spacing:.14em;
+  text-transform:uppercase;color:#c9c2ac;margin:20px 0 30px}
+.hero .lede{max-width:680px;font-size:1.06rem;color:#e7e0cf;line-height:1.66}
+.hero .lede b{color:var(--ivory);font-weight:600}
+.hero .wave{position:absolute;left:0;right:0;bottom:0;height:64px;display:flex;
+  gap:5px;align-items:flex-end;padding:0 4vw;opacity:.5}
+.hero .wave i{flex:1;background:linear-gradient(180deg,transparent,var(--coral));
+  border-radius:3px 3px 0 0;animation:eq 2.6s ease-in-out infinite}
+@keyframes eq{0%,100%{height:14%}50%{height:78%}}
+.hero-meta{display:flex;flex-wrap:wrap;gap:26px;margin-top:36px}
+.hmeta b{font-family:'Fraunces',serif;font-size:1.9rem;color:var(--mustard);display:block;line-height:1}
+.hmeta span{font-family:'Space Mono',monospace;font-size:.64rem;letter-spacing:.14em;
+  text-transform:uppercase;color:#b7b09a}
+
+/* ---------- brand tree signature ---------- */
+.treewrap{background:linear-gradient(180deg,var(--ink),#191811);color:var(--ivory);
+  padding:64px 6vw 74px;position:relative;border-top:1px solid rgba(200,162,76,.2)}
+.sec-eyebrow{font-family:'Space Mono',monospace;font-size:.66rem;letter-spacing:.28em;
+  text-transform:uppercase;margin-bottom:12px}
+.treewrap .sec-eyebrow{color:var(--gold)}
+.treewrap h2{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(1.7rem,3.4vw,2.6rem);
+  margin-bottom:6px}
+.treewrap .sub{color:#c7c0aa;max-width:640px;margin-bottom:40px;font-size:.98rem}
+.tree{display:grid;grid-template-columns:auto 1fr;gap:0;align-items:center}
+.tree-root{align-self:center}
+.root-node{background:linear-gradient(135deg,var(--emerald),var(--teal));
+  border:1px solid var(--gold);border-radius:16px;padding:20px 20px;max-width:210px;
+  box-shadow:0 18px 40px rgba(0,0,0,.4)}
+.root-node .rk{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.2em;
+  text-transform:uppercase;color:#bfe9d8}
+.root-node .rn{font-family:'Fraunces',serif;font-size:1.5rem;line-height:1.05;margin-top:6px;color:#fff}
+.root-node .rd{font-size:.72rem;color:#d7f0e6;margin-top:8px;font-family:'Space Mono';letter-spacing:.04em}
+.branches{display:flex;flex-direction:column;gap:12px;padding-left:38px;position:relative}
+.branches::before{content:"";position:absolute;left:0;top:6%;bottom:6%;width:2px;
+  background:linear-gradient(180deg,transparent,rgba(200,162,76,.55),transparent)}
+.tnode{position:relative;text-align:left;background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.1);border-left:4px solid var(--tc,var(--gold));
+  border-radius:11px;padding:12px 16px;cursor:pointer;color:var(--ivory);
+  display:flex;align-items:baseline;gap:12px;transition:.28s;
+  opacity:0;transform:translateX(14px)}
+.tnode.grow{opacity:1;transform:none}
+.tnode::before{content:"";position:absolute;left:-38px;top:50%;width:38px;height:2px;
+  background:var(--tc,var(--gold));opacity:.5;transform:scaleX(0);transform-origin:left;
+  transition:transform .5s ease}
+.tnode.grow::before{transform:scaleX(1)}
+.tnode:hover{background:rgba(255,255,255,.09);transform:translateX(4px);
+  box-shadow:-6px 0 22px -8px var(--tc)}
+.tnode .tk{font-family:'Space Mono',monospace;font-weight:700;font-size:.82rem;color:var(--tc);
+  flex:none;width:34px}
+.tnode .tt{font-family:'Fraunces',serif;font-size:1.02rem;line-height:1.15}
+.tnode .tl{display:block;font-family:'Inter';font-size:.72rem;color:#b4ad98;margin-top:3px;
+  letter-spacing:.01em}
+
+/* ---------- kb sections ---------- */
+.reading{padding:0 0 40px}
+.kb{border-bottom:1px solid var(--line);scroll-margin-top:70px}
+.kb-head{display:flex;align-items:center;gap:20px;cursor:pointer;
+  padding:30px 7vw;transition:background .25s;position:relative}
+.kb-head:hover{background:var(--cream)}
+.kb-head .bar{position:absolute;left:0;top:0;bottom:0;width:7px;background:var(--accent)}
+.kb-key{font-family:'Space Mono',monospace;font-weight:700;font-size:1rem;color:#fff;
+  background:var(--accent);width:44px;height:44px;border-radius:12px;flex:none;
+  display:flex;align-items:center;justify-content:center;box-shadow:0 8px 20px -8px var(--accent)}
+.kb-head h2{font-family:'Fraunces',serif;font-weight:600;letter-spacing:-.01em;
+  font-size:clamp(1.45rem,3vw,2.15rem);flex:1;line-height:1.05}
+.kb-head .eyebrow2{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--accent);display:block;margin-bottom:5px}
+.kb-toggle{font-family:'Space Mono',monospace;font-size:1.3rem;color:var(--accent);
+  transition:transform .35s;flex:none}
+.kb.open .kb-toggle{transform:rotate(45deg)}
+.kb-body{max-height:0;overflow:hidden;transition:max-height .6s cubic-bezier(.4,0,.2,1),opacity .5s;opacity:0}
+.kb.open .kb-body{opacity:1}
+.kb-inner{padding:6px 7vw 46px;max-width:900px}
+
+/* prose */
+.kb-inner p{margin:0 0 15px;color:#37342b;font-size:1.005rem}
+.kb-inner p.intro{font-size:1.12rem;line-height:1.62;color:var(--char)}
+.kb-inner strong,.kb-inner b{color:var(--ink);font-weight:600}
+.kb-inner em{font-style:italic}
+.lead-quote{font-family:'Fraunces',serif;font-style:italic;font-size:1.25rem;line-height:1.5;
+  color:var(--ink);border-left:4px solid var(--accent);padding:6px 0 6px 22px;margin:22px 0}
+h3.sub{font-family:'Fraunces',serif;font-size:1.24rem;font-weight:600;margin:30px 0 12px;
+  color:var(--ink);display:flex;align-items:center;gap:10px}
+h3.sub::before{content:"";width:16px;height:2px;background:var(--accent)}
+h4.subsub{font-family:'Space Mono',monospace;font-size:.72rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--accent);margin:22px 0 8px}
+
+ul.clean{list-style:none;margin:6px 0 18px}
+ul.clean li{position:relative;padding:7px 0 7px 26px;border-bottom:1px dashed var(--line);
+  font-size:.99rem;color:#37342b}
+ul.clean li:last-child{border-bottom:0}
+ul.clean li::before{content:"";position:absolute;left:2px;top:15px;width:9px;height:9px;
+  border-radius:2px;background:var(--accent);transform:rotate(45deg)}
+ul.clean li b{color:var(--ink)}
+
+.card{background:var(--cream);border:1px solid var(--line);border-left:5px solid var(--accent);
+  border-radius:14px;padding:18px 20px;margin:14px 0}
+.card .ct{font-family:'Fraunces',serif;font-size:1.08rem;font-weight:600;color:var(--ink);margin-bottom:6px;
+  display:flex;gap:10px;align-items:baseline}
+.card .cn{font-family:'Space Mono',monospace;font-size:.78rem;color:var(--accent);font-weight:700}
+.card p{font-size:.95rem;margin-bottom:0;color:#3a372d}
+.card .role-tag{font-family:'Space Mono',monospace;font-size:.68rem;letter-spacing:.06em;
+  color:var(--muted);margin-top:8px}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.flag{background:#fff;border:1px solid var(--line);border-top:4px solid var(--burnt);
+  border-radius:12px;padding:16px 18px;margin:12px 0}
+.flag .fn{font-family:'Space Mono',monospace;font-size:.72rem;font-weight:700;color:var(--burnt);
+  letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.flag .fn::before{content:"⚑"}
+.flag p{font-size:.94rem;margin:0}
+.flag .rec{margin-top:8px;font-size:.9rem;color:var(--emerald)}
+.flag .rec b{color:var(--emerald)}
+
+.pill-row{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 18px}
+.pill{font-family:'Space Mono',monospace;font-size:.72rem;letter-spacing:.04em;
+  background:var(--cream);border:1px solid var(--line);color:var(--char);
+  padding:6px 12px;border-radius:30px}
+
+.bio{background:linear-gradient(180deg,#fff,var(--cream));border:1px solid var(--line);
+  border-radius:14px;padding:20px 22px;margin:14px 0;position:relative}
+.bio .bl{font-family:'Space Mono',monospace;font-size:.66rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--accent);margin-bottom:10px;display:flex;
+  justify-content:space-between;align-items:center}
+.bio p{font-family:'Fraunces',serif;font-size:1.04rem;line-height:1.55;color:var(--ink);margin:0}
+.copy-btn{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;
+  background:var(--ink);color:var(--ivory);border:0;border-radius:20px;padding:5px 11px;cursor:pointer;transition:.2s}
+.copy-btn:hover{background:var(--accent);color:#fff}
+
+.data-anchor{background:var(--ink);color:var(--ivory);border-radius:14px;padding:20px 22px;margin:14px 0}
+.data-anchor .dl{font-family:'Space Mono',monospace;font-size:.66rem;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--mustard);margin-bottom:6px}
+.data-anchor p{font-size:.93rem;color:#e2dccb;margin:0}
+.data-anchor p b{color:#fff}
+.data-anchor em{color:var(--coral);font-style:italic}
+
+.tracks .track{border-left:3px solid var(--accent);padding:2px 0 2px 16px;margin:14px 0}
+.tracks .track .tn{font-family:'Space Mono',monospace;font-size:.72rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--accent);font-weight:700}
+.tracks .track p{margin:4px 0 0;font-size:.95rem}
+
+/* palette */
+.palette{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;margin:16px 0 6px}
+.sw{border-radius:12px;overflow:hidden;border:1px solid var(--line);cursor:pointer;transition:.25s;background:#fff}
+.sw:hover{transform:translateY(-4px);box-shadow:0 12px 26px -12px rgba(0,0,0,.4)}
+.sw .chip{height:74px}
+.sw .meta{padding:8px 10px}
+.sw .nm{font-size:.74rem;font-weight:600;color:var(--ink);line-height:1.2}
+.sw .hx{font-family:'Space Mono',monospace;font-size:.66rem;color:var(--muted);margin-top:2px}
+
+.staged{border-left:3px solid var(--accent);margin:16px 0;padding-left:18px}
+.staged .st{font-family:'Fraunces',serif;font-size:1.12rem;font-weight:600;color:var(--ink)}
+.staged .sm{font-family:'Space Mono',monospace;font-size:.66rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+
+/* footer */
+.foot{background:var(--ink);color:#cfc8b4;padding:50px 7vw;text-align:center}
+.foot .fq{font-family:'Fraunces',serif;font-style:italic;font-size:1.3rem;color:var(--ivory);
+  max-width:640px;margin:0 auto 18px;line-height:1.5}
+.foot .fm{font-family:'Space Mono',monospace;font-size:.66rem;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--gold)}
+
+/* toast */
+.toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(30px);
+  background:var(--ink);color:var(--ivory);padding:12px 22px;border-radius:40px;
+  font-family:'Space Mono',monospace;font-size:.74rem;letter-spacing:.06em;
+  border:1px solid var(--gold);opacity:0;transition:.3s;z-index:200;pointer-events:none}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s,transform .7s}
+.reveal.in{opacity:1;transform:none}
+
+@media(max-width:920px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{position:fixed;top:60px;left:0;bottom:0;width:82%;max-width:320px;z-index:90;
+    transform:translateX(-105%);transition:transform .35s;box-shadow:8px 0 30px rgba(0,0,0,.2)}
+  .sidebar.open{transform:none}
+  .menu-btn{display:inline-flex}
+  .grid2{grid-template-columns:1fr}
+  .tree{grid-template-columns:1fr}
+  .branches{padding-left:24px;margin-top:24px}
+  .tnode::before{display:none}
+  .kb-inner,.kb-head{padding-left:6vw;padding-right:6vw}
+}
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  .reveal,.tnode{opacity:1;transform:none}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<header class="topbar">
+  <div class="wm"><span class="dot"></span>TIFFANY&nbsp;<b>WEBB</b>&nbsp;· Brand Codex</div>
+  <div class="tools">
+    <button class="menu-btn" id="menuBtn">☰ Branches</button>
+    <button id="expandAll">Expand all</button>
+    <button id="collapseAll">Collapse all</button>
+  </div>
+</header>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+  <p class="sb-title">◈ Branches of the Codex</p>
+  <div class="nav-branch"><button class="nav-item" data-go="overview" style="--tick:var(--gold);--accent-key:var(--gold)"><span class="nav-key">◆</span>Overview · TL;DR & Findings</button></div>
+  <div class="nav-branch"><button class="nav-item" data-go="secA" style="--tick:var(--teal);--accent-key:var(--teal)"><span class="nav-key">A</span>Document Digest</button></div>
+  <div class="nav-branch"><button class="nav-item" data-go="secB" style="--tick:var(--emerald);--accent-key:var(--emerald)"><span class="nav-key">B</span>Brand DNA</button></div>
+  <div class="nav-branch"><button class="nav-item" data-go="secC" style="--tick:var(--burnt);--accent-key:var(--burnt)"><span class="nav-key">C</span>Brand Audit</button></div>
+  <div class="nav-branch"><button class="nav-item" data-go="secD" style="--tick:var(--royal);--accent-key:var(--royal)"><span class="nav-key">D</span>Brand Architecture</button></div>
+  <div class="nav-branch"><button class="nav-item" data-go="secE" style="--tick:var(--berry);--accent-key:var(--berry)"><span class="nav-key">E</span>Positioning & Competition</button></div>
+  <div class="nav-branch"><button class="nav-item" data-go="secF" style="--tick:var(--coral);--accent-key:var(--coral)"><span class="nav-key">F</span>Audiences & Personas</button></div>
+  <div class="nav-branch"><button class="nav-item" data-go="secG" style="--tick:var(--mustard);--accent-key:var(--mustard)"><span class="nav-key">G</span>Messaging System</button></div>
+  <div class="nav-branch"><button class="nav-item" data-go="secH" style="--tick:var(--tealblue);--accent-key:var(--tealblue)"><span class="nav-key">H</span>Visual Identity</button></div>
+  <div class="nav-branch"><button class="nav-item" data-go="secI" style="--tick:var(--gold);--accent-key:var(--gold)"><span class="nav-key">I</span>Monetization & Offers</button></div>
+  <div class="nav-branch"><button class="nav-item" data-go="secJ" style="--tick:var(--royal);--accent-key:var(--royal)"><span class="nav-key">J</span>Go-To-Market Notes</button></div>
+  <div class="nav-branch"><button class="nav-item" data-go="secR" style="--tick:var(--emerald);--accent-key:var(--emerald)"><span class="nav-key">▶</span>Recommendations (Staged)</button></div>
+  <div class="nav-branch"><button class="nav-item" data-go="secX" style="--tick:var(--wood);--accent-key:var(--wood)"><span class="nav-key">✦</span>Caveats</button></div>
+</aside>
+
+<main class="content">
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="eyebrow">Brand Knowledge Base · Brand DNA · Audit · Architecture</div>
+  <h1><span class="l1">Break the</span><span class="l2">Silence.</span></h1>
+  <div class="role">Tiffany Webb, BBA, MHP &nbsp;·&nbsp; Community Impact Strategist &nbsp;·&nbsp; Speaker · Panelist · Workshop Facilitator</div>
+  <p class="lede">A world-class, living reference for the brand: repositioning Tiffany Webb from <b>"gambling prevention coordinator"</b> (a job title) into a national <b>Community Impact Strategist</b> whose signature lane is <b>culturally rooted gambling-harm prevention</b> — arriving exactly as legalized sports betting turns problem gambling into a top-tier public-health story. Every word of the knowledge base lives here, in a clickable branch architecture keyed to her real brand palette.</p>
+  <div class="hero-meta">
+    <div class="hmeta"><b>15+</b><span>Years Experience</span></div>
+    <div class="hmeta"><b>4,000+</b><span>Hours Prevention Outreach</span></div>
+    <div class="hmeta"><b>21</b><span>Signature Talk Topics</span></div>
+    <div class="hmeta"><b>13</b><span>Branches of the Codex</span></div>
+  </div>
+  <div class="wave" id="wave"></div>
+</section>
+
+<!-- BRAND TREE SIGNATURE -->
+<section class="treewrap">
+  <div class="sec-eyebrow">◈ The Architecture Map — click any branch to open it</div>
+  <h2>One root. Thirteen branches.</h2>
+  <p class="sub">The knowledge base is a tree. The master brand is the root; every branch below is a part of the codex. Follow a branch to read every word it holds.</p>
+  <div class="tree">
+    <div class="tree-root">
+      <div class="root-node">
+        <div class="rk">◆ The Root · Master Brand</div>
+        <div class="rn">Tiffany Webb</div>
+        <div class="rd">Community Impact Strategist</div>
+      </div>
+    </div>
+    <div class="branches" id="branches">
+      <button class="tnode" data-go="overview" style="--tc:var(--gold)"><span class="tk">◆</span><span><span class="tt">Overview — TL;DR & Key Findings</span><span class="tl">The one-screen brief and the four things that matter most</span></span></button>
+      <button class="tnode" data-go="secA" style="--tc:var(--teal)"><span class="tk">A</span><span><span class="tt">Document Digest</span><span class="tl">Faithful summary of all 7 source items + how they fit</span></span></button>
+      <button class="tnode" data-go="secB" style="--tc:var(--emerald)"><span class="tk">B</span><span><span class="tt">Brand DNA</span><span class="tl">Purpose, values, archetype, voice, positioning line</span></span></button>
+      <button class="tnode" data-go="secC" style="--tc:var(--burnt)"><span class="tk">C</span><span><span class="tt">Brand Audit</span><span class="tl">Strengths, gaps & six flagged contradictions</span></span></button>
+      <button class="tnode" data-go="secD" style="--tc:var(--royal)"><span class="tk">D</span><span><span class="tt">Brand Architecture</span><span class="tl">The Branded House + one endorsed sub-brand</span></span></button>
+      <button class="tnode" data-go="secE" style="--tc:var(--berry)"><span class="tk">E</span><span><span class="tt">Positioning & Competitive Landscape</span><span class="tl">Five reference brands, the white space, the timing</span></span></button>
+      <button class="tnode" data-go="secF" style="--tc:var(--coral)"><span class="tk">F</span><span><span class="tt">Target Audiences & Personas</span><span class="tl">Six buyers who book her + her community audiences</span></span></button>
+      <button class="tnode" data-go="secG" style="--tc:var(--mustard)"><span class="tk">G</span><span><span class="tt">Messaging System</span><span class="tl">Value prop, taglines, bios, the 21-topic portfolio, data</span></span></button>
+      <button class="tnode" data-go="secH" style="--tc:var(--tealblue)"><span class="tk">H</span><span><span class="tt">Visual Identity Direction</span><span class="tl">The editorial system + the live brand palette</span></span></button>
+      <button class="tnode" data-go="secI" style="--tc:var(--gold)"><span class="tk">I</span><span><span class="tt">Monetization & Offer Ladder</span><span class="tl">Free → Low → Mid → High, with 2026 fee ranges</span></span></button>
+      <button class="tnode" data-go="secJ" style="--tc:var(--royal)"><span class="tk">J</span><span><span class="tt">Go-To-Market Notes</span><span class="tl">Landing page, media kit, capability kit, social</span></span></button>
+      <button class="tnode" data-go="secR" style="--tc:var(--emerald)"><span class="tk">▶</span><span><span class="tt">Recommendations (Staged)</span><span class="tl">Foundation → Traction → Authority</span></span></button>
+      <button class="tnode" data-go="secX" style="--tc:var(--wood)"><span class="tk">✦</span><span><span class="tt">Caveats</span><span class="tl">How to cite the numbers honestly</span></span></button>
+    </div>
+  </div>
+</section>
+
+<div class="reading">
+<!-- OVERVIEW ACCORDION -->
+<section class="kb open reveal" id="overview" style="--accent:var(--gold)">
+  <div class="kb-head"><span class="bar"></span><span class="kb-key">◆</span>
+    <div style="flex:1"><span class="eyebrow2">Overview</span><h2>TL;DR & Key Findings</h2></div>
+    <span class="kb-toggle">+</span>
+  </div>
+  <div class="kb-body"><div class="kb-inner">
+    <h3 class="sub">TL;DR</h3>
+    <ul class="clean">
+      <li>Reposition Tiffany Webb from "gambling prevention coordinator" (a job title) to a national <b>Community Impact Strategist</b> whose signature lane is <em>culturally rooted gambling-harm prevention</em> — arriving exactly as legalized sports betting turns problem gambling into a top-tier public-health story.</li>
+      <li>The umbrella personal brand should be structured as a <b>Branded House</b>: "Tiffany Webb" is the master brand; <b>Speaking</b> is the flagship revenue engine; <b>GambleFreeGear ("Break the Silence")</b> stays a distinct-but-<em>endorsed</em> sub-brand that visibly proves the mission rather than competing with it.</li>
+      <li>Realistic near-term speaker economics: launch at the <b>emerging/regional tier (~$1,500–$5,000 per keynote; day-long workshops can reach $5,000–$10,000)</b> with a credible 18–36 month path to the <b>$5,000–$15,000 established-professional tier</b> as a book, media features, video reel, and testimonials accrue.</li>
+    </ul>
+    <h3 class="sub">Key Findings</h3>
+    <div class="card"><div class="ct"><span class="cn">01</span> Market timing is exceptional</div><p>Problem gambling has moved from niche to recognized public-health crisis on the back of legalized sports betting. This is genuine white space for a credentialed, community-rooted Black woman prevention leader with authentic storytelling.</p></div>
+    <div class="card"><div class="ct"><span class="cn">02</span> Her differentiator is a rare triple-stack</div><p>Credentialed public-health expertise + frontline community-outreach volume (4,000+ hours) + authentic cultural storytelling ("Chicago soul, Louisiana heart"). None of her five reference brands occupy the gambling-prevention + health-equity + community-implementation corner.</p></div>
+    <div class="card"><div class="ct"><span class="cn">03</span> Materials are strong but fragmented</div><p>Multiple decks, taglines, domains, and contact points create brand-consistency risk. The knowledge base harmonizes the voice and <em>flags contradictions explicitly</em> rather than silently resolving them.</p></div>
+    <div class="card"><div class="ct"><span class="cn">04</span> The offer ladder IS the business model</div><p>Free content → low-cost resources → mid-tier workshops → high-value keynotes/consulting. Speaking is front and center; GambleFreeGear is the emotional and retail proof layer that markets the mission.</p></div>
+  </div></div>
+</section>
+
+<!-- SECTION A -->
+<section class="kb reveal" id="secA" style="--accent:var(--teal)">
+  <div class="kb-head"><span class="bar"></span><span class="kb-key">A</span>
+    <div style="flex:1"><span class="eyebrow2">Foundation</span><h2>Document Digest — Summary of the 7 Source Items</h2></div>
+    <span class="kb-toggle">+</span>
+  </div>
+  <div class="kb-body"><div class="kb-inner">
+    <div class="card"><div class="ct"><span class="cn">1</span> GambleFreeGear Media & Press Kit</div><p>Positions the apparel brand for collaboration with media, prevention orgs, and community partners. Lists media opportunities (interviews/podcasts, awareness campaigns, conference presentations, community education, social-impact collaborations) and speak-on topics (gambling prevention & early intervention, community outreach, stigma reduction, recovery & resilience, innovative prevention tools). Available assets: brand overview, apparel images, campaign visuals, prevention messaging graphics.</p><p class="role-tag">Role in system: the mission/retail-facing outward door.</p></div>
+    <div class="card"><div class="ct"><span class="cn">2</span> Tiffany Webb AI Media Kit Prompt</div><p>An art-direction brief, not a content document. Theme "Bold & Brilliant • Chicago Soul • Louisiana Heart." Target feeling: luxury editorial magazine + TED Talk + art gallery (Vogue / Architectural Digest / Apple keynote / Forbes / museum exhibit) — explicitly NOT a nonprofit PowerPoint. Defines mood, brand story, influences (Chicago architecture, Louisiana hospitality, family gatherings, books/lifelong learning, community service, nature/beaches, Bob Marley & Prince, art/color/storytelling), a rich color palette, editorial typography, organic textures, bohemian-chic/creative-executive fashion, emotional targets ("I want her at our conference," "She makes difficult topics approachable," "She leads with both heart and strategy"), and the media-kit section list.</p><p class="role-tag">Role: the visual-identity DNA.</p></div>
+    <div class="card"><div class="ct"><span class="cn">3</span> Press Kit Development (PR "Platinum Package" notes)</div><p>Describes a full-service high-visibility PR retainer (custom campaign strategy, press kit development, monthly national/regional/local media campaigns, podcast outreach, thought leadership/ghostwriting, award & speaker submissions, full-stack metrics reporting, social amplification, dedicated senior account manager) plus add-ons (press launches, thought-leadership audits & strategy, crisis PR). <b>Treated strictly as competitive/scope/pricing reference — no agency branding appears in any client-facing output.</b></p><p class="role-tag">Role: internal benchmark for what "full-service" looks like versus a lean studio build.</p></div>
+    <div class="card"><div class="ct"><span class="cn">4</span> Business Case: Building the Tiffany Webb Brand</div><p>The strategic spine. Builds a scalable personal brand as the umbrella for speaking, consulting, training, books, and mission ventures. Names the market problem (organizations struggle with authentic community engagement, research-to-action translation, sustainable outreach, engaging diverse communities, and finding speakers who combine lived experience with implementation), the solution (a nationally recognized "Community Impact Strategist"), target markets, the reference brands (Brené Brown, Cheryl Jackson, Kelly Fair, Dan Pallotta, Simon Sinek), the competitive-advantage stack, the Free/Low/Mid/High business model, the brand architecture, the Year 1–5 roadmap, and success metrics.</p><p class="role-tag">Role: the master strategy.</p></div>
+    <div class="card"><div class="ct"><span class="cn">5</span> Existing 12-panel AI media kit deck</div><p>The current client-facing artifact. Panels cover cover/positioning, mission, 12 expertise areas, speaking topics, audiences served, career highlights (15+ years; 4,000+ hours), services, the SPEAK/PARTNER/STRATEGIZE/STRENGTHEN partnership framework, organizations & partnerships (HAS, Illinois Council on Problem Gambling, "Are You Really Winning?"), reasons organizations choose her, media resources on request, and contact. Taglines: "Faith. Family. Community. Purpose. Impact." and "Every conversation is an opportunity to plant a seed of hope…"</p><p class="role-tag">Role: the working draft the studio will elevate.</p></div>
+    <div class="card"><div class="ct"><span class="cn">6</span> "Meet Tiffany Webb / GambleFreeGear" personal deck</div><p>The heart/story artifact. "Sharing my story, passions, and purpose in color." Covers "My Roots" (Chicago-born and -raised with deep Louisiana roots; legacy of love, resilience, purpose; family belief in literacy/healing/empowerment; blends behavioral health + bold outreach + entrepreneurial fire; advocacy for the overlooked; turning pain into power; "when we rise, we rise together"), the "Learn. Change. Grow." motif, GambleFreeGear ("Break the Silence"), style pillars (Bold, Empowering, Purpose-driven), and Three Pillars of Vision (launch the Capsule Collection; build Strategic Partnerships with casinos/schools/recovery orgs; Mentor Women in Recovery).</p><p class="role-tag">Role: narrative and emotional source material.</p></div>
+    <div class="card"><div class="ct"><span class="cn">7</span> Her real 21-topic list (4 categories)</div><p>The authentic content asset that must replace generic placeholders: Prevention & Awareness (5 topics), Treatment/Recovery & Professional Training (8), Family & Community Impact (4), Creative & Promotional Engagement (3) — each with defined target audiences.</p><p class="role-tag">Role: the raw material for a structured signature-talk portfolio.</p></div>
+    <h3 class="sub">How they fit together</h3>
+    <p>Three layers: <b>(a) Strategy</b> — Doc 4 business case, with Doc 3 as a scope benchmark; <b>(b) Substance</b> — Doc 7 topics + Doc 5 credentials + Doc 6 story; <b>(c) Style</b> — Doc 2 art direction + Doc 1 mission-brand assets. The knowledge base fuses all three into one coherent brand system with Speaking as the flagship and GambleFreeGear as its endorsed mission thread.</p>
+  </div></div>
+</section>
+<!-- SECTION B -->
+<section class="kb reveal" id="secB" style="--accent:var(--emerald)">
+  <div class="kb-head"><span class="bar"></span><span class="kb-key">B</span>
+    <div style="flex:1"><span class="eyebrow2">Identity</span><h2>Brand DNA</h2></div>
+    <span class="kb-toggle">+</span>
+  </div>
+  <div class="kb-body"><div class="kb-inner">
+    <ul class="clean">
+      <li><b>Purpose (Why):</b> So that no individual, family, or community faces gambling harm in silence, shame, or isolation — because prevention begins with a conversation.</li>
+      <li><b>Mission (What):</b> Increase awareness, reduce stigma, and empower communities through education, prevention, and authentic collaboration — especially in communities prevention has historically overlooked.</li>
+      <li><b>Vision:</b> A nationally recognized voice and model for community-rooted, culturally responsive prevention — where "breaking the silence" on gambling addiction is as normalized as talking about any other health issue.</li>
+      <li><b>Core Values:</b> <em>Faith. Family. Community. Purpose. Impact.</em> (existing) → operationalized as <b>Dignity</b> (meet people without judgment), <b>Rootedness</b> (culture and relationships first), <b>Evidence</b> (prevention that works), <b>Courage</b> (name hard truths), <b>Hope</b> (turn pain into power).</li>
+      <li><b>Brand Essence:</b> <em>Heart + Strategy.</em> Warmth you trust; rigor you can implement.</li>
+      <li><b>Brand Promise:</b> She makes difficult topics approachable, brings people together across difference, and leaves an organization with something it can actually use.</li>
+      <li><b>Personality / Archetype:</b> Primary <b>Caregiver</b> (compassionate, protective — "the voice of a good doctor: kind and precise at the same time") + secondary <b>Sage</b> (evidence-based, thought-leading, à la TED/National Geographic). This Caregiver–Sage blend is deliberate: it differentiates from the Hero energy that saturates the motivational-speaker category and matches how buyers describe her ("I trust her," "she's an expert").</li>
+      <li><b>Tone of Voice:</b> Warm, plain-spoken, specific, dignified. Confident without clinical coldness; culturally fluent without slang for its own sake. Enacts empathy rather than performing it. Uses second person naturally ("your community," "your students").</li>
+      <li><b>One-line Positioning Statement:</b> <em>Tiffany Webb is a public-health educator and Community Impact Strategist who helps organizations prevent gambling harm and build healthier communities — combining 15+ years of frontline prevention with the cultural fluency to reach the people other programs miss.</em></li>
+      <li><b>Emotional truth she delivers:</b> <em>You are not alone, this is not your fault, and there is a way forward — together.</em></li>
+    </ul>
+    <div class="lead-quote">"The voice of a good doctor: kind and precise at the same time." — the Caregiver–Sage register in one line.</div>
+  </div></div>
+</section>
+
+<!-- SECTION C -->
+<section class="kb reveal" id="secC" style="--accent:var(--burnt)">
+  <div class="kb-head"><span class="bar"></span><span class="kb-key">C</span>
+    <div style="flex:1"><span class="eyebrow2">Reality Check</span><h2>Brand Audit</h2></div>
+    <span class="kb-toggle">+</span>
+  </div>
+  <div class="kb-body"><div class="kb-inner">
+    <h3 class="sub">Current-state strengths / credibility assets</h3>
+    <ul class="clean">
+      <li>Deep, verifiable credentials: BBA, MHP; 15+ years; 4,000+ hours of gambling-prevention outreach.</li>
+      <li>Real institutional affiliations: Healthcare Alternative Systems (HAS), Illinois Council on Problem Gambling, the statewide "Are You Really Winning?" campaign ecosystem, and Gateway Foundation's <em>Wager Danger</em> podcast — where she was identified as the <b>organizer</b> of a "Seeking Understanding" problem-gambling harm-reduction resource fair co-hosted by HAS and Gateway Foundation, spotlighting lived experience, youth, and harm reduction.</li>
+      <li>A genuine, ownable story ("Chicago soul, Louisiana heart") and a mission apparel brand already in market (GambleFreeGear, "Break the Silence").</li>
+      <li>An authentic, deep 21-topic catalog spanning prevention, clinical training, family impact, and creative engagement — unusually broad and buyer-ready.</li>
+      <li>Distinctive, already-articulated visual art direction that avoids the nonprofit-clip-art trap.</li>
+    </ul>
+    <h3 class="sub">Weaknesses / gaps</h3>
+    <ul class="clean">
+      <li>No confirmed independent website presence yet (the deck lists www.tiffanywebb.com, but the verifiable public footprint is employer-anchored). Thought-leadership content — articles, video of her speaking, a named signature framework — is thin. This is the single biggest gap for premium bookings; booking committees explicitly want video and a clear framework.</li>
+      <li>No published book, owned podcast, or named proprietary framework yet — all authority accelerators.</li>
+      <li>Testimonials are placeholders; social proof (client logos, sizzle reel) is not yet packaged.</li>
+      <li>Speaking fees, offer ladder, and booking mechanics are undefined.</li>
+    </ul>
+    <h3 class="sub">Inconsistencies / contradictions — FLAGGED, not silently resolved</h3>
+    <div class="flag"><div class="fn">Flag 1 · Origin-story wording</div><p>Deck 6 says "born and raised in Chicago with deep Louisiana roots"; other framing describes her as "born in Chicago" with Louisiana <em>cultural</em> heritage. Close but not identical.</p><p class="rec"><b>Recommendation:</b> adopt ONE canonical sentence — suggested: <em>"Chicago-born and -raised, with deep Louisiana family roots"</em> — and use it verbatim everywhere. Do not let two versions circulate.</p></div>
+    <div class="flag"><div class="fn">Flag 2 · Domain / contact fragmentation</div><p>www.tiffanywebb.com (personal brand) vs. GambleFreeGear channels (@GambleFreeGear, gamblefreegear@gmail.com) vs. the employer email tiffanywebb@hasca.org and phone (630) 464-1567. Using an <em>employer</em> (HAS) email as the booking contact for an <em>independent</em> personal brand blurs the line between her HAS role and her speaking business and creates a continuity risk if her employment changes.</p><p class="rec"><b>Recommendation:</b> establish an independent booking email on the tiffanywebb.com domain (e.g., booking@ or hello@) and reserve the HAS email strictly for HAS-employed work.</p></div>
+    <div class="flag"><div class="fn">Flag 3 · Personal-brand vs. employer identity</div><p>Much of her current credibility is expressed <em>through</em> HAS and state campaigns. The brand must clarify what she owns personally (story, frameworks, GambleFreeGear, speaking practice) vs. what belongs to her employer/state programs.</p><p class="rec"><b>Recommendation:</b> describe campaign work as participation/leadership, never as owned IP (see Flag 5).</p></div>
+    <div class="flag"><div class="fn">Flag 4 · Scope tension — PR "Platinum Package" vs. lean studio build</div><p>The Platinum Package describes a large ongoing PR retainer; the studio is building foundational assets (landing page, media kit, capability kit, social).</p><p class="rec"><b>Recommendation:</b> treat the Platinum scope only as a future-state benchmark; do not promise its deliverables in the launch build.</p></div>
+    <div class="flag"><div class="fn">Flag 5 · "Are You Really Winning?" ownership</div><p>This is a <b>State of Illinois / IDHS + HAS</b> campaign (co-sponsored by the Illinois Department of Human Services and Healthcare Alternative Systems; the associated art contest and helpline are state assets). It is not hers to license.</p><p class="rec"><b>Recommendation:</b> describe her role as participation/leadership only.</p></div>
+    <div class="flag"><div class="fn">Flag 6 · Title tension</div><p>"Gambling Prevention Coordinator" (employer-bound job title) vs. "Community Impact Strategist" (aspirational umbrella brand) both appear across materials.</p><p class="rec"><b>Recommendation:</b> lead with <em>"Community Impact Strategist · Public Health Educator & Speaker"</em> in brand materials; use the coordinator title only as a supporting credential line, not the headline.</p></div>
+  </div></div>
+</section>
+<!-- SECTION D -->
+<section class="kb reveal" id="secD" style="--accent:var(--royal)">
+  <div class="kb-head"><span class="bar"></span><span class="kb-key">D</span>
+    <div style="flex:1"><span class="eyebrow2">Structure</span><h2>Brand Architecture</h2></div>
+    <span class="kb-toggle">+</span>
+  </div>
+  <div class="kb-body"><div class="kb-inner">
+    <h3 class="sub">Recommended model: a Branded House with one endorsed sub-brand</h3>
+    <p class="intro">David Aaker's framework distinguishes a <b>Branded House</b> (one master brand extends across offerings — Virgin, Google, FedEx) from a <b>House of Brands</b> (independent brands under a hidden parent — P&G, Unilever). For a person building authority, the Branded House is correct: the master brand <em>is</em> Tiffany Webb, and every venture should ladder up to and borrow credibility from her name. The single strategic exception is GambleFreeGear, which works best as an <b>endorsed sub-brand</b> — its own name, logo, and retail identity, but visibly vouched for ("GambleFreeGear, founded by Tiffany Webb").</p>
+    <ul class="clean">
+      <li><b>Master brand:</b> Tiffany Webb — Community Impact Strategist. Owns the reputation, story, voice, and audience.</li>
+      <li><b>Flagship pillar → Speaking</b> (keynotes, panels, workshops): the primary revenue engine and authority driver.</li>
+      <li><b>Consulting / Program Design / Executive Advising:</b> high-value, lower-volume; directly under her name.</li>
+      <li><b>Training Academy:</b> productized workshops/curricula/certifications (mid-tier, scalable) — carries the "Learn. Change. Grow." signature.</li>
+      <li><b>Books & Signature Framework:</b> authority assets that raise speaking fees.</li>
+      <li><b>Podcast:</b> owned-media flywheel.</li>
+      <li><b>GambleFreeGear ("Break the Silence"):</b> <em>endorsed sub-brand</em> — distinct retail/mission identity and handles, "by Tiffany Webb." The emotional and merchandise proof of the mission: cause apparel that acts as a "walking campaign" and conversation starter, reinforcing (not competing with) speaker authority.</li>
+      <li><b>"GambleFree Friends":</b> community/peer-engagement extension of the GambleFreeGear mission (mentoring women in recovery, community cohorts). Keep under the GambleFreeGear halo.</li>
+      <li><b>"The Nonprofit Hustle":</b> a distinct content/education line (likely podcast/book/course) for nonprofit-capacity and social-entrepreneur audiences. Endorsed sub-brand under her name; keep clearly separate from the gambling-prevention lane so the core positioning stays sharp.</li>
+    </ul>
+    <div class="card"><div class="ct">Naming / relationship rule of thumb</div><p>Everything is <em>"Tiffany Webb [offer]"</em> EXCEPT the two mission/venture brands (GambleFreeGear, The Nonprofit Hustle), which carry their own names plus a visible "by Tiffany Webb" endorsement. This preserves focus while letting the ventures keep their own personality and audience — and insulates the master brand if any single venture underperforms.</p></div>
+  </div></div>
+</section>
+
+<!-- SECTION E -->
+<section class="kb reveal" id="secE" style="--accent:var(--berry)">
+  <div class="kb-head"><span class="bar"></span><span class="kb-key">E</span>
+    <div style="flex:1"><span class="eyebrow2">Market</span><h2>Positioning & Competitive Landscape</h2></div>
+    <span class="kb-toggle">+</span>
+  </div>
+  <div class="kb-body"><div class="kb-inner">
+    <h3 class="sub">Reference-brand teardown — what to borrow, what to avoid</h3>
+    <div class="card"><div class="ct">Brené Brown — Research → framework → franchise</div><p>A University of Houston social-work researcher became a global authority via one viral idea (vulnerability), a repeatable framework (Dare to Lead), and a books/podcast engine (five #1 NYT bestsellers; <em>Unlocking Us</em> / <em>Dare to Lead</em> podcasts). <b>Borrow:</b> turn rigor into ONE memorable, teachable framework; pair academic credibility with relatable storytelling. <b>Avoid:</b> her celebrity-tier fee model and the "book years in advance" scale — not the near-term goal.</p></div>
+    <div class="card"><div class="ct">Simon Sinek — One idea, infinitely repeatable</div><p>"Start With Why" and the Golden Circle give him a purpose-first framework that anchors every talk (former ad strategist who shifted from brand work to leadership). <b>Borrow:</b> distill her philosophy ("prevention begins with a conversation") into a named model. <b>Avoid:</b> abstraction without implementation — her buyers reward practical takeaways.</p></div>
+    <div class="card"><div class="ct">Dan Pallotta — Contrarian manifesto for a sector</div><p>He reframed how society thinks about nonprofit overhead and executive pay; his authority rests on a bold, defensible point of view (TED talk, <em>Uncharitable</em>, <em>Charity Case</em>). <b>Borrow:</b> a signature POV (e.g., "prevention that ignores culture isn't prevention"), which also fuels "The Nonprofit Hustle." <b>Avoid:</b> provocation without warmth.</p></div>
+    <div class="card"><div class="ct">Cheryl "Action" Jackson (Minnie's Food Pantry) — Faith-driven, story-first social entrepreneur</div><p>A mother's-legacy origin story, a nickname ("Action"), 21M+ meals served, keynote + media (Good Morning America, HuffPost) + a Texas House resolution honoring her work. <b>Borrow:</b> the legacy/faith/"turn pain into power" narrative (which Tiffany already has) and the pursuit of official resolutions and media features as credibility markers. <b>Avoid:</b> tying the personal brand so tightly to one organization that it can't travel.</p></div>
+    <div class="card"><div class="ct">Kelly Fair (Polished Pebbles) — Chicago program-founder-turned-speaker</div><p>A signature niche (girls' mentoring/communication), two books, a memorable epithet ("The Mentor"), cross-sector logos (Google, ComEd, Verizon), and — critically — a <b>booking contact separate from her nonprofit</b> (an outside comms rep handles rates/availability). This is the closest structural comp to Tiffany's situation. <b>Borrow:</b> the founder-of-a-named-program → sought-after-speaker path; authored books as ladder rungs; separated booking mechanics.</p></div>
+    <h3 class="sub">White space Tiffany can own (that none of them occupy)</h3>
+    <p><em>Culturally rooted gambling-harm prevention and community implementation.</em> She sits at the intersection of (1) a fast-rising, under-served topic (gambling/sports-betting harm), (2) health equity and cultural fluency for communities prevention misses, and (3) practical, coalition-level implementation — not just inspiration. Her one-of-one lane:</p>
+    <div class="lead-quote">"The prevention leader who makes the hardest conversations approachable — and hands communities a plan."</div>
+    <h3 class="sub">Why the topic is hot now (booking tailwinds)</h3>
+    <p>Since the Supreme Court's 2018 <em>Murphy v. NCAA</em> decision, sports betting has expanded to ~39 operational states plus D.C. and Puerto Rico, and gambling is increasingly framed as a public-health crisis (Harvard/<em>Lancet</em> coverage; a bipartisan federal Gambling Disorder Health Study Act; university research). The NCPG Annual Conference (July 22–24, 2026, Nashville; Call for Presentations ran Nov 3–Dec 5, 2025), state councils (e.g., NY's "Champions of Change," Albany, March 10–12, 2026), Problem Gambling Awareness Month (March), and Gambling Disorder Screening Day (second Tuesday of March) form a ready-made CFP and stage ecosystem. Cultural relevance for Black and other communities of color is especially strong: research in <em>Addiction</em> and related literature reports higher problem-gambling prevalence among African Americans (~3.6%) and Hispanic Americans (~3.3%) than white Americans (~2.9%), and repeatedly calls for culturally specific prevention models — precisely Tiffany's edge.</p>
+  </div></div>
+</section>
+<!-- SECTION F -->
+<section class="kb reveal" id="secF" style="--accent:var(--coral)">
+  <div class="kb-head"><span class="bar"></span><span class="kb-key">F</span>
+    <div style="flex:1"><span class="eyebrow2">Audience</span><h2>Target Audiences & Personas</h2></div>
+    <span class="kb-toggle">+</span>
+  </div>
+  <div class="kb-body"><div class="kb-inner">
+    <h3 class="sub">Buyer personas (who books and pays her)</h3>
+    <div class="card"><div class="ct"><span class="cn">01</span> The Conference Programmer / CFP Committee</div><p>(NCPG, state councils, public-health & behavioral-health associations). Wants a fresh, credible voice on a hot topic who fills a room and drives return attendance. Books via CFPs and peer recommendations; decides months ahead; values a tight one-sheet and speaking video.</p></div>
+    <div class="card"><div class="ct"><span class="cn">02</span> The Coalition / Prevention Director</div><p>(ROSC councils, community coalitions, state prevention networks). Wants engagement that translates to action, cultural competence, and partnership beyond a one-off talk. Modest budgets; values workshops and ongoing collaboration.</p></div>
+    <div class="card"><div class="ct"><span class="cn">03</span> The Healthcare / Behavioral-Health Decision-Maker</div><p>(hospital community-health, EAPs, treatment providers). Wants clinical relevance (screening, co-occurring disorders, referral pathways), CE-worthy content, and staff development. Values evidence and credentials.</p></div>
+    <div class="card"><div class="ct"><span class="cn">04</span> The School / University Administrator</div><p>(student wellness, athletics, counseling, health educators). Wants youth-appropriate, parent-friendly programming on youth gambling/sports betting; assembly + workshop formats.</p></div>
+    <div class="card"><div class="ct"><span class="cn">05</span> The Government / Policy Convener</div><p>(state agencies, elected officials, PGAM organizers). Wants awareness-moment programming (March PGAM, Screening Day), resolutions, and community-facing credibility.</p></div>
+    <div class="card"><div class="ct"><span class="cn">06</span> The Corporate CSR / DEI / Wellness Lead</div><p>(later stage). Wants workplace behavioral-health programming, responsible-gambling awareness, and authentic community-impact narratives.</p></div>
+    <h3 class="sub">End-community audiences (whom she serves on stage)</h3>
+    <p>General public and community orgs; youth, students, parents, educators; families and significant others affected by gambling; people in and adjacent to recovery; faith communities; peer-support and recovery organizations; prevention specialists and frontline workers.</p>
+  </div></div>
+</section>
+
+<!-- SECTION G -->
+<section class="kb reveal" id="secG" style="--accent:var(--mustard)">
+  <div class="kb-head"><span class="bar"></span><span class="kb-key">G</span>
+    <div style="flex:1"><span class="eyebrow2">Voice</span><h2>Messaging System</h2></div>
+    <span class="kb-toggle">+</span>
+  </div>
+  <div class="kb-body"><div class="kb-inner">
+    <p class="intro"><b>Value proposition:</b> <em>Organizations bring Tiffany in when they need gambling-harm prevention that actually reaches people — not a lecture, but a conversation that reduces stigma, respects culture, and leaves the room with a plan they can use.</em></p>
+    <h3 class="sub">Messaging pyramid (tagline → value prop → pillars → proof)</h3>
+    <h4 class="subsub">Master tagline (harmonized)</h4>
+    <p><b>"Break the Silence."</b> Already owned via GambleFreeGear; elevate it to the master rallying cry — it serves both the speaking brand and the apparel, and mirrors the field's own language (the Kennedy Forum notes gambling addictions "rely on shame, isolation, and silence to proliferate").</p>
+    <h4 class="subsub">Supporting brand lines (assign roles so they stop competing)</h4>
+    <ul class="clean">
+      <li><b>"Faith. Family. Community. Purpose. Impact."</b> → her <b>values signature</b> (About page, bio close).</li>
+      <li><b>"Rooted in Community. Committed to Change."</b> → her <b>partnership/coalition signature</b> (capability & partnership contexts).</li>
+      <li><b>"Every conversation is an opportunity to plant a seed of hope, strengthen a community, and inspire meaningful change."</b> → her <b>keynote-philosophy line</b> (talk intros, sizzle reel).</li>
+      <li><b>"Learn. Change. Grow."</b> → her <b>education/academy signature</b> (Training Academy, workshops).</li>
+    </ul>
+    <h3 class="sub">Four brand pillars (with proof points)</h3>
+    <div class="card"><div class="ct"><span class="cn">1</span> Prevention that reaches people</div><p>4,000+ hours of frontline outreach; community screenings; leadership within the "Are You Really Winning?" campaign ecosystem.</p></div>
+    <div class="card"><div class="ct"><span class="cn">2</span> Culture as the key to prevention</div><p>"Chicago soul, Louisiana heart" fluency; health-equity lens; ability to engage communities that prevention historically overlooks (backed by literature calling for culturally specific models).</p></div>
+    <div class="card"><div class="ct"><span class="cn">3</span> Evidence you can implement</div><p>Screening & early intervention, motivational interviewing, harm reduction, linkage to services; coalition and program design.</p></div>
+    <div class="card"><div class="ct"><span class="cn">4</span> From stigma to strength</div><p>Stigma reduction, recovery & resilience, "turning pain into power," GambleFreeGear as living proof.</p></div>
+    <h3 class="sub">Elevator pitches / bios</h3>
+    <div class="bio"><div class="bl"><span>Short bio · ≈40 words</span><button class="copy-btn" data-copy="#bioShort">Copy</button></div><p id="bioShort">Tiffany Webb is a public-health educator and Community Impact Strategist with 15+ years and 4,000+ hours preventing gambling harm. She helps conferences, schools, and health systems turn hard conversations into action — with the cultural fluency to reach the people other programs miss.</p></div>
+    <div class="bio"><div class="bl"><span>Medium bio · ≈90 words</span><button class="copy-btn" data-copy="#bioMed">Copy</button></div><p id="bioMed">Tiffany Webb, BBA, MHP, is a Chicago-born public-health educator, gambling-prevention leader, and Community Impact Strategist with deep Louisiana roots. Over 15+ years and 4,000+ hours of frontline outreach, she has built coalitions, trained professionals, and led community screenings across Illinois — partnering with health systems, schools, government, and recovery organizations. A dynamic keynote speaker, panelist, and workshop facilitator, she makes difficult topics approachable and leaves organizations with practical tools. She is also the founder of GambleFreeGear, an awareness apparel brand built to "Break the Silence" on gambling addiction.</p></div>
+    <div class="bio"><div class="bl"><span>Long bio · ≈150 words</span><button class="copy-btn" data-copy="#bioLong">Copy</button></div><p id="bioLong">Tiffany Webb, BBA, MHP, is a public-health educator, gambling-prevention leader, and Community Impact Strategist based in the Chicago area. Chicago-born and -raised with deep Louisiana family roots, she blends behavioral-health expertise, bold community outreach, and entrepreneurial drive into a singular mission: no one should face gambling harm in silence. Across 15+ years and 4,000+ hours of prevention outreach, Tiffany has led community screenings, built coalitions, trained clinicians and frontline workers, and partnered with hospitals, schools, universities, government agencies, faith communities, and recovery organizations — including work connected to Healthcare Alternative Systems, the Illinois Council on Problem Gambling, and the statewide "Are You Really Winning?" awareness effort. As a keynote speaker, panelist, and workshop facilitator, she is known for making difficult topics approachable, leading with both heart and strategy, and equipping communities with practical tools. She is also the founder of GambleFreeGear, an awareness apparel brand on a mission to "Break the Silence."</p></div>
+    <h3 class="sub">Signature-talk / keynote portfolio (built from her real 21 topics)</h3>
+    <p>Organized into a flagship + 4 sellable tracks:</p>
+    <div class="tracks">
+      <div class="track"><span class="tn">Flagship keynote</span><p><b>"Break the Silence: Prevention Begins with a Conversation."</b> Her signature stage talk; weaves her story, the cultural case for prevention, and a practical call to action. Anchor for main-stage bookings.</p></div>
+      <div class="track"><span class="tn">Track 1 — Prevention & Awareness (community/public)</span><p>Gambling Prevention & Community Awareness; Don't Bet on Your Future (youth focus); Problem Gambling Awareness Month (March); National Screening Day; Outreach — Engaging Elected Officials & Resolutions.</p></div>
+      <div class="track"><span class="tn">Track 2 — Clinical & Professional Training (CE-oriented)</span><p>Gambling & Co-Occurring Disorders / SUD & the Workplace; The Changing Face of Gambling Addiction; Gambling & Suicide; Self-Exclusion Resources; Harm-Reduction Strategies; Motivational Interviewing Tools; Screening & Prevention; Treatment Guidelines — Linkage to Services, Recovery Support & Referrals.</p></div>
+      <div class="track"><span class="tn">Track 3 — Family & Community Impact</span><p>Gambling, Significant Others & Impact; The Link Between Gambling, Domestic Violence & Trauma; Families Living with Problem Gambling; Gambling Harm in Family Systems.</p></div>
+      <div class="track"><span class="tn">Track 4 — Creative & Promotional Engagement</span><p>Art Competition; Responsible Gifting; Gambling Prevention & ROSC Council Engagement.</p></div>
+    </div>
+    <h3 class="sub">Data anchors the studio can weave into talk descriptions</h3>
+    <p>(Named sources — attribute precisely.)</p>
+    <div class="data-anchor"><div class="dl">National scale</div><p>The National Council on Problem Gambling (NCPG) estimates <b>9 million American adults</b> suffer from a gambling problem, resulting in a <b>national social cost of $14 billion annually</b> (criminal-justice, healthcare, job-loss, and bankruptcy costs); NCPG's 2025 national survey found <b>nearly 20 million U.S. adults — 8%</b> — report indicators of a gambling problem. <em>(Present these as different thresholds, not one number — see Caveats.)</em></p></div>
+    <div class="data-anchor"><div class="dl">Gambling & suicide (Track 2)</div><p>NCPG estimates <b>"one in five people who have severe gambling problems will attempt suicide,"</b> about twice the rate of other addictions — best paired with the peer-reviewed meta-analysis cited by Wardle et al. (<em>ScienceDirect</em>, 2024): prevalence rates of <b>31% for suicidal ideation, 17% for suicide plans, and 16% for attempts</b> among people with gambling disorders.</p></div>
+    <div class="data-anchor"><div class="dl">Gambling, DV & trauma (Track 3)</div><p>Dowling, Suomi, Jackson et al.'s systematic review and meta-analysis (<em>Trauma, Violence, & Abuse</em>, 2016) found <b>over one-third of problem gamblers report being victims of physical intimate-partner violence (38.1%) or perpetrators (36.5%)</b>, and the prevalence of problem gambling among IPV perpetrators is <b>11.3%</b>. <em>(This is the original source behind the "37%" figure later cited by Harvard Magazine / Lancet.)</em></p></div>
+    <div class="data-anchor"><div class="dl">Sports betting & vulnerable young men</div><p>Two 2024 working papers — Hollenbeck & Larsen et al. (<b>UCLA Anderson</b>) and Baker, Balthrop, Johnson, Kotter & Pisciotta (<b>NBER</b>, "Gambling Away Stability") — found online sports-betting legalization increased household financial distress; one study reported <b>bankruptcy rates rose ~28% and debt collections ~8%</b> roughly two years post-legalization, with effects strongest among "the most economically vulnerable young men" (American Institute for Boys and Men). Public opinion is shifting too: per Pew Research Center, <b>43% of Americans now say legal sports betting is bad for society (up from 34% in 2022)</b>, and among men under 30 the share rose from 22% (2022) to 47% (2025).</p></div>
+    <div class="data-anchor"><div class="dl">PGAM themes for campaign tie-ins</div><p>2025 theme <b>"Seeking Understanding"</b>; 2026 theme <b>"Caring Communities, Stronger Futures."</b></p></div>
+  </div></div>
+</section>
+<!-- SECTION H -->
+<section class="kb reveal" id="secH" style="--accent:var(--tealblue)">
+  <div class="kb-head"><span class="bar"></span><span class="kb-key">H</span>
+    <div style="flex:1"><span class="eyebrow2">Style</span><h2>Visual Identity Direction</h2></div>
+    <span class="kb-toggle">+</span>
+  </div>
+  <div class="kb-body"><div class="kb-inner">
+    <p class="intro">Synthesized from the art-direction brief into an actionable system.</p>
+    <ul class="clean">
+      <li><b>Overall feeling:</b> premium editorial — luxury magazine × TED stage × art gallery. Confident white space, big pull-quotes, gallery-grade photography. Explicitly NOT nonprofit-template / clip-art.</li>
+      <li><b>Color system:</b> a warm, cultured palette. Rich emerald green + deep teal (health, growth, trust) as primaries; royal blue as a steadying secondary; burnt orange, mustard gold, coral, berry purple as expressive accents (Louisiana warmth, art, culture); cream / warm ivory, charcoal, soft black as neutrals; natural wood tones + gold for texture and premium accents. Rule: cool primaries carry structure; warm accents carry humanity — never let accents overwhelm legibility.</li>
+      <li><b>Typography:</b> a large editorial serif for headlines (elegance, authority) paired with a clean modern sans-serif for body (clarity). Generous leading and white space; bold pull-quotes as design elements. (Note: the Sage archetype leans serif; the Caregiver leans warm human photography — this pairing fits her blend.)</li>
+      <li><b>Textures / graphic language:</b> organic shapes, watercolor washes, abstract paint strokes, handcrafted patterns, natural-fabric feel, minimal geometric accents, subtle book-inspired and Chicago-architecture / Louisiana-artistry motifs. Used sparingly as accents, not busy backgrounds.</li>
+      <li><b>Photography & fashion:</b> warm, human-led, dignified portraiture; Tiffany in bohemian-chic / creative-executive styling (flowing silhouettes, layered jewelry, statement accessories). Candid community and stage shots to prove "she brings people together." Hands, faces, connection — Caregiver visual grammar.</li>
+    </ul>
+    <h4 class="subsub">Application across deliverables</h4>
+    <ul class="clean">
+      <li><b>Landing page:</b> hero with flagship positioning + strong portrait; palette-driven section bands; pull-quotes; talk tracks as cards; clear booking CTA.</li>
+      <li><b>Media kit (client-facing):</b> editorial-magazine layout following the section list (Cover → Meet Tiffany → Mission & Purpose → Professional Expertise → Speaking Topics → Audiences Served → Career Highlights → Services → Event Attendance & Strategic Partnerships → Why Organizations Choose Tiffany → Organizations & Partnerships → Media Resources → Testimonials → Contact & Booking).</li>
+      <li><b>Capability kit (internal / work-scope):</b> same visual DNA but functional; NEVER blended with the client-facing pitch.</li>
+      <li><b>GambleFreeGear:</b> shares the palette/energy but keeps a bolder, streetwear-leaning expression under the "by Tiffany Webb" endorsement.</li>
+    </ul>
+    <h3 class="sub">The live brand palette — click any swatch to copy its hex</h3>
+    <div class="palette" id="palette"></div>
+    <p style="font-family:'Space Mono';font-size:.72rem;color:var(--muted);margin-top:10px">These are the working brand colors used throughout this codex. Copy a hex to drop it straight into design tools.</p>
+  </div></div>
+</section>
+
+<!-- SECTION I -->
+<section class="kb reveal" id="secI" style="--accent:var(--gold)">
+  <div class="kb-head"><span class="bar"></span><span class="kb-key">I</span>
+    <div style="flex:1"><span class="eyebrow2">Money</span><h2>Monetization & Offer Ladder</h2></div>
+    <span class="kb-toggle">+</span>
+  </div>
+  <div class="kb-body"><div class="kb-inner">
+    <p class="intro">Mapped to the business-case tiers with <b>market-informed</b> indicative ranges (2026 speaker-fee data). Positioning note: as an emerging/regional speaker with strong niche expertise but limited national name recognition and no book yet, she should launch in the emerging tier and climb deliberately. Workshops/trainings often pay better per day than a single keynote at her stage, and mission-driven orgs frequently offer honoraria rather than full fees.</p>
+    <div class="card"><div class="ct">FREE — audience-building</div><p>Articles/blog, social content, podcast, email newsletter, PGAM / Screening-Day community talks. <em>Goal: reach, list growth, proof of voice.</em></p></div>
+    <div class="card"><div class="ct">LOW-COST — productized authority</div><p>Book/e-book, prevention playbooks, templates, toolkits, GambleFreeGear apparel. <em>Indicative: ~$10–$40 resources; apparel per-item.</em></p></div>
+    <div class="card"><div class="ct">MID-TIER — scalable services</div><p>Workshops, breakout sessions, staff development, online courses, group training, community webinars. <em>Indicative: ~$1,500–$5,000 per workshop/half-day now; day-long trainings can reach ~$5,000–$10,000 as demand builds. Nonprofit/education honoraria often lower.</em></p></div>
+    <div class="card"><div class="ct">HIGH-VALUE — flagship</div><p>Keynotes, panels, consulting, program design, executive advising. <em>Indicative keynote now: ~$1,500–$5,000 (emerging/regional tier). Target $5,000–$15,000 within 18–36 months as a book, testimonials, video reel, and national features accrue. The established-professional tier ($10,000–$25,000) is a Year-3+ goal.</em> Consulting/program design: day-rate or project-based.</p></div>
+    <h3 class="sub">ROI logic for the client</h3>
+    <p>Speaking is the tip of the spear — every paid talk drives newsletter signups, apparel sales, workshop leads, and consulting inquiries. GambleFreeGear both funds and markets the mission (walking billboards, conversation starters) while reinforcing the speaker's authenticity. Keep merch clearly mission-tied so it strengthens rather than commercializes her credibility.</p>
+    <div class="card"><div class="ct">Practical booking tactic</div><p>Do not print fees in the media kit — begin negotiation from the event's stated budget (standard practice among speaker coaches and bureaus).</p></div>
+  </div></div>
+</section>
+
+<!-- SECTION J -->
+<section class="kb reveal" id="secJ" style="--accent:var(--royal)">
+  <div class="kb-head"><span class="bar"></span><span class="kb-key">J</span>
+    <div style="flex:1"><span class="eyebrow2">Activation</span><h2>Go-To-Market Notes for Studio Deliverables</h2></div>
+    <span class="kb-toggle">+</span>
+  </div>
+  <div class="kb-body"><div class="kb-inner">
+    <h3 class="sub">Landing page (tiffanywebb.com)</h3>
+    <ul class="clean">
+      <li>Above the fold: <em>"Community Impact Strategist · Public Health Educator & Speaker"</em> + flagship line <b>"Break the Silence"</b> + strong portrait + primary CTA ("Book Tiffany").</li>
+      <li>Sections: flagship keynote → 4 talk tracks → audiences served → credibility bar (15+ yrs, 4,000+ hours, org logos) → story ("Chicago soul, Louisiana heart") → testimonials (once collected) → media/press → GambleFreeGear teaser (endorsed link-out) → booking form.</li>
+      <li>Independent booking email on the domain — NOT the HAS employer email.</li>
+    </ul>
+    <h3 class="sub">Media kit (client-facing pitch — PDF + web)</h3>
+    <p>Follow the section list from Docs 2/5. Include short + long bios, the 4 tracks, audiences, "Why Organizations Choose Tiffany," the partnership framework (SPEAK / PARTNER / STRATEGIZE / STRENGTHEN), media resources, and booking. <b>No fees printed. No agency/company branding.</b> Distill a one-page <b>speaker one-sheet</b> from it (headline, professional photo, 2–4 signature topics, short bio, social proof/logos, clear contact) — the asset committees forward internally.</p>
+    <h3 class="sub">Capability kit (internal work-scope)</h3>
+    <p>A SEPARATE document describing scope, process, timeline, and deliverables for the studio↔client relationship. Must never be merged into or shown as the client-facing pitch. Build-scope, the phased roadmap, and any pricing live here only.</p>
+    <h3 class="sub">Social presence</h3>
+    <ul class="clean">
+      <li><b>Instagram (lead channel):</b> visual-first — stage moments, community, story, GambleFreeGear, PGAM/awareness content. Matches her editorial/color brand and the apparel audience.</li>
+      <li><b>LinkedIn (authority channel):</b> thought-leadership posts, CFP wins, conference recaps, the signature framework, and "Nonprofit Hustle" content for buyers.</li>
+      <li><b>YouTube:</b> the speaking reel + talk clips + explainer content — critical for booking committees who want video before they book.</li>
+      <li><b>TikTok:</b> short-form myth-busting/awareness (youth + sports-betting relevance), stigma reduction, behind-the-scenes.</li>
+      <li><b>Governance:</b> consistent handle, palette, and voice; keep GambleFreeGear's handle distinct but cross-linked; reference "Are You Really Winning?" as participation, not ownership.</li>
+    </ul>
+    <div class="card"><div class="ct">Constraints honored throughout</div><p>Client-facing pitch and internal work-scope kept strictly separate; no agency/company branding in client-facing outputs; her real 21-topic list used (not placeholders); contradictions flagged in Section C rather than silently resolved.</p></div>
+  </div></div>
+</section>
+<!-- RECOMMENDATIONS -->
+<section class="kb reveal" id="secR" style="--accent:var(--emerald)">
+  <div class="kb-head"><span class="bar"></span><span class="kb-key">▶</span>
+    <div style="flex:1"><span class="eyebrow2">Roadmap</span><h2>Recommendations (Staged)</h2></div>
+    <span class="kb-toggle">+</span>
+  </div>
+  <div class="kb-body"><div class="kb-inner">
+    <div class="staged"><div class="sm">Stage 1 · Months 0–3</div><div class="st">Foundation</div>
+      <p>(a) Lock the canonical origin sentence, headline title, palette, and ONE named master framework (e.g., a "Conversation-to-Community" prevention model). (b) Stand up tiffanywebb.com with an independent booking email. (c) Ship the media kit + one-sheet + a <em>separate</em> capability kit. (d) Capture a 2–3 minute speaking reel and gather 3–5 testimonials. (e) Choose the flagship keynote + 2–3 lead tracks to sell first (recommend Track 1 for community and Track 2 for CE/healthcare). <b>Advance when:</b> live site, reel, ≥3 testimonials, and first paid booking are in hand.</p>
+    </div>
+    <div class="staged"><div class="sm">Stage 2 · Months 3–18</div><div class="st">Traction</div>
+      <p>(a) Submit to CFPs — NCPG Annual Conference, state councils, PGAM / Screening-Day events — and pitch podcasts. (b) Publish consistently on LinkedIn + Instagram around the framework. (c) Launch a low-cost resource (playbook/e-book) and a mid-tier workshop offer. (d) Formalize GambleFreeGear's endorsed-sub-brand identity and the Capsule Collection. <b>Thresholds:</b> 8–12 paid engagements/year; growing email list; first regional/national stage; best-booking fees clearing $5,000.</p>
+    </div>
+    <div class="staged"><div class="sm">Stage 3 · Months 18–48</div><div class="st">Authority</div>
+      <p>(a) Publish the book; launch her podcast and Training Academy. (b) Move into consulting/program design and multi-session contracts. (c) Pursue awards, legislative resolutions, and national media (the Cheryl Jackson / Kelly Fair playbook). <b>Thresholds:</b> national conference keynotes; recurring consulting revenue; fees in the $5,000–$15,000 range trending toward the established-professional tier.</p>
+    </div>
+    <h3 class="sub">What would change the plan</h3>
+    <p>If a book or a viral talk lands early, compress the timeline and raise fees faster. If bookings concentrate in clinical/CE audiences, invest in continuing-education accreditation and lead with Track 2. If GambleFreeGear outpaces speaking, consider spinning it into a larger standalone venture — but only <em>after</em> the speaker brand is established, to avoid diluting authority.</p>
+  </div></div>
+</section>
+
+<!-- CAVEATS -->
+<section class="kb reveal" id="secX" style="--accent:var(--wood)">
+  <div class="kb-head"><span class="bar"></span><span class="kb-key">✦</span>
+    <div style="flex:1"><span class="eyebrow2">Integrity</span><h2>Caveats</h2></div>
+    <span class="kb-toggle">+</span>
+  </div>
+  <div class="kb-body"><div class="kb-inner">
+    <ul class="clean">
+      <li><b>Figure precision.</b> Headline statistics circulate at varying thresholds and must be cited carefully. NCPG's "9 million adults / $14 billion social cost," its 2025 "nearly 20 million / 8% with indicators" survey figure, and clinical "severe problem" counts use <em>different definitions</em> — present them distinctly, never conflated. The "1 in 5 attempt suicide" figure is an NCPG aggregate estimate best paired with the peer-reviewed meta-analytic rates (16% attempts / 31% ideation). The sports-betting financial-harm figures come from 2024 <b>working papers</b> (UCLA Anderson; NBER) not yet finalized in peer review — describe them as such. Attribute every stat to its named source.</li>
+      <li><b>Her live public footprint</b> (current website status, fee history, full list of past stages) could not be fully verified externally; the audit reflects the seven source documents plus available public traces (LinkedIn under HAS, Gateway Foundation <em>Wager Danger</em>, and the Illinois campaign ecosystem). Verify booking history and current assets directly with Tiffany.</li>
+      <li><b>"Are You Really Winning?"</b> is a State of Illinois / IDHS + HAS asset; describe her role strictly as participation/leadership, not ownership.</li>
+      <li><b>Reference-brand comparisons</b> are strategic analogies to inform structure and tactics — not claims of equivalent stature or fee expectations.</li>
+      <li><b>The PR "Platinum Package"</b> is used only as a scope/pricing benchmark; no agency is named or implied in any client-facing work.</li>
+      <li><b>Indicative fee ranges</b> are drawn from 2026 industry speaker-fee guides and reflect market bands, not quotes for Tiffany specifically; actual fees depend on demand, format, travel, customization, and audience type.</li>
+    </ul>
+  </div></div>
+</section>
+</div><!-- /reading -->
+
+<footer class="foot">
+  <p class="fq">"Every conversation is an opportunity to plant a seed of hope, strengthen a community, and inspire meaningful change."</p>
+  <p class="fm">Faith. Family. Community. Purpose. Impact. &nbsp;·&nbsp; Break the Silence.</p>
+</footer>
+</main>
+</div><!-- /layout -->
+<div class="toast" id="toast">Copied</div>
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* equalizer wave (GambleFreeGear motif) */
+  var wave=document.getElementById('wave');
+  if(wave){for(var i=0;i<48;i++){var b=document.createElement('i');
+    b.style.animationDelay=(i*0.06)+'s';b.style.animationDuration=(2+((i%5)*0.25))+'s';wave.appendChild(b);}}
+
+  /* palette */
+  var COLORS=[
+    ['Rich Emerald','#0E6B54'],['Deep Teal','#0B5C63'],['Teal-Blue','#1C6E7A'],
+    ['Royal Blue','#223A82'],['Berry Purple','#6C2D5A'],['Burnt Orange','#C15427'],
+    ['Mustard Gold','#D9A23A'],['Coral','#E17356'],['Natural Wood','#9A6A3E'],
+    ['Gold Accent','#C8A24C'],['Warm Ivory','#FBF6EA'],['Cream','#F3EAD6'],
+    ['Charcoal','#23211B'],['Soft Black','#14130E']
+  ];
+  var pal=document.getElementById('palette');
+  COLORS.forEach(function(c){
+    var d=document.createElement('div');d.className='sw';d.setAttribute('data-copy-text',c[1]);
+    var light=(c[1]==='#FBF6EA'||c[1]==='#F3EAD6');
+    d.innerHTML='<div class="chip" style="background:'+c[1]+(light?';border-bottom:1px solid var(--line)':'')+'"></div>'+
+      '<div class="meta"><div class="nm">'+c[0]+'</div><div class="hx">'+c[1]+'</div></div>';
+    pal.appendChild(d);
+  });
+
+  /* toast + copy */
+  var toast=document.getElementById('toast');var tt;
+  function showToast(msg){toast.textContent=msg;toast.classList.add('show');
+    clearTimeout(tt);tt=setTimeout(function(){toast.classList.remove('show')},1400);}
+  function copyText(txt,label){
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(txt).then(function(){showToast(label||'Copied '+txt)});
+    }else{var ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);
+      ta.select();try{document.execCommand('copy');showToast(label||'Copied '+txt)}catch(e){}document.body.removeChild(ta);}
+  }
+  document.addEventListener('click',function(e){
+    var sw=e.target.closest('.sw');
+    if(sw){copyText(sw.getAttribute('data-copy-text'),'Copied '+sw.getAttribute('data-copy-text'));return;}
+    var cb=e.target.closest('.copy-btn');
+    if(cb){e.stopPropagation();var el=document.querySelector(cb.getAttribute('data-copy'));
+      if(el){copyText(el.textContent.trim(),'Bio copied to clipboard');}return;}
+  });
+
+  /* accordion */
+  var sections=Array.prototype.slice.call(document.querySelectorAll('.kb'));
+  function setOpen(sec,open){
+    var body=sec.querySelector('.kb-body');
+    if(open){sec.classList.add('open');body.style.maxHeight=body.scrollHeight+'px';
+      setTimeout(function(){if(sec.classList.contains('open'))body.style.maxHeight='none';},600);}
+    else{body.style.maxHeight=body.scrollHeight+'px';requestAnimationFrame(function(){
+      body.style.maxHeight='0px';});sec.classList.remove('open');}
+  }
+  sections.forEach(function(sec){
+    var head=sec.querySelector('.kb-head');
+    head.addEventListener('click',function(){setOpen(sec,!sec.classList.contains('open'));});
+    if(sec.classList.contains('open')){var b=sec.querySelector('.kb-body');b.style.maxHeight='none';}
+  });
+  window.addEventListener('resize',function(){
+    sections.forEach(function(sec){if(sec.classList.contains('open')){
+      sec.querySelector('.kb-body').style.maxHeight='none';}});
+  });
+
+  document.getElementById('expandAll').addEventListener('click',function(){
+    sections.forEach(function(sec){if(!sec.classList.contains('open'))setOpen(sec,true);});});
+  document.getElementById('collapseAll').addEventListener('click',function(){
+    sections.forEach(function(sec){if(sec.classList.contains('open'))setOpen(sec,false);});});
+
+  /* navigation from tree nodes + sidebar */
+  function goTo(id){
+    var target=document.getElementById(id);if(!target)return;
+    var sec=target.closest('.kb')||target;
+    if(sec.classList&&sec.classList.contains('kb')&&!sec.classList.contains('open'))setOpen(sec,true);
+    setTimeout(function(){
+      var y=target.getBoundingClientRect().top+window.pageYOffset-66;
+      window.scrollTo({top:y,behavior:reduce?'auto':'smooth'});
+    },60);
+    document.getElementById('sidebar').classList.remove('open');
+  }
+  document.querySelectorAll('[data-go]').forEach(function(el){
+    el.addEventListener('click',function(){goTo(el.getAttribute('data-go'));});});
+
+  /* mobile menu */
+  document.getElementById('menuBtn').addEventListener('click',function(){
+    document.getElementById('sidebar').classList.toggle('open');});
+
+  /* progress bar */
+  var prog=document.getElementById('progress');
+  window.addEventListener('scroll',function(){
+    var h=document.documentElement.scrollHeight-window.innerHeight;
+    prog.style.width=(h>0?(window.pageYOffset/h*100):0)+'%';
+  },{passive:true});
+
+  /* reveal + tree grow via IntersectionObserver */
+  if('IntersectionObserver' in window && !reduce){
+    var ro=new IntersectionObserver(function(es){es.forEach(function(en){
+      if(en.isIntersecting){en.target.classList.add('in');ro.unobserve(en.target);}});},{threshold:.12});
+    document.querySelectorAll('.reveal').forEach(function(el){ro.observe(el);});
+    var branches=document.getElementById('branches');
+    if(branches){
+      var to=new IntersectionObserver(function(es){es.forEach(function(en){
+        if(en.isIntersecting){
+          var nodes=branches.querySelectorAll('.tnode');
+          nodes.forEach(function(n,i){setTimeout(function(){n.classList.add('grow');},i*90);});
+          to.disconnect();}});},{threshold:.2});
+      to.observe(branches);
+    }
+  }else{
+    document.querySelectorAll('.reveal').forEach(function(el){el.classList.add('in');});
+    document.querySelectorAll('.tnode').forEach(function(n){n.classList.add('grow');});
+  }
+
+  /* active nav highlight on scroll */
+  var navItems=Array.prototype.slice.call(document.querySelectorAll('.nav-item'));
+  var idToNav={};navItems.forEach(function(n){idToNav[n.getAttribute('data-go')]=n;});
+  var watch=['overview','secA','secB','secC','secD','secE','secF','secG','secH','secI','secJ','secR','secX'];
+  if('IntersectionObserver' in window){
+    var so=new IntersectionObserver(function(es){es.forEach(function(en){
+      if(en.isIntersecting){
+        navItems.forEach(function(n){n.classList.remove('active');});
+        var n=idToNav[en.target.id];if(n){n.classList.add('active');
+          n.scrollIntoView({block:'nearest'});}
+      }});},{rootMargin:'-45% 0px -50% 0px'});
+    watch.forEach(function(id){var el=document.getElementById(id);if(el)so.observe(el);});
+  }
+})();
+</script>
+</body>
+</html>

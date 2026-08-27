@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Item - Tiffany Webb CRM</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --font-sans: 'Inter', sans-serif;
+            --color-gold: #c29545;
+        }
+        body { background-color: #f8fafc; margin: 0; padding: 0; font-family: var(--font-sans); }
+        .top-nav { background: #0f172a; padding: 0 1.5rem; display: flex; justify-content: space-between; align-items: center; height: 64px; color: white; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+        .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; margin: 0; color: white; letter-spacing: 0.5px; }
+        .main-content { padding: 2rem; max-width: 800px; margin: 0 auto; }
+        .card { background: var(--color-card); border: 1px solid #e2e8f0; border-radius: 12px; padding: 2rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+        .form-group { margin-bottom: 1.5rem; }
+        label { display: block; margin-bottom: 0.5rem; font-size: 0.85rem; font-weight: 600; color: #334155; text-transform: uppercase; letter-spacing: 0.05em; }
+        input[type="text"], input[type="number"], textarea { width: 100%; padding: 0.75rem 1rem; border: 1px solid #cbd5e1; border-radius: 6px; box-sizing: border-box; font-family: var(--font-sans); font-size: 0.95rem; transition: border-color 0.2s; }
+        input:focus, textarea:focus { border-color: #3b82f6; outline: none; }
+        .btn-primary { background: #0f172a; color: var(--color-gold); border: none; padding: 0.75rem 2rem; border-radius: 6px; font-weight: 600; cursor: pointer; transition: background 0.2s; }
+        .btn-primary:hover { background: #1e293b; }
+        .btn-secondary { background: var(--color-card); color: var(--color-ivory); border: 1px solid #cbd5e1; padding: 0.75rem 1.5rem; border-radius: 6px; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-block; }
+    </style>
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <!-- INJECTED PREMIUM CRM THEME -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CRM Sleek Ink & Multi-Color Theme */
+        :root {
+            --color-ink: #0a0a0a; /* Pure deep ink, zero green tint */
+            --color-card: #141414; /* Sleek dark grey/black */
+            --color-border: #262626; /* Neutral border */
+            
+            --color-gold: #c29545;
+            --color-ivory: #ffffff; /* Bright white for maximum contrast */
+            
+            --color-terracotta: #a84747;
+            --color-slate: #5b7994;
+            --color-plum: #885794;
+            --color-text-muted: #a3a3a3;
+            
+            --font-sans: 'Plus Jakarta Sans', 'Inter', sans-serif;
+            --font-serif: 'Instrument Serif', serif;
+        }
+
+        body {
+            background-color: #1A2721 !important; /* Deep Forest Sage */
+            background-image: none !important;
+            color: var(--color-ivory) !important;
+            font-family: var(--font-sans) !important;
+        }
+
+        /* Target all common card classes AND any table wrappers */
+        .stat-card, .card, .dashboard-card, .form-container, .panel, .cms-sidebar, .cms-main, .table-container, .pipeline-card, .pipeline-lead, .message-bubble.inbound, .chart-card, .login-card,
+        div[style*="background: white"], div[style*="background-color: white"], div[style*="background: var(--color-card)"] {
+            background: var(--color-card) !important;
+            border: 1px solid var(--color-border) !important;
+            backdrop-filter: none !important;
+            color: var(--color-ivory) !important;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
+            border-radius: 12px !important;
+        }
+        
+        .message-bubble.outbound {
+            background: rgba(194, 149, 69, 0.15) !important;
+            border: 1px solid var(--color-gold) !important;
+            color: var(--color-ivory) !important;
+        }
+
+        h1, h2, h3, h4, h5, h6, .stat-value {
+            color: var(--color-ivory) !important;
+        }
+        
+        .page-title {
+            color: var(--color-ivory) !important; 
+        }
+
+        /* DISTINCT MULTI-COLOR GRADIENTS FOR CARDS (No single color) */
+        .stat-card {
+            border-top: none !important; /* Remove old solid border */
+        }
+        
+        .stat-card:nth-child(1) {
+            background: linear-gradient(135deg, #2b2212 0%, #141414 100%) !important;
+            border: 1px solid #3d3119 !important;
+        }
+        .stat-card:nth-child(2) {
+            background: linear-gradient(135deg, #2d1616 0%, #141414 100%) !important;
+            border: 1px solid #401f1f !important;
+        }
+        .stat-card:nth-child(3) {
+            background: linear-gradient(135deg, #172433 0%, #141414 100%) !important;
+            border: 1px solid #203347 !important;
+        }
+        .stat-card:nth-child(4) {
+            background: linear-gradient(135deg, #271a2b 0%, #141414 100%) !important;
+            border: 1px solid #3a2640 !important;
+        }
+
+        /* Bright text values on the multi-color cards */
+        .stat-card:nth-child(1) .stat-value { color: #f2c779 !important; }
+        .stat-card:nth-child(2) .stat-value { color: #f28b8b !important; }
+        .stat-card:nth-child(3) .stat-value { color: #8bbaf2 !important; }
+        .stat-card:nth-child(4) .stat-value { color: #db93f2 !important; }
+        
+        /* Gradient background for chart cards (Not Black) */
+        .chart-card {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%) !important;
+            border: 1px solid #334155 !important;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.4) !important;
+        }
+
+        /* Made labels pure Ivory so forms are easily readable! */
+        .csv-box, .csv-box p, .csv-box span, .csv-box strong {
+            color: var(--color-ivory) !important;
+        }
+        .csv-box {
+            border-color: var(--color-border) !important;
+            background: rgba(255, 255, 255, 0.02) !important;
+        }
+        .column-title {
+            color: var(--color-gold) !important;
+            font-family: var(--font-serif) !important;
+            font-size: 1.5rem !important;
+            letter-spacing: 0.02em;
+        }
+        .stat-label, .text-muted, .text-sm {
+            color: var(--color-text-muted) !important;
+        }
+        p {
+            color: var(--color-ivory) !important;
+        }
+        label {
+            color: var(--color-ivory) !important;
+            font-weight: 600 !important;
+            margin-bottom: 0.5rem !important;
+            display: block !important;
+        }
+        
+        /* Form Tabs (Manual / CSV) Readability */
+        .tab {
+            color: var(--color-ivory) !important;
+            border-bottom: 2px solid transparent !important;
+        }
+        .tab.active {
+            color: var(--color-gold) !important;
+            border-bottom-color: var(--color-gold) !important;
+        }
+        .tab:hover {
+            color: var(--color-gold) !important;
+            opacity: 0.8;
+        }
+
+        /* Pure Deep Ink for Navbar */
+        .top-nav {
+            background: #0a0a0a !important; /* Deep Ink */
+            border-bottom: 1px solid #262626 !important; 
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8) !important;
+        }
+        
+        /* Premium Deep Purple Gradient for the Search/Action Bar */
+        .action-bar {
+            background: linear-gradient(135deg, #2e1045 0%, #170824 100%) !important;
+            border: 1px solid #5a2e7d !important; /* Subtle purple border */
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 10px 30px rgba(23, 8, 36, 0.5) !important;
+        }
+        
+        .top-nav .nav-link {
+            color: var(--color-ivory) !important;
+        }
+        .top-nav .nav-logo {
+            color: var(--color-ivory) !important; /* White logo base */
+        }
+        
+        .top-nav .nav-link:hover, .top-nav .nav-link.active {
+            color: var(--color-gold) !important; /* Golden active link */
+            text-shadow: none !important;
+        }
+        
+        .top-nav .nav-logo span {
+            color: var(--color-gold) !important; /* Golden CRM text */
+            font-style: italic;
+        }
+
+        input, textarea, select {
+            background: #050505 !important; 
+            border: 1px solid var(--color-border) !important;
+            color: var(--color-ivory) !important;
+            font-family: var(--font-sans) !important;
+            font-weight: 500 !important;
+            border-radius: 8px !important;
+        }
+
+        input.search-input {
+            border: 1px solid #d8b4e2 !important; /* Soft lavender border */
+            background: rgba(0,0,0,0.3) !important;
+            box-shadow: none !important; /* No neon */
+            color: #fbf6ea !important;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            border-color: #d8b4e2 !important;
+            outline: none !important;
+            box-shadow: 0 0 0 3px rgba(216, 180, 226, 0.2) !important; /* Soft lavender focus */
+        }
+
+        /* Make date picker icon visible on dark background */
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: invert(1) !important;
+            cursor: pointer;
+        }
+
+        .btn, button, .button, input[type="submit"] {
+            background: var(--color-gold) !important;
+            color: #0a0a0a !important;
+            font-weight: 700 !important;
+            border: none !important;
+            font-family: var(--font-sans) !important;
+            border-radius: 8px !important;
+            box-shadow: 0 4px 12px rgba(194, 149, 69, 0.2) !important;
+            transition: all 0.2s ease !important;
+            cursor: pointer !important;
+        }
+        
+        .btn:hover, button:hover, .button:hover, input[type="submit"]:hover {
+            transform: translateY(-2px) !important;
+            box-shadow: 0 6px 16px rgba(194, 149, 69, 0.3) !important;
+        }
+        
+        .btn-secondary, .btn-outline, a.btn-outline {
+            background: transparent !important;
+            border: 1px solid var(--color-gold) !important;
+            color: var(--color-gold) !important;
+            box-shadow: none !important;
+        }
+
+        /* Light Glowing Red Delete Buttons */
+        .btn-danger, button.danger, button.delete, a.btn-danger, button[onclick*="elete"], button[onclick*="ELETE"], a[href*="delete"] {
+            background: #ef4444 !important; /* Lighter, brighter red */
+            border: 1px solid #fca5a5 !important;
+            color: #ffffff !important;
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.6) !important; /* Glowing effect */
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2) !important;
+            text-decoration: none !important;
+            padding: 0.4rem 0.8rem !important;
+            border-radius: 6px !important;
+        }
+        
+        .btn-danger:hover, button[onclick*="elete"]:hover, a[href*="delete"]:hover {
+            background: #f87171 !important;
+            box-shadow: 0 0 22px rgba(239, 68, 68, 0.9) !important; /* Stronger glow on hover */
+        }
+
+        /* FORCE TABLE OVERRIDES AGAINST INLINE STYLES */
+        table, th, td, tr {
+            background: transparent !important;
+        }
+        
+        tr[style*="background"] {
+            background: transparent !important;
+        }
+
+        th {
+            border-bottom: 2px solid var(--color-border) !important;
+            color: var(--color-gold) !important;
+            font-weight: 700 !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.05em !important;
+        }
+        
+        th[style] {
+            color: var(--color-gold) !important;
+            background: transparent !important;
+        }
+        
+        td {
+            border-bottom: 1px solid var(--color-border) !important;
+            color: var(--color-ivory) !important;
+        }
+        
+        td[style] {
+            color: var(--color-ivory) !important;
+            background: transparent !important;
+        }
+        
+        /* Inline span badges (e.g. Active) */
+        span[style*="background: #dcfce3"], span[style*="background:#dcfce3"] {
+            background: rgba(91, 121, 148, 0.3) !important; /* Slate Blue transparent */
+            color: #92bce3 !important;
+            border: 1px solid rgba(91, 121, 148, 0.5) !important;
+        }
+        
+        /* Table rows hover */
+        tr:hover td {
+            background: rgba(255, 255, 255, 0.03) !important;
+        }
+        
+        /* Pipeline specific */
+        .pipeline-stage {
+            background: transparent !important;
+            border-right: 2px dashed var(--color-border) !important;
+        }
+        
+        .pipeline-lead {
+            border-left: 4px solid var(--color-gold) !important;
+        }
+        
+        a {
+            color: var(--color-gold) !important;
+        }
+        
+        /* FIX INLINE STYLES FOR TITLES */
+        h2[style] {
+            color: var(--color-ivory) !important;
+        }
+        h2 svg {
+            color: var(--color-gold) !important;
+        }
+    </style>
+</head>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<body>
+
+    <!-- UNIFIED NAVBAR -->
+    <nav class="top-nav">
+        <div class="nav-brand">
+            <h1 class="nav-logo">Tiffany Webb <span>CRM</span></h1>
+        </div>
+        <div class="nav-links">
+            <a href="/dashboard" class="nav-link">Pipeline</a>
+            <a href="/leads/new" class="nav-link">Add Lead</a>
+            <a href="/cms" class="nav-link">Website</a>
+            <a href="/users" class="nav-link">Staff</a>
+            <a href="/login" class="nav-link">Logout</a>
+        </div>
+    </nav>
+    <!-- END UNIFIED NAVBAR -->
+
+    
+    
+    
+    
+    <div class="main-content">
+        <div style="margin-bottom: 2rem;">
+            <h2 style="margin: 0; color: var(--color-text); font-size: 1.5rem;"><%= item ? 'Edit Item' : 'Add New Item' %></h2>
+            <p style="margin: 0.25rem 0 0; color: var(--color-ivory);">Section: <strong style="text-transform: capitalize;"><%= section.replace(/_/g, ' ') %></strong></p>
+        </div>
+
+        <% if (typeof error !== 'undefined' && error) { %>
+            <div style="background: #fee2e2; color: #991b1b; padding: 1rem 1.5rem; border-radius: 6px; margin-bottom: 1.5rem; font-family: var(--font-sans); display: flex; justify-content: space-between; align-items: center; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+                <span><%= error %></span>
+                <button onclick="this.parentElement.style.display='none'" type="button" style="background: none; border: none; color: #991b1b; font-size: 1.5rem; cursor: pointer; padding: 0; line-height: 1;">&times;</button>
+            </div>
+        <% } %>
+
+        <div class="card">
+            <form action="/cms/<%= page.slug %>/collection/<%= section %><%= item ? '/' + item.id + '/edit' : '/new' %>" method="POST" enctype="multipart/form-data">
+                
+                <div class="form-group">
+                    <label>Item Title (Heading)</label>
+                    <input type="text" name="title" value="<%= item ? item.title : '' %>" placeholder="e.g., Keynote Speaking">
+                </div>
+
+                <div class="form-group">
+                    <label>Subtitle / Short Description</label>
+                    <input type="text" name="subtitle" value="<%= item ? item.subtitle : '' %>" placeholder="e.g., Inspiring audiences to action">
+                </div>
+
+                <div class="form-group">
+                    <label>Content (HTML/Text)</label>
+                    <textarea name="content_html" rows="5" placeholder="Detailed description..."><%= item ? item.content_html : '' %></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Image URL / Upload</label>
+                    <input type="text" name="image_url" value="<%= item ? item.image_url : '' %>" placeholder="/images/example.jpg" style="margin-bottom: 0.5rem;">
+                    <small style="color: var(--color-ivory); font-size: 0.75rem; display: block; margin-bottom: 0.5rem;">Enter the path to an existing image, or upload a new one below:</small>
+                    <input type="file" name="image_file" accept="image/*" style="font-family: var(--font-sans); font-size: 0.85rem; padding: 0.5rem; background: var(--color-card); border: 1px solid #cbd5e1; border-radius: 4px; width: 100%; cursor: pointer;">
+                </div>
+
+                <div class="form-group">
+                    <label>SVG Icon (Optional)</label>
+                    <textarea name="icon_svg" rows="3" placeholder="<svg>...</svg>"><%= item ? item.icon_svg : '' %></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Sort Order (Number)</label>
+                    <input type="number" name="sort_order" value="<%= item ? item.sort_order : 0 %>" style="width: 150px;">
+                </div>
+
+                <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                    <button type="submit" class="btn-primary"><%= item ? 'Save Changes' : 'Create Item' %></button>
+                    <a href="/cms/<%= page.slug %>" class="btn-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Tiffany Webb — About</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400;1,6..72,600&amp;family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-primary": "#86d6ba",
+                        "tertiary-fixed": "#dce1ff",
+                        "error": "#ba1a1a",
+                        "on-surface-variant": "#3f4944",
+                        "surface-container-highest": "#e7e2d9",
+                        "coral": "#E17356",
+                        "mustard": "#D9A23A",
+                        "tertiary": "#2b428a",
+                        "on-tertiary-fixed-variant": "#2b428a",
+                        "surface-variant": "#e7e2d9",
+                        "primary-fixed": "#a1f3d5",
+                        "on-primary-fixed-variant": "#00513e",
+                        "ivory": "#FBF6EA",
+                        "secondary-fixed": "#abeef6",
+                        "on-primary": "#ffffff",
+                        "primary-fixed-dim": "#86d6ba",
+                        "on-secondary-fixed": "#002023",
+                        "surface-container-high": "#ece8df",
+                        "inverse-on-surface": "#f5f0e7",
+                        "on-error-container": "#93000a",
+                        "on-primary-container": "#98e8cb",
+                        "on-secondary-fixed-variant": "#004f55",
+                        "tertiary-fixed-dim": "#b6c4ff",
+                        "line": "rgba(20, 19, 14, 0.12)",
+                        "on-tertiary": "#ffffff",
+                        "primary": "#00513e",
+                        "on-tertiary-fixed": "#00164e",
+                        "on-secondary-container": "#256c73",
+                        "surface-container-low": "#f8f3ea",
+                        "secondary-fixed-dim": "#8fd1d9",
+                        "cream": "#F3EAD6",
+                        "surface-container": "#f2ede4",
+                        "charcoal": "#23211B",
+                        "on-error": "#ffffff",
+                        "on-surface": "#1d1c16",
+                        "on-background": "#1d1c16",
+                        "error-container": "#ffdad6",
+                        "inverse-surface": "#32302b",
+                        "burnt": "#C15427",
+                        "on-secondary": "#ffffff",
+                        "background": "#fef9f0",
+                        "surface-tint": "#0e6b54",
+                        "surface": "#fef9f0",
+                        "surface-bright": "#fef9f0",
+                        "tertiary-container": "#445aa3",
+                        "on-tertiary-container": "#ced7ff",
+                        "surface-container-lowest": "#ffffff",
+                        "gold": "#C8A24C",
+                        "outline-variant": "#bec9c3",
+                        "surface-dim": "#ded9d1",
+                        "primary-container": "#0e6b54",
+                        "on-primary-fixed": "#002117",
+                        "secondary-container": "#a8ebf3",
+                        "outline": "#6f7974",
+                        "secondary": "#1f686f"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "sidebar-width": "290px",
+                        "card-padding": "22px",
+                        "container-max": "1500px",
+                        "stack-gap": "32px",
+                        "gutter": "7vw"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Newsreader"],
+                        "label-eyebrow": ["Space Mono"],
+                        "label-ui": ["Space Mono"],
+                        "headline-lg": ["Newsreader"],
+                        "body-intro": ["Inter"],
+                        "body-main": ["Inter"],
+                        "display-hero": ["Newsreader"],
+                        "quote-editorial": ["Newsreader"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["32px", { "lineHeight": "1.1", "fontWeight": "600" }],
+                        "label-eyebrow": ["11px", { "lineHeight": "1.2", "letterSpacing": "0.34em", "fontWeight": "700" }],
+                        "label-ui": ["10px", { "lineHeight": "1.2", "letterSpacing": "0.08em", "fontWeight": "400" }],
+                        "headline-lg": ["42px", { "lineHeight": "1.1", "fontWeight": "600" }],
+                        "body-intro": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "body-main": ["16px", { "lineHeight": "1.62", "fontWeight": "400" }],
+                        "display-hero": ["80px", { "lineHeight": "0.98", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "quote-editorial": ["20px", { "lineHeight": "1.5", "fontWeight": "400" }]
+                    },
+                    "animation": {
+                        "fade-in-up": "fadeInUp 1s ease-out forwards",
+                        "scale-up": "scaleUp 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards",
+                        "fade-in": "fadeIn 1s ease-out forwards"
+                    },
+                    "keyframes": {
+                        "fadeInUp": {
+                            "0%": { opacity: "0", transform: "translateY(30px)" },
+                            "100%": { opacity: "1", transform: "translateY(0)" }
+                        },
+                        "scaleUp": {
+                            "0%": { opacity: "0", transform: "scale(0.95)" },
+                            "100%": { opacity: "1", transform: "scale(1)" }
+                        },
+                        "fadeIn": {
+                            "0%": { opacity: "0" },
+                            "100%": { opacity: "1" }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s cubic-bezier(0.2, 0, 0.2, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0;
+        }
+
+        .material-symbols-outlined.fill-icon {
+            font-variation-settings: 'FILL' 1;
+        }
+        
+        .hero-headline {
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 0.2s forwards;
+        }
+        
+        .hero-image {
+            opacity: 0;
+            animation: scaleUp 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) 0.4s forwards;
+        }
+        
+        .hero-content {
+            opacity: 0;
+            animation: fadeIn 1s ease-out 0.6s forwards;
+        }
+
+        .expandable-content {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 0.5s ease-out;
+        }
+
+        .expandable-content.expanded {
+            grid-template-rows: 1fr;
+        }
+        
+        .expandable-content > div {
+            overflow: hidden;
+        }
+        
+        .image-hover-effect {
+            transition: all 0.4s ease;
+        }
+        
+        .image-hover-effect:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(200, 162, 76, 0.4);
+            border-color: rgba(200, 162, 76, 0.6);
+        }
+    </style>
+</head>
+<body class="bg-ivory text-charcoal font-body-main antialiased selection:bg-gold selection:text-charcoal min-h-screen flex flex-col">
+<!-- TopNavBar (Generated from JSON) -->
+<nav class="fixed top-0 w-full z-50 bg-charcoal/85 dark:bg-charcoal/85 backdrop-blur-md border-b border-line flex justify-between items-center px-gutter py-6 w-full shadow-none transition-transform active:scale-95 hidden md:flex">
+<a class="font-display-hero text-headline-lg-mobile md:text-headline-lg text-ivory dark:text-ivory tracking-tighter shrink-0" href="#">Tiffany Webb</a>
+<div class="flex items-center gap-8">
+<a class="font-label-ui text-label-ui uppercase tracking-widest text-ivory/70 dark:text-ivory/70 hover:text-ivory transition-colors hover:text-gold transition-all duration-300" href="#">Home</a>
+<a class="font-label-ui text-label-ui uppercase tracking-widest text-gold dark:text-gold border-b border-gold pb-1 hover:text-gold transition-all duration-300" href="#">About</a>
+<a class="font-label-ui text-label-ui uppercase tracking-widest text-ivory/70 dark:text-ivory/70 hover:text-ivory transition-colors hover:text-gold transition-all duration-300" href="#">Profile</a>
+<a class="font-label-ui text-label-ui uppercase tracking-widest text-ivory/70 dark:text-ivory/70 hover:text-ivory transition-colors hover:text-gold transition-all duration-300" href="#">Stories</a>
+<a class="font-label-ui text-label-ui uppercase tracking-widest text-ivory/70 dark:text-ivory/70 hover:text-ivory transition-colors hover:text-gold transition-all duration-300" href="#">Media</a>
+</div>
+<button class="font-label-ui text-label-ui uppercase tracking-widest bg-transparent border border-gold/40 text-ivory px-4 py-2 rounded-full hover:bg-gold hover:text-charcoal transition-all">Connect</button>
+</nav>
+<!-- Mobile TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-charcoal/85 backdrop-blur-md border-b border-line flex justify-between items-center px-6 py-4 shadow-none md:hidden">
+<a class="font-display-hero text-headline-lg-mobile text-ivory tracking-tighter" href="#">Tiffany Webb</a>
+<button class="text-ivory material-symbols-outlined">menu</button>
+</nav>
+<main class="flex-grow pt-24 md:pt-32">
+<!-- 1. Hero Section -->
+<section class="px-gutter max-w-container-max mx-auto mb-24 md:mb-32">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center">
+<div class="lg:col-span-5 order-2 lg:order-1">
+<h1 class="font-display-hero text-display-hero text-charcoal mb-6 hero-headline">Heart +<br/><span class="italic text-coral">Strategy.</span></h1>
+<div class="hero-content">
+<p class="font-body-intro text-body-intro text-on-surface-variant mb-8 max-w-md">Tiffany Webb is a public-health educator and Community Impact Strategist based in the Chicago area. Chicago-born and -raised with deep Louisiana family roots.</p>
+<div class="flex flex-wrap gap-4">
+<span class="font-label-eyebrow text-label-eyebrow text-gold border border-gold/30 px-4 py-2 rounded-full">COMMUNITY IMPACT</span>
+<span class="font-label-eyebrow text-label-eyebrow text-gold border border-gold/30 px-4 py-2 rounded-full">PUBLIC HEALTH</span>
+</div>
+</div>
+</div>
+<div class="lg:col-span-7 order-1 lg:order-2 relative hero-image">
+<div class="aspect-[4/5] md:aspect-auto md:h-[716px] rounded-2xl overflow-hidden relative shadow-2xl">
+<img class="w-full h-full object-cover" data-alt="A warm, highly professional, gallery-grade portrait of Tiffany Webb, a Black female Community Impact Strategist. She is styled in bohemian-chic creative-executive fashion with layered jewelry, radiating the compassionate 'Caregiver' and intelligent 'Sage' archetypes. The lighting is bright and high-key, highlighting her dignified expression against a minimalist cream background. High contrast editorial style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDBaeU_DVrj4BWgFph8x9mei49gNxgz4DTJGQ73rniejTcWDuEFvMtr3GyaExLZYtHif0IJ76unJB_WdsugsGTkDAzefL5d2-NnCLDkgvUyeD7Jr9qUEPyyneIxi8_F-8NY1jYbaP_in4U5nsyzpSBi8W3zM2-PiDIYgTFy4bYve4aWCDL77KMtZ5jpPILxm3OngY4-KeUEGP9nUqnTSIuNrpsOKmpFYwgWG8LNNBZYOLVN3n6OwJ-dSg"/>
+<!-- Abstract overlay -->
+<div class="absolute inset-0 bg-gradient-to-t from-charcoal/60 to-transparent pointer-events-none"></div>
+<div class="absolute bottom-8 left-8 text-ivory max-w-sm border-l-4 border-gold pl-4">
+<p class="font-quote-editorial text-quote-editorial italic">"Every conversation is an opportunity to plant a seed of hope."</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 2. The Root -->
+<section class="px-gutter max-w-container-max mx-auto mb-24 md:mb-32 reveal">
+<div class="bg-cream rounded-[2rem] p-8 md:p-16 border border-line relative overflow-hidden">
+<!-- Background graphic hint -->
+<div class="absolute -right-20 -top-20 w-64 h-64 bg-coral/10 rounded-full blur-3xl pointer-events-none"></div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center relative z-10">
+<div class="reveal">
+<span class="font-label-eyebrow text-label-eyebrow text-coral mb-4 block">THE ROOT</span>
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-charcoal mb-6">Chicago Soul,<br/>Louisiana Heart.</h2>
+<div class="prose font-body-main text-body-main text-on-surface-variant max-w-none">
+<p class="mb-4">She blends behavioral-health expertise, bold community outreach, and entrepreneurial drive into a singular mission: no one should face gambling harm in silence.</p>
+<p class="mb-4">Across 15+ years and 4,000+ hours of prevention outreach, Tiffany has led community screenings, built coalitions, trained clinicians, and partnered with health systems and schools to break the silence on gambling addiction.</p>
+<div class="expandable-content" id="bio-details">
+<div>
+<p class="mt-4 mb-4 font-bold text-charcoal">Her deep roots anchor her work.</p>
+<p class="mb-4">Tiffany’s dedication stems from a profound understanding of family legacy and community resilience. Drawing upon the strength of her Louisiana heritage and the dynamic energy of Chicago, she approaches public health not just as clinical practice, but as a commitment to uplifting the entire community.</p>
+<p>Her work is characterized by the 'Caregiver' and 'Sage' archetypes—nurturing individuals while providing the strategic insight needed to navigate complex public health landscapes.</p>
+</div>
+</div>
+<button class="mt-4 font-label-ui text-label-ui uppercase tracking-widest text-gold hover:text-coral transition-colors flex items-center gap-1 group" id="show-more-btn">
+<span id="btn-text">Read More</span>
+<span class="material-symbols-outlined text-[16px] group-hover:translate-y-1 transition-transform" id="btn-icon">expand_more</span>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="aspect-square rounded-xl overflow-hidden shadow-lg transform translate-y-8 border border-transparent image-hover-effect">
+<img class="w-full h-full object-cover" data-alt="A warm, candid documentary-style photograph of a community gathering in Chicago. People are engaged in a supportive conversation, sitting in a circle in a bright, modern community center. The lighting is natural and inviting, conveying a sense of rootedness, empathy, and active listening. Editorial magazine aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxo_2Ksh-0TP0QkczeFsEctFM02T9IZqiJiJM6c_-ovzb-T7bU-frM-XM4WTxct3bMyt1_d919Z-WqNBwtrw0RakLptuQOC_B2VyaTVpKDPoBYcj-eOgDtap_FE8tBFGP6HgsQN3MmKWljTnLPTAC_J-IHNbiPSl8mSLnDkaSphhR4IDxRtrLXjwGsbvNuiAsYJ9hO1W3zZlPEpLZuNqM9UrhL2iycjfercXocfLlBZJM-owWZVo1WRg"/>
+</div>
+<div class="aspect-square rounded-xl overflow-hidden shadow-lg border border-transparent image-hover-effect">
+<img class="w-full h-full object-cover" data-alt="Abstract architectural detail of a Chicago building mixed with organic, flowing lines reminiscent of Louisiana nature. The image uses a rich palette of deep teal, coral, and gold against a cream background. It communicates structure, heritage, and growth in a refined, high-end editorial style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBR7Lg5wRUeP59-YiSDrYc7ujW34qJ4fXHnd-J9D5k_SMtcak0mffJcr1c1mGWZT12Bgal3JvhTm0yrrerJw9paHJWDqHFK_NXNVOg2ArcO74zv7JT7e9H4f3g8wB_4MxLDWvc1guPBmRdXUfXH67M8UlUFixMBx6UAVwnHRG3QrBca9wy0bVVCMoaE7rlwrxFY8iITANV1w86YwjQyUkRUD1Aqsl0_6FFaLGCv3FYBh1LXQJUZaPGuGg"/>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer (Generated from JSON) -->
+<footer class="w-full py-20 bg-charcoal dark:bg-charcoal border-t border-line flex flex-col md:flex-row justify-between items-start px-gutter max-w-container-max mx-auto">
+<div class="mb-8 md:mb-0">
+<h2 class="font-display-hero text-headline-lg text-gold mb-4">Tiffany Webb</h2>
+<p class="font-body-main text-body-main text-ivory/60">© 2024 Tiffany Webb. Impact Through Strategy.</p>
+</div>
+<div class="flex flex-col md:flex-row gap-6 md:gap-12">
+<a class="font-body-main text-body-main text-ivory/60 hover:text-gold transition-colors" href="#">Privacy Policy</a>
+<a class="font-body-main text-body-main text-ivory/60 hover:text-gold transition-colors" href="#">Terms of Service</a>
+<a class="font-body-main text-body-main text-ivory/60 hover:text-gold transition-colors" href="#">Press Kit</a>
+<a class="font-body-main text-body-main text-ivory/60 hover:text-gold transition-colors" href="#">Contact</a>
+</div>
+</footer>
+<script>
+        // Scroll reveal logic
+        document.addEventListener('DOMContentLoaded', () => {
+            const reveals = document.querySelectorAll('.reveal');
+
+            const revealOnScroll = () => {
+                for (let i = 0; i < reveals.length; i++) {
+                    const windowHeight = window.innerHeight;
+                    const elementTop = reveals[i].getBoundingClientRect().top;
+                    const elementVisible = 100;
+
+                    if (elementTop < windowHeight - elementVisible) {
+                        reveals[i].classList.add('active');
+                    }
+                }
+            };
+
+            window.addEventListener('scroll', revealOnScroll);
+            revealOnScroll(); // Trigger on load
+            
+            // Show More toggle logic
+            const showMoreBtn = document.getElementById('show-more-btn');
+            const bioDetails = document.getElementById('bio-details');
+            const btnText = document.getElementById('btn-text');
+            const btnIcon = document.getElementById('btn-icon');
+            
+            if(showMoreBtn && bioDetails) {
+                showMoreBtn.addEventListener('click', () => {
+                    bioDetails.classList.toggle('expanded');
+                    if (bioDetails.classList.contains('expanded')) {
+                        btnText.textContent = 'Show Less';
+                        btnIcon.textContent = 'expand_less';
+                    } else {
+                        btnText.textContent = 'Read More';
+                        btnIcon.textContent = 'expand_more';
+                    }
+                });
+            }
+        });
+    </script>
+</body></html>

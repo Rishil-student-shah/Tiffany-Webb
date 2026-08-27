@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Tiffany Webb - Community Impact Strategist</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=Newsreader:wght@400;600&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "ivory": "#FBF6EA",
+                        "primary-container": "#0e6b54",
+                        "tertiary-fixed": "#dce1ff",
+                        "outline": "#6f7974",
+                        "error": "#ba1a1a",
+                        "secondary-container": "#a8ebf3",
+                        "on-secondary-container": "#256c73",
+                        "surface-container-high": "#ece8df",
+                        "surface": "#fef9f0",
+                        "primary": "#00513e",
+                        "on-secondary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "cream": "#F3EAD6",
+                        "secondary-fixed": "#abeef6",
+                        "surface-container-low": "#f8f3ea",
+                        "tertiary-container": "#445aa3",
+                        "primary-fixed": "#a1f3d5",
+                        "error-container": "#ffdad6",
+                        "primary-fixed-dim": "#86d6ba",
+                        "on-surface": "#1d1c16",
+                        "charcoal": "#23211B",
+                        "on-tertiary-fixed-variant": "#2b428a",
+                        "coral": "#E17356",
+                        "surface-tint": "#0e6b54",
+                        "inverse-surface": "#32302b",
+                        "on-background": "#1d1c16",
+                        "on-primary-fixed": "#002117",
+                        "secondary": "#1f686f",
+                        "on-primary-container": "#98e8cb",
+                        "outline-variant": "#bec9c3",
+                        "line": "rgba(20, 19, 14, 0.12)",
+                        "gold": "#C8A24C",
+                        "surface-container": "#f2ede4",
+                        "surface-bright": "#fef9f0",
+                        "secondary-fixed-dim": "#8fd1d9",
+                        "inverse-primary": "#86d6ba",
+                        "on-error": "#ffffff",
+                        "on-secondary-fixed": "#002023",
+                        "on-primary-fixed-variant": "#00513e",
+                        "surface-dim": "#ded9d1",
+                        "inverse-on-surface": "#f5f0e7",
+                        "background": "#fef9f0",
+                        "tertiary-fixed-dim": "#b6c4ff",
+                        "on-tertiary-container": "#ced7ff",
+                        "on-secondary-fixed-variant": "#004f55",
+                        "surface-container-lowest": "#ffffff",
+                        "burnt": "#C15427",
+                        "surface-variant": "#e7e2d9",
+                        "mustard": "#D9A23A",
+                        "tertiary": "#2b428a",
+                        "on-primary": "#ffffff",
+                        "on-surface-variant": "#3f4944",
+                        "on-tertiary-fixed": "#00164e",
+                        "surface-container-highest": "#e7e2d9",
+                        "on-tertiary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "sidebar-width": "290px",
+                        "stack-gap": "32px",
+                        "container-max": "1500px",
+                        "gutter": "7vw",
+                        "card-padding": "22px"
+                    },
+                    "fontFamily": {
+                        "body-main": ["Inter"],
+                        "display-hero": ["Newsreader"],
+                        "body-intro": ["Inter"],
+                        "label-eyebrow": ["Space Mono"],
+                        "quote-editorial": ["Newsreader"],
+                        "headline-lg": ["Newsreader"],
+                        "headline-lg-mobile": ["Newsreader"],
+                        "label-ui": ["Space Mono"]
+                    },
+                    "fontSize": {
+                        "body-main": ["16px", { "lineHeight": "1.62", "fontWeight": "400" }],
+                        "display-hero": ["80px", { "lineHeight": "0.98", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "body-intro": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "label-eyebrow": ["11px", { "lineHeight": "1.2", "letterSpacing": "0.34em", "fontWeight": "700" }],
+                        "quote-editorial": ["20px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "headline-lg": ["42px", { "lineHeight": "1.1", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["32px", { "lineHeight": "1.1", "fontWeight": "600" }],
+                        "label-ui": ["10px", { "lineHeight": "1.2", "letterSpacing": "0.08em", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .editorial-line {
+            position: relative;
+        }
+        .editorial-line::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: -20px;
+            width: 15px;
+            height: 2px;
+            background-color: theme('colors.primary');
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-main antialiased selection:bg-gold/30">
+<!-- Top Navigation Bar -->
+<nav class="fixed top-0 w-full z-50 bg-charcoal/86 backdrop-blur-md border-b border-line shadow-sm">
+<div class="flex justify-between items-center px-gutter py-6 w-full max-w-container-max mx-auto">
+<a class="font-display-hero text-headline-lg-mobile md:text-headline-lg text-gold transition-transform active:scale-95" href="#">Tiffany Webb</a>
+<div class="hidden md:flex gap-8 items-center font-label-ui text-label-ui uppercase tracking-widest">
+<a class="text-gold border-b-2 border-gold pb-1 transition-transform active:scale-95" href="#">Home</a>
+<a class="text-ivory/80 hover:text-gold transition-all duration-300 transition-transform active:scale-95" href="#">About</a>
+<a class="text-ivory/80 hover:text-gold transition-all duration-300 transition-transform active:scale-95" href="#">Profile</a>
+<a class="text-ivory/80 hover:text-gold transition-all duration-300 transition-transform active:scale-95" href="#">Stories</a>
+<a class="text-ivory/80 hover:text-gold transition-all duration-300 transition-transform active:scale-95" href="#">Media</a>
+</div>
+<a class="hidden md:inline-flex items-center justify-center px-6 py-3 rounded-full bg-gold text-charcoal font-label-ui text-label-ui uppercase tracking-widest hover:bg-ivory transition-colors duration-300 transition-transform active:scale-95" href="#">Contact</a>
+<button class="md:hidden text-ivory p-2">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</nav>
+<!-- Hero Section -->
+<header class="relative min-h-[90vh] flex items-center justify-center overflow-hidden pt-24">
+
+<div class="absolute inset-0 bg-gradient-to-b from-background/40 to-background z-10"></div>
+<div class="relative z-20 px-gutter max-w-container-max mx-auto w-full text-center fade-in-up">
+<h1 class="font-display-hero text-[50px] md:text-display-hero text-primary mb-8 leading-tight">Break the Silence.</h1>
+<p class="font-body-intro text-body-intro max-w-2xl mx-auto text-on-surface-variant">
+                Blending 15+ years of strategic credentials with culturally rooted storytelling to transform communities and ignite meaningful change.
+            </p>
+<div class="mt-12 flex flex-wrap justify-center gap-4">
+<a class="inline-flex items-center justify-center px-8 py-4 rounded-full bg-primary text-on-primary font-label-ui text-label-ui uppercase tracking-widest hover:bg-charcoal transition-colors duration-300" href="#architecting">Explore Tracks</a>
+</div>
+</div>
+</header>
+<!-- Introduction Section -->
+<section class="py-24 px-gutter max-w-container-max mx-auto">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-stack-gap items-center">
+<div class="fade-in-up order-2 md:order-1">
+<p class="font-label-eyebrow text-label-eyebrow text-gold uppercase mb-4 editorial-line ml-5">The Intersection</p>
+<h2 class="font-display-hero text-headline-lg-mobile md:text-headline-lg text-primary mb-6">Academic rigor meets deep human empathy.</h2>
+<p class="font-body-main text-body-main text-on-surface-variant mb-6">
+                    With over 15 years of experience bridging the gap between institutional frameworks and community realities, my approach is deeply informed by my roots spanning Chicago to Louisiana. I believe that true impact requires both a structural understanding of systemic issues and a profound, empathetic connection to the people navigating them daily.
+                </p>
+<p class="font-body-main text-body-main text-on-surface-variant">
+                    By translating complex academic and clinical concepts into accessible, actionable strategies, we empower communities to reclaim their narratives and foster sustainable resilience.
+                </p>
+</div>
+<div class="fade-in-up order-1 md:order-2">
+<div class="relative aspect-[3/4] w-full rounded-xl overflow-hidden shadow-lg border border-line">
+<img class="absolute inset-0 w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" data-alt="A professional, high-end editorial style portrait of a warm, confident Black woman with a subtle, empathetic smile, standing in a sophisticated architectural space with soft, natural lighting. The scene uses a bright light-mode aesthetic, emphasizing warm ivory tones and deep emerald green accents, conveying a sense of intellectual authority and approachability." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD93_TkBZgHsdzqE_HPtqWKdaoNzjNiiZLfZ8Hi_ZsCYBJWuuLXAQtYRM7RBQnvFf49h5P4NN5H0x5HcAAIzZQ6kGFjZzhDlO6HHgZ6oBxoinqKTdQFYWIKBK5T3OCtjy1Ecth0i2iOx_KGNDWCK0mfwRuwNw7mvp8mQxtNbdutj5GTI1zTt4qtIoW1O1t0ZoOmzMDDL0bp0lDGgKAxi8-btxBNb6QoR7ijdYbtlrXkLT7PnPPPYfeaCg"/>
+</div>
+</div>
+</div>
+</section>
+<!-- Impact Counters -->
+<section class="py-16 bg-surface-container border-y border-line">
+<div class="px-gutter max-w-container-max mx-auto">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-line">
+<div class="py-4 fade-in-up delay-100">
+<div class="font-display-hero text-headline-lg text-primary mb-2">15+</div>
+<div class="font-label-eyebrow text-label-eyebrow text-on-surface-variant">Years Experience</div>
+</div>
+<div class="py-4 fade-in-up delay-200">
+<div class="font-display-hero text-headline-lg text-primary mb-2">4k+</div>
+<div class="font-label-eyebrow text-label-eyebrow text-on-surface-variant">Outreach Hours</div>
+</div>
+<div class="py-4 fade-in-up delay-300">
+<div class="font-display-hero text-headline-lg text-primary mb-2">21</div>
+<div class="font-label-eyebrow text-label-eyebrow text-on-surface-variant">Signature Topics</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Architecting Conversations -->
+<section class="py-24 px-gutter max-w-container-max mx-auto" id="architecting">
+<div class="text-center mb-16 fade-in-up">
+<p class="font-label-eyebrow text-label-eyebrow text-gold uppercase mb-4">Core Focus</p>
+<h2 class="font-display-hero text-headline-lg-mobile md:text-headline-lg text-primary">Architecting Conversations</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<!-- Card 1 -->
+<div class="bg-cream border border-line border-l-[5px] border-l-primary rounded-lg p-card-padding fade-in-up hover:shadow-lg transition-shadow duration-300 relative overflow-hidden group">
+<div class="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+<span class="material-symbols-outlined text-3xl text-primary mb-4" style="font-variation-settings: 'FILL' 0;">architecture</span>
+<h3 class="font-display-hero text-quote-editorial text-charcoal mb-2">Prevention Strategy</h3>
+<p class="font-body-main text-body-main text-on-surface-variant">Building proactive frameworks that anticipate community needs rather than reacting to crises.</p>
+</div>
+<!-- Card 2 -->
+<div class="bg-cream border border-line border-l-[5px] border-l-tertiary rounded-lg p-card-padding fade-in-up delay-100 hover:shadow-lg transition-shadow duration-300 relative overflow-hidden group">
+<div class="absolute inset-0 bg-tertiary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+<span class="material-symbols-outlined text-3xl text-tertiary mb-4" style="font-variation-settings: 'FILL' 0;">psychology</span>
+<h3 class="font-display-hero text-quote-editorial text-charcoal mb-2">Clinical Empathy</h3>
+<p class="font-body-main text-body-main text-on-surface-variant">Bridging the gap between sterile medical terminology and genuine human understanding.</p>
+</div>
+<!-- Card 3 -->
+<div class="bg-cream border border-line border-l-[5px] border-l-mustard rounded-lg p-card-padding fade-in-up delay-200 hover:shadow-lg transition-shadow duration-300 relative overflow-hidden group">
+<div class="absolute inset-0 bg-mustard/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+<span class="material-symbols-outlined text-3xl text-mustard mb-4" style="font-variation-settings: 'FILL' 0;">diversity_3</span>
+<h3 class="font-display-hero text-quote-editorial text-charcoal mb-2">Family Dynamics</h3>
+<p class="font-body-main text-body-main text-on-surface-variant">Navigating complex familial structures to build stronger, more supportive environments.</p>
+</div>
+<!-- Card 4 -->
+<div class="bg-cream border border-line border-l-[5px] border-l-coral rounded-lg p-card-padding fade-in-up delay-300 hover:shadow-lg transition-shadow duration-300 relative overflow-hidden group">
+<div class="absolute inset-0 bg-coral/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+<span class="material-symbols-outlined text-3xl text-coral mb-4" style="font-variation-settings: 'FILL' 0;">brush</span>
+<h3 class="font-display-hero text-quote-editorial text-charcoal mb-2">Creative Outreach</h3>
+<p class="font-body-main text-body-main text-on-surface-variant">Utilizing art, narrative, and culturally resonant storytelling to foster connection.</p>
+</div>
+</div>
+</section>
+<!-- Testimonial Section -->
+<section class="py-32 bg-charcoal text-ivory relative overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none" style="background-image: radial-gradient(circle at 20% 50%, rgba(200, 162, 76, 0.4) 0%, transparent 50%);"></div>
+<div class="px-gutter max-w-container-max mx-auto text-center fade-in-up relative z-10">
+<span class="material-symbols-outlined text-4xl text-gold mb-6 opacity-50">format_quote</span>
+<blockquote class="font-display-hero text-[30px] md:text-headline-lg leading-tight mb-8 max-w-4xl mx-auto">
+                "Tiffany doesn't just deliver a presentation; she shifts the atmosphere. Her ability to weave clinical truth with raw human experience is unparalleled."
+            </blockquote>
+<cite class="block font-label-eyebrow text-label-eyebrow text-gold not-italic">
+                — Director of Public Health Initiatives
+            </cite>
+</div>
+</section>
+<!-- Footer -->
+<footer class="bg-charcoal text-ivory py-20 border-t border-line w-full">
+<div class="flex flex-col md:flex-row justify-between items-start px-gutter w-full max-w-container-max mx-auto gap-stack-gap">
+<div class="mb-8 md:mb-0">
+<span class="font-display-hero text-headline-lg text-ivory transition-opacity hover:opacity-80">Tiffany Webb</span>
+<p class="font-body-main text-body-main text-ivory/60 mt-2 max-w-sm">
+                    © 2024 Tiffany Webb. Impact Through Strategic Architecture.
+                </p>
+</div>
+<div class="flex flex-col md:flex-row gap-8 font-body-main text-body-main">
+<a class="text-ivory/60 hover:text-gold transition-colors duration-300" href="#">Privacy Policy</a>
+<a class="text-ivory/60 hover:text-gold transition-colors duration-300" href="#">Terms of Service</a>
+<a class="text-ivory/60 hover:text-gold transition-colors duration-300" href="#">Accessibility</a>
+<a class="text-ivory/60 hover:text-gold transition-colors duration-300" href="#">LinkedIn</a>
+<a class="text-ivory/60 hover:text-gold transition-colors duration-300" href="#">Contact</a>
+</div>
+</div>
+</footer>
+<script>
+        // Simple Intersection Observer for scroll animations
+        document.addEventListener("DOMContentLoaded", () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+
+            document.querySelectorAll('.fade-in-up').forEach((element) => {
+                observer.observe(element);
+            });
+        });
+    </script>
+</body></html>

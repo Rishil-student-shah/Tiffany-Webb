@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Tiffany Webb — Impact Stories</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400;1,6..72,600&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "inverse-primary": "#86d6ba",
+                "tertiary-fixed": "#dce1ff",
+                "error": "#ba1a1a",
+                "on-surface-variant": "#3f4944",
+                "surface-container-highest": "#e7e2d9",
+                "coral": "#E17356",
+                "mustard": "#D9A23A",
+                "tertiary": "#2b428a",
+                "on-tertiary-fixed-variant": "#2b428a",
+                "surface-variant": "#e7e2d9",
+                "primary-fixed": "#a1f3d5",
+                "on-primary-fixed-variant": "#00513e",
+                "ivory": "#FBF6EA",
+                "secondary-fixed": "#abeef6",
+                "on-primary": "#ffffff",
+                "primary-fixed-dim": "#86d6ba",
+                "on-secondary-fixed": "#002023",
+                "surface-container-high": "#ece8df",
+                "inverse-on-surface": "#f5f0e7",
+                "on-error-container": "#93000a",
+                "on-primary-container": "#98e8cb",
+                "on-secondary-fixed-variant": "#004f55",
+                "tertiary-fixed-dim": "#b6c4ff",
+                "line": "rgba(20, 19, 14, 0.12)",
+                "on-tertiary": "#ffffff",
+                "primary": "#00513e",
+                "on-tertiary-fixed": "#00164e",
+                "on-secondary-container": "#256c73",
+                "surface-container-low": "#f8f3ea",
+                "secondary-fixed-dim": "#8fd1d9",
+                "cream": "#F3EAD6",
+                "surface-container": "#f2ede4",
+                "charcoal": "#23211B",
+                "on-error": "#ffffff",
+                "on-surface": "#1d1c16",
+                "on-background": "#1d1c16",
+                "error-container": "#ffdad6",
+                "inverse-surface": "#32302b",
+                "burnt": "#C15427",
+                "on-secondary": "#ffffff",
+                "background": "#fef9f0",
+                "surface-tint": "#0e6b54",
+                "surface": "#fef9f0",
+                "surface-bright": "#fef9f0",
+                "tertiary-container": "#445aa3",
+                "on-tertiary-container": "#ced7ff",
+                "surface-container-lowest": "#ffffff",
+                "gold": "#C8A24C",
+                "outline-variant": "#bec9c3",
+                "surface-dim": "#ded9d1",
+                "primary-container": "#0e6b54",
+                "on-primary-fixed": "#002117",
+                "secondary-container": "#a8ebf3",
+                "outline": "#6f7974",
+                "secondary": "#1f686f"
+        },
+        "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+        },
+        "spacing": {
+                "sidebar-width": "290px",
+                "card-padding": "22px",
+                "container-max": "1500px",
+                "stack-gap": "32px",
+                "gutter": "7vw"
+        },
+        "fontFamily": {
+                "headline-lg-mobile": ["Newsreader"],
+                "label-eyebrow": ["Space Mono"],
+                "label-ui": ["Space Mono"],
+                "headline-lg": ["Newsreader"],
+                "body-intro": ["Inter"],
+                "body-main": ["Inter"],
+                "display-hero": ["Newsreader"],
+                "quote-editorial": ["Newsreader"]
+        },
+        "fontSize": {
+                "headline-lg-mobile": ["32px", {"lineHeight": "1.1", "fontWeight": "600"}],
+                "label-eyebrow": ["11px", {"lineHeight": "1.2", "letterSpacing": "0.34em", "fontWeight": "700"}],
+                "label-ui": ["10px", {"lineHeight": "1.2", "letterSpacing": "0.08em", "fontWeight": "400"}],
+                "headline-lg": ["42px", {"lineHeight": "1.1", "fontWeight": "600"}],
+                "body-intro": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                "body-main": ["16px", {"lineHeight": "1.62", "fontWeight": "400"}],
+                "display-hero": ["80px", {"lineHeight": "0.98", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                "quote-editorial": ["20px", {"lineHeight": "1.5", "fontWeight": "400"}]
+        }
+      }
+    }
+  }
+</script>
+<style>
+  body { background-color: theme('colors.ivory'); color: theme('colors.charcoal'); }
+  .slide-in-el { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+  .slide-in-el.is-visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body class="antialiased font-body-main selection:bg-gold selection:text-charcoal">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-charcoal/85 dark:bg-charcoal/85 backdrop-blur-md border-b border-line shadow-none transition-transform active:scale-95">
+<div class="flex justify-between items-center px-gutter py-6 w-full max-w-container-max mx-auto">
+<a class="font-display-hero text-headline-lg-mobile md:text-headline-lg text-ivory dark:text-ivory tracking-tighter hover:text-gold transition-all duration-300" href="#">
+      Tiffany Webb
+    </a>
+<div class="hidden md:flex items-center gap-8 font-label-ui text-label-ui uppercase tracking-widest text-ivory dark:text-ivory">
+<a class="text-ivory/70 dark:text-ivory/70 hover:text-ivory transition-colors" href="#">Home</a>
+<a class="text-ivory/70 dark:text-ivory/70 hover:text-ivory transition-colors" href="#">About</a>
+<a class="text-ivory/70 dark:text-ivory/70 hover:text-ivory transition-colors" href="#">Profile</a>
+<a class="text-gold dark:text-gold border-b border-gold pb-1" href="#">Stories</a>
+<a class="text-ivory/70 dark:text-ivory/70 hover:text-ivory transition-colors" href="#">Media</a>
+</div>
+<button class="font-label-ui text-label-ui uppercase tracking-widest text-charcoal bg-gold px-6 py-3 rounded-full hover:bg-mustard transition-colors duration-300 hidden md:block">
+      Connect
+    </button>
+<button class="md:hidden text-ivory">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="pt-[120px] pb-24">
+<!-- Hero Section -->
+<section class="px-gutter max-w-container-max mx-auto mb-24 slide-in-el">
+<div class="flex flex-col items-center text-center max-w-4xl mx-auto space-y-6 pt-12">
+<span class="font-label-eyebrow text-label-eyebrow text-primary uppercase">Editorial · Case Studies</span>
+<h1 class="font-display-hero text-display-hero text-charcoal tracking-tighter">Impact in Action.</h1>
+<p class="font-body-intro text-body-intro text-on-surface-variant max-w-2xl">
+        A world-class, living reference for culturally rooted gambling-harm prevention. Explore deep-dive stories of community implementation, resilience, and breaking the silence.
+      </p>
+</div>
+</section>
+<!-- Editorial Magazine Grid -->
+<section class="px-gutter max-w-container-max mx-auto mb-32">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-stack-gap">
+<!-- Feature 1: Community Screenings -->
+<article class="col-span-1 md:col-span-8 group cursor-pointer slide-in-el">
+<div class="overflow-hidden rounded-xl bg-cream border border-line h-[500px] relative">
+<img class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-700 ease-in-out" data-alt="A candid, warm editorial photograph of Tiffany Webb speaking to a diverse community gathering in a bright, modern hall. The lighting is soft and hopeful, reflecting a 'Caregiver' archetype. Lush green and warm ivory tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDky15psuQ2D5yNA9cvGoiXzfsaz0ycqYbjiZecl7Xn6pqj9ZokzK-HB_t9aTDnJwmPJVASIEL9n_-Xlq3_mMcJUyJT9S7K6GNroUHrEIMu-goeZCL_pT-PjffmFzTV07s-VEf7-xKgHjZOyealgXz9JRWVH10rni3VUsaIWoafolmhOZxknBOTm-6CnVM1zC6qRSVuLB8kbVsQ5zNkE2HV3LE-rnDcIT3kFshuT4uPV6vr8tDVO1rb1A"/>
+<div class="absolute inset-0 bg-gradient-to-t from-charcoal/80 via-charcoal/20 to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-8 text-ivory">
+<span class="font-label-ui text-label-ui uppercase tracking-widest text-gold mb-3 block">Track 1 · Prevention &amp; Awareness</span>
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg mb-2">Community Screenings</h2>
+<p class="font-body-main text-body-main text-cream max-w-lg">Over 4,000 hours of frontline outreach turning hard conversations into community-wide action plans.</p>
+</div>
+</div>
+</article>
+<!-- Feature 2: ROSC Council -->
+<article class="col-span-1 md:col-span-4 group cursor-pointer slide-in-el delay-100">
+<div class="overflow-hidden rounded-xl bg-cream border border-line h-[500px] flex flex-col relative">
+<div class="h-1/2 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-[1.05] transition-transform duration-700 ease-in-out" data-alt="Abstract, organic digital art depicting connected nodes and tree branches in a palette of deep teal, royal blue, and gold. Signifies strategic partnerships and community building." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAz4zzL08l1JuXguWy9iO1Hsi-jnPpuo7HW2RyQDee85sjDbuuCIclUqfEiiV9ZXfFaeGR96VDb7ir5gcicPjFzH3Y0aDrvO85iolr5gOQpaqXKYu_pb-sjQrpN3azwjidFAcyPqHjrdbyXwY3fDsRYBzD4u5zSv9OTGuVhOSdHesE6nXQxcqmEtNXtc6g1dtxvf3WggH3JJAK5bArsRuy4xryNs1hEiad63SG1239qm8v0RWYZFYybVw"/>
+</div>
+<div class="h-1/2 p-8 bg-surface-container border-t border-line flex flex-col justify-center">
+<span class="font-label-ui text-label-ui uppercase tracking-widest text-primary mb-3 block">Track 4 · Engagement</span>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile mb-2 text-charcoal">ROSC Council Engagement</h2>
+<p class="font-body-main text-body-main text-on-surface-variant">Building coalitions and equipping local councils with practical tools for stigma reduction.</p>
+</div>
+</div>
+</article>
+<!-- Feature 3: GambleFreeGear -->
+<article class="col-span-1 md:col-span-12 group cursor-pointer slide-in-el delay-200 mt-8">
+<div class="overflow-hidden rounded-xl bg-ink border border-line border-l-[5px] border-l-mustard relative h-auto md:h-[400px] flex flex-col md:flex-row bg-charcoal">
+<div class="md:w-1/2 p-10 md:p-16 flex flex-col justify-center text-ivory">
+<span class="font-label-ui text-label-ui uppercase tracking-widest text-mustard mb-4 block">Endorsed Sub-Brand</span>
+<h2 class="font-display-hero text-headline-lg-mobile md:text-headline-lg mb-4 text-ivory">GambleFreeGear: Break the Silence</h2>
+<p class="font-body-main text-body-main text-cream max-w-xl mb-8">
+              An awareness apparel brand built on the mission that no one should face gambling harm in isolation. The emotional and retail proof layer that markets the mission.
+            </p>
+<div>
+<span class="inline-flex items-center gap-2 font-label-ui text-label-ui text-charcoal bg-gold px-5 py-2 rounded-full uppercase tracking-widest hover:bg-ivory transition-colors">
+                Explore the Mission <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</span>
+</div>
+</div>
+<div class="md:w-1/2 h-64 md:h-full relative overflow-hidden">
+<img class="absolute inset-0 w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-700 ease-in-out opacity-80" data-alt="High-end editorial fashion photography of premium streetwear apparel with the text 'Break the Silence' subtly integrated. Warm ivory and deep emerald accents, shot in a gallery-like setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdXZT0ctYPYoUUAgfMGYv1-sBHy9REOmPqOMa-uEQGjbdmWXawlcUCRcc7fYKX7t5Wfd_QgVGA4YFrnrEU5j-DtQYUNwO0jJqRwvqp3802GqVbn-5seETkFy-TKmYLfUCXnbHf-CqqO98wICIJSPGfmoeRVdE-aT4zMWEHr5TgxcvtHLnh1jXlp7ULn5AoBVh4HfkG6SIX3gHmOslC66zruFGFddLAaRTKVy5k7YIr8zwhxI8kDNsrPQ"/>
+</div>
+</div>
+</article>
+</div>
+</section>
+<!-- Quote Section -->
+<section class="px-gutter max-w-4xl mx-auto my-32 text-center slide-in-el">
+<span class="material-symbols-outlined text-gold text-5xl mb-6" style="font-variation-settings: 'FILL' 1;">format_quote</span>
+<blockquote class="font-quote-editorial text-quote-editorial md:text-headline-lg text-charcoal leading-relaxed mb-8 border-l-4 border-gold pl-6 text-left italic">
+      "Tiffany's approach is the voice of a good doctor: kind and precise at the same time. She makes the hardest conversations approachable—and hands communities a plan."
+    </blockquote>
+<div class="text-left pl-6">
+<p class="font-label-eyebrow text-label-eyebrow text-primary uppercase tracking-widest">Director of Public Health</p>
+<p class="font-body-main text-sm text-on-surface-variant">Healthcare Alternative Systems Partner</p>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full py-20 bg-charcoal dark:bg-charcoal border-t border-line flex flex-col md:flex-row justify-between items-start px-gutter max-w-container-max mx-auto">
+<div class="mb-10 md:mb-0">
+<div class="font-display-hero text-headline-lg text-gold mb-4">Tiffany Webb</div>
+<div class="font-body-main text-body-main text-ivory/60 max-w-sm mb-6">
+      © 2024 Tiffany Webb. Impact Through Strategy.
+    </div>
+</div>
+<div class="flex flex-col gap-4 font-body-main text-body-main">
+<a class="text-ivory/60 hover:text-gold transition-colors" href="#">Privacy Policy</a>
+<a class="text-ivory/60 hover:text-gold transition-colors" href="#">Terms of Service</a>
+<a class="text-ivory/60 hover:text-gold transition-colors" href="#">Press Kit</a>
+<a class="text-ivory/60 hover:text-gold transition-colors" href="#">Contact</a>
+</div>
+</footer>
+<script>
+  // Intersection Observer for Slide-in Animations
+  document.addEventListener("DOMContentLoaded", () => {
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.slide-in-el').forEach(el => {
+      observer.observe(el);
+    });
+  });
+</script>
+</body></html>

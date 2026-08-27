@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 800" width="400" height="800">
+  <rect width="400" height="800" fill="transparent" />
+  <!-- A very simple editorial silhouette placeholder -->
+  <path d="M 200 100 C 230 100 250 120 250 160 C 250 200 230 220 200 220 C 170 220 150 200 150 160 C 150 120 170 100 200 100 Z" fill="#C8A24C" opacity="0.3" />
+  <path d="M 120 250 L 280 250 C 320 250 350 280 360 400 L 380 800 L 20 800 L 40 400 C 50 280 80 250 120 250 Z" fill="#FBF6EA" opacity="0.5" />
+  <text x="200" y="400" font-family="sans-serif" font-size="20" fill="#14130E" text-anchor="middle" font-weight="bold">TIFFANY CUTOUT</text>
+  <text x="200" y="430" font-family="sans-serif" font-size="14" fill="#14130E" text-anchor="middle">(Requires transparent WebP/PNG)</text>
+</svg>

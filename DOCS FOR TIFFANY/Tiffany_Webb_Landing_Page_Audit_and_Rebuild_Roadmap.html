@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tiffany Webb — Landing Page Audit &amp; Rebuild Roadmap</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0d0f0e;
+  --ink-2:#15181a;
+  --ink-3:#1d2124;
+  --line:#2c3236;
+  --paper:#e8e4da;
+  --paper-dim:#a8a49a;
+  --paper-faint:#6f6d67;
+  --emerald:#1f7a52;
+  --teal:#1d6f7a;
+  --coral:#d4593a;
+  --mustard:#c99a2e;
+  --berry:#8a3f6b;
+  --stop:#d4432c;
+  --fix:#c99a2e;
+  --tune:#4d8f9c;
+  --keep:#2c9268;
+  --display:"Instrument Serif",Georgia,serif;
+  --body:"IBM Plex Sans",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ink);color:var(--paper);font-family:var(--body);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+
+/* ---------- masthead ---------- */
+.masthead{border-bottom:1px solid var(--line);padding:44px 0 30px;background:linear-gradient(180deg,#101312 0%,var(--ink) 100%)}
+.kicker{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--mustard)}
+h1.title{font-family:var(--display);font-size:clamp(38px,6vw,64px);line-height:1.02;margin:14px 0 10px;font-weight:400}
+h1.title em{font-style:italic;color:var(--coral)}
+.sub{color:var(--paper-dim);max-width:66ch;font-size:15.5px}
+.metabar{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.chip{font-family:var(--mono);font-size:11px;letter-spacing:.06em;padding:5px 10px;border:1px solid var(--line);border-radius:2px;color:var(--paper-dim);background:var(--ink-2)}
+.chip b{color:var(--paper);font-weight:600}
+
+/* ---------- tabs ---------- */
+.tabbar{position:sticky;top:0;z-index:50;background:rgba(13,15,14,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.tabs{display:flex;gap:0;overflow-x:auto;scrollbar-width:thin}
+.tab{flex:0 0 auto;background:none;border:none;border-bottom:2px solid transparent;color:var(--paper-faint);font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;padding:16px 15px;cursor:pointer;white-space:nowrap}
+.tab:hover{color:var(--paper-dim)}
+.tab[aria-selected="true"]{color:var(--paper);border-bottom-color:var(--coral)}
+.tab:focus-visible{outline:2px solid var(--mustard);outline-offset:-2px}
+.panel{display:none;padding:38px 0 90px}
+.panel.on{display:block}
+
+/* ---------- generic type ---------- */
+h2.sec{font-family:var(--display);font-size:clamp(26px,3.4vw,38px);font-weight:400;line-height:1.1;margin:0 0 6px}
+h2.sec em{font-style:italic;color:var(--mustard)}
+.lede{color:var(--paper-dim);max-width:74ch;margin:0 0 30px}
+h3.blk{font-family:var(--display);font-size:24px;font-weight:400;margin:44px 0 12px;padding-top:22px;border-top:1px solid var(--line)}
+p{margin:0 0 12px}
+ul{margin:0 0 12px;padding-left:18px}
+li{margin-bottom:7px}
+strong{color:#fff;font-weight:600}
+code{font-family:var(--mono);font-size:12.5px;background:var(--ink-3);padding:1.5px 5px;border-radius:2px;color:var(--mustard)}
+.note{border-left:2px solid var(--berry);padding:10px 0 10px 16px;margin:16px 0;color:var(--paper-dim);font-size:14.5px}
+.note b{color:#fff}
+
+/* ---------- audit cards ---------- */
+.filterbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 24px;padding:12px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.filterbar span{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--paper-faint);margin-right:4px}
+.fbtn{font-family:var(--mono);font-size:11px;letter-spacing:.06em;padding:5px 11px;border:1px solid var(--line);background:var(--ink-2);color:var(--paper-dim);border-radius:2px;cursor:pointer}
+.fbtn[aria-pressed="true"]{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+.fbtn:focus-visible{outline:2px solid var(--mustard);outline-offset:2px}
+
+.card{border:1px solid var(--line);border-left:3px solid var(--line);background:var(--ink-2);border-radius:3px;padding:22px 24px;margin-bottom:16px}
+.card.s-stop{border-left-color:var(--stop)}
+.card.s-fix{border-left-color:var(--fix)}
+.card.s-tune{border-left-color:var(--tune)}
+.card.s-keep{border-left-color:var(--keep)}
+.card-head{display:flex;flex-wrap:wrap;gap:10px;align-items:baseline;justify-content:space-between;margin-bottom:4px}
+.card-head h4{font-family:var(--display);font-size:23px;font-weight:400;margin:0}
+.num{font-family:var(--mono);font-size:11px;color:var(--paper-faint);letter-spacing:.1em}
+.shot{font-family:var(--mono);font-size:10.5px;color:var(--paper-faint);letter-spacing:.05em;margin-bottom:14px}
+.verdict{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:4px 9px;border-radius:2px;display:inline-block}
+.v-keep{background:rgba(44,146,104,.16);color:#5fc294;border:1px solid rgba(44,146,104,.4)}
+.v-merge{background:rgba(29,111,122,.16);color:#69bccb;border:1px solid rgba(29,111,122,.45)}
+.v-move{background:rgba(138,63,107,.18);color:#c98ab3;border:1px solid rgba(138,63,107,.5)}
+.v-cut{background:rgba(212,67,44,.15);color:#e88872;border:1px solid rgba(212,67,44,.45)}
+
+.finding{display:grid;grid-template-columns:74px 1fr;gap:14px;padding:11px 0;border-top:1px dashed var(--line)}
+.finding:first-of-type{border-top:1px solid var(--line);margin-top:14px}
+.sev{font-family:var(--mono);font-size:10px;letter-spacing:.1em;font-weight:600;padding:3px 0;text-align:center;height:fit-content;border-radius:2px}
+.sev.stop{background:var(--stop);color:#fff}
+.sev.fix{background:var(--fix);color:#231a03}
+.sev.tune{background:rgba(77,143,156,.25);color:#8ecbd8;border:1px solid rgba(77,143,156,.5)}
+.sev.good{background:rgba(44,146,104,.2);color:#6fcb9d;border:1px solid rgba(44,146,104,.5)}
+.finding p{margin:0;font-size:14.5px}
+.finding p+p{margin-top:6px;color:var(--paper-dim)}
+.fixline{margin-top:6px;font-size:13.5px;color:var(--paper-dim)}
+.fixline b{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;color:var(--mustard);text-transform:uppercase}
+
+/* ---------- tables ---------- */
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:3px;margin:18px 0 26px}
+table{width:100%;border-collapse:collapse;font-size:13.8px;min-width:640px}
+th{background:var(--ink-3);text-align:left;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--paper-dim);padding:11px 14px;font-weight:500;border-bottom:1px solid var(--line)}
+td{padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(255,255,255,.018)}
+.tag{font-family:var(--mono);font-size:10px;letter-spacing:.05em;padding:2px 7px;border-radius:2px;white-space:nowrap}
+.t-have{background:rgba(44,146,104,.18);color:#63c495}
+.t-miss{background:rgba(212,67,44,.16);color:#e88872}
+.t-partial{background:rgba(201,154,46,.18);color:#e0bb63}
+.t-risk{background:rgba(212,67,44,.28);color:#ff9b83}
+
+/* ---------- merge blocks ---------- */
+.merge{border:1px solid var(--line);border-radius:3px;background:var(--ink-2);padding:20px 22px;margin-bottom:14px}
+.merge h5{margin:0 0 10px;font-family:var(--body);font-size:15px;font-weight:600;color:#fff}
+.eq{font-family:var(--mono);font-size:12.5px;color:var(--paper-dim);line-height:2;margin-bottom:10px}
+.eq b{color:var(--mustard);font-weight:500}
+.why{font-size:14.2px;color:var(--paper-dim);margin:0}
+.why b{color:#fff}
+
+/* ---------- sitemap ---------- */
+.sitemap{font-family:var(--mono);font-size:13px;line-height:1.95;background:var(--ink-2);border:1px solid var(--line);border-radius:3px;padding:20px 24px;overflow-x:auto;white-space:pre;color:var(--paper-dim)}
+.sitemap b{color:var(--paper)}
+.sitemap i{color:var(--mustard);font-style:normal}
+
+/* ---------- order list ---------- */
+.order{counter-reset:o;list-style:none;padding:0;margin:18px 0 0}
+.order li{counter-increment:o;display:grid;grid-template-columns:44px 1fr;gap:14px;padding:13px 0;border-top:1px solid var(--line)}
+.order li::before{content:counter(o,decimal-leading-zero);font-family:var(--mono);font-size:12px;color:var(--mustard);padding-top:3px}
+.order h6{margin:0 0 3px;font-size:15px;font-weight:600;color:#fff;font-family:var(--body)}
+.order p{margin:0;font-size:13.8px;color:var(--paper-dim)}
+
+/* ---------- roadmap ---------- */
+.gate{border:1px solid var(--line);border-radius:3px;margin-bottom:14px;overflow:hidden}
+.gate-head{display:flex;flex-wrap:wrap;gap:12px;align-items:center;background:var(--ink-3);padding:13px 20px;border-bottom:1px solid var(--line)}
+.gate-head h5{margin:0;font-size:15.5px;font-weight:600;color:#fff;flex:1 1 auto}
+.gate-num{font-family:var(--mono);font-size:11px;color:var(--mustard);letter-spacing:.1em}
+.owner{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:3px 9px;border-radius:2px}
+.o-yash{background:rgba(212,89,58,.2);color:#eb9077;border:1px solid rgba(212,89,58,.45)}
+.o-rishil{background:rgba(29,111,122,.22);color:#72c2d0;border:1px solid rgba(29,111,122,.5)}
+.o-tiff{background:rgba(138,63,107,.22);color:#cd8fb8;border:1px solid rgba(138,63,107,.5)}
+.o-claude{background:rgba(201,154,46,.18);color:#e0bb63;border:1px solid rgba(201,154,46,.45)}
+.gate-body{padding:16px 20px;background:var(--ink-2)}
+.gate-body ol{margin:0;padding-left:18px}
+.gate-body li{margin-bottom:7px;font-size:14.2px}
+.dep{font-family:var(--mono);font-size:11px;color:var(--paper-faint);margin-top:10px;letter-spacing:.03em}
+
+/* ---------- q list ---------- */
+.q{border-top:1px solid var(--line);padding:14px 0;display:grid;grid-template-columns:40px 1fr;gap:14px}
+.q .qn{font-family:var(--mono);font-size:12px;color:var(--coral)}
+.q h6{margin:0 0 4px;font-size:15px;color:#fff;font-weight:600;font-family:var(--body)}
+.q p{margin:0;font-size:13.8px;color:var(--paper-dim)}
+
+.footnote{border-top:1px solid var(--line);margin-top:60px;padding-top:20px;font-family:var(--mono);font-size:11px;color:var(--paper-faint);letter-spacing:.04em}
+
+@media (max-width:640px){
+  .finding{grid-template-columns:62px 1fr;gap:10px}
+  .card{padding:18px 16px}
+  .order li,.q{grid-template-columns:32px 1fr}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <div class="kicker">Internal working file · Y Arts! design + tech tracks · Not client-facing</div>
+    <h1 class="title">Two landing pages, <em>reviewed line by line.</em></h1>
+    <p class="sub">A section-by-section audit of the Antigravity build and of Tiffany's own two landing pages, plus the merge/split decisions, the event page specification, the "Bold &amp; Brilliant" design brief, and a sequenced roadmap split across both tracks.</p>
+    <div class="metabar">
+      <span class="chip"><b>17</b> screenshots reviewed</span>
+      <span class="chip"><b>13</b> sections audited on our build</span>
+      <span class="chip"><b>9</b> STOP-level findings</span>
+      <span class="chip"><b>20</b> open governance items</span>
+      <span class="chip"><b>7</b> merges · <b>5</b> splits</span>
+    </div>
+  </div>
+</header>
+
+<nav class="tabbar" aria-label="Sections">
+  <div class="wrap">
+    <div class="tabs" role="tablist">
+      <button class="tab" role="tab" aria-selected="true" data-p="p1">1 · Our build</button>
+      <button class="tab" role="tab" aria-selected="false" data-p="p2">2 · Her pages</button>
+      <button class="tab" role="tab" aria-selected="false" data-p="p3">3 · Merge &amp; split</button>
+      <button class="tab" role="tab" aria-selected="false" data-p="p4">4 · Coverage matrix</button>
+      <button class="tab" role="tab" aria-selected="false" data-p="p5">5 · Event page</button>
+      <button class="tab" role="tab" aria-selected="false" data-p="p6">6 · Bold &amp; Brilliant</button>
+      <button class="tab" role="tab" aria-selected="false" data-p="p7">7 · Contradictions</button>
+      <button class="tab" role="tab" aria-selected="false" data-p="p8">8 · Roadmap</button>
+      <button class="tab" role="tab" aria-selected="false" data-p="p9">9 · Before copy</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ============ PANEL 1 ============ -->
+<section class="panel on" id="p1">
+<div class="wrap">
+  <h2 class="sec">Our build, <em>section by section.</em></h2>
+  <p class="lede">Thirteen modules, reviewed in the order a visitor meets them. Severity is about consequence, not effort: <strong>STOP</strong> means it cannot be shown to a booking committee or to Tiffany in its current state. <strong>FIX</strong> means it undermines the work but isn't dangerous. <strong>TUNE</strong> is craft.</p>
+
+  <div class="note"><b>Read this first.</b> Three separate modules of the homepage currently state things about Tiffany's career that I cannot find any source for in the material you've given me — three video appearances, three named conference engagements, and one testimonial. A programme chair at a public health conference will recognise whether a "National Conference on Problem Gambling" keynote happened. Everything else in this audit is craft. This one is the brand.</div>
+
+  <div class="filterbar">
+    <span>Filter</span>
+    <button class="fbtn" aria-pressed="true" data-f="all">All 13</button>
+    <button class="fbtn" aria-pressed="false" data-f="s-stop">STOP only</button>
+    <button class="fbtn" aria-pressed="false" data-f="s-fix">FIX only</button>
+  </div>
+
+  <div id="auditlist">
+
+  <article class="card s-fix" data-sev="s-fix">
+    <div class="card-head"><h4>Sticky badge &amp; navigation</h4><span class="num">01 / 13</span></div>
+    <div class="shot">Visible in every screenshot · nav in Hero_Section.png</div>
+    <div class="finding"><div class="sev good">KEEP</div><div><p>The wordmark lockup <strong>Tiffany Webb / Community Impact Strategist</strong> is the single best strategic decision in the build. It puts an owned positioning line where a job title would normally sit. Keep it exactly.</p></div></div>
+    <div class="finding"><div class="sev stop">STOP</div><div><p><strong><code>HOME 2</code> is a live navigation item.</strong> A build variant is exposed to visitors. Anyone Tiffany forwards this to sees an unfinished product.</p><p class="fixline"><b>Rishil</b> Decide which homepage wins, delete the loser, remove the route.</p></div></div>
+    <div class="finding"><div class="sev fix">FIX</div><div><p>The floating <strong>"Tiffany Webb" pill</strong> centred at the top of every section is clipped on nine of nine section screenshots — the text is cut by the viewport edge. It is not a link, carries no wayfinding, and collides with section eyebrows.</p><p class="fixline"><b>Rishil</b> Replace with a real condensed sticky header: wordmark left, five links centre, Book Tiffany right. Add <code>scroll-padding-top</code> so anchors don't land under it.</p></div></div>
+    <div class="finding"><div class="sev fix">FIX</div><div><p>Header nav and footer nav disagree. Header: Home, About, Speaking, Impact, Media. Footer adds <strong>Insights</strong>, which exists nowhere else.</p><p class="fixline"><b>Rishil</b> Single nav array as the source of truth, consumed by both components.</p></div></div>
+    <div class="finding"><div class="sev tune">TUNE</div><div><p>No mobile navigation is visible in any screenshot. Needs a hamburger, a focus trap, and a visible keyboard focus ring.</p></div></div>
+    <p style="margin-top:16px"><span class="verdict v-keep">Verdict — keep &amp; repair</span></p>
+  </article>
+
+  <article class="card s-stop" data-sev="s-stop">
+    <div class="card-head"><h4>Hero</h4><span class="num">02 / 13</span></div>
+    <div class="shot">Hero_Section.png</div>
+    <div class="finding"><div class="sev good">KEEP</div><div><p>The format strip at the bottom of the hero — <strong>Keynotes · Conference Sessions · Panels · Workshops · School Programs</strong> — is genuinely smart. It answers "can she do the thing I need?" above the fold. Her own page makes the visitor scroll eight sections for that.</p></div></div>
+    <div class="finding"><div class="sev good">KEEP</div><div><p>Dropping "Gambling Prevention Coordinator" from the role stack was correct. Her own landing page leads with it — that's an employer job title and it works directly against the repositioning.</p></div></div>
+    <div class="finding"><div class="sev stop">STOP</div><div><p><strong>"Break the Silence." is the H1 of her master personal brand.</strong> Per the Codex, that line is approved for GambleFreeGear only. Her GambleFreeGear deck uses it as the apparel brand's tagline. It has not been approved as her personal master tagline, and it is now the largest text on her website plus twice more in the footer.</p><p class="fixline"><b>Yash</b> Written approval from Tiffany, or the H1 changes. Do not resolve this internally.</p></div></div>
+    <div class="finding"><div class="sev stop">STOP</div><div><p><strong>"WATCH THE REEL" has no reel behind it.</strong> A dead CTA occupying the second-most valuable click on the page.</p><p class="fixline"><b>Rishil</b> Remove until footage exists. Do not link it to a placeholder.</p></div></div>
+    <div class="finding"><div class="sev stop">STOP</div><div><p><strong>The hero portrait does not match any verified photograph of Tiffany in the source material.</strong> Her real photos (blue shirt, cream vest, grey backdrop) appear in her own deck. If the hero image and the three "See her speak" thumbnails are AI-generated or stock, they cannot ship. A personal brand cannot use synthetic images of the person it is branding.</p><p class="fixline"><b>Yash</b> Confirm provenance of every human image on the site. Anything not a real photo of Tiffany comes out.</p></div></div>
+    <div class="finding"><div class="sev fix">FIX</div><div><p>The hero sentence is ungrammatical: <em>"Fifteen years turning the hardest conversations about gambling harm into prevention communities can actually use."</em> It reads as a garden-path sentence — the reader parses "prevention communities" as a noun phrase before the sentence corrects itself.</p><p class="fixline"><b>Copy</b> Needs the relative pronoun restored, or a rewrite. Full replacement copy comes in the next deliverable.</p></div></div>
+    <div class="finding"><div class="sev fix">FIX</div><div><p>Three different forms of the same number: <strong>"Fifteen years"</strong> (hero), <strong>"15+"</strong> (cred bar), <strong>"more than fifteen years"</strong> (About). Standardise one.</p></div></div>
+    <div class="finding"><div class="sev fix">FIX</div><div><p><strong>The H1 contains no term anybody searches.</strong> A conference organiser types "gambling prevention speaker", "problem gambling keynote speaker Chicago", "youth sports betting speaker". "Break the Silence" is a brand line, not a discovery line. It can stay as the H1 only if a keyword-bearing subhead and title tag carry the search job.</p></div></div>
+    <div class="finding"><div class="sev tune">TUNE</div><div><p>The gold ribbon crosses directly through the headline and the eyebrow. See panel 6.</p></div></div>
+    <p style="margin-top:16px"><span class="verdict v-keep">Verdict — keep &amp; repair</span></p>
+  </article>
+
+  <article class="card s-fix" data-sev="s-fix">
+    <div class="card-head"><h4>Meet Tiffany</h4><span class="num">03 / 13</span></div>
+    <div class="shot">Meet_Tiffany.png</div>
+    <div class="finding"><div class="sev good">KEEP</div><div><p><strong>This is the best writing on the site.</strong> "Chicago soul, Louisiana heart" lands the Codex direction in four words. The three vignettes — the father who couldn't explain where the money went, the student who thought a betting app was a game, the wife who assumed she was the only one — do more persuasive work than every bulleted list in her own material combined. Protect this block.</p></div></div>
+    <div class="finding"><div class="sev fix">FIX</div><div><p><strong>British spellings.</strong> "community centres" here, "enquiry" in the booking band. Her audience is entirely US. This suggests a locale default in the generator.</p><p class="fixline"><b>Rishil</b> Full UK→US pass across every string: centres, enquiry, organisation, programme, recognise, behaviour.</p></div></div>
+    <div class="finding"><div class="sev fix">FIX</div><div><p><strong>The whole site is written in third person.</strong> "She came to this work…", "Tell us about your event". Her own materials are first person: "My Roots", "My mission", "I found my voice in community". A personal brand written entirely in third person reads as though an agency owns the voice — which is the opposite of the ownership story we're selling her.</p><p class="fixline"><b>Yash</b> Decide: first person for story and About, third person for proof and logistics, is the standard split. Needs to be a stated rule before copy is written.</p></div></div>
+    <div class="finding"><div class="sev fix">FIX</div><div><p>No credentials, education, affiliation or standing appear anywhere in this block. The reader gets her story but not her authority. Currently the only credential on the site is "BBA, MHP" in the hero, unexplained.</p></div></div>
+    <p style="margin-top:16px"><span class="verdict v-move">Verdict — keep short on home, expand to /about</span></p>
+  </article>
+
+  <article class="card s-stop" data-sev="s-stop">
+    <div class="card-head"><h4>Credential bar</h4><span class="num">04 / 13</span></div>
+    <div class="shot">CredBar.png</div>
+    <div class="finding"><div class="sev good">KEEP</div><div><p>Right three numbers, right placement, right restraint.</p></div></div>
+    <div class="finding"><div class="sev stop">STOP</div><div><p><strong>"21 SPEAKING TOPICS" contradicts the section directly beneath it,</strong> which reads "Twenty topics across four tracks". I counted her source PDF: Prevention &amp; Awareness 5, Treatment/Recovery/Professional Training 8, Family &amp; Community Impact 4, Creative &amp; Promotional Engagement 3. <strong>That is twenty.</strong> The twenty-first is the flagship keynote — which is not on her list at all. See section 05.</p><p class="fixline"><b>Tiffany</b> Confirm whether the flagship counts as topic 21. Until then the number on the site is unsupported.</p></div></div>
+    <div class="finding"><div class="sev fix">FIX</div><div><p><strong>"4,000+ hours of outreach" has no definition.</strong> Over what period, counted how? The first journalist or programme chair who asks needs a one-line answer, and it should be written down before the site is live.</p></div></div>
+    <div class="finding"><div class="sev tune">TUNE</div><div><p>A fourth stat becomes available once real event data exists — organisations served, or audience reached. Stronger than topic count.</p></div></div>
+    <p style="margin-top:16px"><span class="verdict v-keep">Verdict — keep, correct the numbers</span></p>
+  </article>
+
+  <article class="card s-stop" data-sev="s-stop">
+    <div class="card-head"><h4>Speaking tracks &amp; topic modals</h4><span class="num">05 / 13</span></div>
+    <div class="shot">21_Topics_section.png · Detailed_Cards_Of_21_Topics_Section.png · Detailed_Overview_Of_21_Topics_Section.png</div>
+    <div class="finding"><div class="sev good">KEEP</div><div><p>The four-track architecture mirrors her source PDF exactly. And the modal copy is the most commercially useful content on the entire site — particularly the <strong>"For: general public, community organizations, prevention specialists"</strong> audience line. That single line is what a programme chair scans for. It should be on every topic, everywhere.</p></div></div>
+    <div class="finding"><div class="sev stop">STOP</div><div><p><strong>"Break the Silence: Prevention Begins with a Conversation" is not on Tiffany's topic list.</strong> It is a strategist-authored addition. It currently anchors the page H1, gets flagship billing above all four tracks, has the longest description on the site, and supplies the disputed 21st topic. If she has not approved it, four separate parts of the homepage rest on it.</p><p class="fixline"><b>Tiffany</b> Written approval of the flagship keynote, its title, and its description — as a single decision.</p></div></div>
+    <div class="finding"><div class="sev stop">STOP</div><div><p>The flagship description says <em>"Tiffany weaves her own path into the work."</em> Combined with "lived experience" in her own bio, this can read to an audience as personal experience of gambling harm. <strong>Verify precisely what that phrase covers before any copy implies it.</strong> This is the kind of claim that ends a speaking career if it's overstated.</p></div></div>
+    <div class="finding"><div class="sev fix">FIX</div><div><p><strong>Both modals render their title twice</strong> — once as the modal heading, once as a bold body heading immediately below. Template bug, visible on the track modal and the flagship modal.</p><p class="fixline"><b>Rishil</b> The modal component is printing <code>title</code> and then the first block of <code>body</code>, which also contains the title.</p></div></div>
+    <div class="finding"><div class="sev fix">FIX</div><div><p><strong>"VIEW DETAILS → &gt;"</strong> — two arrow glyphs. One is in the string, one is the component's own affordance.</p></div></div>
+    <div class="finding"><div class="sev fix">FIX</div><div><p>Modal content overflows the viewport and clips mid-sentence with no scroll affordance. Both screenshots show text cut at the modal's lower edge.</p><p class="fixline"><b>Rishil</b> <code>max-height:85vh; overflow-y:auto</code> on the modal body, plus a fade mask so the cut is legible as "more below".</p></div></div>
+    <div class="finding"><div class="sev fix">FIX</div><div><p><strong>Twenty topics with no filter.</strong> A university wellness director cannot find her three relevant talks. This section is the whole reason the site exists and it currently makes the visitor read everything.</p><p class="fixline"><b>Both</b> Filter by audience and by format on the dedicated /speaking page.</p></div></div>
+    <div class="finding"><div class="sev tune">TUNE</div><div><p>The subhead promises "practical enough to use on Monday" — a strong line that nothing on the page proves. No takeaways, no handouts, no learning objectives.</p></div></div>
+    <p style="margin-top:16px"><span class="verdict v-move">Verdict — home keeps flagship + 4 track cards; full list splits to /speaking</span></p>
+  </article>
+
+  <article class="card s-stop" data-sev="s-stop">
+    <div class="card-head"><h4>Six ways to bring her in</h4><span class="num">06 / 13</span></div>
+    <div class="shot">Work_With_Her_Section.png · Detailed_Work_With_Her_Section_Cards.png</div>
+    <div class="finding"><div class="sev good">KEEP</div><div><p>Separating <em>formats</em> from <em>topics</em> is correct thinking and her own material never does it. Organisers shop for format first, subject second.</p></div></div>
+    <div class="finding"><div class="sev stop">STOP</div><div><p><strong>The Keynote card's icon is a dollar sign.</strong> On the website of a gambling-harm prevention speaker. This is the kind of detail that gets screenshotted.</p><p class="fixline"><b>Rishil</b> Swap to microphone or podium. Then audit every icon in the set for the same problem.</p></div></div>
+    <div class="finding"><div class="sev fix">FIX</div><div><p><strong>"Six ways" contradicts the hero's five formats.</strong> Hero strip: Keynotes, Conference Sessions, Panels, Workshops, School Programs. This section: six. Her own material lists fourteen services.</p></div></div>
+    <div class="finding"><div class="sev fix">FIX</div><div><p><strong>Card states are inconsistent.</strong> "School &amp; University" is expanded with two paragraphs and its own gold CTA; the other five are collapsed with "SEE DETAILS". It reads as a rendering bug rather than deliberate emphasis.</p></div></div>
+    <div class="finding"><div class="sev fix">FIX</div><div><p>Cards are roughly two and a half times taller than their content. Large empty regions in every collapsed card.</p><p class="fixline"><b>Rishil</b> Height is being set by the tallest card in the grid. Either use <code>align-items:start</code> or write to a consistent length.</p></div></div>
+    <div class="finding"><div class="sev fix">FIX</div><div><p><strong>Eight bookable services from her own material are being dropped:</strong> podcast guest, media interviews, webinars, staff development, professional training, strategic planning, coalition building, community consultation. These are the low-friction, high-frequency engagements that fill a calendar between keynotes — and podcast and media appearances are the cheapest route to national visibility.</p></div></div>
+    <p style="margin-top:16px"><span class="verdict v-merge">Verdict — merge with her "Services Available For" (see panel 3)</span></p>
+  </article>
+
+  <article class="card s-tune" data-sev="s-tune">
+    <div class="card-head"><h4>Where she works</h4><span class="num">07 / 13</span></div>
+    <div class="shot">Where_She_Works_Section.png</div>
+    <div class="finding"><div class="sev good">KEEP</div><div><p><strong>The best-executed section on the page.</strong> And the numbering 01–08 is earned here — it reads as a considered, complete set rather than decoration. The intro paragraph — <em>"the communities most affected by gambling harm are often the ones prevention reaches last"</em> — is the sharpest strategic sentence anywhere in the build.</p></div></div>
+    <div class="finding"><div class="sev fix">FIX</div><div><p>That sentence is buried in a support column at body size. It deserves to be a pull quote.</p></div></div>
+    <div class="finding"><div class="sev tune">TUNE</div><div><p>Her material lists eleven audience types; we show eight. Missing: <strong>faith communities</strong> (significant given her values strip), <strong>conference organisers</strong>, and colleges as distinct from schools.</p></div></div>
+    <div class="finding"><div class="sev tune">TUNE</div><div><p>The ribbon graphic crosses directly through the numerals and the two-line entries.</p></div></div>
+    <p style="margin-top:16px"><span class="verdict v-merge">Verdict — keep; absorbs two of her sections</span></p>
+  </article>
+
+  <article class="card s-stop" data-sev="s-stop">
+    <div class="card-head"><h4>See her speak</h4><span class="num">08 / 13</span></div>
+    <div class="shot">See_Her_Speake.png</div>
+    <div class="finding"><div class="sev stop">STOP</div><div><p><strong>Three video cards name three engagements I cannot source:</strong> "The Flagship Keynote — Live at the National Summit", "Prevention Workshops — Interactive Training Session", "Cultural Fluency — Deep Dive Interview". These were flagged in the earlier Antigravity correction file and are still in the build.</p></div></div>
+    <div class="finding"><div class="sev stop">STOP</div><div><p><strong>The three thumbnails appear synthetic.</strong> Three different venues, three different crowds, one subject, no traceable event. Presenting generated images as documentation of real appearances is the single largest credibility risk on the site.</p></div></div>
+    <div class="finding"><div class="sev fix">FIX</div><div><p>The headline <em>"Ninety seconds is usually enough"</em> is a good line writing a cheque no asset covers. There is no ninety-second reel.</p></div></div>
+    <p style="margin-top:16px"><span class="verdict v-cut">Verdict — cut from the build until real footage exists</span></p>
+    <p class="fixline" style="margin-top:8px"><b>Replacement</b> One honest module: a single real clip if one exists, otherwise remove the section entirely. An absent video section costs far less than a fabricated one.</p>
+  </article>
+
+  <article class="card s-stop" data-sev="s-stop">
+    <div class="card-head"><h4>Stages &amp; impact (the events section)</h4><span class="num">09 / 13</span></div>
+    <div class="shot">1787162337916_image.png — built after the client meeting</div>
+    <div class="finding"><div class="sev good">KEEP</div><div><p>Right instinct, right position, and the card anatomy is correct: status tag, format tag, location, scale, link. That's exactly the information an organiser scans. Keep the pattern.</p></div></div>
+    <div class="finding"><div class="sev stop">STOP</div><div><p><strong>All three events read as invented.</strong> "National Conference on Problem Gambling · Chicago, IL · 1,500+ attendees · UPCOMING · KEYNOTE" is a specific, checkable, falsifiable claim about a named national conference. So are the Illinois Public Health Summit and University Wellness Symposium entries.</p><p class="fixline"><b>Rishil</b> Empty the data now. Keep the component.</p></div></div>
+    <div class="finding"><div class="sev fix">FIX</div><div><p>Upcoming and past events are mixed in one carousel with no separation. "PAST EVENT" sits third in a row labelled "UPCOMING, UPCOMING, PAST".</p></div></div>
+    <div class="finding"><div class="sev fix">FIX</div><div><p><strong>"CLICK FOR MORE INFO"</strong> describes the mechanic, not the destination. Should name what the visitor gets: "Event details".</p></div></div>
+    <div class="finding"><div class="sev fix">FIX</div><div><p><strong>No outcomes.</strong> Tiffany asked for outcomes explicitly in the meeting. The cards carry attendance and location only — inputs, not results.</p></div></div>
+    <div class="finding"><div class="sev fix">FIX</div><div><p><strong>No partners or collaborations.</strong> Her second explicit ask, absent.</p></div></div>
+    <p style="margin-top:16px"><span class="verdict v-move">Verdict — keep the pattern, empty the data, expand to a full /impact page (panel 5)</span></p>
+  </article>
+
+  <article class="card s-fix" data-sev="s-fix">
+    <div class="card-head"><h4>Book Tiffany band</h4><span class="num">10 / 13</span></div>
+    <div class="shot">Book_Tiffany_Section.png</div>
+    <div class="finding"><div class="sev good">KEEP</div><div><p><em>"She reviews every enquiry personally and responds within two business days"</em> is precisely the reassurance an organiser wants, and it differentiates her from bureau-represented speakers. Keep the promise if she'll keep it.</p></div></div>
+    <div class="finding"><div class="sev fix">FIX</div><div><p><strong>"enquiry" → "inquiry".</strong> US audience.</p></div></div>
+    <div class="finding"><div class="sev fix">FIX</div><div><p><strong>Voice collision in a single paragraph.</strong> "Tell <em>us</em> about your event… <em>She</em> reviews every enquiry." Who is "us"? The site has just introduced an invisible team.</p></div></div>
+    <div class="finding"><div class="sev fix">FIX</div><div><p><strong>It's a button to a form, not a form.</strong> Her own landing page has a properly qualified one: name, organisation, email, phone, type of request, event date, location, estimated audience size, message. Those are also exactly the fields the CRM and the WhatsApp flow need as payload. Putting the form inline removes a click at the highest-intent moment on the site.</p></div></div>
+    <div class="finding"><div class="sev fix">FIX</div><div><p>The two-business-day commitment is hers to keep, not ours to promise.</p><p class="fixline"><b>Tiffany</b> Confirm, or soften to "within the week".</p></div></div>
+    <div class="finding"><div class="sev tune">TUNE</div><div><p>No alternative path for people who don't fill forms — no email, no media contact route.</p></div></div>
+    <p style="margin-top:16px"><span class="verdict v-keep">Verdict — keep, convert to an inline qualified form</span></p>
+  </article>
+
+  <article class="card s-stop" data-sev="s-stop">
+    <div class="card-head"><h4>Footer</h4><span class="num">11 / 13</span></div>
+    <div class="shot">Footer_Section.png</div>
+    <div class="finding"><div class="sev good">KEEP</div><div><p>The values strip and the quote are hers, correctly placed. And the booking address is an <strong>independent domain, not the employer address</strong> — that is the hard boundary being respected correctly.</p></div></div>
+    <div class="finding"><div class="sev stop">STOP</div><div><p><strong><code>booking@tiffanywebb.com</code> assumes ownership of tiffanywebb.com, which is still unverified.</strong> This is the blocker underneath everything: the email, the CRM routing, the WhatsApp webhook, the DNS, the SSL, and the launch date all sit on it. Note that her own deck already prints <code>www.tiffanywebb.com</code> — which means either she owns it, or her materials have been publishing an address she doesn't control.</p><p class="fixline"><b>Yash</b> Highest-priority item in this entire document. Registrar login or a WHOIS check, this week.</p></div></div>
+    <div class="finding"><div class="sev stop">STOP</div><div><p>"BREAK THE SILENCE." in the values strip and "Ready to break the silence?" above the CTA — the unapproved tagline, twice more.</p></div></div>
+    <div class="finding"><div class="sev fix">FIX</div><div><p><strong>Four social links.</strong> Confirm all four accounts exist and have content. A live link to an empty TikTok costs more credibility than no link at all.</p></div></div>
+    <div class="finding"><div class="sev fix">FIX</div><div><p><strong>GambleFreeGear does not appear anywhere on the site.</strong> The Codex sets a Branded House with GambleFreeGear as an endorsed sub-brand, and her own personal deck is largely about it. Right now the venture is invisible on her master brand site.</p></div></div>
+    <div class="finding"><div class="sev fix">FIX</div><div><p>"Insights" links to a blog that isn't in the header nav and may not exist.</p></div></div>
+    <div class="finding"><div class="sev fix">FIX</div><div><p>No location line. <strong>"Chicago, IL · Available nationally"</strong> is a booking filter, and its absence loses her out-of-state enquiries.</p></div></div>
+    <div class="finding"><div class="sev fix">FIX</div><div><p>No newsletter capture. Her own page has one. It's the only asset she keeps if a platform changes.</p></div></div>
+    <p style="margin-top:16px"><span class="verdict v-keep">Verdict — keep &amp; repair</span></p>
+  </article>
+
+  <article class="card s-fix" data-sev="s-fix">
+    <div class="card-head"><h4>What's missing entirely</h4><span class="num">12 / 13</span></div>
+    <div class="shot">Absent from all 13 screenshots</div>
+    <div class="finding"><div class="sev fix">FIX</div><div><p><strong>SPEAK · PARTNER · STRATEGIZE · STRENGTHEN.</strong> This is her own capability framework, it's in the Codex, it's a full colour-blocked section on her landing page — and it is not on our site at all. It's also the only thing in her material that explains she's more than a speaker, which is the entire consulting upside.</p></div></div>
+    <div class="finding"><div class="sev fix">FIX</div><div><p><strong>Professional expertise grid</strong> — fourteen competency areas on her page. Nothing equivalent on ours.</p></div></div>
+    <div class="finding"><div class="sev fix">FIX</div><div><p><strong>Career highlights</strong> — the roles she's actually held: community screenings, conference speaker, panelist, workshop facilitator, coalition leader, public health advocate.</p></div></div>
+    <div class="finding"><div class="sev fix">FIX</div><div><p><strong>Organizations &amp; partnerships</strong> — the trust-transfer block. Governance-gated, but the section shape should exist.</p></div></div>
+    <div class="finding"><div class="sev fix">FIX</div><div><p><strong>Why organizations choose her</strong> — eleven decision attributes on her page. This is objection handling and we've dropped all of it.</p></div></div>
+    <div class="finding"><div class="sev fix">FIX</div><div><p><strong>Testimonials.</strong> Zero real ones anywhere. The single highest-leverage missing asset.</p></div></div>
+    <div class="finding"><div class="sev fix">FIX</div><div><p><strong>Media resources / speaker one-sheet / press kit download.</strong> "MEDIA" is in the nav with no module behind it.</p></div></div>
+    <div class="finding"><div class="sev fix">FIX</div><div><p><strong>FAQ</strong> — travel, AV requirements, lead time, virtual delivery, session length, materials. Every one of these is an email she'd otherwise answer by hand.</p></div></div>
+    <div class="finding"><div class="sev tune">TUNE</div><div><p><strong>Fee position.</strong> Even "Fees on request · sliding scale for community organisations" filters the enquiries she doesn't want and signals she has a rate.</p></div></div>
+  </article>
+
+  <article class="card s-fix" data-sev="s-fix">
+    <div class="card-head"><h4>Global &amp; technical</h4><span class="num">13 / 13</span></div>
+    <div class="shot">Across all screenshots</div>
+    <div class="finding"><div class="sev fix">FIX</div><div><p><strong>Twelve consecutive near-black sections.</strong> No rhythm, no relief. This is why the page reads elegant but not <em>brilliant</em> — see panel 6.</p></div></div>
+    <div class="finding"><div class="sev fix">FIX</div><div><p><strong>The gold ribbon runs at high opacity behind body copy in every section.</strong> It crosses card text in the formats grid, the numerals in "Where she works", and the hero headline. It is simultaneously a legibility problem and the reason every section looks identical.</p></div></div>
+    <div class="finding"><div class="sev fix">FIX</div><div><p><strong>Contrast.</strong> Muted gold small-caps on near-black, and grey body text on near-black, both look below 4.5:1.</p><p class="fixline"><b>Rishil</b> Run axe DevTools and Lighthouse. Fix to AA before launch — this is also a legal exposure for a public-health client working with government and university buyers.</p></div></div>
+    <div class="finding"><div class="sev fix">FIX</div><div><p><strong>No structured data, no OG image, no meta descriptions.</strong> Needs Person schema and Event schema. Event schema is how her engagements can surface in search independently of her site's authority.</p></div></div>
+    <div class="finding"><div class="sev tune">TUNE</div><div><p>The custom gold cursor dot renders over body text and appears mid-sentence in six screenshots. Confirm it doesn't obstruct on touch devices.</p></div></div>
+  </article>
+
+  </div>
+</div>
+</section>
+
+<!-- ============ PANEL 2 ============ -->
+<section class="panel" id="p2">
+<div class="wrap">
+  <h2 class="sec">Her pages — <em>what to take, what to leave.</em></h2>
+  <p class="lede">Two landing pages, one capabilities deck and one personal deck. Her pages can't ship, but they contain most of the strategic thinking our build is missing. The right posture is harvest, not replace.</p>
+
+  <h3 class="blk">Page A — the long-form landing page</h3>
+  <p style="color:var(--paper-dim)">Fifteen sections, mirroring her twelve-panel deck almost one to one.</p>
+
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th style="width:32%">Her section</th><th style="width:20%">In our build?</th><th>What we do with it</th></tr></thead>
+    <tbody>
+      <tr><td>Hero + role stack + tagline</td><td><span class="tag t-partial">Reworked</span></td><td>Ours is stronger. Hers leads with the employer job title — do not migrate that.</td></tr>
+      <tr><td>Meet Tiffany + My Mission</td><td><span class="tag t-have">Have</span></td><td>Ours is better written. Keep hers as the source of factual claims only.</td></tr>
+      <tr><td>Professional Expertise — 14 areas</td><td><span class="tag t-miss">Missing</span></td><td>Merge into a Credentials block on /about.</td></tr>
+      <tr><td>Speaking Topics</td><td><span class="tag t-have">Have</span></td><td>Ours is far better — hers is a bare bullet list with no audience match.</td></tr>
+      <tr><td>Audiences Served</td><td><span class="tag t-have">Have</span></td><td>Absorbed by "Where she works".</td></tr>
+      <tr><td>Career Highlights</td><td><span class="tag t-partial">Partial</span></td><td>We took the two numbers, not the eight roles. Take the roles.</td></tr>
+      <tr><td>Services Available For — 14</td><td><span class="tag t-partial">Partial</span></td><td>We show 6. Restore the other 8 as a secondary list.</td></tr>
+      <tr><td>SPEAK · PARTNER · STRATEGIZE · STRENGTHEN</td><td><span class="tag t-miss">Missing</span></td><td>Build it. Her framework, in the Codex, and the whole consulting story.</td></tr>
+      <tr><td>Organizations &amp; Partnerships</td><td><span class="tag t-miss">Missing</span></td><td>Build the shape; content is governance-gated.</td></tr>
+      <tr><td>Why Organizations Choose Tiffany — 11</td><td><span class="tag t-miss">Missing</span></td><td>Build it, paired with testimonials.</td></tr>
+      <tr><td>Who Tiffany Loves To Work With — 11 pills</td><td><span class="tag t-have">Have</span></td><td>Duplicate of Audiences Served. Fold both into "Where she works".</td></tr>
+      <tr><td>Upcoming Events</td><td><span class="tag t-partial">Partial</span></td><td>Ours exists but with invented data. Becomes /impact.</td></tr>
+      <tr><td>Media Resources — 10 assets</td><td><span class="tag t-miss">Missing</span></td><td>Becomes /media. "MEDIA" is already in our nav with nothing behind it.</td></tr>
+      <tr><td>Booking form — 9 qualified fields</td><td><span class="tag t-miss">Missing</span></td><td>Take it wholesale. It's also the CRM and WhatsApp payload.</td></tr>
+      <tr><td>"Rooted in Community. Committed to Change." badge</td><td><span class="tag t-miss">Missing</span></td><td>Optional. A good line, but we already have a values strip.</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p><strong>Errors in her page A:</strong></p>
+  <ul>
+    <li><strong>Eleven image placeholders.</strong> Every single photo slot reads "UPLOAD ___ PHOTO". The page cannot go live in any form.</li>
+    <li><strong>Ten different CTA labels</strong> — Book Tiffany, Explore Services, Learn More About Tiffany, Request a Speaking Topic, View Speaking and Training Services, Discuss a Partnership, Invite Tiffany To Your Organization, Request Media Kit, Download Speaker Sheet, Let's Start a Conversation. With ten primary actions there is no primary action. <em>Our build has this problem too, at a smaller scale.</em></li>
+    <li><strong>Seven of fifteen sections are bulleted lists.</strong> The page reads as a résumé rather than a booking page. Lists describe; they don't persuade.</li>
+    <li><strong>The hero role stack leads with "Gambling Prevention Coordinator"</strong> — an employer job title that also implies employer endorsement. Straight against the repositioning and against the HAS boundary.</li>
+    <li><strong>Three competing taglines on one page:</strong> "Building awareness. Creating partnerships. Inspiring communities." / "Educate. Empower. Elevate." / "Together, we create lasting impact." Add "Break the Silence" from our build and she now has four.</li>
+    <li><strong>Event cards are raw placeholders</strong> — [DATE] [Event Title] [Time] [Location] [Description Placeholder].</li>
+    <li><strong>No testimonials, no outcomes, no fee signal, no logistics, no FAQ.</strong></li>
+  </ul>
+
+  <h3 class="blk">Page B — "Personal Brand Homepage"</h3>
+  <ul>
+    <li><strong>Six of nine sections render blank.</strong> Large empty cream and white bands, one solid charcoal band, one solid green band with no content. This is a broken build, not a design.</li>
+    <li><strong>One testimonial, attributed to "Executive Director, Midwest Public Health Alliance"</strong> — no name, no verification. Same category of risk as our invented events. Confirm it or cut it.</li>
+    <li><strong>Worth harvesting:</strong> the hero line <em>"Creating Conversations That Transform Communities"</em> is more searchable and more benefit-led than "Break the Silence" — it may be the better H1, or the better subhead beneath it. The role stack <strong>"Speaker • Prevention Strategist • Entrepreneur • Community Builder"</strong> includes <em>Entrepreneur</em>, which is the GambleFreeGear thread and is completely absent from our build. And the newsletter capture in her footer.</li>
+  </ul>
+
+  <h3 class="blk">Her capabilities deck &amp; personal deck</h3>
+  <ul>
+    <li><strong>Deck panel 12 carries the employer email address and a direct phone number, plus a QR code.</strong> Both must be scrubbed before that deck goes to a single prospect. This is the hard boundary and it is currently live in a file she may already be sending.</li>
+    <li>The personal / GambleFreeGear deck is written entirely in <strong>first person</strong> — "My Roots", "My mission", "My Journey". That's her natural voice and it's evidence for the voice decision in panel 1.</li>
+    <li>That deck also confirms <strong>"BREAK THE SILENCE" is set as the GambleFreeGear tagline</strong>, directly under the GambleFreeGear wordmark. This is the source of the governance flag.</li>
+    <li>Its three pillars — capsule collection, strategic partnerships, mentoring women in recovery — are a GambleFreeGear roadmap, not a Tiffany Webb roadmap. Keep them on the sub-brand.</li>
+    <li>Contact is <code>gamblefreegear@gmail.com</code>. A Gmail address on a brand that's asking casinos and schools to partner with it is a credibility discount.</li>
+  </ul>
+
+  <h3 class="blk">Her topics PDF — the canonical list</h3>
+  <p>This is the source of truth for the topic count. Four categories, twenty topics: <strong>Prevention &amp; Awareness (5)</strong>, <strong>Treatment, Recovery &amp; Professional Training (8)</strong>, <strong>Family &amp; Community Impact (4)</strong>, <strong>Creative &amp; Promotional Engagement (3)</strong>. Every topic already carries its own audience line in her PDF — which is where our modal audience lines came from, and they should be preserved for all twenty.</p>
+</div>
+</section>
+
+<!-- ============ PANEL 3 ============ -->
+<section class="panel" id="p3">
+<div class="wrap">
+  <h2 class="sec">What merges, what splits, <em>and why.</em></h2>
+  <p class="lede">Between her two pages and our build there are roughly thirty section ideas. Most of the redundancy is that four different sections answer the same buyer question. Grouping by <em>question answered</em> rather than by <em>content type</em> collapses thirty into twelve.</p>
+
+  <h3 class="blk">Seven merges</h3>
+
+  <div class="merge">
+    <h5>Merge 1 — Credentials</h5>
+    <div class="eq">Professional Expertise (14) <b>+</b> Career Highlights (8) <b>+</b> Credential bar (3 stats) <b>→</b> one Credentials block</div>
+    <p class="why"><b>Why:</b> all three answer one question — <em>is she qualified?</em> Split across three sections, each looks thin. Combined, fourteen expertise areas, eight roles and two hard numbers make a dense, unarguable case. <b>Home gets the three stats only; /about gets the full block.</b></p>
+  </div>
+
+  <div class="merge">
+    <h5>Merge 2 — Ways to work with her</h5>
+    <div class="eq">Her "Services Available For" (14) <b>+</b> our "Six ways to bring her in" (6) <b>→</b> six cards plus a long-tail list</div>
+    <p class="why"><b>Why:</b> fourteen equal-weight cards is unshoppable; six alone throws away eight bookable services. Six primary formats as cards, then a plain line — <em>"also available for podcast interviews, webinars, staff development, strategic planning, coalition building and community consultation"</em> — keeps the long tail discoverable for search and for organisers with unusual asks, without diluting the six.</p>
+  </div>
+
+  <div class="merge">
+    <h5>Merge 3 — Where she works</h5>
+    <div class="eq">Audiences Served <b>+</b> Who Tiffany Loves To Work With <b>+</b> our "Where she works" <b>→</b> one section of 11</div>
+    <p class="why"><b>Why:</b> these are the same list printed three times in her material. One section, eleven entries, adding faith communities and conference organisers. <b>Our build already got this right</b> — it just needs the three missing entries.</p>
+  </div>
+
+  <div class="merge">
+    <h5>Merge 4 — Partnership</h5>
+    <div class="eq">SPEAK · PARTNER · STRATEGIZE · STRENGTHEN <b>+</b> Organizations &amp; Partnerships <b>→</b> one Partnership module</div>
+    <p class="why"><b>Why:</b> the four-pillar framework explains <em>how</em> she partners; the organisation list proves <em>who with</em>. Apart, the framework is an unsupported claim and the list is trivia. Together they're a case. This is also the section that sells consulting rather than speaking, which is the higher-value half of the business model.</p>
+  </div>
+
+  <div class="merge">
+    <h5>Merge 5 — Why book her</h5>
+    <div class="eq">Why Organizations Choose Tiffany (11 attributes) <b>+</b> Testimonials <b>→</b> one proof module</div>
+    <p class="why"><b>Why:</b> a list of eleven adjectives about yourself is self-assessment. The same list with three named quotes underneath becomes evidence. Neither works alone — and this is exactly why the section should not ship until real testimonials exist.</p>
+  </div>
+
+  <div class="merge">
+    <h5>Merge 6 — Media</h5>
+    <div class="eq">Media Resources (10 assets) <b>+</b> speaker one-sheet <b>+</b> press kit <b>+</b> logos <b>+</b> approved bios <b>→</b> /media</div>
+    <p class="why"><b>Why:</b> journalists and conference marketing staff need to self-serve at 11pm without emailing her. One page, everything downloadable, three bio lengths, two headshot crops. <b>This also removes the "available upon request" friction</b> — which in practice means "unavailable".</p>
+  </div>
+
+  <div class="merge">
+    <h5>Merge 7 — Impact</h5>
+    <div class="eq">Upcoming Events <b>+</b> past engagements <b>+</b> outcomes <b>+</b> partners &amp; collaborations <b>→</b> /impact</div>
+    <p class="why"><b>Why:</b> this is the page Tiffany asked for in the meeting, and it answers the only question a booking committee really has — <em>has this worked before, for people like us?</em> Full specification in panel 5.</p>
+  </div>
+
+  <h3 class="blk">Five splits</h3>
+  <ul>
+    <li><strong>/speaking</strong> — Twenty topics at roughly ninety words each is about 1,800 words. That is a page, not a homepage module. It is also the site's entire search engine: each topic is a phrase somebody types. Homepage keeps the flagship plus four track cards and links out.</li>
+    <li><strong>/about</strong> — Story, credentials, values, GambleFreeGear, the long bio. The homepage version stays at three paragraphs.</li>
+    <li><strong>/impact</strong> — Events, outcomes, partners. See panel 5.</li>
+    <li><strong>/media</strong> — Press kit, downloads, bios, headshots, logo usage.</li>
+    <li><strong>/book</strong> — The qualified form and the client journey. This is the CRM and WhatsApp entry point, so it needs its own URL for tracking and for pasting into emails.</li>
+  </ul>
+  <p style="color:var(--paper-dim)">Optional sixth: <strong>/insights</strong> for the blog articles already written, and a decision on whether GambleFreeGear gets a page here or lives entirely at inpowerimports.com.</p>
+
+  <h3 class="blk">Resulting sitemap</h3>
+  <div class="sitemap"><b>/</b>                    Home — the trailer, not the film
+<b>/about</b>               Story · credentials · values · <i>GambleFreeGear</i>
+<b>/speaking</b>            21 topics, filterable · 6 formats · flagship keynote
+   <i>/speaking/[topic]</i>   Optional: one page per topic (strong SEO, later phase)
+<b>/impact</b>              Events · outcomes · partners <i>← the page she asked for</i>
+<b>/media</b>               Press kit · downloads · bios · headshots
+<b>/book</b>                Qualified form · client journey · FAQ
+<b>/insights</b>            Articles
+<b>/privacy</b> <b>/terms</b>      Legal</div>
+
+  <h3 class="blk">Recommended homepage order</h3>
+  <ol class="order">
+    <li><h6>Hero</h6><p>Positioning line, name, one-sentence promise, one primary CTA, format strip. The "Watch the reel" button returns only when a reel exists.</p></li>
+    <li><h6>Credential bar</h6><p>Three numbers. Correct the topic count first.</p></li>
+    <li><h6>Meet Tiffany</h6><p>Three paragraphs, one real photo, link to /about. Keep the three vignettes — they're the best asset on the site.</p></li>
+    <li><h6>Speaking</h6><p>Flagship keynote plus four track cards. "View all 21 topics" → /speaking.</p></li>
+    <li><h6>Ways to work with her</h6><p>Six format cards plus the long-tail line. Merge 2.</p></li>
+    <li><h6>Where she works</h6><p>Eleven audience types. Merge 3. Promote the "reaches last" sentence to a pull quote.</p></li>
+    <li><h6>Partnership</h6><p>SPEAK · PARTNER · STRATEGIZE · STRENGTHEN plus organisations. Merge 4. <strong>Make this one of the two full-colour sections.</strong></p></li>
+    <li><h6>Why book her</h6><p>Decision attributes plus testimonials. Merge 5. Ships only when real quotes exist.</p></li>
+    <li><h6>Impact preview</h6><p>Two upcoming, one outcome, link to /impact. Empty until real data arrives — and an honest "next dates announced soon" beats three invented conferences.</p></li>
+    <li><h6>Media band</h6><p>One thin strip: download the speaker sheet, request the press kit. → /media.</p></li>
+    <li><h6>Book</h6><p>Inline qualified form plus the four-step journey strip. <strong>The second full-colour section.</strong></p></li>
+    <li><h6>Footer</h6><p>Values strip, GambleFreeGear endorsement line, newsletter, location, socials, legal.</p></li>
+  </ol>
+</div>
+</section>
+
+<!-- ============ PANEL 4 ============ -->
+<section class="panel" id="p4">
+<div class="wrap">
+  <h2 class="sec">Coverage matrix — <em>does everything she wants have a home?</em></h2>
+  <p class="lede">Every content idea appearing in her deck, her two landing pages, her topics PDF, the Codex, or the meeting notes — with its destination and current status. This is the checklist that answers "have we missed anything of hers".</p>
+
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th style="width:30%">What she wants</th><th style="width:14%">Source</th><th style="width:18%">Destination</th><th style="width:12%">Status</th><th>Note</th></tr></thead>
+    <tbody>
+      <tr><td>Positioning as strategist, not job title</td><td>Codex</td><td>Hero + wordmark</td><td><span class="tag t-have">Done</span></td><td>Best decision in the build.</td></tr>
+      <tr><td>Bold &amp; Brilliant look and feel</td><td>Meeting</td><td>Whole site</td><td><span class="tag t-partial">Partial</span></td><td>Elegant and impactful achieved. Panel 6.</td></tr>
+      <tr><td>Her story — Chicago / Louisiana</td><td>Deck, page A</td><td>Home + /about</td><td><span class="tag t-have">Done</span></td><td>Strongest copy on the site.</td></tr>
+      <tr><td>21 speaking topics, 4 categories</td><td>Topics PDF</td><td>/speaking</td><td><span class="tag t-risk">Conflict</span></td><td>Source has 20. Flagship unapproved.</td></tr>
+      <tr><td>Audience line per topic</td><td>Topics PDF</td><td>/speaking</td><td><span class="tag t-partial">Partial</span></td><td>Present in modals; must cover all topics.</td></tr>
+      <tr><td>Professional expertise — 14 areas</td><td>Deck, page A</td><td>/about</td><td><span class="tag t-miss">Missing</span></td><td>Merge 1.</td></tr>
+      <tr><td>Career highlights — 8 roles</td><td>Deck, page A</td><td>/about</td><td><span class="tag t-miss">Missing</span></td><td>Merge 1.</td></tr>
+      <tr><td>Services — 14 types</td><td>Deck, page A</td><td>Home + /speaking</td><td><span class="tag t-partial">Partial</span></td><td>8 dropped. Merge 2.</td></tr>
+      <tr><td>SPEAK · PARTNER · STRATEGIZE · STRENGTHEN</td><td>Deck, Codex</td><td>Home Partnership</td><td><span class="tag t-miss">Missing</span></td><td>Merge 4. Her framework.</td></tr>
+      <tr><td>Audiences served / who she works with</td><td>Deck, page A</td><td>Where she works</td><td><span class="tag t-partial">Partial</span></td><td>8 of 11. Merge 3.</td></tr>
+      <tr><td>Organizations &amp; partnerships</td><td>Deck, page A</td><td>Home + /impact</td><td><span class="tag t-miss">Missing</span></td><td>Governance-gated.</td></tr>
+      <tr><td><b>Event page</b></td><td>Meeting</td><td>/impact</td><td><span class="tag t-partial">Partial</span></td><td>Section built; data invented. Panel 5.</td></tr>
+      <tr><td><b>Client journey</b></td><td>Meeting</td><td>/book + /impact teaser</td><td><span class="tag t-miss">Missing</span></td><td>Panel 5 — placement flagged for her.</td></tr>
+      <tr><td><b>Outcomes of events</b></td><td>Meeting</td><td>/impact</td><td><span class="tag t-miss">Missing</span></td><td>Needs her data.</td></tr>
+      <tr><td><b>Partners &amp; collaborations</b></td><td>Meeting</td><td>/impact + home strip</td><td><span class="tag t-miss">Missing</span></td><td>Needs her list + clearance.</td></tr>
+      <tr><td>Why organizations choose her — 11</td><td>Deck, page A</td><td>Home proof</td><td><span class="tag t-miss">Missing</span></td><td>Merge 5.</td></tr>
+      <tr><td>Testimonials</td><td>Page B</td><td>Home proof</td><td><span class="tag t-risk">Unverified</span></td><td>One quote, unattributed.</td></tr>
+      <tr><td>Media resources — 10 assets</td><td>Deck, page A</td><td>/media</td><td><span class="tag t-miss">Missing</span></td><td>Nav link with nothing behind it.</td></tr>
+      <tr><td>Booking form, 9 qualified fields</td><td>Page A</td><td>/book + home</td><td><span class="tag t-miss">Missing</span></td><td>Also the CRM/WhatsApp payload.</td></tr>
+      <tr><td>Newsletter capture</td><td>Page B</td><td>Footer</td><td><span class="tag t-miss">Missing</span></td><td>The only owned audience asset.</td></tr>
+      <tr><td>Values — Faith. Family. Community. Purpose. Impact.</td><td>Deck</td><td>Footer</td><td><span class="tag t-have">Done</span></td><td></td></tr>
+      <tr><td>Signature quote — "plant a seed of hope"</td><td>Deck</td><td>Footer</td><td><span class="tag t-have">Done</span></td><td></td></tr>
+      <tr><td>GambleFreeGear as endorsed sub-brand</td><td>Codex, GFG deck</td><td>/about + footer</td><td><span class="tag t-miss">Missing</span></td><td>Entirely absent from the site.</td></tr>
+      <tr><td>Entrepreneur thread</td><td>Page B</td><td>/about</td><td><span class="tag t-miss">Missing</span></td><td>Part of her own self-description.</td></tr>
+      <tr><td>Blog / insights</td><td>Codex, FILE_4</td><td>/insights</td><td><span class="tag t-partial">Written</span></td><td>Three articles exist; no route.</td></tr>
+      <tr><td>Independent booking email</td><td>Codex</td><td>Footer + /book</td><td><span class="tag t-risk">Blocked</span></td><td>Domain ownership unverified.</td></tr>
+      <tr><td>FAQ — travel, AV, lead time, virtual</td><td>Inferred</td><td>/book</td><td><span class="tag t-miss">Missing</span></td><td>Removes repeat email work.</td></tr>
+      <tr><td>Fee position</td><td>Inferred</td><td>/book</td><td><span class="tag t-miss">Missing</span></td><td>Her decision.</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="why" style="color:var(--paper-dim)"><b>Score:</b> 5 done, 6 partial, 14 missing, 3 blocked or conflicted. The build is roughly 40% of the content she has already asked for — but the 40% that exists is the harder 40% to write.</p>
+</div>
+</section>
+
+<!-- ============ PANEL 5 ============ -->
+<section class="panel" id="p5">
+<div class="wrap">
+  <h2 class="sec">The event page <em>she asked for.</em></h2>
+  <p class="lede">She named three things in the meeting: the client journey, outcomes of events, and partners she has collaborated with. She wasn't sure they all belonged on the event page, and asked us to advise. Here is the recommendation, with one disagreement stated openly rather than resolved quietly.</p>
+
+  <h3 class="blk">Where each of her three asks belongs</h3>
+
+  <div class="merge">
+    <h5>Outcomes of events → <span style="color:var(--emerald)">/impact — yes, exactly where she said</span></h5>
+    <p class="why">Outcomes are the most persuasive asset a speaker can own and the site currently has none. Each past engagement gets an outcome block: audience size and type, what was covered, and <b>what changed afterwards</b> — screenings booked, a resolution passed, staff trained, referrals made, students reached. Plus one aggregate band at the top of the page. <b>She is right, and this should be the page's centre of gravity, not the event list.</b></p>
+  </div>
+
+  <div class="merge">
+    <h5>Partners &amp; collaborations → <span style="color:var(--emerald)">/impact — yes, plus a thin strip on the homepage</span></h5>
+    <p class="why">Named organisations are trust transfer, and trust transfer works earliest. Full treatment on /impact with relationship type made explicit — employer, affiliate, campaign participant, host, coalition member. A condensed strip on the homepage. <b>Governance:</b> naming her employer, the Illinois Council on Problem Gambling, and the "Are You Really Winning?" campaign all need written clearance, and the campaign in particular must be worded as participation, never ownership.</p>
+  </div>
+
+  <div class="merge">
+    <h5>Client journey → <span style="color:var(--coral)">/book, not /impact — this is the disagreement</span></h5>
+    <p class="why">A journey diagram reduces friction at the moment of decision. On an events page it's decoration; on the booking page it's the thing that converts a hesitant programme chair. <b>Recommendation:</b> the canonical version lives on /book, with a three-step teaser at the foot of /impact linking through.</p>
+    <p class="why" style="margin-top:10px"><b>But there are two different journeys and she may mean the other one.</b> Flag it to her rather than guessing:</p>
+    <ul style="margin-top:10px;color:var(--paper-dim)">
+      <li><b>The booking journey</b> — enquiry → fit call → proposal → agreement → pre-event prep → delivery → follow-up. Belongs on /book.</li>
+      <li><b>The engagement journey</b> — what she does around an event: needs assessment → session → participant materials → post-event outcome summary. This one belongs on /impact, and it is what makes her look like a partner rather than a hired speaker.</li>
+    </ul>
+    <p class="why" style="margin-top:10px">My read is she meant the second. <b>It's a question for the questionnaire, not a call for us.</b></p>
+  </div>
+
+  <h3 class="blk">/impact — page structure</h3>
+  <ol class="order">
+    <li><h6>Hero</h6><p>One line on why the work travels. No numbers she can't support.</p></li>
+    <li><h6>Aggregate impact band</h6><p>Engagements delivered · organisations served · audiences reached · counties or states covered. Every figure needs a defensible definition.</p></li>
+    <li><h6>Upcoming</h6><p>Confirmed engagements only. Public or private noted. If empty: "Next dates announced soon" plus a booking link. <strong>An honest empty state costs nothing; a fabricated one costs the brand.</strong></p></li>
+    <li><h6>Past engagements</h6><p>Filterable by year, format and audience. Name, host, city, format, audience size, one line of substance.</p></li>
+    <li><h6>Outcome stories — three</h6><p>Longer treatments: the situation, what she did, what changed, one quote. Three good ones beat twenty listings.</p></li>
+    <li><h6>Partners &amp; collaborations</h6><p>Named, with relationship type. Governance-gated.</p></li>
+    <li><h6>Gallery</h6><p>Real event photography only. If none exists, no gallery.</p></li>
+    <li><h6>Engagement journey</h6><p>Four steps — what working with her actually looks like around the date.</p></li>
+    <li><h6>CTA</h6><p>→ /book.</p></li>
+  </ol>
+
+  <h3 class="blk">What we need from Tiffany before this page can be real</h3>
+  <ul>
+    <li>Past engagements: event name, date, host organisation, city, format, audience size — as many as she can recall, even approximate.</li>
+    <li>Written permission per named event and per named organisation.</li>
+    <li>Any outcome numbers she has, even rough — people screened, staff trained, students reached, resolutions passed.</li>
+    <li>Real photographs from real events, with permission.</li>
+    <li>Three contacts willing to give a testimonial, and permission to approach them.</li>
+    <li>Her partner list with the relationship type for each.</li>
+  </ul>
+  <div class="note"><b>Sequencing note.</b> This page cannot be built before that data arrives. What can be built now is the empty component with honest empty states — which is also the fastest way to show Tiffany exactly what she needs to send us.</div>
+</div>
+</section>
+
+<!-- ============ PANEL 6 ============ -->
+<section class="panel" id="p6">
+<div class="wrap">
+  <h2 class="sec">Elegant and impactful, <em>now make it bold and brilliant.</em></h2>
+  <p class="lede">She approved the look and then added two words. Those two words are a real brief, and the current build doesn't meet them yet — for reasons that are diagnosable rather than vague.</p>
+
+  <div class="note"><b>The diagnosis.</b> The build achieves <em>elegant</em> through restraint: near-black ground, one accent, generous space, an editorial serif. But it achieves elegance <em>by</em> restraint, and bold and brilliant are the opposite instinct. Twelve consecutive near-black sections with one gold accent is a page that never raises its voice. <b>Bold is not a brighter background — it's decisive contrast, larger type, saturated colour, and fewer elements each doing more.</b> Keep the black. Change what happens on top of it.</div>
+
+  <h3 class="blk">Eight concrete moves</h3>
+  <ol class="order">
+    <li><h6>Use her actual palette</h6><p>The site runs on one gold plus a four-stop headline gradient. Her brand direction specifies emerald, teal, royal blue, burnt orange, mustard, berry, coral, cream. The colours already exist as tiny icon chips in the formats grid — <strong>promote them from decoration to structure.</strong> Give each speaking track its own colour across its whole card and modal, not a 40px square.</p></li>
+    <li><h6>Break the black run — two full-colour sections</h6><p>Twelve dark sections in sequence produce fatigue and sameness. Two full-bleed colour sections fix it: <strong>emerald for Partnership, coral for Booking.</strong> The dark then reads as deliberate luxury rather than a default. This single change does more for "brilliant" than anything else on the list.</p></li>
+    <li><h6>Discipline the ribbon</h6><p>The gold wave currently runs behind every section at high opacity and crosses body copy, numerals and headlines. It is simultaneously the legibility problem and the reason every section looks identical. <strong>Three hero-level moments at full strength; 6–8% everywhere else; never behind body text.</strong></p></li>
+    <li><h6>Widen the type scale</h6><p>Headlines around 64px against 18px body is a comfortable ratio, not a bold one. Push the two or three signature headlines significantly larger and let everything else get quieter. Bold comes from the gap between the loudest and quietest thing on the page.</p></li>
+    <li><h6>Keep the one-word-in-colour device — use it less</h6><p>"What she <em>speaks about.</em>" / "Prevention that <em>reaches people.</em>" / "Where she's making <em>an impact.</em>" The device works. It is currently on every single section headline, which turns a signature into a template. <strong>Three uses, maximum.</strong></p></li>
+    <li><h6>Real photography, graded consistently</h6><p>Nothing kills "brilliant" faster than images a viewer suspects are synthetic. Real photos of Tiffany, one consistent grade, at least two full-bleed. If the library is thin, <strong>a photo shoot is the highest-ROI line item in the whole project</strong> — it feeds the site, the media kit, and every social channel simultaneously.</p></li>
+    <li><h6>Reduce motion, orchestrate what's left</h6><p>One considered hero entrance and scroll reveals on section headers only. Scattered effects read as generated; one orchestrated moment reads as designed. Respect <code>prefers-reduced-motion</code>.</p></li>
+    <li><h6>Pick one signature</h6><p>The page needs one thing people remember. My candidate: <strong>the twenty-one topics as a colour-coded index</strong> — the only speaker site where you can see an entire body of expertise in one view, sorted by who it's for. That's her actual differentiator, made visual. Spend the boldness there and keep everything else disciplined.</p></li>
+  </ol>
+</div>
+</section>
+
+<!-- ============ PANEL 7 ============ -->
+<section class="panel" id="p7">
+<div class="wrap">
+  <h2 class="sec">Contradictions and governance — <em>flagged, not resolved.</em></h2>
+  <p class="lede">Standing rule on this project: contradictions get surfaced with an owner, never silently reconciled. Twenty items. Six of them block launch.</p>
+
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th style="width:5%">#</th><th style="width:36%">Item</th><th style="width:14%">Decides</th><th style="width:11%">Blocks?</th><th>Note</th></tr></thead>
+    <tbody>
+      <tr><td>01</td><td>tiffanywebb.com ownership unverified</td><td><span class="owner o-yash">Yash → Tiffany</span></td><td><span class="tag t-risk">Blocker</span></td><td>Email, DNS, CRM, WhatsApp, launch date all sit on this. Her deck already prints the address.</td></tr>
+      <tr><td>02</td><td>Three video appearances with unsourced event names</td><td><span class="owner o-rishil">Rishil</span></td><td><span class="tag t-risk">Blocker</span></td><td>Previously flagged, still live.</td></tr>
+      <tr><td>03</td><td>Three event cards with unsourced conference names</td><td><span class="owner o-rishil">Rishil</span></td><td><span class="tag t-risk">Blocker</span></td><td>Specific and checkable.</td></tr>
+      <tr><td>04</td><td>Possible AI-generated portraits of Tiffany</td><td><span class="owner o-yash">Yash</span></td><td><span class="tag t-risk">Blocker</span></td><td>Hero and three thumbnails.</td></tr>
+      <tr><td>05</td><td>"Break the Silence" as personal master tagline</td><td><span class="owner o-tiff">Tiffany</span></td><td><span class="tag t-risk">Blocker</span></td><td>Codex approves it for GambleFreeGear only. Currently H1 + twice in footer.</td></tr>
+      <tr><td>06</td><td>Flagship keynote not on her topic list</td><td><span class="owner o-tiff">Tiffany</span></td><td><span class="tag t-risk">Blocker</span></td><td>Strategist-authored. Anchors H1, flagship card, and the 21 count.</td></tr>
+      <tr><td>07</td><td>21 topics vs "twenty topics" vs 20 on source PDF</td><td><span class="owner o-tiff">Tiffany</span></td><td><span class="tag t-partial">High</span></td><td>Resolved by #06.</td></tr>
+      <tr><td>08</td><td>"Lived experience" — what does it cover?</td><td><span class="owner o-tiff">Tiffany</span></td><td><span class="tag t-partial">High</span></td><td>Flagship copy can read as personal experience of gambling harm.</td></tr>
+      <tr><td>09</td><td>Unattributed testimonial on her page B</td><td><span class="owner o-tiff">Tiffany</span></td><td><span class="tag t-partial">High</span></td><td>Confirm the person, or cut.</td></tr>
+      <tr><td>10</td><td>Employer email + phone in her live deck</td><td><span class="owner o-yash">Yash</span></td><td><span class="tag t-partial">High</span></td><td>Hard boundary. She may be sending it already.</td></tr>
+      <tr><td>11</td><td>Naming employer / ICPG / "Are You Really Winning?"</td><td><span class="owner o-tiff">Tiffany</span></td><td><span class="tag t-partial">High</span></td><td>Campaign is participation, not ownership.</td></tr>
+      <tr><td>12</td><td>Employer clearance for independent speaking</td><td><span class="owner o-tiff">Tiffany</span></td><td><span class="tag t-partial">High</span></td><td>Predates everything else.</td></tr>
+      <tr><td>13</td><td>Four competing taglines across materials</td><td><span class="owner o-yash">Yash → Tiffany</span></td><td><span class="tag t-partial">Med</span></td><td>Break the Silence / Building awareness… / Educate, Empower, Elevate / Together we create…</td></tr>
+      <tr><td>14</td><td>Six formats vs five in hero vs fourteen services</td><td><span class="owner o-yash">Yash</span></td><td><span class="tag t-partial">Med</span></td><td>Merge 2 resolves it.</td></tr>
+      <tr><td>15</td><td>First person vs third person</td><td><span class="owner o-yash">Yash</span></td><td><span class="tag t-partial">Med</span></td><td>Must be settled before copy is written.</td></tr>
+      <tr><td>16</td><td>Which homepage wins — <code>HOME 2</code></td><td><span class="owner o-yash">Yash</span></td><td><span class="tag t-partial">Med</span></td><td>Then delete the other.</td></tr>
+      <tr><td>17</td><td>Do all four social accounts exist and have content?</td><td><span class="owner o-yash">Yash</span></td><td><span class="tag t-partial">Med</span></td><td>Empty link is worse than no link.</td></tr>
+      <tr><td>18</td><td>Two-business-day response promise</td><td><span class="owner o-tiff">Tiffany</span></td><td><span class="tag t-partial">Low</span></td><td>Hers to keep.</td></tr>
+      <tr><td>19</td><td>Fee position — stated, on request, or absent</td><td><span class="owner o-tiff">Tiffany</span></td><td><span class="tag t-partial">Low</span></td><td>Affects enquiry quality.</td></tr>
+      <tr><td>20</td><td>GambleFreeGear placement; GambleFree Friends &amp; The Nonprofit Hustle in or out of v1</td><td><span class="owner o-yash">Yash → Tiffany</span></td><td><span class="tag t-partial">Low</span></td><td>In the business case, absent from the build.</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="note"><b>Note on #02, #03, #04 and #09.</b> These four are one problem wearing four hats: unverifiable claims presented as fact. They are not a design issue. Fabricated content reaching client-facing material is the failure mode this project has already identified once — and it has recurred. Worth a standing rule for the tech track: <b>no component ships with invented sample data, ever. Empty states only.</b></div>
+</div>
+</section>
+
+<!-- ============ PANEL 8 ============ -->
+<section class="panel" id="p8">
+<div class="wrap">
+  <h2 class="sec">Roadmap — <em>who does what, in what order.</em></h2>
+  <p class="lede">Eight gates. Gates 0 and 1 run in parallel and start today. Nothing after Gate 2 is worth doing until Gate 1 returns answers.</p>
+
+  <div class="gate">
+    <div class="gate-head"><span class="gate-num">GATE 0</span><h5>Stop the bleeding</h5><span class="owner o-rishil">Rishil</span><span class="chip">~2 hours</span></div>
+    <div class="gate-body"><ol>
+      <li>Delete the three video cards in "See her speak" — remove the section entirely for now.</li>
+      <li>Empty the three event cards. Keep the component, show the honest empty state.</li>
+      <li>Remove <code>HOME 2</code> from the nav and remove the route.</li>
+      <li>Replace the dollar-sign icon on the Keynote card, then audit the whole icon set.</li>
+      <li>Fix the duplicated title in both modals.</li>
+      <li>Fix the double arrow glyph on "View details".</li>
+      <li>Add <code>max-height:85vh; overflow-y:auto</code> to the modal body.</li>
+      <li>UK→US spelling pass across every string.</li>
+      <li>Reconcile header and footer nav to one array.</li>
+      <li>Remove "Watch the reel" until footage exists.</li>
+    </ol><p class="dep">No dependencies. Do this before anyone else sees the build.</p></div>
+  </div>
+
+  <div class="gate">
+    <div class="gate-head"><span class="gate-num">GATE 1</span><h5>Truth pass — the questionnaire to Tiffany</h5><span class="owner o-yash">Yash</span><span class="owner o-claude">Claude drafts</span><span class="chip">1–2 days</span></div>
+    <div class="gate-body"><ol>
+      <li>Verify tiffanywebb.com ownership. Registrar login or WHOIS. <strong>Everything downstream waits on this.</strong></li>
+      <li>Send the twenty governance questions from panel 7, formatted for a quick reply.</li>
+      <li>Get written approval on: the flagship keynote, the tagline, the topic count, the partner naming, the employer clearance.</li>
+      <li>Confirm provenance of every human photograph currently on the site.</li>
+      <li>Request the /impact data pack — engagements, outcomes, partners, photos, testimonial contacts.</li>
+      <li>Scrub the employer email and phone from her circulating deck.</li>
+    </ol><p class="dep">Blocks: Gates 3, 5, 6, 7.</p></div>
+  </div>
+
+  <div class="gate">
+    <div class="gate-head"><span class="gate-num">GATE 2</span><h5>Restructure the homepage</h5><span class="owner o-rishil">Rishil</span><span class="chip">3–4 days</span></div>
+    <div class="gate-body"><ol>
+      <li>Rebuild to the twelve-module order in panel 3.</li>
+      <li>Build the three missing modules: Partnership (merge 4), Why book her (merge 5), Media band.</li>
+      <li>Add the three missing audience types to "Where she works".</li>
+      <li>Convert the booking band to an inline nine-field form.</li>
+      <li>Stub the routes: <code>/about /speaking /impact /media /book /insights</code>.</li>
+      <li>Add Person and Event schema, meta descriptions, OG image.</li>
+      <li>Accessibility pass — axe and Lighthouse, AA contrast, keyboard focus, mobile nav.</li>
+    </ol><p class="dep">Depends on Gate 0. Ships with placeholder copy — real copy arrives at Gate 3.</p></div>
+  </div>
+
+  <div class="gate">
+    <div class="gate-head"><span class="gate-num">GATE 3</span><h5>Line-by-line copy — every section, every word</h5><span class="owner o-claude">Claude</span><span class="owner o-yash">Yash reviews</span><span class="chip">Next deliverable</span></div>
+    <div class="gate-body"><ol>
+      <li>Homepage: every headline, eyebrow, paragraph, card, button label, form label, error state, empty state.</li>
+      <li>All twenty-one topics: title, description, audience line, best-suited-to line.</li>
+      <li>/about, /impact, /media, /book in full.</li>
+      <li>Microcopy, FAQ answers, form validation, confirmation and thank-you states.</li>
+      <li>Meta titles and descriptions per page.</li>
+    </ol><p class="dep">Depends on Gate 1 answers for anything governance-gated, and on the first-vs-third-person decision. <b>This is the deliverable you're asking for next.</b></p></div>
+  </div>
+
+  <div class="gate">
+    <div class="gate-head"><span class="gate-num">GATE 4</span><h5>Bold &amp; Brilliant design pass</h5><span class="owner o-yash">Yash</span><span class="chip">Parallel to 2–3</span></div>
+    <div class="gate-body"><ol>
+      <li>Colour system: track colours promoted to structural, per panel 6.</li>
+      <li>Two full-bleed colour sections — emerald Partnership, coral Booking.</li>
+      <li>Ribbon discipline: three moments at strength, 6–8% elsewhere, never behind text.</li>
+      <li>Type scale widened; the colour-word device cut to three uses.</li>
+      <li>Photography direction, and a shoot brief if the library is thin.</li>
+      <li>Motion reduced to one orchestrated hero entrance plus header reveals.</li>
+    </ol><p class="dep">Independent of Gate 1. Start now.</p></div>
+  </div>
+
+  <div class="gate">
+    <div class="gate-head"><span class="gate-num">GATE 5</span><h5>Real content in</h5><span class="owner o-tiff">Tiffany</span><span class="owner o-yash">Yash chases</span><span class="chip">Rolling</span></div>
+    <div class="gate-body"><ol>
+      <li>Photo shoot, or an audit of existing usable photography.</li>
+      <li>Event history and outcome figures.</li>
+      <li>Three testimonials, approached and captured.</li>
+      <li>Partner list with relationship types and clearances.</li>
+      <li>Video — even one clean ninety-second clip unlocks the "See her speak" section honestly.</li>
+    </ol><p class="dep">Depends on Gate 1. The long pole in the whole project — start chasing in week one.</p></div>
+  </div>
+
+  <div class="gate">
+    <div class="gate-head"><span class="gate-num">GATE 6</span><h5>Inner pages</h5><span class="owner o-rishil">Rishil</span><span class="chip">4–6 days</span></div>
+    <div class="gate-body"><ol>
+      <li>/speaking with audience and format filters — the SEO engine.</li>
+      <li>/impact per panel 5, with honest empty states wherever data hasn't arrived.</li>
+      <li>/about with the merged credentials block and the GambleFreeGear endorsement.</li>
+      <li>/media with real downloadable assets.</li>
+      <li>/book with the form, the journey and the FAQ.</li>
+      <li>/insights with the three written articles.</li>
+    </ol><p class="dep">Depends on Gates 2, 3 and 5.</p></div>
+  </div>
+
+  <div class="gate">
+    <div class="gate-head"><span class="gate-num">GATE 7</span><h5>Pre-launch verification</h5><span class="owner o-rishil">Rishil</span><span class="owner o-yash">Yash signs off</span><span class="chip">Half a day</span></div>
+    <div class="gate-body"><ol>
+      <li>Run the five-step console verification already produced — internal language, topic counts, unapproved content.</li>
+      <li>Grep the whole build for: invented event names, placeholder text, UK spellings, the employer email, "Home 2", "Lorem".</li>
+      <li>Every external link resolves. Every form submits and routes.</li>
+      <li>Lighthouse across all pages. Mobile pass on a real device.</li>
+      <li>Final read-through against the Codex as source of truth.</li>
+    </ol><p class="dep">Last gate before anything is public.</p></div>
+  </div>
+</div>
+</section>
+
+<!-- ============ PANEL 9 ============ -->
+<section class="panel" id="p9">
+<div class="wrap">
+  <h2 class="sec">What I need settled <em>before I write the copy.</em></h2>
+  <p class="lede">The full client questionnaire is the next deliverable. But six of these are ours to decide internally, not Tiffany's — and the copy can't be written until they're settled, because each one changes every sentence on the site.</p>
+
+  <div class="q"><span class="qn">01</span><div><h6>First person or third person?</h6><p>Her materials are "I". The build is "she". This changes literally every line. My recommendation: first person for About and story, third person for proof and logistics — but it needs to be a rule, stated once, applied everywhere.</p></div></div>
+  <div class="q"><span class="qn">02</span><div><h6>Is "Break the Silence" the H1, or is it GambleFreeGear's?</h6><p>If it stays, we need her written approval. If it goes, the hero, the flagship keynote and the footer all need new lines — and "Creating Conversations That Transform Communities" from her own page B is the strongest alternative already in the material.</p></div></div>
+  <div class="q"><span class="qn">03</span><div><h6>Twenty topics or twenty-one?</h6><p>Determines the cred bar, the speaking subhead, the /speaking page and whether the flagship keynote exists at all.</p></div></div>
+  <div class="q"><span class="qn">04</span><div><h6>Which homepage survives?</h6><p>I need to know which layout I'm writing into before I write a word.</p></div></div>
+  <div class="q"><span class="qn">05</span><div><h6>Do we name the employer, the council and the campaign?</h6><p>Changes the entire Partnership section from named proof to generic categories. Hers to clear, but ours to ask.</p></div></div>
+  <div class="q"><span class="qn">06</span><div><h6>Does GambleFreeGear appear on this site, and how?</h6><p>Endorsement line in the footer, a section on /about, or its own page. Currently invisible, which contradicts the Branded House architecture in the Codex.</p></div></div>
+
+  <div class="note" style="border-left-color:var(--coral);margin-top:34px"><b>The next deliverable.</b> Once these six are settled, I can produce the full client questionnaire for Tiffany <em>and</em> the complete line-by-line copy — every headline, every paragraph, every card, every button, every form label, every empty state, for every section of every page. Actual written words, not structure.</div>
+</div>
+</section>
+
+<div class="wrap">
+  <p class="footnote">Y Arts! · Internal working file · Design track (Yash) + Tech track (Rishil) · Source of truth: Tiffany Webb Brand Codex · Contradictions surfaced, not resolved</p>
+</div>
+
+<script>
+(function(){
+  var tabs=[].slice.call(document.querySelectorAll('.tab'));
+  var panels=[].slice.call(document.querySelectorAll('.panel'));
+  function show(id){
+    tabs.forEach(function(t){t.setAttribute('aria-selected', t.dataset.p===id ? 'true':'false');});
+    panels.forEach(function(p){p.classList.toggle('on', p.id===id);});
+    window.scrollTo({top:0,behavior:'instant'});
+  }
+  tabs.forEach(function(t){
+    t.addEventListener('click',function(){show(t.dataset.p);});
+    t.addEventListener('keydown',function(e){
+      var i=tabs.indexOf(t);
+      if(e.key==='ArrowRight'){e.preventDefault();tabs[(i+1)%tabs.length].focus();}
+      if(e.key==='ArrowLeft'){e.preventDefault();tabs[(i-1+tabs.length)%tabs.length].focus();}
+    });
+  });
+
+  var fbtns=[].slice.call(document.querySelectorAll('.fbtn'));
+  var cards=[].slice.call(document.querySelectorAll('#auditlist .card'));
+  fbtns.forEach(function(b){
+    b.addEventListener('click',function(){
+      fbtns.forEach(function(x){x.setAttribute('aria-pressed', x===b ? 'true':'false');});
+      var f=b.dataset.f;
+      cards.forEach(function(c){
+        c.style.display = (f==='all' || c.dataset.sev===f) ? '' : 'none';
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>

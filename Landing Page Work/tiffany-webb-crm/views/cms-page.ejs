@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Tiffany Webb CRM</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-ink: #0d1210;
+            --color-gold: #c29545;
+            --color-ivory: #f2efe9;
+            --color-bg: #f8f9fa;
+            --font-sans: 'Inter', sans-serif;
+            --font-serif: 'Instrument Serif', serif;
+        }
+
+        body { 
+            font-family: var(--font-sans); 
+            background: var(--color-bg); 
+            margin: 0; 
+            color: #333;
+        }
+
+        /* Top Navigation */
+        .top-nav {
+            background: var(--color-ink);
+            color: var(--color-ivory);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .nav-logo {
+            font-family: var(--font-serif);
+            font-size: 1.8rem;
+            margin: 0;
+            color: var(--color-ivory);
+        }
+
+        .nav-logo span {
+            color: var(--color-gold);
+            font-style: italic;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: rgba(242, 239, 233, 0.7);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--color-gold);
+        }
+
+        /* Main Container */
+        .main-content {
+            padding: 2rem;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        /* Header & Stats */
+        .page-header {
+            margin-bottom: 2rem;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .page-title {
+            font-family: var(--font-serif);
+            font-size: 2.2rem;
+            margin: 0 0 1.5rem 0;
+            color: var(--color-ink);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--color-card);
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+            border: 1px solid #eaeaea;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            transition: transform 0.2s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.06);
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: var(--color-ink);
+            line-height: 1;
+        }
+        
+        .stat-card:nth-child(2) .stat-value { color: #d97706; } /* Highlight for New */
+        .stat-card:nth-child(3) .stat-value { color: #059669; } /* Highlight for Booked */
+
+        .stat-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #666;
+            font-weight: 600;
+        }
+
+        /* Filter / Action Bar */
+        .action-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--color-card);
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+            border: 1px solid #eaeaea;
+        }
+
+        .search-input {
+            padding: 0.6rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            width: 300px;
+            font-family: var(--font-sans);
+        }
+
+        .btn-primary {
+            background: var(--color-ink);
+            color: var(--color-ivory);
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary:hover {
+            background: var(--color-gold);
+            color: var(--color-ink);
+        }
+
+        /* Kanban Board */
+        .kanban-wrapper {
+            overflow-x: auto;
+            padding-bottom: 2rem;
+        }
+
+        .kanban-board {
+            display: flex;
+            gap: 1.5rem;
+            min-width: max-content;
+        }
+
+        .column {
+            background: #f1f3f5;
+            border-radius: 12px;
+            width: 320px;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            height: calc(100vh - 500px);
+            min-height: 200px;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        /* Custom Scrollbar for columns */
+        .column::-webkit-scrollbar {
+            width: 6px;
+        }
+        .column::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .column::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 10px;
+        }
+
+        .column-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .column-title {
+            margin: 0;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #333;
+            text-transform: capitalize;
+        }
+
+        .column-count {
+            background: #e2e8f0;
+            color: #475569;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 12px;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--color-card);
+            padding: 1.25rem;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            border: 1px solid #eaeaea;
+            border-left: 4px solid var(--color-ink);
+            cursor: pointer;
+            transition: all 0.2s;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+            border-left-color: var(--color-gold);
+        }
+
+        .card-name {
+            font-weight: 600;
+            margin: 0 0 0.25rem 0;
+            font-size: 1rem;
+        }
+
+        .card-org {
+            font-size: 0.85rem;
+            color: #666;
+            margin: 0 0 1rem 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px dashed #eee;
+            padding-top: 0.75rem;
+        }
+
+        .card-date {
+            font-size: 0.75rem;
+            color: #888;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .badge.website_form { background: #e0f2fe; color: #0369a1; }
+        .badge.whatsapp { background: #dcfce7; color: #15803d; }
+        .badge.instagram { background: #fce7f3; color: #be185d; }
+        .badge.email { background: #f3f4f6; color: #374151; }
+
+        .charts-row {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .chart-card {
+            background: var(--color-card);
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+            border: 1px solid #eaeaea;
+        }
+
+        .chart-card h3 {
+            margin: 0 0 1rem 0;
+            font-size: 1.1rem;
+            color: var(--color-ink);
+            font-weight: 600;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <!-- INJECTED PREMIUM CRM THEME -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CRM Sleek Ink & Multi-Color Theme */
+        :root {
+            --color-ink: #0a0a0a; /* Pure deep ink, zero green tint */
+            --color-card: #141414; /* Sleek dark grey/black */
+            --color-border: #262626; /* Neutral border */
+            
+            --color-gold: #c29545;
+            --color-ivory: #ffffff; /* Bright white for maximum contrast */
+            
+            --color-terracotta: #a84747;
+            --color-slate: #5b7994;
+            --color-plum: #885794;
+            --color-text-muted: #a3a3a3;
+            
+            --font-sans: 'Plus Jakarta Sans', 'Inter', sans-serif;
+            --font-serif: 'Instrument Serif', serif;
+        }
+
+        body {
+            background-color: #1A2721 !important; /* Deep Forest Sage */
+            background-image: none !important;
+            color: var(--color-ivory) !important;
+            font-family: var(--font-sans) !important;
+        }
+
+        /* Target all common card classes AND any table wrappers */
+        .stat-card, .card, .dashboard-card, .form-container, .panel, .cms-sidebar, .cms-main, .table-container, .pipeline-card, .pipeline-lead, .message-bubble.inbound, .chart-card, .login-card,
+        div[style*="background: white"], div[style*="background-color: white"], div[style*="background: var(--color-card)"] {
+            background: var(--color-card) !important;
+            border: 1px solid var(--color-border) !important;
+            backdrop-filter: none !important;
+            color: var(--color-ivory) !important;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
+            border-radius: 12px !important;
+        }
+        
+        .message-bubble.outbound {
+            background: rgba(194, 149, 69, 0.15) !important;
+            border: 1px solid var(--color-gold) !important;
+            color: var(--color-ivory) !important;
+        }
+
+        h1, h2, h3, h4, h5, h6, .stat-value {
+            color: var(--color-ivory) !important;
+        }
+        
+        .page-title {
+            color: var(--color-ivory) !important; 
+        }
+
+        /* DISTINCT MULTI-COLOR GRADIENTS FOR CARDS (No single color) */
+        .stat-card {
+            border-top: none !important; /* Remove old solid border */
+        }
+        
+        .stat-card:nth-child(1) {
+            background: linear-gradient(135deg, #2b2212 0%, #141414 100%) !important;
+            border: 1px solid #3d3119 !important;
+        }
+        .stat-card:nth-child(2) {
+            background: linear-gradient(135deg, #2d1616 0%, #141414 100%) !important;
+            border: 1px solid #401f1f !important;
+        }
+        .stat-card:nth-child(3) {
+            background: linear-gradient(135deg, #172433 0%, #141414 100%) !important;
+            border: 1px solid #203347 !important;
+        }
+        .stat-card:nth-child(4) {
+            background: linear-gradient(135deg, #271a2b 0%, #141414 100%) !important;
+            border: 1px solid #3a2640 !important;
+        }
+
+        /* Bright text values on the multi-color cards */
+        .stat-card:nth-child(1) .stat-value { color: #f2c779 !important; }
+        .stat-card:nth-child(2) .stat-value { color: #f28b8b !important; }
+        .stat-card:nth-child(3) .stat-value { color: #8bbaf2 !important; }
+        .stat-card:nth-child(4) .stat-value { color: #db93f2 !important; }
+        
+        /* Gradient background for chart cards (Not Black) */
+        .chart-card {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%) !important;
+            border: 1px solid #334155 !important;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.4) !important;
+        }
+
+        /* Made labels pure Ivory so forms are easily readable! */
+        .csv-box, .csv-box p, .csv-box span, .csv-box strong {
+            color: var(--color-ivory) !important;
+        }
+        .csv-box {
+            border-color: var(--color-border) !important;
+            background: rgba(255, 255, 255, 0.02) !important;
+        }
+        .column-title {
+            color: var(--color-gold) !important;
+            font-family: var(--font-serif) !important;
+            font-size: 1.5rem !important;
+            letter-spacing: 0.02em;
+        }
+        .stat-label, .text-muted, .text-sm {
+            color: var(--color-text-muted) !important;
+        }
+        p {
+            color: var(--color-ivory) !important;
+        }
+        label {
+            color: var(--color-ivory) !important;
+            font-weight: 600 !important;
+            margin-bottom: 0.5rem !important;
+            display: block !important;
+        }
+        
+        /* Form Tabs (Manual / CSV) Readability */
+        .tab {
+            color: var(--color-ivory) !important;
+            border-bottom: 2px solid transparent !important;
+        }
+        .tab.active {
+            color: var(--color-gold) !important;
+            border-bottom-color: var(--color-gold) !important;
+        }
+        .tab:hover {
+            color: var(--color-gold) !important;
+            opacity: 0.8;
+        }
+
+        /* Pure Deep Ink for Navbar */
+        .top-nav {
+            background: #0a0a0a !important; /* Deep Ink */
+            border-bottom: 1px solid #262626 !important; 
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8) !important;
+        }
+        
+        /* Premium Deep Purple Gradient for the Search/Action Bar */
+        .action-bar {
+            background: linear-gradient(135deg, #2e1045 0%, #170824 100%) !important;
+            border: 1px solid #5a2e7d !important; /* Subtle purple border */
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 10px 30px rgba(23, 8, 36, 0.5) !important;
+        }
+        
+        .top-nav .nav-link {
+            color: var(--color-ivory) !important;
+        }
+        .top-nav .nav-logo {
+            color: var(--color-ivory) !important; /* White logo base */
+        }
+        
+        .top-nav .nav-link:hover, .top-nav .nav-link.active {
+            color: var(--color-gold) !important; /* Golden active link */
+            text-shadow: none !important;
+        }
+        
+        .top-nav .nav-logo span {
+            color: var(--color-gold) !important; /* Golden CRM text */
+            font-style: italic;
+        }
+
+        input, textarea, select {
+            background: #050505 !important; 
+            border: 1px solid var(--color-border) !important;
+            color: var(--color-ivory) !important;
+            font-family: var(--font-sans) !important;
+            font-weight: 500 !important;
+            border-radius: 8px !important;
+        }
+
+        input.search-input {
+            border: 1px solid #d8b4e2 !important; /* Soft lavender border */
+            background: rgba(0,0,0,0.3) !important;
+            box-shadow: none !important; /* No neon */
+            color: #fbf6ea !important;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            border-color: #d8b4e2 !important;
+            outline: none !important;
+            box-shadow: 0 0 0 3px rgba(216, 180, 226, 0.2) !important; /* Soft lavender focus */
+        }
+
+        /* Make date picker icon visible on dark background */
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: invert(1) !important;
+            cursor: pointer;
+        }
+
+        .btn, button, .button, input[type="submit"] {
+            background: var(--color-gold) !important;
+            color: #0a0a0a !important;
+            font-weight: 700 !important;
+            border: none !important;
+            font-family: var(--font-sans) !important;
+            border-radius: 8px !important;
+            box-shadow: 0 4px 12px rgba(194, 149, 69, 0.2) !important;
+            transition: all 0.2s ease !important;
+            cursor: pointer !important;
+        }
+        
+        .btn:hover, button:hover, .button:hover, input[type="submit"]:hover {
+            transform: translateY(-2px) !important;
+            box-shadow: 0 6px 16px rgba(194, 149, 69, 0.3) !important;
+        }
+        
+        .btn-secondary, .btn-outline, a.btn-outline {
+            background: transparent !important;
+            border: 1px solid var(--color-gold) !important;
+            color: var(--color-gold) !important;
+            box-shadow: none !important;
+        }
+
+        /* Light Glowing Red Delete Buttons */
+        .btn-danger, button.danger, button.delete, a.btn-danger, button[onclick*="elete"], button[onclick*="ELETE"], a[href*="delete"] {
+            background: #ef4444 !important; /* Lighter, brighter red */
+            border: 1px solid #fca5a5 !important;
+            color: #ffffff !important;
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.6) !important; /* Glowing effect */
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2) !important;
+            text-decoration: none !important;
+            padding: 0.4rem 0.8rem !important;
+            border-radius: 6px !important;
+        }
+        
+        .btn-danger:hover, button[onclick*="elete"]:hover, a[href*="delete"]:hover {
+            background: #f87171 !important;
+            box-shadow: 0 0 22px rgba(239, 68, 68, 0.9) !important; /* Stronger glow on hover */
+        }
+
+        /* FORCE TABLE OVERRIDES AGAINST INLINE STYLES */
+        table, th, td, tr {
+            background: transparent !important;
+        }
+        
+        tr[style*="background"] {
+            background: transparent !important;
+        }
+
+        th {
+            border-bottom: 2px solid var(--color-border) !important;
+            color: var(--color-gold) !important;
+            font-weight: 700 !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.05em !important;
+        }
+        
+        th[style] {
+            color: var(--color-gold) !important;
+            background: transparent !important;
+        }
+        
+        td {
+            border-bottom: 1px solid var(--color-border) !important;
+            color: var(--color-ivory) !important;
+        }
+        
+        td[style] {
+            color: var(--color-ivory) !important;
+            background: transparent !important;
+        }
+        
+        /* Inline span badges (e.g. Active) */
+        span[style*="background: #dcfce3"], span[style*="background:#dcfce3"] {
+            background: rgba(91, 121, 148, 0.3) !important; /* Slate Blue transparent */
+            color: #92bce3 !important;
+            border: 1px solid rgba(91, 121, 148, 0.5) !important;
+        }
+        
+        /* Table rows hover */
+        tr:hover td {
+            background: rgba(255, 255, 255, 0.03) !important;
+        }
+        
+        /* Pipeline specific */
+        .pipeline-stage {
+            background: transparent !important;
+            border-right: 2px dashed var(--color-border) !important;
+        }
+        
+        .pipeline-lead {
+            border-left: 4px solid var(--color-gold) !important;
+        }
+        
+        a {
+            color: var(--color-gold) !important;
+        }
+        
+        /* FIX INLINE STYLES FOR TITLES */
+        h2[style] {
+            color: var(--color-ivory) !important;
+        }
+        h2 svg {
+            color: var(--color-gold) !important;
+        }
+    </style>
+</head>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<body>
+
+    <!-- UNIFIED NAVBAR -->
+    <nav class="top-nav">
+        <div class="nav-brand">
+            <h1 class="nav-logo">Tiffany Webb <span>CRM</span></h1>
+        </div>
+        <div class="nav-links">
+            <a href="/dashboard" class="nav-link">Pipeline</a>
+            <a href="/leads/new" class="nav-link">Add Lead</a>
+            <a href="/cms" class="nav-link">Website</a>
+            <a href="/users" class="nav-link">Staff</a>
+            <a href="/login" class="nav-link">Logout</a>
+        </div>
+    </nav>
+    <!-- END UNIFIED NAVBAR -->
+
+    
+    
+    <style>
+    .top-nav {
+        background: #0f172a;
+        padding: 0 1.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 64px;
+        color: white;
+        font-family: var(--font-sans);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+    .nav-logo-group {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+    .nav-logo {
+        font-family: var(--font-serif);
+        font-size: 1.5rem;
+        margin: 0;
+        color: white;
+        letter-spacing: 0.5px;
+    }
+    .admin-pill {
+        background: rgba(255,255,255,0.1);
+        color: #e2e8f0;
+        padding: 0.2rem 0.6rem;
+        border-radius: 999px;
+        font-size: 0.7rem;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+    }
+    .nav-links {
+        display: flex;
+        align-items: center;
+        height: 100%;
+    }
+    .nav-link {
+        color: #94a3b8;
+        text-decoration: none;
+        padding: 0 1.25rem;
+        font-size: 0.85rem;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        height: 100%;
+        transition: all 0.2s;
+        border-bottom: 2px solid transparent;
+    }
+    .nav-link:hover {
+        color: white;
+        background: rgba(255,255,255,0.05);
+    }
+    .nav-link.active {
+        color: white;
+        border-bottom-color: var(--color-gold);
+        background: rgba(255,255,255,0.05);
+    }
+    .logout-btn {
+        background: rgba(220, 38, 38, 0.1);
+        color: #ef4444;
+        border-radius: 6px;
+        padding: 0.4rem 1rem;
+        margin-left: 1rem;
+        text-decoration: none;
+        font-size: 0.85rem;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        transition: all 0.2s;
+    }
+    .logout-btn:hover {
+        background: #dc2626;
+        color: white;
+    }
+    </style>
+    
+    
+    <div class="main-content" style="padding: 2rem; max-width: 1200px; margin: 0 auto;">
+        <div class="page-header" style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <a href="/cms" style="color: #666; text-decoration: none; font-size: 0.9rem;">&larr; Back to Pages</a>
+                <h2 class="page-title" style="margin-top: 0.5rem;">Editing: <%= page.name %></h2>
+            </div>
+            <button type="submit" form="contentForm" class="btn-primary" style="padding: 0.75rem 2rem; background: var(--color-ink); color: var(--color-gold);">Save Changes</button>
+        </div>
+        
+        <% if (typeof error !== 'undefined' && error) { %>
+            <div style="background: #fee2e2; color: #991b1b; padding: 1rem 1.5rem; border-radius: 6px; margin-bottom: 1.5rem; font-family: var(--font-sans); display: flex; justify-content: space-between; align-items: center; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+                <span><%= error %></span>
+                <button onclick="this.parentElement.style.display='none'" style="background: none; border: none; color: #991b1b; font-size: 1.5rem; cursor: pointer; padding: 0; line-height: 1;">&times;</button>
+            </div>
+        <% } %>
+        <% if (typeof success !== 'undefined' && success) { %>
+            <div style="background: #dcfce3; color: #166534; padding: 1rem 1.5rem; border-radius: 6px; margin-bottom: 1.5rem; font-family: var(--font-sans); display: flex; justify-content: space-between; align-items: center; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+                <span><%= success %></span>
+                <button onclick="this.parentElement.style.display='none'" style="background: none; border: none; color: #166534; font-size: 1.5rem; cursor: pointer; padding: 0; line-height: 1;">&times;</button>
+            </div>
+        <% } %>
+
+        <form id="contentForm" action="/cms/<%= page.slug %>" method="POST" enctype="multipart/form-data">
+            <% 
+            const uniqueSections = new Set([...Object.keys(sections), ...(typeof definedCollections !== 'undefined' ? definedCollections : [])]);
+            let allSections = Array.from(uniqueSections);
+            
+            // Define standard page order
+            const pageOrder = [
+                'hero', 'credibility_bar', 'meet_tiffany', 'expertise', 'speaking_formats',
+                'impact', 'media', 'events', 'proof', 'booking'
+            ];
+            
+            allSections.sort((a, b) => {
+                const indexA = pageOrder.indexOf(a);
+                const indexB = pageOrder.indexOf(b);
+                if (indexA === -1 && indexB === -1) return a.localeCompare(b);
+                if (indexA === -1) return 1;
+                if (indexB === -1) return -1;
+                return indexA - indexB;
+            });
+            %>
+            <% if (allSections.length === 0) { %>
+                <div class="chart-card" style="padding: 2rem; text-align: center; color: #666; border-radius: 12px; background: var(--color-card); border: 1px solid #e2e8f0;">
+                    <p>No editable content found for this page yet.</p>
+                </div>
+            <% } else { %>
+                <div style="display: grid; grid-template-columns: 260px 1fr; gap: 2rem; align-items: start;">
+                    
+                    <!-- Section Navigation Sidebar (Tabs) -->
+                    <div style="background: var(--color-card); border: 1px solid #e2e8f0; border-radius: 12px; padding: 1rem; position: sticky; top: 2rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);">
+                        <h4 style="margin-top: 0; margin-bottom: 1rem; font-size: 0.75rem; color: var(--color-ivory); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; padding: 0 0.5rem;">Page Sections</h4>
+                        <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.25rem;" id="tabNav">
+                            <% allSections.forEach((sectionName, index) => { %>
+                                <li>
+                                    <button type="button" class="tab-btn <%= index === 0 ? 'active' : '' %>" data-target="section-<%= sectionName %>" style="width: 100%; text-align: left; padding: 0.75rem 1rem; color: #334155; text-transform: capitalize; border-radius: 8px; font-size: 0.9rem; font-weight: 600; font-family: var(--font-sans); background: <%= index === 0 ? '#f1f5f9' : 'transparent' %>; border: none; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: space-between;">
+                                        <%= sectionName.replace(/_/g, ' ') %>
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="<%= index === 0 ? '#3b82f6' : 'currentColor' %>" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity: <%= index === 0 ? '1' : '0.4' %>;"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                                    </button>
+                                </li>
+                            <% }) %>
+                        </ul>
+                    </div>
+
+                    <!-- Content Forms (Tab Panes) -->
+                    <div style="background: var(--color-card); border: 1px solid #e2e8f0; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); overflow: hidden; min-height: 500px;">
+                        <% allSections.forEach((sectionName, index) => { %>
+                            <div id="section-<%= sectionName %>" class="tab-pane" style="display: <%= index === 0 ? 'block' : 'none' %>;">
+                                <div style="padding: 1.5rem 2rem; border-bottom: 1px solid #e2e8f0; background: transparent;">
+                                    <h3 style="margin: 0; text-transform: capitalize; font-family: var(--font-sans); font-weight: 700; font-size: 1.25rem; color: var(--color-text);"><%= sectionName.replace(/_/g, ' ') %></h3>
+                                    <p style="margin: 0.25rem 0 0 0; color: var(--color-ivory); font-size: 0.85rem;">Update the content for this section below.</p>
+                                </div>
+                                
+                                <div style="padding: 2rem; display: flex; flex-direction: column; gap: 2.5rem;">
+                                    <!-- Static KV Content -->
+                                    <% if (sections[sectionName]) { %>
+                                        <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                                            <% sections[sectionName].forEach(item => { %>
+                                                <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                                                    <label style="font-size: 0.8rem; font-weight: 700; color: #334155; text-transform: uppercase; letter-spacing: 0.05em;">
+                                                        <%= item.key_name.replace(/_/g, ' ') %>
+                                                    </label>
+                                                    
+                                                    <% if (item.content_type === 'text') { %>
+                                                        <% if (item.content_value && item.content_value.length > 80) { %>
+                                                            <textarea name="content_<%= item.id %>" style="width: 100%; padding: 0.75rem 1rem; border: 1px solid #cbd5e1; border-radius: 6px; box-sizing: border-box; font-family: var(--font-sans); min-height: 100px; font-size: 0.95rem; line-height: 1.5; resize: vertical; transition: border-color 0.2s;" onfocus="this.style.borderColor='#3b82f6'; this.style.outline='none';" onblur="this.style.borderColor='#cbd5e1';"><%= item.content_value %></textarea>
+                                                        <% } else { %>
+                                                            <input type="text" name="content_<%= item.id %>" value="<%= item.content_value %>" style="width: 100%; padding: 0.75rem 1rem; border: 1px solid #cbd5e1; border-radius: 6px; box-sizing: border-box; font-family: var(--font-sans); font-size: 0.95rem; transition: border-color 0.2s;" onfocus="this.style.borderColor='#3b82f6'; this.style.outline='none';" onblur="this.style.borderColor='#cbd5e1';">
+                                                        <% } %>
+                                                    <% } else if (item.content_type === 'html') { %>
+                                                        <textarea name="content_<%= item.id %>" style="width: 100%; padding: 0.75rem 1rem; border: 1px solid #cbd5e1; border-radius: 6px; box-sizing: border-box; font-family: var(--font-mono); min-height: 150px; font-size: 0.85rem; line-height: 1.5; background: transparent; resize: vertical; transition: border-color 0.2s;" onfocus="this.style.borderColor='#3b82f6'; this.style.outline='none';" onblur="this.style.borderColor='#cbd5e1';"><%= item.content_value %></textarea>
+                                                        <small style="color: var(--color-ivory); font-size: 0.75rem;">Accepts HTML tags like &lt;br&gt;, &lt;strong&gt;, etc.</small>
+                                                    <% } else if (item.content_type === 'image') { %>
+                                                        <div style="display: flex; gap: 1.5rem; align-items: flex-start; border: 1px solid #e2e8f0; padding: 1rem; border-radius: 8px; background: transparent;">
+                                                            <div style="flex-grow: 1; display: flex; flex-direction: column; gap: 0.5rem;">
+                                                                <label style="font-size: 0.75rem; color: var(--color-ivory); font-weight: 600;">Current Image Path</label>
+                                                                <input type="text" name="content_<%= item.id %>" value="<%= item.content_value %>" placeholder="/images/example.jpg" style="width: 100%; padding: 0.75rem 1rem; border: 1px solid #cbd5e1; border-radius: 6px; box-sizing: border-box; font-family: var(--font-sans); transition: border-color 0.2s;" onfocus="this.style.borderColor='#3b82f6'; this.style.outline='none';" onblur="this.style.borderColor='#cbd5e1';">
+                                                                
+                                                                <div style="margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px dashed #cbd5e1;">
+                                                                    <label style="font-size: 0.75rem; color: var(--color-ivory); font-weight: 600; display: block; margin-bottom: 0.25rem;">Upload New Image (Overrides path above)</label>
+                                                                    <input type="file" name="image_upload_<%= item.id %>" accept="image/*" style="font-family: var(--font-sans); font-size: 0.85rem; padding: 0.5rem; background: var(--color-card); border: 1px solid #cbd5e1; border-radius: 4px; width: 100%; cursor: pointer;">
+                                                                </div>
+                                                            </div>
+                                                            <div style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
+                                                                <% if (item.content_value) { %>
+                                                                    <div style="width: 120px; height: 80px; background: var(--color-card); border-radius: 6px; overflow: hidden; border: 1px solid #cbd5e1; flex-shrink: 0; display: flex; align-items: center; justify-content: center; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);">
+                                                                        <img src="<%= item.content_value %>" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                                                                    </div>
+                                                                    <label style="font-size: 0.75rem; color: #dc2626; cursor: pointer; display: flex; align-items: center; gap: 0.25rem; font-weight: 600;">
+                                                                        <input type="checkbox" name="delete_image_<%= item.id %>" value="true"> Delete Image
+                                                                    </label>
+                                                                <% } else { %>
+                                                                    <div style="width: 120px; height: 80px; background: #e2e8f0; border-radius: 6px; border: 1px dashed #94a3b8; flex-shrink: 0; display: flex; align-items: center; justify-content: center; color: var(--color-ivory); font-size: 0.8rem;">
+                                                                        No Image
+                                                                    </div>
+                                                                <% } %>
+                                                            </div>
+                                                        </div>
+                                                    <% } %>
+                                                </div>
+                                            <% }) %>
+                                        </div>
+                                    <% } %>
+                                    
+                                    <!-- Dynamic Collection List (Data Table) -->
+                                    <% if (typeof definedCollections !== 'undefined' && definedCollections.includes(sectionName)) { %>
+                                        <div style="border-top: 1px solid #e2e8f0; padding-top: 1.5rem;">
+                                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                                                <h4 style="margin: 0; font-family: var(--font-sans); font-size: 1rem; color: var(--color-ink);">Collection Items</h4>
+                                                <button type="button" onclick="window.location.href='/cms/<%= page.slug %>/collection/<%= sectionName %>/new'" style="background: #3b82f6; color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; font-weight: 600; font-size: 0.8rem; cursor: pointer; display: flex; align-items: center; gap: 0.4rem; font-family: var(--font-sans);">
+                                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                                                    Add New Item
+                                                </button>
+                                            </div>
+                                            
+                                            <div style="border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden;">
+                                                <table style="width: 100%; border-collapse: collapse; font-family: var(--font-sans); font-size: 0.9rem;">
+                                                    <thead style="background: transparent; border-bottom: 1px solid #e2e8f0;">
+                                                        <tr>
+                                                            <th style="padding: 0.75rem 1rem; text-align: left; font-weight: 600; color: var(--color-ivory); text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.05em;">Item Title</th>
+                                                            <th style="padding: 0.75rem 1rem; text-align: left; font-weight: 600; color: var(--color-ivory); text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.05em;">Order</th>
+                                                            <th style="padding: 0.75rem 1rem; text-align: right; font-weight: 600; color: var(--color-ivory); text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.05em;">Actions</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <% if (collectionSections[sectionName] && collectionSections[sectionName].length > 0) { %>
+                                                            <% collectionSections[sectionName].forEach(colItem => { %>
+                                                                <tr style="border-bottom: 1px solid #e2e8f0;">
+                                                                    <td style="padding: 0.75rem 1rem; font-weight: 500; color: var(--color-text);"><%= colItem.title || '(Untitled Item)' %></td>
+                                                                    <td style="padding: 0.75rem 1rem; color: var(--color-ivory);"><%= colItem.sort_order %></td>
+                                                                    <td style="padding: 0.75rem 1rem; text-align: right;">
+                                                                        <a href="/cms/<%= page.slug %>/collection/<%= sectionName %>/<%= colItem.id %>/edit" style="color: #3b82f6; text-decoration: none; font-size: 0.8rem; font-weight: 600; border: 1px solid #3b82f6; padding: 0.25rem 0.5rem; border-radius: 4px; margin-right: 0.5rem;">Edit</a>
+                                                                        <button type="button" onclick="if(confirm('Delete this item?')) window.location.href='/cms/collection/<%= colItem.id %>/delete?redirect=/cms/<%= page.slug %>'" class="btn-danger">Del</button>
+                                                                    </td>
+                                                                </tr>
+                                                            <% }) %>
+                                                        <% } else { %>
+                                                            <tr>
+                                                                <td colspan="3" style="padding: 1.5rem; text-align: center; color: #94a3b8; font-style: italic;">No items added to this section yet.</td>
+                                                            </tr>
+                                                        <% } %>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    <% } %>
+                                </div>
+                            </div>
+                        <% }) %>
+                    </div>
+                </div>
+            <% } %>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const tabPanes = document.querySelectorAll('.tab-pane');
+
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    // Prevent form submit if it's a button
+                    e.preventDefault();
+
+                    // Reset all buttons
+                    tabBtns.forEach(b => {
+                        b.classList.remove('active');
+                        b.style.background = 'transparent';
+                        const svg = b.querySelector('svg');
+                        if(svg) {
+                            svg.setAttribute('stroke', 'currentColor');
+                            svg.style.opacity = '0.4';
+                        }
+                    });
+
+                    // Set active button
+                    btn.classList.add('active');
+                    btn.style.background = '#f1f5f9';
+                    const activeSvg = btn.querySelector('svg');
+                    if(activeSvg) {
+                        activeSvg.setAttribute('stroke', '#3b82f6');
+                        activeSvg.style.opacity = '1';
+                    }
+
+                    // Hide all panes
+                    tabPanes.forEach(pane => {
+                        pane.style.display = 'none';
+                    });
+
+                    // Show target pane
+                    const targetId = btn.getAttribute('data-target');
+                    document.getElementById(targetId).style.display = 'block';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

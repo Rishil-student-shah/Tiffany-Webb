@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tiffany Webb — Community Impact Strategist</title>
+  <meta name="description" content="Tiffany Webb is a Community Impact Strategist and public health educator blending 15+ years of strategic credentials with culturally rooted storytelling to transform communities."/>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400;1,6..72,600&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "ivory": "#FBF6EA", "cream": "#F3EAD6", "charcoal": "#23211B",
+            "primary": "#00513e", "primary-container": "#0e6b54", "on-primary": "#ffffff",
+            "secondary": "#1f686f", "on-secondary": "#ffffff",
+            "tertiary": "#2b428a", "on-tertiary": "#ffffff",
+            "gold": "#C8A24C", "mustard": "#D9A23A", "coral": "#E17356", "burnt": "#C15427",
+            "background": "#fef9f0", "surface": "#fef9f0",
+            "surface-container": "#f2ede4", "surface-container-high": "#ece8df",
+            "on-surface": "#1d1c16", "on-surface-variant": "#3f4944", "on-background": "#1d1c16",
+            "line": "rgba(20,19,14,0.12)",
+          },
+          spacing: { "container-max": "1500px", "gutter": "7vw", "card-padding": "22px", "stack-gap": "32px" },
+          fontFamily: {
+            "body-main": ["Inter"], "body-intro": ["Inter"],
+            "display-hero": ["Newsreader"], "quote-editorial": ["Newsreader"],
+            "headline-lg": ["Newsreader"], "headline-lg-mobile": ["Newsreader"],
+            "label-eyebrow": ["Space Mono"], "label-ui": ["Space Mono"]
+          },
+          fontSize: {
+            "body-main":          ["16px", { lineHeight: "1.62", fontWeight: "400" }],
+            "body-intro":         ["18px", { lineHeight: "1.6",  fontWeight: "400" }],
+            "display-hero":       ["80px", { lineHeight: "0.98", letterSpacing: "-0.02em", fontWeight: "600" }],
+            "quote-editorial":    ["20px", { lineHeight: "1.5",  fontWeight: "400" }],
+            "headline-lg":        ["42px", { lineHeight: "1.1",  fontWeight: "600" }],
+            "headline-lg-mobile": ["32px", { lineHeight: "1.1",  fontWeight: "600" }],
+            "label-eyebrow":      ["11px", { lineHeight: "1.2",  letterSpacing: "0.34em", fontWeight: "700" }],
+            "label-ui":           ["10px", { lineHeight: "1.2",  letterSpacing: "0.08em", fontWeight: "400" }]
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .fade-in-up { opacity:0; transform:translateY(30px); transition:opacity .8s ease-out,transform .8s ease-out; }
+    .fade-in-up.visible { opacity:1; transform:translateY(0); }
+    .stagger-1{transition-delay:.1s} .stagger-2{transition-delay:.25s} .stagger-3{transition-delay:.4s}
+    .slide-in-el{opacity:0;transform:translateY(40px);transition:all .8s cubic-bezier(.16,1,.3,1);}
+    .slide-in-el.is-visible{opacity:1;transform:translateY(0);}
+    .reveal{opacity:0;transform:translateY(20px);transition:all .8s cubic-bezier(.2,0,.2,1);}
+    .reveal.active{opacity:1;transform:translateY(0);}
+    @keyframes fadeInUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes scaleUp{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
+    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+    @keyframes textEntrance{to{opacity:1;transform:translateY(0)}}
+    @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+    @keyframes pulseRing{0%{box-shadow:0 0 0 0 rgba(200,162,76,.7)}70%{box-shadow:0 0 0 20px rgba(200,162,76,0)}100%{box-shadow:0 0 0 0 rgba(200,162,76,0)}}
+
+    /* ── HERO AURA ANIMATIONS ── */
+    @keyframes auraFloat1 {
+      0%,100%{ transform:translate(0,0) scale(1); }
+      33%    { transform:translate(60px,-80px) scale(1.15); }
+      66%    { transform:translate(-40px,50px) scale(0.9); }
+    }
+    @keyframes auraFloat2 {
+      0%,100%{ transform:translate(0,0) scale(1); }
+      33%    { transform:translate(-70px,60px) scale(1.2); }
+      66%    { transform:translate(50px,-40px) scale(0.85); }
+    }
+    @keyframes auraFloat3 {
+      0%,100%{ transform:translate(0,0) scale(1); }
+      50%    { transform:translate(40px,70px) scale(1.1); }
+    }
+    @keyframes auraFloat4 {
+      0%,100%{ transform:translate(0,0) scale(1); }
+      40%    { transform:translate(-50px,-60px) scale(1.18); }
+      80%    { transform:translate(30px,30px) scale(0.92); }
+    }
+    @keyframes auroraSweep {
+      0%   { opacity:0; transform:translateX(-100%) skewX(-12deg); }
+      30%  { opacity:1; }
+      70%  { opacity:1; }
+      100% { opacity:0; transform:translateX(200%) skewX(-12deg); }
+    }
+    @keyframes gridPulse {
+      0%,100%{ opacity:0.04; }
+      50%    { opacity:0.09; }
+    }
+    @keyframes particleDrift {
+      0%   { transform:translateY(0) translateX(0); opacity:0; }
+      10%  { opacity:1; }
+      90%  { opacity:1; }
+      100% { transform:translateY(-120vh) translateX(var(--drift,20px)); opacity:0; }
+    }
+    @keyframes ringExpand {
+      0%   { transform:translate(-50%,-50%) scale(0.5); opacity:0.6; }
+      100% { transform:translate(-50%,-50%) scale(2.5); opacity:0; }
+    }
+    @keyframes heroGradientShift {
+      0%,100%{ background-position:0% 50%; }
+      50%    { background-position:100% 50%; }
+    }
+    .hero-aura-orb1 { animation:auraFloat1 18s ease-in-out infinite; }
+    .hero-aura-orb2 { animation:auraFloat2 22s ease-in-out infinite; }
+    .hero-aura-orb3 { animation:auraFloat3 15s ease-in-out infinite; }
+    .hero-aura-orb4 { animation:auraFloat4 26s ease-in-out infinite; }
+    .aurora-sweep   { animation:auroraSweep 8s ease-in-out infinite; animation-delay:2s; }
+    .aurora-sweep-2 { animation:auroraSweep 10s ease-in-out infinite; animation-delay:6s; }
+    .hero-grid      { animation:gridPulse 6s ease-in-out infinite; }
+    .hero-ring      { animation:ringExpand 4s ease-out infinite; }
+    .hero-ring-2    { animation:ringExpand 4s ease-out infinite; animation-delay:2s; }
+    .hero-bg-grad   {
+      background: linear-gradient(135deg, #0d1a15 0%, #0f1c19 25%, #111a16 50%, #0d1814 75%, #111e1a 100%);
+      background-size: 400% 400%;
+      animation: heroGradientShift 14s ease infinite;
+    }
+    .hero-headline{opacity:0;animation:fadeInUp 1s ease-out .2s forwards;}
+    .hero-image{opacity:0;animation:scaleUp 1.2s cubic-bezier(.2,.8,.2,1) .4s forwards;}
+    .hero-content{opacity:0;animation:fadeIn 1s ease-out .6s forwards;}
+    .hero-anim-1{animation:fadeInUp .8s cubic-bezier(.16,1,.3,1) forwards;opacity:0;}
+    .hero-anim-2{animation:fadeInUp .8s cubic-bezier(.16,1,.3,1) .15s forwards;opacity:0;}
+    .hero-anim-3{animation:fadeInUp .8s cubic-bezier(.16,1,.3,1) .3s forwards;opacity:0;}
+    .hero-anim-img{animation:fadeInUp 1s cubic-bezier(.16,1,.3,1) .4s forwards;opacity:0;}
+    .shimmer{background:linear-gradient(90deg,rgba(255,255,255,0) 0%,rgba(200,162,76,.18) 50%,rgba(255,255,255,0) 100%);background-size:200% 100%;animation:shimmer 2.5s infinite linear;}
+    .nav-scrolled{box-shadow:0 4px 20px rgba(0,0,0,.2);}
+    .card-details{max-height:0;opacity:0;overflow:hidden;transition:max-height .45s ease-in-out,opacity .4s ease-in-out,margin-top .4s ease-in-out;}
+    .card-expanded .card-details{max-height:300px;opacity:1;margin-top:1rem;}
+    .expandable-content{display:grid;grid-template-rows:0fr;transition:grid-template-rows .5s ease-out;}
+    .expandable-content.expanded{grid-template-rows:1fr;}
+    .expandable-content>div{overflow:hidden;}
+    .image-hover-effect{transition:all .4s ease;}
+    .image-hover-effect:hover{transform:scale(1.04);box-shadow:0 0 18px rgba(200,162,76,.4);}
+    .editorial-line{position:relative;}
+    .editorial-line::before{content:'';position:absolute;top:50%;left:-20px;width:15px;height:2px;background-color:#00513e;transform:translateY(-50%);}
+    .reveal-desc{max-height:0;opacity:0;transform:translateY(10px);transition:all .5s cubic-bezier(.4,0,.2,1);overflow:hidden;}
+    .group:hover .reveal-desc{max-height:220px;opacity:1;transform:translateY(0);margin-top:1rem;}
+    .shimmer-btn{position:relative;overflow:hidden;}
+    .shimmer-btn::after{content:'';position:absolute;top:0;left:-100%;width:50%;height:100%;background:linear-gradient(to right,transparent,rgba(255,255,255,.3),transparent);transform:skewX(-20deg);transition:all .5s ease;}
+    .shimmer-btn:hover::after{left:150%;}
+    .glass-card{background:rgba(243,234,214,.45);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);}
+    .bento-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;grid-auto-flow:dense;}
+    @media(min-width:1024px){.bento-feature{grid-column:span 2;}}
+    .play-icon-hover{transition:all .3s cubic-bezier(.4,0,.2,1);}
+    .video-thumb:hover .play-icon-hover{transform:scale(1.1);background-color:#C8A24C;color:#23211B;animation:pulseRing 1.5s cubic-bezier(.215,.61,.355,1) infinite;}
+    #mobile-menu{display:none;flex-direction:column;gap:1.5rem;position:fixed;top:76px;left:0;right:0;background:rgba(35,33,27,.97);backdrop-filter:blur(16px);padding:2rem 7vw;z-index:49;border-bottom:1px solid rgba(20,19,14,.2);}
+    #mobile-menu.open{display:flex;}
+    ::-webkit-scrollbar{width:6px;}
+    ::-webkit-scrollbar-track{background:#fef9f0;}
+    ::-webkit-scrollbar-thumb{background:#C8A24C;border-radius:9999px;}
+  </style>
+</head>
+<body class="bg-background text-on-background font-body-main antialiased selection:bg-gold/30">
+
+<!-- NAV -->
+<nav id="top-nav" class="fixed top-0 w-full z-50 backdrop-blur-md border-b border-line transition-all duration-300" style="background:rgba(35,33,27,0.90);">
+  <div class="flex justify-between items-center px-[7vw] py-5 w-full max-w-[1500px] mx-auto">
+    <a href="#hero" class="font-display-hero text-headline-lg-mobile md:text-headline-lg text-gold hover:opacity-80 transition-opacity">Tiffany Webb</a>
+    <div class="hidden md:flex gap-8 items-center font-label-ui text-label-ui uppercase tracking-widest">
+      <a href="#hero"         class="nav-link text-gold   border-b-2 border-gold pb-1 transition-all duration-300">Home</a>
+      <a href="#about"        class="nav-link text-ivory/70 hover:text-gold transition-all duration-300">About</a>
+      <a href="#architecting" class="nav-link text-ivory/70 hover:text-gold transition-all duration-300">Focus</a>
+      <a href="#stories"      class="nav-link text-ivory/70 hover:text-gold transition-all duration-300">Stories</a>
+      <a href="#media"        class="nav-link text-ivory/70 hover:text-gold transition-all duration-300">Media</a>
+    </div>
+    <div class="flex items-center gap-4">
+      <a href="#contact" class="hidden md:inline-flex items-center justify-center px-6 py-3 rounded-full bg-gold text-charcoal font-label-ui text-label-ui uppercase tracking-widest hover:bg-ivory transition-colors duration-300 active:scale-95">Contact</a>
+      <button id="mobile-toggle" class="md:hidden text-ivory p-2" aria-label="Toggle menu">
+        <span class="material-symbols-outlined" id="menu-icon">menu</span>
+      </button>
+    </div>
+  </div>
+</nav>
+<div id="mobile-menu">
+  <a href="#hero"         class="font-label-ui text-label-ui uppercase tracking-widest text-gold"             onclick="closeMobileMenu()">Home</a>
+  <a href="#about"        class="font-label-ui text-label-ui uppercase tracking-widest text-ivory/80 hover:text-gold transition-colors" onclick="closeMobileMenu()">About</a>
+  <a href="#architecting" class="font-label-ui text-label-ui uppercase tracking-widest text-ivory/80 hover:text-gold transition-colors" onclick="closeMobileMenu()">Focus</a>
+  <a href="#stories"      class="font-label-ui text-label-ui uppercase tracking-widest text-ivory/80 hover:text-gold transition-colors" onclick="closeMobileMenu()">Stories</a>
+  <a href="#media"        class="font-label-ui text-label-ui uppercase tracking-widest text-ivory/80 hover:text-gold transition-colors" onclick="closeMobileMenu()">Media</a>
+  <a href="#contact"      class="inline-flex items-center justify-center px-6 py-3 rounded-full bg-gold text-charcoal font-label-ui text-label-ui uppercase tracking-widest w-max" onclick="closeMobileMenu()">Contact</a>
+</div>
+
+<!-- HERO -->
+<header id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+
+  <!-- ① Animated gradient base -->
+  <div id="hero-bg" class="absolute inset-0 z-0 hero-bg-grad"></div>
+
+  <!-- ② Subtle grid overlay -->
+  <div class="hero-grid absolute inset-0 z-0 pointer-events-none" style="
+    background-image:
+      linear-gradient(rgba(0,200,120,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,200,120,0.06) 1px, transparent 1px);
+    background-size: 55px 55px;
+  "></div>
+
+  <!-- ③ Grain / noise texture -->
+  <div class="absolute inset-0 z-0 pointer-events-none" style="
+    opacity:0.06;
+    background-image: url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E\");
+    background-size: 200px 200px;
+  "></div>
+
+  <!-- ④ Large aura orbs — VIVID on dark -->
+  <div class="hero-aura-orb1 absolute pointer-events-none" style="top:-10%;left:-5%;width:750px;height:750px;border-radius:9999px;background:radial-gradient(circle,rgba(0,130,80,0.45) 0%,rgba(0,81,62,0.2) 40%,transparent 70%);filter:blur(60px);z-index:1;"></div>
+  <div class="hero-aura-orb2 absolute pointer-events-none" style="bottom:-15%;right:-8%;width:850px;height:850px;border-radius:9999px;background:radial-gradient(circle,rgba(200,162,76,0.35) 0%,rgba(180,130,40,0.12) 45%,transparent 70%);filter:blur(70px);z-index:1;"></div>
+  <div class="hero-aura-orb3 absolute pointer-events-none" style="top:25%;right:5%;width:550px;height:550px;border-radius:9999px;background:radial-gradient(circle,rgba(31,140,140,0.3) 0%,rgba(20,100,110,0.1) 45%,transparent 70%);filter:blur(80px);z-index:1;"></div>
+  <div class="hero-aura-orb4 absolute pointer-events-none" style="bottom:5%;left:10%;width:450px;height:450px;border-radius:9999px;background:radial-gradient(circle,rgba(200,80,50,0.22) 0%,transparent 65%);filter:blur(60px);z-index:1;"></div>
+  <!-- Centre gold glow -->
+  <div class="absolute pointer-events-none" style="top:35%;left:50%;transform:translateX(-50%);width:600px;height:300px;border-radius:9999px;background:radial-gradient(ellipse,rgba(200,162,76,0.12) 0%,transparent 65%);filter:blur(40px);z-index:1;"></div>
+
+  <!-- ⑤ Aurora light sweep streaks — stronger on dark -->
+  <div class="aurora-sweep absolute inset-y-0 pointer-events-none" style="z-index:2;width:35%;left:15%;background:linear-gradient(180deg,transparent 0%,rgba(0,140,80,0.12) 25%,rgba(200,162,76,0.08) 55%,transparent 100%);"></div>
+  <div class="aurora-sweep-2 absolute inset-y-0 pointer-events-none" style="z-index:2;width:28%;left:55%;background:linear-gradient(180deg,transparent 0%,rgba(200,162,76,0.1) 35%,rgba(0,140,80,0.08) 65%,transparent 100%);"></div>
+
+  <!-- ⑥ Expanding ring pulses — visible on dark -->
+  <div class="absolute pointer-events-none" style="top:50%;left:50%;z-index:2;">
+    <div class="hero-ring absolute" style="width:700px;height:700px;border-radius:9999px;border:1px solid rgba(0,180,100,0.2);top:-350px;left:-350px;"></div>
+    <div class="hero-ring-2 absolute" style="width:700px;height:700px;border-radius:9999px;border:1px solid rgba(200,162,76,0.18);top:-350px;left:-350px;"></div>
+    <div class="hero-ring absolute" style="animation-delay:1s;width:900px;height:900px;border-radius:9999px;border:1px solid rgba(0,180,100,0.08);top:-450px;left:-450px;"></div>
+  </div>
+
+  <!-- ⑦ Floating particles canvas -->
+  <canvas id="hero-particles" class="absolute inset-0 pointer-events-none" style="opacity:1;z-index:3;"></canvas>
+
+  <!-- ⑧ Gradient fade — top vignette + bottom dark fade, NO white bleed -->
+  <div class="absolute inset-0 pointer-events-none" style="z-index:10;background:
+    linear-gradient(to bottom,
+      rgba(13,26,21,0.55) 0%,
+      transparent 18%,
+      transparent 60%,
+      rgba(13,26,21,0.7) 82%,
+      #0d1a15 100%
+    );
+  "></div>
+
+  <!-- ⑨ Content -->
+  <div class="relative z-20 px-[7vw] max-w-[1500px] mx-auto w-full text-center">
+    <!-- Decorative top line -->
+    <div class="fade-in-up stagger-1 flex items-center justify-center gap-4 mb-6">
+      <div style="width:40px;height:1px;background:linear-gradient(to right,transparent,rgba(200,162,76,0.7));"></div>
+      <p class="font-label-eyebrow text-label-eyebrow text-gold uppercase">Community Impact Strategist · Public Health Educator</p>
+      <div style="width:40px;height:1px;background:linear-gradient(to left,transparent,rgba(200,162,76,0.7));"></div>
+    </div>
+
+    <h1 class="fade-in-up stagger-2 font-display-hero text-[52px] md:text-display-hero mb-8 leading-tight" style="color:#FBF6EA;text-shadow:0 0 80px rgba(200,162,76,0.3);">Break the Silence.</h1>
+
+    <p class="fade-in-up stagger-3 font-body-intro text-body-intro max-w-2xl mx-auto mb-12" style="color:rgba(251,246,234,0.72);">
+      Blending 15+ years of strategic credentials with culturally rooted storytelling to transform communities and ignite meaningful change.
+    </p>
+
+    <div class="fade-in-up stagger-3 flex flex-wrap justify-center gap-4">
+      <a href="#architecting" class="shimmer-btn inline-flex items-center justify-center px-8 py-4 rounded-full font-label-ui text-label-ui uppercase tracking-widest transition-all duration-300 active:scale-95" style="background:#C8A24C;color:#23211B;">Explore Focus Areas</a>
+      <a href="#about" class="inline-flex items-center justify-center px-8 py-4 rounded-full font-label-ui text-label-ui uppercase tracking-widest transition-all duration-300 active:scale-95" style="border:1px solid rgba(251,246,234,0.35);color:#FBF6EA;" onmouseover="this.style.background='rgba(251,246,234,0.1)'" onmouseout="this.style.background=''">Meet Tiffany</a>
+    </div>
+
+    <!-- Scroll indicator -->
+    <div class="fade-in-up stagger-3 mt-20 flex flex-col items-center gap-2" style="opacity:0.45;">
+      <span class="font-label-ui text-label-ui uppercase tracking-widest" style="color:rgba(200,162,76,0.8);">Scroll</span>
+      <div style="width:1px;height:52px;background:linear-gradient(to bottom,rgba(200,162,76,0.8),transparent);"></div>
+    </div>
+  </div>
+
+</header>
+
+<!-- DARK → LIGHT BRIDGE (seamless transition from hero to page) -->
+<div style="height:80px;background:linear-gradient(to bottom,#0d1a15 0%,#f2ede4 100%);"></div>
+
+<!-- IMPACT COUNTERS -->
+<section class="py-16 bg-surface-container border-y border-line">
+  <div class="px-[7vw] max-w-[1500px] mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-line">
+      <div class="py-4 slide-in-el relative overflow-hidden rounded-lg">
+        <div class="absolute inset-0 shimmer pointer-events-none opacity-40"></div>
+        <div class="font-display-hero text-headline-lg text-primary mb-2 relative z-10">15+</div>
+        <div class="font-label-eyebrow text-label-eyebrow text-on-surface-variant relative z-10">Years Experience</div>
+      </div>
+      <div class="py-4 slide-in-el relative overflow-hidden rounded-lg" style="transition-delay:.15s">
+        <div class="absolute inset-0 shimmer pointer-events-none opacity-40" style="animation-delay:.3s"></div>
+        <div class="font-display-hero text-headline-lg text-primary mb-2 relative z-10">4k+</div>
+        <div class="font-label-eyebrow text-label-eyebrow text-on-surface-variant relative z-10">Outreach Hours</div>
+      </div>
+      <div class="py-4 slide-in-el relative overflow-hidden rounded-lg" style="transition-delay:.3s">
+        <div class="absolute inset-0 shimmer pointer-events-none opacity-40" style="animation-delay:.6s"></div>
+        <div class="font-display-hero text-headline-lg text-primary mb-2 relative z-10">21</div>
+        <div class="font-label-eyebrow text-label-eyebrow text-on-surface-variant relative z-10">Signature Topics</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="py-28 px-[7vw] max-w-[1500px] mx-auto">
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-[32px] items-center">
+    <div class="reveal order-2 lg:order-1">
+      <p class="font-label-eyebrow text-label-eyebrow text-gold uppercase mb-5 editorial-line ml-5">Heart + Strategy</p>
+      <h2 class="font-display-hero text-headline-lg-mobile md:text-headline-lg text-primary mb-7 leading-tight">Chicago Soul,<br/><span class="italic text-coral">Louisiana Heart.</span></h2>
+      <p class="font-body-main text-body-main text-on-surface-variant mb-5">Tiffany Webb is a public-health educator and Community Impact Strategist based in the Chicago area — Chicago-born and -raised with deep Louisiana family roots. She blends behavioral-health expertise, bold community outreach, and entrepreneurial drive into a singular mission.</p>
+      <p class="font-body-main text-body-main text-on-surface-variant mb-5">Across 15+ years and 4,000+ hours of prevention outreach, Tiffany has led community screenings, built coalitions, trained clinicians, and partnered with health systems and schools to break the silence on gambling addiction.</p>
+      <div class="expandable-content" id="bio-details">
+        <div>
+          <p class="mt-4 mb-4 font-body-main text-body-main text-on-surface-variant">By translating complex academic and clinical concepts into accessible, actionable strategies, she empowers communities to reclaim their narratives and foster sustainable resilience.</p>
+          <p class="font-body-main text-body-main text-on-surface-variant">Her work embodies the 'Caregiver' and 'Sage' archetypes — nurturing individuals while providing the strategic insight needed to navigate complex public health landscapes.</p>
+        </div>
+      </div>
+      <button id="show-more-btn" class="mt-6 font-label-ui text-label-ui uppercase tracking-widest text-gold hover:text-coral transition-colors flex items-center gap-1 group">
+        <span id="btn-text">Read More</span>
+        <span class="material-symbols-outlined text-[16px] group-hover:translate-y-1 transition-transform" id="btn-icon">expand_more</span>
+      </button>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <span class="font-label-eyebrow text-label-eyebrow text-gold border border-gold/40 px-4 py-2 rounded-full">Community Impact</span>
+        <span class="font-label-eyebrow text-label-eyebrow text-gold border border-gold/40 px-4 py-2 rounded-full">Public Health</span>
+        <span class="font-label-eyebrow text-label-eyebrow text-gold border border-gold/40 px-4 py-2 rounded-full">Prevention Strategy</span>
+      </div>
+    </div>
+    <div class="reveal order-1 lg:order-2">
+      <div class="aspect-[4/5] rounded-2xl overflow-hidden relative shadow-2xl border border-line">
+        <img class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuDBaeU_DVrj4BWgFph8x9mei49gNxgz4DTJGQ73rniejTcWDuEFvMtr3GyaExLZYtHif0IJ76unJB_WdsugsGTkDAzefL5d2-NnCLDkgvUyeD7Jr9qUEPyyneIxi8_F-8NY1jYbaP_in4U5nsyzpSBi8W3zM2-PiDIYgTFy4bYve4aWCDL77KMtZ5jpPILxm3OngY4-KeUEGP9nUqnTSIuNrpsOKmpFYwgWG8LNNBZYOLVN3n6OwJ-dSg"
+          alt="Portrait of Tiffany Webb, Community Impact Strategist"
+        />
+        <div class="absolute inset-0 bg-gradient-to-t from-charcoal/65 to-transparent pointer-events-none"></div>
+        <div class="absolute bottom-8 left-8 text-ivory max-w-sm border-l-4 border-gold pl-4">
+          <p class="font-quote-editorial text-quote-editorial italic">"Every conversation is an opportunity to plant a seed of hope."</p>
+        </div>
+      </div>
+      <div class="grid grid-cols-2 gap-4 mt-4">
+        <div class="aspect-square rounded-xl overflow-hidden shadow-lg border border-transparent image-hover-effect">
+          <img class="w-full h-full object-cover"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxo_2Ksh-0TP0QkczeFsEctFM02T9IZqiJiJM6c_-ovzb-T7bU-frM-XM4WTxct3bMyt1_d919Z-WqNBwtrw0RakLptuQOC_B2VyaTVpKDPoBYcj-eOgDtap_FE8tBFGP6HgsQN3MmKWljTnLPTAC_J-IHNbiPSl8mSLnDkaSphhR4IDxRtrLXjwGsbvNuiAsYJ9hO1W3zZlPEpLZuNqM9UrhL2iycjfercXocfLlBZJM-owWZVo1WRg"
+            alt="Community gathering in Chicago"
+          />
+        </div>
+        <div class="aspect-square rounded-xl overflow-hidden shadow-lg border border-transparent image-hover-effect">
+          <img class="w-full h-full object-cover"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBR7Lg5wRUeP59-YiSDrYc7ujW34qJ4fXHnd-J9D5k_SMtcak0mffJcr1c1mGWZT12Bgal3JvhTm0yrrerJw9paHJWDqHFK_NXNVOg2ArcO74zv7JT7e9H4f3g8wB_4MxLDWvc1guPBmRdXUfXH67M8UlUFixMBx6UAVwnHRG3QrBca9wy0bVVCMoaE7rlwrxFY8iITANV1w86YwjQyUkRUD1Aqsl0_6FFaLGCv3FYBh1LXQJUZaPGuGg"
+            alt="Heritage art detail"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CORE FOCUS -->
+<section id="architecting" class="py-28 px-[7vw] max-w-[1500px] mx-auto">
+  <div class="text-center mb-16 slide-in-el">
+    <p class="font-label-eyebrow text-label-eyebrow text-gold uppercase mb-4">Core Focus</p>
+    <h2 class="font-display-hero text-headline-lg-mobile md:text-headline-lg text-primary">Architecting Conversations</h2>
+    <p class="font-body-main text-body-main text-on-surface-variant mt-4 max-w-xl mx-auto">Four strategic pillars driving every engagement, workshop, and community initiative.</p>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+    <div class="interactive-card bg-cream border border-line border-l-[5px] border-l-primary rounded-lg p-[22px] slide-in-el hover:-translate-y-1 hover:shadow-xl transition-all duration-300 relative overflow-hidden group cursor-pointer">
+      <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style="background:rgba(0,81,62,0.04);"></div>
+      <span class="material-symbols-outlined text-3xl text-primary mb-4 block" style="font-variation-settings:'FILL' 0;">architecture</span>
+      <h3 class="font-display-hero text-quote-editorial text-charcoal mb-2">Prevention Strategy</h3>
+      <p class="font-body-main text-body-main text-on-surface-variant">Building proactive frameworks that anticipate community needs rather than reacting to crises.</p>
+      <div class="card-details text-on-surface-variant text-sm pt-4 border-t border-line">
+        <ul class="list-disc pl-5 space-y-2"><li>Early Intervention Modeling</li><li>Community Risk Assessment</li><li>Resource Allocation Optimization</li></ul>
+      </div>
+      <div class="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
+        <span class="material-symbols-outlined text-gold expand-icon">expand_more</span>
+      </div>
+    </div>
+    <div class="interactive-card bg-cream border border-line border-l-[5px] border-l-tertiary rounded-lg p-[22px] slide-in-el hover:-translate-y-1 hover:shadow-xl transition-all duration-300 relative overflow-hidden group cursor-pointer" style="transition-delay:.1s">
+      <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style="background:rgba(43,66,138,0.04);"></div>
+      <span class="material-symbols-outlined text-3xl text-tertiary mb-4 block" style="font-variation-settings:'FILL' 0;">psychology</span>
+      <h3 class="font-display-hero text-quote-editorial text-charcoal mb-2">Clinical Empathy</h3>
+      <p class="font-body-main text-body-main text-on-surface-variant">Bridging the gap between sterile medical terminology and genuine human understanding.</p>
+      <div class="card-details text-on-surface-variant text-sm pt-4 border-t border-line">
+        <ul class="list-disc pl-5 space-y-2"><li>Trauma-Informed Communication</li><li>Cultural Competency Training</li><li>Patient-Provider Alignment</li></ul>
+      </div>
+      <div class="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
+        <span class="material-symbols-outlined text-gold expand-icon">expand_more</span>
+      </div>
+    </div>
+    <div class="interactive-card bg-cream border border-line border-l-[5px] border-l-mustard rounded-lg p-[22px] slide-in-el hover:-translate-y-1 hover:shadow-xl transition-all duration-300 relative overflow-hidden group cursor-pointer" style="transition-delay:.2s">
+      <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style="background:rgba(217,162,58,0.04);"></div>
+      <span class="material-symbols-outlined text-3xl text-mustard mb-4 block" style="font-variation-settings:'FILL' 0;">diversity_3</span>
+      <h3 class="font-display-hero text-quote-editorial text-charcoal mb-2">Family Dynamics</h3>
+      <p class="font-body-main text-body-main text-on-surface-variant">Navigating complex familial structures to build stronger, more supportive environments.</p>
+      <div class="card-details text-on-surface-variant text-sm pt-4 border-t border-line">
+        <ul class="list-disc pl-5 space-y-2"><li>Generational Healing Practices</li><li>Conflict Resolution Strategies</li><li>Support System Mapping</li></ul>
+      </div>
+      <div class="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
+        <span class="material-symbols-outlined text-gold expand-icon">expand_more</span>
+      </div>
+    </div>
+    <div class="interactive-card bg-cream border border-line border-l-[5px] border-l-coral rounded-lg p-[22px] slide-in-el hover:-translate-y-1 hover:shadow-xl transition-all duration-300 relative overflow-hidden group cursor-pointer" style="transition-delay:.3s">
+      <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style="background:rgba(225,115,86,0.04);"></div>
+      <span class="material-symbols-outlined text-3xl text-coral mb-4 block" style="font-variation-settings:'FILL' 0;">brush</span>
+      <h3 class="font-display-hero text-quote-editorial text-charcoal mb-2">Creative Outreach</h3>
+      <p class="font-body-main text-body-main text-on-surface-variant">Utilizing art, narrative, and culturally resonant storytelling to foster connection.</p>
+      <div class="card-details text-on-surface-variant text-sm pt-4 border-t border-line">
+        <ul class="list-disc pl-5 space-y-2"><li>Community Arts Initiatives</li><li>Digital Narrative Campaigns</li><li>Interactive Workshops</li></ul>
+      </div>
+      <div class="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
+        <span class="material-symbols-outlined text-gold expand-icon">expand_more</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIAL 1 -->
+<section class="py-32 bg-charcoal text-ivory relative overflow-hidden">
+  <div class="absolute inset-0 pointer-events-none opacity-10" style="background-image:radial-gradient(circle at 20% 50%,rgba(200,162,76,.5) 0%,transparent 50%),radial-gradient(circle at 80% 30%,rgba(0,81,62,.4) 0%,transparent 50%);"></div>
+  <div class="px-[7vw] max-w-[1500px] mx-auto text-center slide-in-el relative z-10">
+    <span class="material-symbols-outlined text-5xl text-gold mb-6 opacity-60 block" style="font-variation-settings:'FILL' 1;">format_quote</span>
+    <blockquote class="font-display-hero text-[28px] md:text-headline-lg leading-tight mb-8 max-w-4xl mx-auto">"Tiffany doesn't just deliver a presentation; she shifts the atmosphere. Her ability to weave clinical truth with raw human experience is unparalleled."</blockquote>
+    <cite class="block font-label-eyebrow text-label-eyebrow text-gold not-italic">— Director of Public Health Initiatives</cite>
+  </div>
+</section>
+
+<!-- IMPACT STORIES -->
+<section id="stories" class="py-28 bg-background">
+  <div class="px-[7vw] max-w-[1500px] mx-auto mb-16 text-center slide-in-el">
+    <span class="font-label-eyebrow text-label-eyebrow text-primary uppercase block mb-4">Editorial · Case Studies</span>
+    <h2 class="font-display-hero text-[52px] md:text-display-hero text-charcoal tracking-tighter flex justify-center gap-[0.25em] flex-wrap">
+      <span class="inline-block opacity-0 translate-y-8" style="animation:textEntrance .8s cubic-bezier(.16,1,.3,1) forwards .1s;">Impact</span>
+      <span class="inline-block opacity-0 translate-y-8" style="animation:textEntrance .8s cubic-bezier(.16,1,.3,1) forwards .3s;">in</span>
+      <span class="inline-block opacity-0 translate-y-8" style="animation:textEntrance .8s cubic-bezier(.16,1,.3,1) forwards .5s;">Action.</span>
+    </h2>
+    <p class="font-body-intro text-body-intro text-on-surface-variant max-w-2xl mx-auto mt-6">A living reference for culturally rooted gambling-harm prevention. Deep-dive stories of community implementation, resilience, and breaking the silence.</p>
+  </div>
+  <div class="px-[7vw] max-w-[1500px] mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-[32px]">
+      <article class="col-span-1 md:col-span-8 group cursor-pointer slide-in-el" onclick="openStoryModal('community')">
+        <div class="overflow-hidden rounded-xl bg-cream border border-line h-[480px] relative">
+          <img class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-700"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDky15psuQ2D5yNA9cvGoiXzfsaz0ycqYbjiZecl7Xn6pqj9ZokzK-HB_t9aTDnJwmPJVASIEL9n_-Xlq3_mMcJUyJT9S7K6GNroUHrEIMu-goeZCL_pT-PjffmFzTV07s-VEf7-xKgHjZOyealgXz9JRWVH10rni3VUsaIWoafolmhOZxknBOTm-6CnVM1zC6qRSVuLB8kbVsQ5zNkE2HV3LE-rnDcIT3kFshuT4uPV6vr8tDVO1rb1A"
+            alt="Tiffany Webb speaking at a community gathering"/>
+          <div class="absolute inset-0 bg-gradient-to-t from-charcoal/90 via-charcoal/30 to-transparent"></div>
+          <div class="absolute bottom-0 left-0 p-8 text-ivory w-full">
+            <span class="font-label-ui text-label-ui uppercase tracking-widest text-gold mb-3 block">Track 1 · Prevention &amp; Awareness</span>
+            <h3 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg mb-2">Community Screenings</h3>
+            <div class="reveal-desc">
+              <p class="font-body-main text-body-main text-cream max-w-lg mb-6">Over 4,000 hours of frontline outreach turning hard conversations into community-wide action plans.</p>
+              <button class="font-label-ui text-label-ui uppercase tracking-widest text-charcoal bg-gold px-6 py-2 rounded-full hover:bg-ivory transition-colors">Expand Story</button>
+            </div>
+          </div>
+        </div>
+      </article>
+      <article class="col-span-1 md:col-span-4 group cursor-pointer slide-in-el" style="transition-delay:.1s" onclick="openStoryModal('rosc')">
+        <div class="overflow-hidden rounded-xl bg-cream border border-line h-[480px] flex flex-col relative">
+          <div class="h-1/2 overflow-hidden">
+            <img class="w-full h-full object-cover group-hover:scale-[1.05] transition-transform duration-700"
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuAz4zzL08l1JuXguWy9iO1Hsi-jnPpuo7HW2RyQDee85sjDbuuCIclUqfEiiV9ZXfFaeGR96VDb7ir5gcicPjFzH3Y0aDrvO85iolr5gOQpaqXKYu_pb-sjQrpN3azwjidFAcyPqHjrdbyXwY3fDsRYBzD4u5zSv9OTGuVhOSdHesE6nXQxcqmEtNXtc6g1dtxvf3WggH3JJAK5bArsRuy4xryNs1hEiad63SG1239qm8v0RWYZFYybVw"
+              alt="Community network"/>
+          </div>
+          <div class="h-1/2 p-8 bg-surface-container border-t border-line flex flex-col justify-center group-hover:bg-ivory transition-colors duration-500">
+            <span class="font-label-ui text-label-ui uppercase tracking-widest text-primary mb-3 block">Track 4 · Engagement</span>
+            <h3 class="font-headline-lg-mobile text-headline-lg-mobile mb-2 text-charcoal">ROSC Council Engagement</h3>
+            <div class="reveal-desc">
+              <p class="font-body-main text-body-main text-on-surface-variant mb-4">Building coalitions with practical tools for stigma reduction.</p>
+              <button class="font-label-ui text-label-ui uppercase tracking-widest text-ivory bg-primary px-6 py-2 rounded-full hover:opacity-90 transition-opacity">Expand Story</button>
+            </div>
+          </div>
+        </div>
+      </article>
+      <article class="col-span-1 md:col-span-12 group cursor-pointer slide-in-el" style="transition-delay:.2s" onclick="openStoryModal('gear')">
+        <div class="overflow-hidden rounded-xl border border-line border-l-[5px] border-l-mustard relative h-auto md:h-[380px] flex flex-col md:flex-row bg-charcoal">
+          <div class="md:w-1/2 p-10 md:p-16 flex flex-col justify-center text-ivory z-10">
+            <span class="font-label-ui text-label-ui uppercase tracking-widest text-mustard mb-4 block">Endorsed Sub-Brand</span>
+            <h3 class="font-display-hero text-headline-lg-mobile md:text-headline-lg mb-4 text-ivory">GambleFreeGear: Break the Silence</h3>
+            <div class="reveal-desc">
+              <p class="font-body-main text-body-main text-cream max-w-xl mb-8">An awareness apparel brand built on the mission that no one should face gambling harm in isolation.</p>
+              <button class="inline-flex items-center gap-2 font-label-ui text-label-ui text-charcoal bg-gold px-5 py-3 rounded-full uppercase tracking-widest hover:bg-ivory transition-colors">
+                Expand Story <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+              </button>
+            </div>
+          </div>
+          <div class="md:w-1/2 h-64 md:h-full relative overflow-hidden">
+            <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-700 opacity-70"
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdXZT0ctYPYoUUAgfMGYv1-sBHy9REOmPqOMa-uEQGjbdmWXawlcUCRcc7fYKX7t5Wfd_QgVGA4YFrnrEU5j-DtQYUNwO0jJqRwvqp3802GqVbn-5seETkFy-TKmYLfUCXnbHf-CqqO98wICIJSPGfmoeRVdE-aT4zMWEHr5TgxcvtHLnh1jXlp7ULn5AoBVh4HfkG6SIX3gHmOslC66zruFGFddLAaRTKVy5k7YIr8zwhxI8kDNsrPQ"
+              alt="GambleFreeGear apparel"/>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- MEDIA / PRESS KIT -->
+<section id="media" class="py-28 bg-cream relative overflow-hidden">
+  <div class="absolute -right-40 -top-40 w-[500px] h-[500px] rounded-full blur-[120px] pointer-events-none" style="background:rgba(225,115,86,0.07);"></div>
+  <div class="px-[7vw] max-w-[1500px] mx-auto relative z-10">
+    <div class="flex flex-col md:flex-row gap-16 items-center mb-20">
+      <div class="flex-1 space-y-6">
+        <p class="hero-anim-1 font-label-eyebrow text-label-eyebrow text-primary tracking-widest uppercase">Resources</p>
+        <h2 class="hero-anim-2 font-display-hero text-headline-lg-mobile md:text-headline-lg text-charcoal">Media Gallery &amp; Press Kit.</h2>
+        <p class="hero-anim-3 font-body-intro text-body-intro text-on-surface-variant max-w-xl">Assets, talking points, and resources for event organizers, media professionals, and community partners looking to amplify the mission.</p>
+      </div>
+      <div class="hero-anim-img flex-1 w-full h-[400px] rounded-xl overflow-hidden shadow-2xl relative">
+        <img class="object-cover w-full h-full absolute inset-0"
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuCUVNn3Q3F65Dy-v8XNhSuQ6JT-W2jVNggg407MLWNgvwyCHkroQmJiDkq_5OXU607jPeZAlxQmwLAuccCUrTbozptbKk12VnU3hXGKtbglIeWCVjdCMm8NwhgR8_k3Utq3k4OVxOL2qxTiHQR3Fn4OlS__RU63pw3nvGDMnUabw_xzFJ02iZH5dDkY5T6F2AMz5hRWapeFkQxUmlCwU-8U6ybERR1AfPWTw6JmI7fv-xDvKB6Vt9aF-w"
+          alt="Tiffany Webb speaking on stage"/>
+      </div>
+    </div>
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-8 border-b border-line pb-8">
+      <div>
+        <h3 class="font-display-hero text-headline-lg-mobile md:text-headline-lg text-charcoal mb-4">Speaker Resources</h3>
+        <p class="font-body-main text-body-main text-on-surface-variant max-w-xl">Everything you need to introduce Tiffany at your next event.</p>
+      </div>
+      <button class="shimmer-btn bg-charcoal text-ivory font-label-ui text-label-ui uppercase tracking-widest px-8 py-4 rounded-full flex items-center gap-3 hover:bg-primary transition-colors whitespace-nowrap">
+        <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 0;">download</span> Download Full Press Kit
+      </button>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="glass-card border border-line p-8 rounded-xl flex flex-col items-start gap-6 border-l-4 border-l-gold group relative hover:shadow-lg transition-all duration-300">
+        <input class="peer hidden" id="preview-1" type="checkbox"/>
+        <label class="absolute right-6 top-6 text-xs font-label-ui uppercase tracking-widest text-on-surface-variant cursor-pointer hover:text-gold transition-colors z-20 flex items-center gap-1" for="preview-1">
+          <span class="material-symbols-outlined text-sm peer-checked:rotate-180 transition-transform">expand_more</span> Preview
+        </label>
+        <div class="w-12 h-12 rounded-full bg-cream flex items-center justify-center text-gold group-hover:bg-gold group-hover:text-cream transition-colors duration-300">
+          <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">description</span>
+        </div>
+        <div class="flex-grow">
+          <h4 class="font-headline-lg text-2xl text-charcoal mb-2">Speaker One-Sheet</h4>
+          <p class="font-body-main text-body-main text-on-surface-variant mb-4">A concise overview of Tiffany's signature topics, audience takeaways, and biography.</p>
+          <div class="max-h-0 overflow-hidden peer-checked:max-h-48 transition-all duration-500 opacity-0 peer-checked:opacity-100">
+            <div class="pt-4 border-t border-line">
+              <p class="font-label-ui text-[10px] uppercase tracking-wider text-charcoal font-bold mb-2">PDF · 2.1 MB · Updated Oct 2024</p>
+              <p class="font-body-main text-sm text-charcoal/80">Includes full bio options, key topic abstracts, and A/V requirements.</p>
+            </div>
+          </div>
+        </div>
+        <button class="shimmer-btn bg-cream border border-line text-charcoal font-label-ui text-label-ui uppercase px-6 py-3 rounded-full group-hover:bg-gold group-hover:border-gold group-hover:text-charcoal transition-all duration-300 flex items-center gap-2 relative z-20 w-max">
+          <span class="material-symbols-outlined text-sm">download</span> PDF (2.1 MB)
+        </button>
+      </div>
+      <div class="glass-card border border-line p-8 rounded-xl flex flex-col items-start gap-6 border-l-4 border-l-primary group relative hover:shadow-lg transition-all duration-300">
+        <input class="peer hidden" id="preview-2" type="checkbox"/>
+        <label class="absolute right-6 top-6 text-xs font-label-ui uppercase tracking-widest text-on-surface-variant cursor-pointer hover:text-primary transition-colors z-20 flex items-center gap-1" for="preview-2">
+          <span class="material-symbols-outlined text-sm peer-checked:rotate-180 transition-transform">expand_more</span> Preview
+        </label>
+        <div class="w-12 h-12 rounded-full bg-cream flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-cream transition-colors duration-300">
+          <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">image</span>
+        </div>
+        <div class="flex-grow">
+          <h4 class="font-headline-lg text-2xl text-charcoal mb-2">Official Headshots</h4>
+          <p class="font-body-main text-body-main text-on-surface-variant mb-4">High-resolution photography approved for promotional materials and media features.</p>
+          <div class="max-h-0 overflow-hidden peer-checked:max-h-48 transition-all duration-500 opacity-0 peer-checked:opacity-100">
+            <div class="pt-4 border-t border-line">
+              <p class="font-label-ui text-[10px] uppercase tracking-wider text-charcoal font-bold mb-2">ZIP (JPG/PNG) · 15 MB · Updated Sep 2024</p>
+              <p class="font-body-main text-sm text-charcoal/80">Contains 5 high-res print-ready images and 3 web-optimized portraits.</p>
+            </div>
+          </div>
+        </div>
+        <button class="shimmer-btn bg-cream border border-line text-charcoal font-label-ui text-label-ui uppercase px-6 py-3 rounded-full group-hover:bg-primary group-hover:border-primary group-hover:text-ivory transition-all duration-300 flex items-center gap-2 relative z-20 w-max">
+          <span class="material-symbols-outlined text-sm">download</span> ZIP (15 MB)
+        </button>
+      </div>
+      <div class="glass-card border border-line p-8 rounded-xl flex flex-col items-start gap-6 border-l-4 border-l-burnt group relative hover:shadow-lg transition-all duration-300">
+        <input class="peer hidden" id="preview-3" type="checkbox"/>
+        <label class="absolute right-6 top-6 text-xs font-label-ui uppercase tracking-widest text-on-surface-variant cursor-pointer hover:text-burnt transition-colors z-20 flex items-center gap-1" for="preview-3">
+          <span class="material-symbols-outlined text-sm peer-checked:rotate-180 transition-transform">expand_more</span> Preview
+        </label>
+        <div class="w-12 h-12 rounded-full bg-cream flex items-center justify-center text-burnt group-hover:bg-burnt group-hover:text-cream transition-colors duration-300">
+          <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">mic</span>
+        </div>
+        <div class="flex-grow">
+          <h4 class="font-headline-lg text-2xl text-charcoal mb-2">Stage Introduction</h4>
+          <p class="font-body-main text-body-main text-on-surface-variant mb-4">Pre-written, timed introductions designed to set the tone before Tiffany takes the stage.</p>
+          <div class="max-h-0 overflow-hidden peer-checked:max-h-48 transition-all duration-500 opacity-0 peer-checked:opacity-100">
+            <div class="pt-4 border-t border-line">
+              <p class="font-label-ui text-[10px] uppercase tracking-wider text-charcoal font-bold mb-2">DOCX · 12 KB · Updated Oct 2024</p>
+              <p class="font-body-main text-sm text-charcoal/80">Short (30s) and detailed (60s) stage introduction scripts included.</p>
+            </div>
+          </div>
+        </div>
+        <button class="shimmer-btn bg-cream border border-line text-charcoal font-label-ui text-label-ui uppercase px-6 py-3 rounded-full group-hover:bg-burnt group-hover:border-burnt group-hover:text-ivory transition-all duration-300 flex items-center gap-2 relative z-20 w-max">
+          <span class="material-symbols-outlined text-sm">download</span> DOCX (12 KB)
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VIDEO GALLERY -->
+<section class="px-[7vw] py-24 bg-charcoal text-ivory">
+  <div class="max-w-[1500px] mx-auto">
+    <div class="mb-16">
+      <p class="font-label-eyebrow text-label-eyebrow text-gold tracking-widest uppercase mb-4">Watch &amp; Listen</p>
+      <h2 class="font-display-hero text-headline-lg-mobile md:text-headline-lg">Media &amp; Speaking Reel</h2>
+    </div>
+    <div class="bento-grid">
+      <div class="bento-feature relative group video-thumb cursor-pointer rounded-xl overflow-hidden aspect-video">
+        <img class="object-cover w-full h-full absolute inset-0 opacity-70 group-hover:opacity-50 transition-opacity duration-500"
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdsK0zb7IuJXoTLpcuhHshYglUI9zcL29qpoSKk7VeZshDvBVhPKKk9jEgHExZFQEqJbBc5Q1yCjfjQE13R6_YXroL_1SrORRtV4k4uHMpe2ig9saUBAccTpZDEvVT69J1jt4u6_Ii2_cC8SCWjiSAFJd04lEvcLl4I5WGM2m2vxgTMUl5ZopfFSyuTMmBcrLgWZ4Jfo7KiL1gHGDe9J-hdhQU6R3oXDwVgrtPg3vnr-UUjix3pIzD8Q"
+          alt="Keynote presentation"/>
+        <div class="absolute inset-0 flex flex-col items-center justify-center p-8 text-center z-10">
+          <div class="w-20 h-20 rounded-full flex items-center justify-center play-icon-hover text-ivory mb-6" style="background:rgba(251,246,234,0.2);border:1px solid rgba(251,246,234,0.5);backdrop-filter:blur(4px);">
+            <span class="material-symbols-outlined text-4xl" style="font-variation-settings:'FILL' 1;">play_arrow</span>
+          </div>
+          <h3 class="font-headline-lg text-3xl mb-2">2026 Speaking Sizzle Reel</h3>
+          <p class="font-label-ui text-label-ui uppercase tracking-widest text-cream">Highlights from Keynotes &amp; Workshops</p>
+        </div>
+      </div>
+      <div class="relative group video-thumb cursor-pointer rounded-xl overflow-hidden" style="aspect-ratio:1/1;">
+        <img class="object-cover w-full h-full absolute inset-0 opacity-70 group-hover:opacity-50 transition-opacity duration-500"
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuDkWyTlRcWsWrkUTZIDSPERO8PBk6g_dGv4dZy60ybkb5YWw8NPCIyvtunLDQLwlOcMGD9Q-p0_Q-3ds9Fvjf0J1Wd3ItzYhCrj2Jq4fLTz9vPnNco-lHLfGDlj9m19xP5r5ox3xU9GgrnKYIhctH2-CfJaSt7k-FjpD5vkAYeUqvkcgasRRX2nhivdmADUdH9MXZ0oN4ZRR2aqJOiediUu7LXN6iR-jnSSV-yZn-qfrDdLfd-rR6nSBw"
+          alt="Wager Danger podcast"/>
+        <div class="absolute inset-0 flex flex-col items-start justify-end p-6 z-10 bg-gradient-to-t from-charcoal via-charcoal/40 to-transparent">
+          <div class="w-12 h-12 rounded-full flex items-center justify-center play-icon-hover text-ivory mb-4" style="background:rgba(251,246,234,0.2);border:1px solid rgba(251,246,234,0.5);backdrop-filter:blur(4px);">
+            <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">play_arrow</span>
+          </div>
+          <h4 class="font-quote-editorial text-xl mb-1">Wager Danger Podcast</h4>
+          <p class="font-label-ui text-label-ui uppercase text-cream/70">Gateway Foundation</p>
+        </div>
+      </div>
+      <div class="relative group video-thumb cursor-pointer rounded-xl overflow-hidden" style="aspect-ratio:1/1;">
+        <img class="object-cover w-full h-full absolute inset-0 opacity-70 group-hover:opacity-50 transition-opacity duration-500"
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuAsJzydJLr-HniBDs8usgVlk6d50Z9Gjn40eoZ9Um5bE-OCsldS4PHM73dT69_F1bxwA3xat0NA_OUxJBQHo8FauLEHGAS_K8tsse6aL2EgoVPWk6OvBClWk0J5LZiFWsUJv013zkbMFKFLITDV49M3uHSjoI3WQqqz5h4puHpZYZsWww7h9j_BlAnDFNGvIve9D__QMmbpu5Ai3FqQPba53-CPszPP1T-UCwA1BWWwKYaxHKm6DOL1fg"
+          alt="Community Health Panel"/>
+        <div class="absolute inset-0 flex flex-col items-start justify-end p-6 z-10 bg-gradient-to-t from-charcoal via-charcoal/40 to-transparent">
+          <div class="w-12 h-12 rounded-full flex items-center justify-center play-icon-hover text-ivory mb-4" style="background:rgba(251,246,234,0.2);border:1px solid rgba(251,246,234,0.5);backdrop-filter:blur(4px);">
+            <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">play_arrow</span>
+          </div>
+          <h4 class="font-quote-editorial text-xl mb-1">Community Health Panel</h4>
+          <p class="font-label-ui text-label-ui uppercase text-cream/70">Healthcare Alternative Systems</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUSTED BY -->
+<section class="px-[7vw] py-20 bg-background border-t border-line">
+  <div class="max-w-[1500px] mx-auto text-center">
+    <p class="font-label-eyebrow text-label-eyebrow text-primary tracking-widest uppercase mb-12">In the News &amp; Trusted By</p>
+    <div class="flex flex-wrap justify-center items-center gap-12 md:gap-24 opacity-50 hover:opacity-100 grayscale hover:grayscale-0 transition-all duration-500">
+      <div class="font-display-hero text-2xl tracking-tighter text-charcoal">HAS</div>
+      <div class="font-display-hero text-2xl tracking-tighter text-charcoal italic">Illinois Council</div>
+      <div class="font-display-hero text-2xl tracking-tighter text-charcoal">Gateway</div>
+      <div class="font-display-hero text-2xl tracking-tighter text-charcoal font-bold">AYRW?</div>
+      <div class="font-display-hero text-2xl tracking-tighter text-charcoal">NCPG</div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIAL 2 -->
+<section class="px-[7vw] py-24 max-w-4xl mx-auto text-center slide-in-el">
+  <span class="material-symbols-outlined text-gold text-5xl mb-6 block" style="font-variation-settings:'FILL' 1;">format_quote</span>
+  <blockquote class="font-quote-editorial text-quote-editorial md:text-headline-lg text-charcoal leading-relaxed mb-8 border-l-4 border-gold pl-6 text-left italic">"Tiffany's approach is the voice of a good doctor: kind and precise at the same time. She makes the hardest conversations approachable — and hands communities a plan."</blockquote>
+  <div class="text-left pl-6">
+    <p class="font-label-eyebrow text-label-eyebrow text-primary uppercase tracking-widest">Director of Public Health</p>
+    <p class="font-body-main text-sm text-on-surface-variant">Healthcare Alternative Systems Partner</p>
+  </div>
+</section>
+
+<!-- CTA CONTACT -->
+<section id="contact" class="py-28 bg-cream relative overflow-hidden">
+  <div class="absolute left-0 top-0 w-[400px] h-[400px] rounded-full blur-[100px] pointer-events-none" style="background:rgba(0,81,62,0.06);"></div>
+  <div class="px-[7vw] max-w-[1500px] mx-auto relative z-10 text-center">
+    <p class="font-label-eyebrow text-label-eyebrow text-primary uppercase mb-4">Book Tiffany</p>
+    <h2 class="font-display-hero text-headline-lg-mobile md:text-headline-lg text-charcoal mb-6">Ready to Break the Silence?</h2>
+    <p class="font-body-intro text-body-intro text-on-surface-variant max-w-xl mx-auto mb-10">Whether for a keynote, workshop, community event, or media feature — let's build something impactful together.</p>
+    <div class="flex flex-wrap justify-center gap-4">
+      <a href="mailto:contact@tiffanywebb.com" class="shimmer-btn inline-flex items-center justify-center gap-3 px-8 py-4 rounded-full bg-primary text-on-primary font-label-ui text-label-ui uppercase tracking-widest hover:bg-charcoal transition-colors duration-300 active:scale-95">
+        <span class="material-symbols-outlined text-sm">mail</span> Send a Message
+      </a>
+      <a href="#media" class="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-full border border-primary text-primary font-label-ui text-label-ui uppercase tracking-widest hover:bg-primary hover:text-on-primary transition-all duration-300 active:scale-95">
+        <span class="material-symbols-outlined text-sm">download</span> Press Kit
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="bg-charcoal text-ivory py-20 border-t border-line">
+  <div class="px-[7vw] max-w-[1500px] mx-auto flex flex-col md:flex-row justify-between items-start gap-[32px]">
+    <div>
+      <span class="font-display-hero text-headline-lg text-gold">Tiffany Webb</span>
+      <p class="font-body-main text-body-main text-ivory/60 mt-2 max-w-sm">&copy; 2024 Tiffany Webb. Impact Through Strategic Architecture.</p>
+    </div>
+    <div class="flex flex-col md:flex-row gap-8 font-body-main text-body-main flex-wrap">
+      <a class="text-ivory/60 hover:text-gold transition-colors duration-300" href="#">Privacy Policy</a>
+      <a class="text-ivory/60 hover:text-gold transition-colors duration-300" href="#">Terms of Service</a>
+      <a class="text-ivory/60 hover:text-gold transition-colors duration-300" href="#">Accessibility</a>
+      <a class="text-ivory/60 hover:text-gold transition-colors duration-300" href="#">LinkedIn</a>
+      <a class="text-ivory/60 hover:text-gold transition-colors duration-300" href="#contact">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<!-- STORY MODAL -->
+<div id="story-modal" class="fixed inset-0 z-[100] flex items-center justify-center hidden opacity-0 transition-opacity duration-300" role="dialog" aria-modal="true">
+  <div class="absolute inset-0 bg-charcoal/80 backdrop-blur-sm" onclick="closeStoryModal()"></div>
+  <div id="story-modal-content" class="relative bg-ivory rounded-2xl w-full max-w-2xl mx-4 p-8 md:p-12 shadow-2xl transform scale-95 transition-transform duration-300 max-h-[90vh] overflow-y-auto">
+    <button class="absolute top-6 right-6 text-charcoal hover:text-gold transition-colors" onclick="closeStoryModal()" aria-label="Close">
+      <span class="material-symbols-outlined">close</span>
+    </button>
+    <div class="space-y-6" id="modal-body"></div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    // Scroll animations
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible','is-visible','active');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: "0px 0px -30px 0px" });
+    document.querySelectorAll('.fade-in-up,.slide-in-el,.reveal').forEach(el => io.observe(el));
+    setTimeout(() => document.querySelectorAll('header .fade-in-up').forEach(el => el.classList.add('visible')), 100);
+
+    // Parallax (disabled for hero-bg since it's now position:absolute with animation)
+    const heroBg = document.getElementById('hero-bg');
+    window.addEventListener('scroll', () => {
+      const s = window.pageYOffset;
+      // Nav scroll style
+      const nav = document.getElementById('top-nav');
+      if (s > 60) { nav.classList.add('nav-scrolled'); nav.style.background = 'rgba(35,33,27,0.97)'; }
+      else         { nav.classList.remove('nav-scrolled'); nav.style.background = 'rgba(35,33,27,0.90)'; }
+    }, { passive: true });
+
+    // ── Canvas Floating Particles ────────────────────────────
+    const canvas = document.getElementById('hero-particles');
+    if (canvas) {
+      const ctx = canvas.getContext('2d');
+      const hero = document.getElementById('hero');
+      let W, H, particles = [];
+
+      const COLORS = [
+        'rgba(0,81,62,',   // primary green
+        'rgba(200,162,76,', // gold
+        'rgba(31,104,111,', // secondary teal
+        'rgba(225,115,86,', // coral (rare)
+      ];
+
+      function resize() {
+        W = canvas.width  = hero.offsetWidth;
+        H = canvas.height = hero.offsetHeight;
+      }
+
+      function mkParticle() {
+        const color = COLORS[Math.floor(Math.random() * COLORS.length)];
+        return {
+          x:     Math.random() * W,
+          y:     H + Math.random() * 100,
+          r:     Math.random() * 2.5 + 0.5,
+          speed: Math.random() * 0.5 + 0.2,
+          drift: (Math.random() - 0.5) * 1.2,
+          opacity: Math.random() * 0.5 + 0.1,
+          color,
+        };
+      }
+
+      resize();
+      window.addEventListener('resize', resize, { passive: true });
+      for (let i = 0; i < 60; i++) {
+        const p = mkParticle();
+        p.y = Math.random() * H; // spread initially
+        particles.push(p);
+      }
+
+      function animateParticles() {
+        ctx.clearRect(0, 0, W, H);
+        particles.forEach((p, i) => {
+          p.y -= p.speed;
+          p.x += p.drift;
+          if (p.y < -10) { particles[i] = mkParticle(); return; }
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fillStyle = p.color + p.opacity + ')';
+          ctx.fill();
+        });
+        requestAnimationFrame(animateParticles);
+      }
+      animateParticles();
+    }
+
+    // ── Mouse-tracking aura glow ─────────────────────────────
+    const heroEl = document.getElementById('hero');
+    if (heroEl) {
+      const mouseOrb = document.createElement('div');
+      mouseOrb.style.cssText = `
+        position:absolute;pointer-events:none;z-index:2;
+        width:500px;height:500px;border-radius:9999px;
+        background:radial-gradient(circle,rgba(200,162,76,0.08) 0%,transparent 65%);
+        filter:blur(30px);
+        transform:translate(-50%,-50%);
+        transition:left 0.8s cubic-bezier(0.2,0.8,0.2,1), top 0.8s cubic-bezier(0.2,0.8,0.2,1);
+        left:50%;top:50%;
+      `;
+      heroEl.appendChild(mouseOrb);
+      heroEl.addEventListener('mousemove', (e) => {
+        const rect = heroEl.getBoundingClientRect();
+        mouseOrb.style.left = (e.clientX - rect.left) + 'px';
+        mouseOrb.style.top  = (e.clientY - rect.top)  + 'px';
+      }, { passive: true });
+    }
+
+    // Interactive cards
+    document.querySelectorAll('.interactive-card').forEach(card => {
+      card.addEventListener('click', function() {
+        const icon = this.querySelector('.expand-icon');
+        this.classList.toggle('card-expanded');
+        if (icon) icon.textContent = this.classList.contains('card-expanded') ? 'expand_less' : 'expand_more';
+      });
+    });
+
+    // Bio expand
+    const btn = document.getElementById('show-more-btn');
+    const bio = document.getElementById('bio-details');
+    if (btn && bio) {
+      btn.addEventListener('click', () => {
+        bio.classList.toggle('expanded');
+        const open = bio.classList.contains('expanded');
+        document.getElementById('btn-text').textContent = open ? 'Show Less' : 'Read More';
+        document.getElementById('btn-icon').textContent = open ? 'expand_less' : 'expand_more';
+      });
+    }
+
+    // Mobile menu
+    document.getElementById('mobile-toggle').addEventListener('click', () => {
+      const m = document.getElementById('mobile-menu');
+      const i = document.getElementById('menu-icon');
+      m.classList.toggle('open');
+      i.textContent = m.classList.contains('open') ? 'close' : 'menu';
+    });
+    document.addEventListener('click', e => {
+      if (!document.getElementById('mobile-toggle').contains(e.target) && !document.getElementById('mobile-menu').contains(e.target)) {
+        closeMobileMenu();
+      }
+    });
+  });
+
+  function closeMobileMenu() {
+    document.getElementById('mobile-menu').classList.remove('open');
+    document.getElementById('menu-icon').textContent = 'menu';
+  }
+
+  const storyData = {
+    community: { title:"Community Screenings Impact", track:"Track 1 · Prevention & Awareness", metrics:[{label:"Hours of Outreach",value:"4,000+"},{label:"Communities Reached",value:"25+"},{label:"Action Plans",value:"12"}], detail:"Our grassroots screening initiatives bridge the gap between clinical language and community reality, fostering environments where open dialogue replaces stigma and practical action plans are born." },
+    rosc: { title:"ROSC Council Engagement", track:"Track 4 · Engagement", metrics:[{label:"Councils Engaged",value:"8"},{label:"Coalition Members",value:"150+"},{label:"Stigma Reduction",value:"35%"}], detail:"By equipping local councils with evidence-based tools, we've transformed coalitions into proactive task forces addressing gambling harm at a systemic level." },
+    gear: { title:"GambleFreeGear Metrics", track:"Endorsed Sub-Brand", metrics:[{label:"Apparel Distributed",value:"10k+"},{label:"Campaign Reach",value:"1.2M"},{label:"Funds Raised",value:"$50k"}], detail:"More than just apparel, GambleFreeGear serves as a wearable conversation starter — the crucial retail proof layer that markets the mission at scale." }
+  };
+
+  function openStoryModal(id) {
+    const d = storyData[id]; if (!d) return;
+    const modal = document.getElementById('story-modal');
+    const body  = document.getElementById('modal-body');
+    const mc    = document.getElementById('story-modal-content');
+    body.innerHTML = `
+      <span class="font-label-ui text-label-ui uppercase tracking-widest text-primary mb-2 block">${d.track}</span>
+      <h3 class="font-display-hero text-headline-lg-mobile md:text-headline-lg text-charcoal mb-8">${d.title}</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+        ${d.metrics.map(m=>`<div class="bg-cream p-4 rounded-lg border border-line text-center"><div class="font-display-hero text-3xl text-gold mb-1">${m.value}</div><div class="font-label-ui text-label-ui uppercase tracking-widest text-charcoal">${m.label}</div></div>`).join('')}
+      </div>
+      <p class="font-body-main text-body-main text-on-surface-variant leading-relaxed">${d.detail}</p>`;
+    modal.classList.remove('hidden');
+    void modal.offsetWidth;
+    modal.classList.remove('opacity-0');
+    mc.classList.remove('scale-95');
+    document.addEventListener('keydown', escClose);
+  }
+
+  function closeStoryModal() {
+    const modal = document.getElementById('story-modal');
+    const mc    = document.getElementById('story-modal-content');
+    modal.classList.add('opacity-0');
+    mc.classList.add('scale-95');
+    setTimeout(() => modal.classList.add('hidden'), 300);
+    document.removeEventListener('keydown', escClose);
+  }
+
+  function escClose(e) { if (e.key==='Escape') closeStoryModal(); }
+</script>
+</body>
+</html>

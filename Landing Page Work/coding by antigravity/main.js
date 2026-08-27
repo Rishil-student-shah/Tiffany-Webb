@@ -7,22 +7,17 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  // Add observer class to document element to activate smooth reveals
-  document.documentElement.classList.add('js-observer');
+  // Respect prefers-reduced-motion
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // 1. Steven Kotler Inspired Intro Curtain Opening Animation
-  const introCurtain = document.getElementById('introCurtain');
-  if (introCurtain) {
-    // Body is transparent by default (CSS opacity:0)
-    // Show curtain briefly for 1.1s, then slide up + reveal body
-    setTimeout(() => {
-      introCurtain.classList.add('loaded');
-      document.body.classList.add('page-loaded');
-    }, 1100);
-  } else {
-    // No curtain — just fade the body in immediately
-    requestAnimationFrame(() => document.body.classList.add('page-loaded'));
+  // Add observer class to document element to activate smooth reveals
+  if (!prefersReducedMotion) {
+    document.documentElement.classList.add('js-observer');
   }
+
+  // Instantly reveal body so the preloader is visible!
+  requestAnimationFrame(() => document.body.classList.add('page-loaded'));
+
 
   // 2. Scroll Progress Bar
   let progressBar = document.getElementById('scroll-progress');
@@ -32,8 +27,10 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.appendChild(progressBar);
   }
 
-  // 3. Navbar Scroll Shrink & Deep Blur
+  // 3. Navbar Scroll Shrink & Deep Blur (Dynamic Island)
   const navbar = document.getElementById('navbar');
+  let lastScrollY = window.scrollY;
+
   window.addEventListener('scroll', () => {
     const scrollY = window.scrollY;
     
@@ -44,67 +41,154 @@ document.addEventListener('DOMContentLoaded', () => {
       progressBar.style.width = `${progress}%`;
     }
 
-    // Navbar scrolled state
+    // Update navbar on scroll
     if (navbar) {
-      if (scrollY > 50) {
+      if (scrollY > 60) {
         navbar.classList.add('scrolled');
       } else {
         navbar.classList.remove('scrolled');
       }
     }
+    
+    lastScrollY = scrollY;
   }, { passive: true });
 
-  // 4. Custom Interactive Cursor (Lerp Smoothness)
-  if (window.matchMedia('(pointer: fine)').matches) {
-    const cursor = document.createElement('div');
-    cursor.className = 'custom-cursor';
-    const follower = document.createElement('div');
-    follower.className = 'cursor-follower';
-
-    document.body.appendChild(cursor);
-    document.body.appendChild(follower);
-
-    let mouseX = 0, mouseY = 0;
-    let followerX = 0, followerY = 0;
-
-    window.addEventListener('mousemove', (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      cursor.style.left = `${mouseX}px`;
-      cursor.style.top = `${mouseY}px`;
-    }, { passive: true });
-
-    function renderCursor() {
-      followerX += (mouseX - followerX) * 0.15;
-      followerY += (mouseY - followerY) * 0.15;
-      follower.style.left = `${followerX}px`;
-      follower.style.top = `${followerY}px`;
-      requestAnimationFrame(renderCursor);
+  // 4. Premium Sliding Navigation Highlight
+  const navLinksContainer = document.querySelector('.nav-links-container');
+  const navHighlight = document.querySelector('.nav-highlight');
+  const navLinks = document.querySelectorAll('.nav-link');
+  
+  if (navLinksContainer && navHighlight && navLinks.length > 0) {
+    // Set initial position based on active link
+    const activeLink = document.querySelector('.nav-link.active');
+    if (activeLink) {
+      navHighlight.style.width = `${activeLink.offsetWidth}px`;
+      navHighlight.style.transform = `translateX(${activeLink.offsetLeft}px)`;
     }
-    requestAnimationFrame(renderCursor);
 
-    // Hover detection
-    const interactiveElements = document.querySelectorAll('a, button, .glass-card, .glass-card-dark, .topic-track-card, .reel-container');
-    interactiveElements.forEach(el => {
-      el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
-      el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+    navLinks.forEach(link => {
+      link.addEventListener('mouseenter', (e) => {
+        navHighlight.style.opacity = '1';
+        navHighlight.style.width = `${e.target.offsetWidth}px`;
+        navHighlight.style.transform = `translateX(${e.target.offsetLeft}px)`;
+      });
+    });
+
+    navLinksContainer.addEventListener('mouseleave', () => {
+      navHighlight.style.opacity = '0';
+      // Reset to active link position in background
+      if (activeLink) {
+        setTimeout(() => {
+          navHighlight.style.width = `${activeLink.offsetWidth}px`;
+          navHighlight.style.transform = `translateX(${activeLink.offsetLeft}px)`;
+        }, 300); // Wait for fade out
+      }
     });
   }
+    // 4b. EDITORIAL LIVING PORTRAIT - ENTRANCE ANIMATION
+    function initEditorialHero() {
+      // Hide old overlays just in case
+      const introOverlay = document.getElementById('intro-overlay');
+      if (introOverlay) introOverlay.style.display = 'none';
+      document.body.classList.remove('no-scroll');
 
-  // 5. Pro-Level Magnetic Button Effect
-  const magneticButtons = document.querySelectorAll('.btn');
-  magneticButtons.forEach(btn => {
-    btn.addEventListener('mousemove', (e) => {
-      const rect = btn.getBoundingClientRect();
-      const x = e.clientX - rect.left - rect.width / 2;
-      const y = e.clientY - rect.top - rect.height / 2;
-      btn.style.transform = `translate(${x * 0.22}px, ${y * 0.22}px) scale(1.02)`;
-    });
+      if (prefersReducedMotion) return;
 
-    btn.addEventListener('mouseleave', () => {
-      btn.style.transform = 'translate(0px, 0px) scale(1)';
-    });
-  });
+      const headline = document.querySelector('.hero-headline');
+      const eyebrow = document.querySelector('.hero-eyebrow');
+      const positioning = document.querySelector('.hero-positioning');
+      const desc = document.querySelector('.hero-desc');
+      const imgFrame = document.querySelector('.hero-image-frame');
+      const ctas = document.querySelectorAll('.hero-ctas .btn');
+
+      const heroTl = gsap.timeline();
+
+      // 0.00–0.55s Image Frame Reveals
+      if (imgFrame) {
+        heroTl.fromTo(imgFrame, 
+          { clipPath: 'inset(0 18% 0 0)' },
+          { clipPath: 'inset(0 0% 0 0)', duration: 0.55, ease: 'power3.out' },
+          0
+        );
+      }
+
+      // 0.20–0.75s Eyebrow reveals
+      if (eyebrow) {
+        heroTl.fromTo(eyebrow, 
+          { clipPath: 'inset(0 100% 0 0)' },
+          { clipPath: 'inset(0 0% 0 0)', duration: 0.55, ease: 'power2.out' },
+          0.20
+        );
+      }
+
+      // 0.35–1.05s Headline reveals upward
+      if (headline) {
+        heroTl.fromTo(headline, 
+          { opacity: 0, y: 40 },
+          { opacity: 1, y: 0, duration: 0.70, ease: 'power3.out' },
+          0.35
+        );
+      }
+
+      // 0.65–1.20s Positioning reveals
+      if (positioning) {
+        heroTl.fromTo(positioning, 
+          { clipPath: 'inset(0 100% 0 0)' },
+          { clipPath: 'inset(0 0% 0 0)', duration: 0.55, ease: 'power2.out' },
+          0.65
+        );
+      }
+
+      // 0.85–1.40s Description reveals
+      if (desc) {
+        heroTl.fromTo(desc, 
+          { clipPath: 'inset(0 100% 0 0)' },
+          { clipPath: 'inset(0 0% 0 0)', duration: 0.55, ease: 'power2.out' },
+          0.85
+        );
+      }
+
+      // 1.05–1.65s CTA group reveals
+      if (ctas.length) {
+        heroTl.fromTo(ctas, 
+          { opacity: 0, y: 15 },
+          { opacity: 1, y: 0, duration: 0.60, ease: 'power3.out', stagger: 0.1 },
+          1.05
+        );
+      }
+    }
+    initEditorialHero();
+
+    // 4c. EDITORIAL HERO SCROLL CHOREOGRAPHY
+    function initEditorialHeroScroll() {
+      if (prefersReducedMotion || window.innerWidth < 900) return;
+      
+      const hero = document.getElementById('hero');
+      const imgMain = document.querySelector('.hero-image-main');
+      const textBlock = document.querySelector('.hero-content');
+
+      if (!hero) return;
+
+      const scrollTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: hero,
+          start: 'top top',
+          end: 'bottom top',
+          scrub: 1
+        }
+      });
+
+      // Subtle Image Depth
+      if (imgMain) {
+        scrollTl.to(imgMain, { scale: 1.04, xPercent: -2, ease: 'none' }, 0);
+      }
+
+      // Subtle Text Depth
+      if (textBlock) {
+        scrollTl.to(textBlock, { y: -20, opacity: 0.92, ease: 'none' }, 0);
+      }
+    }
+    setTimeout(initEditorialHeroScroll, 500); // init after layout settles
 
   // 6. Mobile Menu Drawer
   const hamburger = document.querySelector('.hamburger');
@@ -302,10 +386,74 @@ document.addEventListener('DOMContentLoaded', () => {
       if (btn) {
         btn.textContent = '✓ You\'re in!';
         btn.style.background = 'var(--emerald)';
-        setTimeout(() => { btn.textContent = 'Join Community'; btn.style.background = ''; }, 3000);
+        setTimeout(() => { btn.textContent = 'Join the community'; btn.style.background = ''; }, 3000);
       }
       form.reset();
     });
   });
+
+  // 15. Accordion Toggle (Speaking Tracks)
+  document.querySelectorAll('.accordion-header').forEach(header => {
+    header.addEventListener('click', () => {
+      header.closest('.accordion-track').classList.toggle('open');
+    });
+  });
+
+  // 16. Copy-to-Clipboard (Media Page Bios)
+  document.querySelectorAll('[data-copy]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const targetId = btn.getAttribute('data-copy');
+      const el = document.getElementById(targetId);
+      if (el) {
+        navigator.clipboard.writeText(el.textContent.trim()).then(() => {
+          const original = btn.textContent;
+          btn.textContent = '✓ Copied';
+          setTimeout(() => { btn.textContent = original; }, 2000);
+        });
+      }
+    });
+  });
+
+  // 17. Booking Form — honeypot + time-trap
+  const bookingFormEl = document.getElementById('booking-form');
+  if (bookingFormEl) {
+    const formLoadTime = Date.now();
+    bookingFormEl.addEventListener('submit', (e) => {
+      e.preventDefault();
+      // Honeypot check
+      const hp = bookingFormEl.querySelector('.form-hp input');
+      if (hp && hp.value) return; // bot detected
+      // Time-trap: reject submissions under 3 seconds
+      if (Date.now() - formLoadTime < 3000) return;
+      // Show success toast
+      const toast = document.createElement('div');
+      toast.setAttribute('role', 'status');
+      toast.setAttribute('aria-live', 'polite');
+      toast.style.cssText = `
+        position: fixed; bottom: 2rem; right: 2rem; z-index: 100000;
+        background: var(--emerald); color: var(--ivory);
+        padding: 1.2rem 2rem; border-radius: 999px;
+        font-family: var(--font-mono); font-size: 0.85rem;
+        letter-spacing: 0.08em; font-weight: 700;
+        box-shadow: 0 12px 40px rgba(14, 107, 84, 0.45);
+        transform: translateY(100px); opacity: 0;
+        transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      `;
+      toast.textContent = '✓ Thank you — Tiffany will respond within two business days.';
+      document.body.appendChild(toast);
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          toast.style.transform = 'translateY(0)';
+          toast.style.opacity = '1';
+        });
+      });
+      setTimeout(() => {
+        toast.style.transform = 'translateY(100px)';
+        toast.style.opacity = '0';
+        setTimeout(() => toast.remove(), 400);
+      }, 5000);
+      bookingFormEl.reset();
+    });
+  }
 
 });
