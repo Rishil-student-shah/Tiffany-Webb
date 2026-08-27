@@ -800,10 +800,10 @@
         <form id="contentForm" action="/cms/<%= page.slug %>" method="POST" enctype="multipart/form-data">
             <% 
             const uniqueSections = new Set([...Object.keys(sections), ...(typeof definedCollections !== 'undefined' ? definedCollections : [])]);
-            let allSections = Array.from(uniqueSections);
+            let allSections = Array.from(uniqueSections).filter(s => s !== "booking");
             
             // Define standard page order
-            const pageOrder = ['hero', 'impact_band', 'credibility_bar', 'meet_tiffany', 'expertise', 'who_can_benefit', 'media', 'events', 'proof', 'proof_attributes', 'proof_testimonials', 'booking', 'footer', 'social_links'];
+            const pageOrder = ['hero', 'impact_band', 'credibility_bar', 'meet_tiffany', 'expertise', 'who_can_benefit', 'media', 'events', 'proof', 'proof_attributes', 'proof_testimonials', 'footer', 'social_links'];
             
             allSections.sort((a, b) => {
                 const indexA = pageOrder.indexOf(a);
