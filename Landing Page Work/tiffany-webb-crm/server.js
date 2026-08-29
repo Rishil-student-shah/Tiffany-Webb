@@ -381,6 +381,8 @@ app.get('/cms/:slug', requireAuth, async (req, res) => {
     let definedCollections = [];
     if (page.slug === 'home') {
       definedCollections = ['impact_band', 'credibility_bar', 'expertise', 'who_can_benefit', 'events', 'proof_attributes', 'proof_testimonials', 'social_links'];
+    } else if (page.slug === 'services') {
+      definedCollections = ['how_tiffany_helps'];
     }
 
     res.render('cms-page', { 
