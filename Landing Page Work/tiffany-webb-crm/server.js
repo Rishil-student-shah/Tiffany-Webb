@@ -380,9 +380,9 @@ app.get('/cms/:slug', requireAuth, async (req, res) => {
 
     let definedCollections = [];
     if (page.slug === 'home') {
-      definedCollections = ['impact_band', 'credibility_bar', 'expertise', 'who_can_benefit', 'events', 'proof_attributes', 'proof_testimonials', 'social_links'];
+      definedCollections = ['impact_band', 'credibility_bar', 'expertise', 'who_can_benefit', 'events', 'proof_attributes', 'proof_testimonials', 'social_links', 'video_reels'];
     } else if (page.slug === 'services') {
-      definedCollections = ['how_tiffany_helps'];
+      definedCollections = ['how_tiffany_helps', 'gear_method'];
     }
 
     res.render('cms-page', { 
