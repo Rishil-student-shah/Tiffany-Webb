@@ -827,7 +827,16 @@
                             <% allSections.forEach((sectionName, index) => { %>
                                 <li>
                                     <button type="button" class="tab-btn <%= index === 0 ? 'active' : '' %>" data-target="section-<%= sectionName %>" style="width: 100%; text-align: left; padding: 0.75rem 1rem; color: #334155; text-transform: capitalize; border-radius: 8px; font-size: 0.9rem; font-weight: 600; font-family: var(--font-sans); background: <%= index === 0 ? '#f1f5f9' : 'transparent' %>; border: none; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: space-between;">
-                                        <%= sectionName.replace(/_/g, ' ') %>
+                                        <% 
+                                            let label = sectionName.replace(/_/g, ' ');
+                                            if (sectionName === 'proof') label = 'Credibility (Cards)';
+                                            if (sectionName === 'proof_testimonials') label = 'Testimonials (Slider)';
+                                            if (sectionName === 'proof_attributes') label = 'Credibility Attributes';
+                                            if (sectionName === 'who_can_benefit') label = 'Where she works';
+                                            if (sectionName === 'gear_method') label = 'The GEAR Method';
+                                            if (sectionName === 'how_tiffany_helps') label = 'Capabilities';
+                                        %>
+                                        <%= label %>
                                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="<%= index === 0 ? '#3b82f6' : 'currentColor' %>" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity: <%= index === 0 ? '1' : '0.4' %>;"><polyline points="9 18 15 12 9 6"></polyline></svg>
                                     </button>
                                 </li>
