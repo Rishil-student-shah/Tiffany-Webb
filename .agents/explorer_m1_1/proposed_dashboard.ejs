@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Pipeline — Tiffany Webb CRM</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- Chart.js 4.x CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Tailwind CSS Play CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        sage: {
+                            deep: '#1A2721',
+                            dark: '#121C18',
+                            DEFAULT: '#0E6B54',
+                            light: '#23372E',
+                            border: 'rgba(251, 246, 234, 0.10)'
+                        },
+                        ink: {
+                            deep: '#0D1210',
+                            DEFAULT: '#14130E',
+                            card: '#1B1A14',
+                            elevated: '#23211B',
+                            border: 'rgba(251, 246, 234, 0.12)'
+                        },
+                        ivory: {
+                            DEFAULT: '#FBF6EA',
+                            cream: '#F3EAD6',
+                            muted: 'rgba(251, 246, 234, 0.70)',
+                            dim: 'rgba(251, 246, 234, 0.40)',
+                            subtle: 'rgba(251, 246, 234, 0.05)'
+                        },
+                        gold: {
+                            DEFAULT: '#C8A24C',
+                            hover: '#DBB55F',
+                            mustard: '#D9A23A',
+                            subtle: 'rgba(200, 162, 76, 0.15)',
+                            glow: 'rgba(200, 162, 76, 0.35)'
+                        },
+                        emerald: {
+                            DEFAULT: '#0E6B54',
+                            hover: '#13876B',
+                            subtle: 'rgba(14, 107, 84, 0.18)'
+                        },
+                        crimson: {
+                            DEFAULT: '#C15427',
+                            hover: '#D96536',
+                            muted: '#E05353',
+                            subtle: 'rgba(193, 84, 39, 0.15)'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Fraunces', 'Georgia', 'serif'],
+                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+                        mono: ['"Space Mono"', 'monospace']
+                    },
+                    boxShadow: {
+                        'glass': 'inset 0 1px 0 rgba(255, 255, 255, 0.10), 0 10px 30px rgba(0, 0, 0, 0.35)',
+                        'glass-hover': 'inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 16px 36px rgba(0, 0, 0, 0.45), 0 0 20px rgba(200, 162, 76, 0.10)',
+                        'gold-glow': '0 0 15px rgba(200, 162, 76, 0.30)',
+                        'emerald-glow': '0 0 15px rgba(14, 107, 84, 0.30)'
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(6px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        },
+                        slideDown: {
+                            '0%': { opacity: '0', transform: 'translateY(-10px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        },
+                        cardExit: {
+                            '0%': { opacity: '1', transform: 'scale(1)', maxHeight: '250px' },
+                            '100%': { opacity: '0', transform: 'scale(0.92)', maxHeight: '0px', margin: '0', padding: '0' }
+                        }
+                    },
+                    animation: {
+                        fadeIn: 'fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                        slideDown: 'slideDown 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                        cardExit: 'cardExit 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #14130E; }
+        ::-webkit-scrollbar-thumb { background: #23211B; border-radius: 4px; border: 1px solid rgba(251, 246, 234, 0.1); }
+        ::-webkit-scrollbar-thumb:hover { background: #C8A24C; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-ink text-ivory min-h-screen antialiased bg-[radial-gradient(ellipse_at_top,_#1A2721_0%,_#14130E_65%)] selection:bg-gold selection:text-ink">
+
+    <!-- STICKY TOP NAVIGATION -->
+    <nav class="sticky top-0 z-40 backdrop-blur-md bg-ink/85 border-b border-ivory/10 px-6 py-3.5 transition-all">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg bg-gold/15 border border-gold/30 flex items-center justify-center text-gold font-serif font-bold text-lg">
+                    T
+                </div>
+                <h1 class="font-serif text-xl md:text-2xl text-ivory tracking-tight">
+                    Tiffany Webb <span class="text-gold italic font-light text-lg">CRM</span>
+                </h1>
+            </div>
+            <div class="flex items-center gap-1 sm:gap-2">
+                <a href="/dashboard" class="px-3.5 py-1.5 rounded-xl text-xs font-mono uppercase tracking-wider text-gold bg-gold/10 border border-gold/30 transition-colors">
+                    Pipeline
+                </a>
+                <a href="/leads/new" class="px-3.5 py-1.5 rounded-xl text-xs font-mono uppercase tracking-wider text-ivory-muted hover:text-ivory hover:bg-ivory/5 transition-colors">
+                    + Add Lead
+                </a>
+                <a href="/cms" class="px-3.5 py-1.5 rounded-xl text-xs font-mono uppercase tracking-wider text-ivory-muted hover:text-ivory hover:bg-ivory/5 transition-colors">
+                    Website
+                </a>
+                <a href="/users" class="px-3.5 py-1.5 rounded-xl text-xs font-mono uppercase tracking-wider text-ivory-muted hover:text-ivory hover:bg-ivory/5 transition-colors">
+                    Staff
+                </a>
+                <a href="/login" class="ml-2 px-3 py-1.5 rounded-xl text-xs font-mono text-crimson-muted hover:text-crimson hover:bg-crimson/10 border border-transparent hover:border-crimson/20 transition-colors flex items-center gap-1.5">
+                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+                    Logout
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- MAIN DASHBOARD CONTENT -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+        
+        <!-- PAGE HEADER & ALERTS -->
+        <header class="space-y-4">
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+                <div>
+                    <h1 class="font-serif text-3xl md:text-4xl text-ivory tracking-tight">Booking Pipeline</h1>
+                    <p class="text-ivory-muted text-sm mt-1">Manage, filter, and track all high-value client inquiries in real time.</p>
+                </div>
+            </div>
+
+            <% if (typeof error !== 'undefined' && error) { %>
+                <div class="bg-crimson/10 border border-crimson/30 text-rose-200 px-4 py-3 rounded-xl flex items-center gap-3 animate-fadeIn">
+                    <svg class="w-5 h-5 text-rose-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    <span class="text-sm font-sans"><%= error %></span>
+                </div>
+            <% } %>
+
+            <% if (typeof success !== 'undefined' && success) { %>
+                <div class="bg-emerald/15 border border-emerald/30 text-emerald-200 px-4 py-3 rounded-xl flex items-center gap-3 animate-fadeIn">
+                    <svg class="w-5 h-5 text-emerald-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    <span class="text-sm font-sans"><%= success %></span>
+                </div>
+            <% } %>
+        </header>
+
+        <!-- KPI SUMMARY CARDS -->
+        <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            <!-- Card 1: Total Leads -->
+            <div class="bg-gradient-to-br from-ink-card/95 to-ink-elevated/80 backdrop-blur-md border border-ivory/10 rounded-2xl p-5 shadow-glass hover:border-gold/30 hover:shadow-glass-hover transition-all duration-300 relative overflow-hidden group">
+                <div class="flex items-center justify-between">
+                    <span class="font-mono text-xs uppercase tracking-wider text-ivory-muted">Total Inquiries</span>
+                    <div class="w-8 h-8 rounded-lg bg-gold/10 border border-gold/20 flex items-center justify-center text-gold">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+                    </div>
+                </div>
+                <div id="stat-total-leads" class="font-serif text-3xl sm:text-4xl text-ivory font-normal tracking-tight mt-3 mb-1">
+                    <%= leads.length %>
+                </div>
+                <p class="text-xs text-ivory-dim font-sans">Active database pipeline records</p>
+            </div>
+
+            <!-- Card 2: New / Unread -->
+            <div class="bg-gradient-to-br from-ink-card/95 to-ink-elevated/80 backdrop-blur-md border border-amber-500/20 rounded-2xl p-5 shadow-glass hover:border-amber-400/40 hover:shadow-glass-hover transition-all duration-300 relative overflow-hidden group">
+                <div class="flex items-center justify-between">
+                    <span class="font-mono text-xs uppercase tracking-wider text-amber-300/80">New / Unread</span>
+                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-300">
+                        <span class="relative flex h-2 w-2">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
+                        </span>
+                    </div>
+                </div>
+                <div id="stat-new-leads" class="font-serif text-3xl sm:text-4xl text-amber-300 font-normal tracking-tight mt-3 mb-1">
+                    <%= leads.filter(l => l.status === 'new').length %>
+                </div>
+                <p class="text-xs text-amber-200/50 font-sans">Requires initial client outreach</p>
+            </div>
+
+            <!-- Card 3: Booked -->
+            <div class="bg-gradient-to-br from-ink-card/95 to-ink-elevated/80 backdrop-blur-md border border-emerald/30 rounded-2xl p-5 shadow-glass hover:border-emerald hover:shadow-glass-hover transition-all duration-300 relative overflow-hidden group">
+                <div class="flex items-center justify-between">
+                    <span class="font-mono text-xs uppercase tracking-wider text-emerald-300/80">Booked Clients</span>
+                    <div class="w-8 h-8 rounded-lg bg-emerald/15 border border-emerald/30 flex items-center justify-center text-emerald-300">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    </div>
+                </div>
+                <div id="stat-booked-leads" class="font-serif text-3xl sm:text-4xl text-emerald-300 font-normal tracking-tight mt-3 mb-1">
+                    <%= leads.filter(l => l.status === 'booked').length %>
+                </div>
+                <p class="text-xs text-emerald-200/50 font-sans">Confirmed contracts & retainers</p>
+            </div>
+
+            <!-- Card 4: Proposals Out -->
+            <div class="bg-gradient-to-br from-ink-card/95 to-ink-elevated/80 backdrop-blur-md border border-purple-500/20 rounded-2xl p-5 shadow-glass hover:border-purple-400/40 hover:shadow-glass-hover transition-all duration-300 relative overflow-hidden group">
+                <div class="flex items-center justify-between">
+                    <span class="font-mono text-xs uppercase tracking-wider text-purple-300/80">Proposals Out</span>
+                    <div class="w-8 h-8 rounded-lg bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-300">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                    </div>
+                </div>
+                <div id="stat-proposal-leads" class="font-serif text-3xl sm:text-4xl text-purple-200 font-normal tracking-tight mt-3 mb-1">
+                    <%= leads.filter(l => l.status === 'proposal_sent').length %>
+                </div>
+                <p class="text-xs text-purple-200/50 font-sans">Awaiting decision or payment</p>
+            </div>
+        </section>
+
+        <!-- ANALYTICS CHARTS ROW -->
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <!-- Chart 1: Lead Sources Doughnut -->
+            <div class="bg-gradient-to-br from-ink-card/95 to-ink-elevated/85 backdrop-blur-md border border-ivory/10 rounded-2xl p-6 shadow-glass">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="font-serif text-xl text-ivory">Lead Sources</h2>
+                    <span class="font-mono text-[11px] uppercase tracking-wider text-ivory-dim">Channel Breakdown</span>
+                </div>
+                <div class="h-64 relative flex items-center justify-center">
+                    <canvas id="sourceChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Chart 2: Pipeline Funnel Bar -->
+            <div class="bg-gradient-to-br from-ink-card/95 to-ink-elevated/85 backdrop-blur-md border border-ivory/10 rounded-2xl p-6 shadow-glass">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="font-serif text-xl text-ivory">Pipeline Funnel</h2>
+                    <span class="font-mono text-[11px] uppercase tracking-wider text-ivory-dim">Stage Conversion</span>
+                </div>
+                <div class="h-64 relative">
+                    <canvas id="funnelChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- UNIFIED SEARCH & ACTION BAR -->
+        <section class="bg-ink-card/85 backdrop-blur-md border border-ivory/10 rounded-2xl p-4 shadow-glass flex flex-col md:flex-row gap-4 items-center justify-between">
+            <!-- Debounced Live Search -->
+            <div class="relative w-full md:max-w-md">
+                <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-ivory-dim">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                </div>
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    class="w-full bg-ink-elevated/80 border border-ivory/15 rounded-xl pl-10 pr-10 py-2.5 text-sm text-ivory placeholder-ivory-dim focus:outline-none focus:border-gold/50 focus:ring-1 focus:ring-gold/30 transition-all font-sans"
+                    placeholder="Search leads by name, email, phone, org..."
+                    autocomplete="off"
+                >
+                <button 
+                    id="searchClearBtn" 
+                    type="button" 
+                    class="hidden absolute inset-y-0 right-0 pr-3.5 flex items-center text-ivory-dim hover:text-ivory transition-colors cursor-pointer"
+                    onclick="clearSearch()"
+                    title="Clear search"
+                >
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+
+            <!-- Actions -->
+            <div class="flex items-center gap-3 w-full md:w-auto justify-end">
+                <button 
+                    type="button" 
+                    onclick="bulkDelete('all')" 
+                    class="px-4 py-2.5 rounded-xl text-xs font-mono tracking-wider uppercase text-rose-300 bg-crimson/15 border border-crimson/30 hover:bg-crimson/25 hover:border-crimson/50 transition-all flex items-center gap-2"
+                >
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                    Delete All Leads
+                </button>
+                <a 
+                    href="/leads/new" 
+                    class="px-5 py-2.5 rounded-xl text-xs font-mono font-bold tracking-wider uppercase bg-gradient-to-r from-gold to-gold-hover text-ink-deep shadow-gold-glow hover:brightness-110 active:scale-[0.98] transition-all flex items-center gap-2"
+                >
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                    + Add Manual Lead
+                </a>
+            </div>
+        </section>
+
+        <!-- DEDICATED LIVE SEARCH RESULTS CONTAINER (HIDDEN UNTIL SEARCHING) -->
+        <section id="searchResultsContainer" class="hidden bg-ink-card/90 backdrop-blur-md border border-gold/30 rounded-2xl p-6 shadow-glass animate-fadeIn">
+            <div class="flex items-center justify-between mb-6 pb-4 border-b border-ivory/10">
+                <div class="flex items-center gap-3">
+                    <span class="w-2.5 h-2.5 rounded-full bg-gold animate-ping"></span>
+                    <h2 class="font-serif text-2xl text-gold">Search Results</h2>
+                    <span id="searchResultCount" class="font-mono text-xs text-ivory-dim bg-ivory/5 px-2.5 py-1 rounded-full border border-ivory/10"></span>
+                </div>
+                <button 
+                    type="button" 
+                    onclick="clearSearch()" 
+                    class="px-3.5 py-1.5 rounded-xl text-xs font-mono text-ivory-muted hover:text-ivory bg-ivory/5 hover:bg-ivory/10 border border-ivory/10 transition-colors flex items-center gap-1.5"
+                >
+                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                    Exit Search
+                </button>
+            </div>
+            <div id="searchResultsGrid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+                <!-- Matching lead cards appended dynamically here -->
+            </div>
+        </section>
+
+        <!-- STATUS FILTER TABS BAR -->
+        <nav id="statusTabsNav" class="flex items-center gap-2 overflow-x-auto pb-2 no-scrollbar border-b border-ivory/10" aria-label="Pipeline Status Tabs">
+            <% 
+            const statuses = ['new', 'contacted', 'qualified', 'proposal_sent', 'booked', 'completed', 'declined', 'lost'];
+            statuses.forEach((status, i) => { 
+                const count = leads.filter(l => l.status === status).length;
+            %>
+                <button 
+                    id="tab-btn-<%= status %>" 
+                    type="button"
+                    class="tab-btn px-4 py-2.5 rounded-xl text-xs font-mono uppercase tracking-wider transition-all duration-200 flex items-center gap-2.5 cursor-pointer whitespace-nowrap <%= i === 0 ? 'bg-gold/15 text-gold border border-gold/40 shadow-gold-glow active' : 'text-ivory-muted hover:text-ivory hover:bg-ivory/5 border border-transparent' %>" 
+                    onclick="showTab('<%= status %>')"
+                    data-status="<%= status %>"
+                >
+                    <span><%= status.replace(/_/g, ' ') %></span>
+                    <span id="tab-badge-<%= status %>" class="tab-badge text-[11px] px-2 py-0.5 rounded-full font-mono <%= i === 0 ? 'bg-gold/25 text-gold font-bold' : 'bg-ivory/10 text-ivory-muted' %>">
+                        <%= count %>
+                    </span>
+                </button>
+            <% }) %>
+        </nav>
+
+        <!-- TAB CONTENT PANES & LEADS GRID -->
+        <section id="kanban-wrapper" class="space-y-6">
+            <% 
+            statuses.forEach((status, i) => { 
+                const colLeads = leads.filter(l => l.status === status);
+                
+                // Color configuration per status
+                let borderLeftColor = 'border-l-gold';
+                let dotColor = 'bg-gold';
+                if (status === 'new') { borderLeftColor = 'border-l-amber-400'; dotColor = 'bg-amber-400'; }
+                else if (status === 'contacted') { borderLeftColor = 'border-l-sky-400'; dotColor = 'bg-sky-400'; }
+                else if (status === 'qualified') { borderLeftColor = 'border-l-teal-400'; dotColor = 'bg-teal-400'; }
+                else if (status === 'proposal_sent') { borderLeftColor = 'border-l-purple-400'; dotColor = 'bg-purple-400'; }
+                else if (status === 'booked') { borderLeftColor = 'border-l-emerald-400'; dotColor = 'bg-emerald-400'; }
+                else if (status === 'completed') { borderLeftColor = 'border-l-slate-400'; dotColor = 'bg-slate-400'; }
+                else if (status === 'declined') { borderLeftColor = 'border-l-rose-500'; dotColor = 'bg-rose-500'; }
+                else if (status === 'lost') { borderLeftColor = 'border-l-neutral-600'; dotColor = 'bg-neutral-500'; }
+            %>
+                <div id="tab-pane-<%= status %>" class="tab-pane <%= i === 0 ? 'block animate-fadeIn' : 'hidden' %>" data-status="<%= status %>">
+                    
+                    <!-- Pane Header -->
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-2">
+                        <div>
+                            <h2 class="font-serif text-2xl md:text-3xl text-ivory capitalize"><%= status.replace(/_/g, ' ') %> Inquiries</h2>
+                            <p class="text-xs text-ivory-dim font-sans mt-0.5">Manage and track leads currently in <%= status.replace(/_/g, ' ') %> status.</p>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <button 
+                                type="button" 
+                                onclick="bulkDelete('<%= status %>')" 
+                                class="bulk-delete-status-btn <%= colLeads.length === 0 ? 'hidden' : 'flex' %> items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono text-rose-300 bg-crimson/15 border border-crimson/30 hover:bg-crimson/25 transition-all"
+                            >
+                                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                                Delete All <%= status.replace(/_/g, ' ') %>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Empty State -->
+                    <div class="empty-state-placeholder <%= colLeads.length === 0 ? 'block' : 'hidden' %> py-16 text-center border border-dashed border-ivory/15 rounded-2xl bg-ink-elevated/40 backdrop-blur-sm px-6">
+                        <div class="w-12 h-12 rounded-full bg-ivory/5 border border-ivory/10 flex items-center justify-center mx-auto mb-4 text-ivory-dim">
+                            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" /></svg>
+                        </div>
+                        <h3 class="font-serif text-2xl text-ivory-muted italic mb-1">No Inquiries in <%= status.replace(/_/g, ' ') %></h3>
+                        <p class="text-xs text-ivory-dim font-mono">Incoming leads or status updates will dynamically populate here.</p>
+                    </div>
+
+                    <!-- Leads Grid -->
+                    <div class="leads-grid <%= colLeads.length === 0 ? 'hidden' : 'grid' %> grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+                        <% colLeads.forEach(lead => { %>
+                            <div 
+                                id="lead-card-<%= lead.id %>"
+                                class="lead-card group bg-gradient-to-br from-ink-card/95 to-ink-elevated/85 backdrop-blur-md border border-ivory/10 hover:border-gold/40 rounded-2xl p-5 shadow-glass hover:shadow-glass-hover transition-all duration-300 relative flex flex-col justify-between overflow-hidden cursor-pointer"
+                                data-lead-id="<%= lead.id %>"
+                                data-status="<%= lead.status %>"
+                                data-search="<%= [lead.contact_name, lead.email, lead.phone, lead.organization_name, lead.source, lead.status].filter(Boolean).join(' ').toLowerCase() %>"
+                                onclick="window.location.href='/lead/<%= lead.id %>'"
+                            >
+                                <!-- Left Status Border -->
+                                <div class="absolute left-0 top-0 bottom-0 w-1.5 <%= borderLeftColor %> rounded-l-2xl"></div>
+
+                                <div>
+                                    <!-- Card Header -->
+                                    <div class="flex items-start justify-between gap-2 mb-2 pl-2">
+                                        <div class="flex-1 min-w-0">
+                                            <h3 class="font-serif text-lg text-ivory group-hover:text-gold transition-colors font-medium truncate">
+                                                <%= lead.contact_name || lead.phone || 'Inquiry #' + lead.id %>
+                                            </h3>
+                                            <p class="text-xs text-ivory-muted font-sans truncate">
+                                                <%= lead.organization_name || 'Individual / Private Client' %>
+                                            </p>
+                                        </div>
+                                        <div class="flex items-center gap-1.5">
+                                            <span class="font-mono text-[11px] text-ivory-dim bg-ivory/5 px-2 py-0.5 rounded-md border border-ivory/5 whitespace-nowrap">
+                                                <%= lead.event_date ? new Date(lead.event_date).toLocaleDateString(undefined, {month: 'short', day: 'numeric'}) : 'Date TBD' %>
+                                            </span>
+                                            <button 
+                                                type="button" 
+                                                class="p-1 rounded-lg text-ivory-dim hover:text-rose-400 hover:bg-crimson/15 transition-colors"
+                                                title="Delete lead"
+                                                onclick="deleteLeadCard(<%= lead.id %>, '<%= (lead.contact_name || 'Inquiry #' + lead.id).replace(/'/g, "\\'") %>', event)"
+                                            >
+                                                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <!-- Contact Info -->
+                                    <div class="space-y-1 my-3 pl-2 text-xs text-ivory-dim">
+                                        <% if (lead.email) { %>
+                                            <div class="flex items-center gap-2 truncate">
+                                                <svg class="w-3.5 h-3.5 text-ivory-dim flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                                                <span class="truncate"><%= lead.email %></span>
+                                            </div>
+                                        <% } %>
+                                        <% if (lead.phone) { %>
+                                            <div class="flex items-center gap-2 truncate">
+                                                <svg class="w-3.5 h-3.5 text-ivory-dim flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                                                <span class="truncate font-mono"><%= lead.phone %></span>
+                                            </div>
+                                        <% } %>
+                                    </div>
+                                </div>
+
+                                <!-- Card Footer -->
+                                <div class="pt-3 border-t border-ivory/5 flex items-center justify-between pl-2 mt-2">
+                                    <div class="flex items-center gap-1.5">
+                                        <span class="w-1.5 h-1.5 rounded-full <%= dotColor %>"></span>
+                                        <span class="font-mono text-[10px] uppercase tracking-wider text-ivory-muted">
+                                            <%= (lead.source || 'website').replace(/_/g, ' ') %>
+                                        </span>
+                                    </div>
+                                    <div class="text-xs font-mono text-ivory-dim group-hover:text-gold flex items-center gap-1 transition-colors">
+                                        <span>Details</span>
+                                        <svg class="w-3.5 h-3.5 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                                    </div>
+                                </div>
+                            </div>
+                        <% }) %>
+                    </div>
+                </div>
+            <% }) %>
+        </section>
+    </main>
+
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div id="toast-container" class="fixed bottom-6 right-6 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+    <!-- CLIENT INTERACTIONS & CHART LOGIC SCRIPT -->
+    <script>
+        // Parse server chart data safely
+        const chartData = <%- chartData %>;
+
+        // 1. Initialize Chart.js Modern Luxury Charts
+        document.addEventListener('DOMContentLoaded', () => {
+            // Doughnut Chart - Lead Sources
+            const sourceCanvas = document.getElementById('sourceChart');
+            if (sourceCanvas && chartData && chartData.sourceData) {
+                const sourceCtx = sourceCanvas.getContext('2d');
+                const sourceLabels = Object.keys(chartData.sourceData).map(s => s.replace(/_/g, ' ').toUpperCase());
+                const sourceValues = Object.values(chartData.sourceData);
+
+                new Chart(sourceCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: sourceLabels,
+                        datasets: [{
+                            data: sourceValues,
+                            backgroundColor: ['#C8A24C', '#0E6B54', '#C15427', '#885794', '#5B7994', '#9A6A3E'],
+                            borderColor: '#14130E',
+                            borderWidth: 2,
+                            hoverOffset: 6
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        cutout: '72%',
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    color: '#FBF6EA',
+                                    font: { family: 'Inter', size: 11, weight: '500' },
+                                    padding: 14,
+                                    usePointStyle: true,
+                                    pointStyle: 'circle'
+                                }
+                            },
+                            tooltip: {
+                                backgroundColor: 'rgba(20, 19, 14, 0.95)',
+                                titleColor: '#C8A24C',
+                                bodyColor: '#FBF6EA',
+                                borderColor: 'rgba(251, 246, 234, 0.15)',
+                                borderWidth: 1,
+                                padding: 12,
+                                cornerRadius: 8
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Bar Chart - Pipeline Funnel
+            const funnelCanvas = document.getElementById('funnelChart');
+            if (funnelCanvas && chartData && chartData.funnelData) {
+                const funnelCtx = funnelCanvas.getContext('2d');
+                const funnelGradient = funnelCtx.createLinearGradient(0, 0, 0, 240);
+                funnelGradient.addColorStop(0, '#C8A24C');
+                funnelGradient.addColorStop(1, '#0E6B54');
+
+                new Chart(funnelCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['New', 'Qualified', 'Proposal Sent', 'Booked'],
+                        datasets: [{
+                            data: [
+                                chartData.funnelData.new || 0,
+                                chartData.funnelData.qualified || 0,
+                                chartData.funnelData.proposal_sent || 0,
+                                chartData.funnelData.booked || 0
+                            ],
+                            backgroundColor: funnelGradient,
+                            borderRadius: 8,
+                            borderSkipped: false,
+                            barThickness: 36
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                backgroundColor: 'rgba(20, 19, 14, 0.95)',
+                                titleColor: '#C8A24C',
+                                bodyColor: '#FBF6EA',
+                                borderColor: 'rgba(251, 246, 234, 0.15)',
+                                borderWidth: 1,
+                                padding: 10,
+                                cornerRadius: 8
+                            }
+                        },
+                        scales: {
+                            x: {
+                                ticks: { color: 'rgba(251, 246, 234, 0.7)', font: { family: 'Inter', size: 12 } },
+                                grid: { display: false }
+                            },
+                            y: {
+                                beginAtZero: true,
+                                ticks: { color: 'rgba(251, 246, 234, 0.7)', stepSize: 1, font: { family: 'Inter', size: 11 } },
+                                grid: { color: 'rgba(251, 246, 234, 0.06)' }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Initialize Search listeners
+            setupSearch();
+        });
+
+        // 2. Status Tab Switching
+        function showTab(status) {
+            // Hide all tab panes
+            document.querySelectorAll('.tab-pane').forEach(pane => {
+                pane.classList.add('hidden');
+                pane.classList.remove('block', 'animate-fadeIn');
+            });
+
+            // Show selected pane with animation
+            const activePane = document.getElementById('tab-pane-' + status);
+            if (activePane) {
+                activePane.classList.remove('hidden');
+                activePane.classList.add('block', 'animate-fadeIn');
+            }
+
+            // Update Tab Button styles
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('bg-gold/15', 'text-gold', 'border-gold/40', 'shadow-gold-glow', 'active');
+                btn.classList.add('text-ivory-muted', 'hover:text-ivory', 'hover:bg-ivory/5', 'border-transparent');
+                
+                const badge = btn.querySelector('.tab-badge');
+                if (badge) {
+                    badge.classList.remove('bg-gold/25', 'text-gold', 'font-bold');
+                    badge.classList.add('bg-ivory/10', 'text-ivory-muted');
+                }
+            });
+
+            const activeBtn = document.getElementById('tab-btn-' + status);
+            if (activeBtn) {
+                activeBtn.classList.add('bg-gold/15', 'text-gold', 'border-gold/40', 'shadow-gold-glow', 'active');
+                activeBtn.classList.remove('text-ivory-muted', 'hover:text-ivory', 'hover:bg-ivory/5', 'border-transparent');
+                
+                const activeBadge = activeBtn.querySelector('.tab-badge');
+                if (activeBadge) {
+                    activeBadge.classList.add('bg-gold/25', 'text-gold', 'font-bold');
+                    activeBadge.classList.remove('bg-ivory/10', 'text-ivory-muted');
+                }
+            }
+        }
+
+        // 3. Debounced Live Client Search
+        let searchTimer = null;
+        function setupSearch() {
+            const searchInput = document.getElementById('searchInput');
+            if (!searchInput) return;
+
+            searchInput.addEventListener('input', (e) => {
+                clearTimeout(searchTimer);
+                const query = e.target.value.trim().toLowerCase();
+                const clearBtn = document.getElementById('searchClearBtn');
+
+                if (query.length > 0) {
+                    if (clearBtn) clearBtn.classList.remove('hidden');
+                } else {
+                    if (clearBtn) clearBtn.classList.add('hidden');
+                }
+
+                searchTimer = setTimeout(() => {
+                    executeSearch(query);
+                }, 200);
+            });
+
+            searchInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    clearSearch();
+                }
+            });
+        }
+
+        function executeSearch(query) {
+            const searchResultsContainer = document.getElementById('searchResultsContainer');
+            const searchResultsGrid = document.getElementById('searchResultsGrid');
+            const searchResultCount = document.getElementById('searchResultCount');
+            const kanbanWrapper = document.getElementById('kanban-wrapper');
+            const statusTabsNav = document.getElementById('statusTabsNav');
+
+            if (!query) {
+                clearSearch();
+                return;
+            }
+
+            // Gather all lead cards across all tab panes
+            const allCards = document.querySelectorAll('.tab-pane .lead-card');
+            searchResultsGrid.innerHTML = '';
+            let count = 0;
+
+            allCards.forEach(card => {
+                const searchData = (card.getAttribute('data-search') || '').toLowerCase();
+                if (searchData.includes(query)) {
+                    const clone = card.cloneNode(true);
+                    // Reattach event listeners to clone
+                    const cardId = card.getAttribute('data-lead-id');
+                    clone.onclick = () => window.location.href = `/lead/${cardId}`;
+                    const delBtn = clone.querySelector('button[title="Delete lead"]');
+                    if (delBtn) {
+                        delBtn.onclick = (e) => {
+                            const title = clone.querySelector('h3') ? clone.querySelector('h3').textContent.trim() : 'Inquiry';
+                            deleteLeadCard(cardId, title, e);
+                        };
+                    }
+                    searchResultsGrid.appendChild(clone);
+                    count++;
+                }
+            });
+
+            if (count === 0) {
+                searchResultsGrid.innerHTML = `
+                    <div class="col-span-full py-12 text-center border border-dashed border-ivory/10 rounded-2xl bg-ink-elevated/30">
+                        <p class="font-serif text-xl text-ivory-muted italic">No leads matching "${escapeHTML(query)}"</p>
+                        <p class="text-xs text-ivory-dim mt-1 font-mono">Try searching with a different name, email, phone, or organization.</p>
+                    </div>
+                `;
+                searchResultCount.textContent = '0 matches';
+            } else {
+                searchResultCount.textContent = `${count} match${count === 1 ? '' : 'es'}`;
+            }
+
+            searchResultsContainer.classList.remove('hidden');
+            kanbanWrapper.classList.add('hidden');
+            statusTabsNav.classList.add('opacity-40', 'pointer-events-none');
+        }
+
+        function clearSearch() {
+            const searchInput = document.getElementById('searchInput');
+            const searchClearBtn = document.getElementById('searchClearBtn');
+            const searchResultsContainer = document.getElementById('searchResultsContainer');
+            const kanbanWrapper = document.getElementById('kanban-wrapper');
+            const statusTabsNav = document.getElementById('statusTabsNav');
+
+            if (searchInput) searchInput.value = '';
+            if (searchClearBtn) searchClearBtn.classList.add('hidden');
+            if (searchResultsContainer) searchResultsContainer.classList.add('hidden');
+            if (kanbanWrapper) kanbanWrapper.classList.remove('hidden');
+            if (statusTabsNav) statusTabsNav.classList.remove('opacity-40', 'pointer-events-none');
+        }
+
+        // 4. Smooth In-Place AJAX Lead Deletion
+        async function deleteLeadCard(leadId, leadName, event) {
+            if (event) event.stopPropagation();
+
+            if (!confirm(`Are you sure you want to delete the inquiry for "${leadName}"?`)) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`/lead/${leadId}/delete`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+
+                if (response.ok || response.redirected) {
+                    // Animate and remove original card and any search clones
+                    const targetCards = document.querySelectorAll(`[id="lead-card-${leadId}"]`);
+                    targetCards.forEach(card => animateCardExit(card));
+
+                    // In-memory counter recalculation
+                    setTimeout(() => {
+                        recalculateCounters();
+                        showToast(`Inquiry for "${leadName}" deleted successfully.`, 'success');
+                    }, 350);
+                } else {
+                    showToast('Failed to delete lead. Server error.', 'error');
+                }
+            } catch (err) {
+                console.error('Delete lead error:', err);
+                showToast('Network error while deleting lead.', 'error');
+            }
+        }
+
+        // 5. Smooth AJAX Bulk Deletion
+        async function bulkDelete(status) {
+            const isAll = status === 'all';
+            const msg = isAll
+                ? "Are you absolutely sure you want to DELETE ALL LEADS in the system? This action cannot be undone."
+                : `Are you sure you want to delete all '${status.replace(/_/g, ' ')}' leads?`;
+
+            if (!confirm(msg)) return;
+
+            try {
+                const response = await fetch('/api/leads/bulk-delete', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ status })
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    if (isAll) {
+                        // Animate removal of all cards
+                        document.querySelectorAll('.lead-card').forEach(card => animateCardExit(card));
+                    } else {
+                        // Animate removal of all cards in target pane
+                        const targetPane = document.getElementById('tab-pane-' + status);
+                        if (targetPane) {
+                            targetPane.querySelectorAll('.lead-card').forEach(card => animateCardExit(card));
+                        }
+                    }
+
+                    setTimeout(() => {
+                        recalculateCounters();
+                        showToast(result.message || 'Leads deleted successfully.', 'success');
+                    }, 350);
+                } else {
+                    showToast(result.error || 'Failed to bulk delete leads.', 'error');
+                }
+            } catch (err) {
+                console.error('Bulk delete error:', err);
+                showToast('Error connecting to the server.', 'error');
+            }
+        }
+
+        // Helper: Card Exit Animation & DOM Removal
+        function animateCardExit(cardElement) {
+            if (!cardElement) return;
+            cardElement.style.transition = 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)';
+            cardElement.style.transform = 'scale(0.92) translateY(-8px)';
+            cardElement.style.opacity = '0';
+            cardElement.style.maxHeight = `${cardElement.offsetHeight}px`;
+
+            setTimeout(() => {
+                cardElement.style.maxHeight = '0px';
+                cardElement.style.paddingTop = '0px';
+                cardElement.style.paddingBottom = '0px';
+                cardElement.style.marginTop = '0px';
+                cardElement.style.marginBottom = '0px';
+                cardElement.style.overflow = 'hidden';
+            }, 50);
+
+            setTimeout(() => {
+                const parentGrid = cardElement.parentElement;
+                cardElement.remove();
+
+                // Toggle empty state if grid is now empty
+                if (parentGrid) {
+                    const remainingCards = parentGrid.querySelectorAll('.lead-card');
+                    if (remainingCards.length === 0) {
+                        parentGrid.classList.add('hidden');
+                        parentGrid.classList.remove('grid');
+                        const pane = parentGrid.closest('.tab-pane');
+                        if (pane) {
+                            const placeholder = pane.querySelector('.empty-state-placeholder');
+                            if (placeholder) {
+                                placeholder.classList.remove('hidden');
+                                placeholder.classList.add('block');
+                            }
+                            const bulkBtn = pane.querySelector('.bulk-delete-status-btn');
+                            if (bulkBtn) bulkBtn.classList.add('hidden');
+                        }
+                    }
+                }
+            }, 350);
+        }
+
+        // Helper: Recalculate KPI Stats & Tab Badges
+        function recalculateCounters() {
+            const allPanes = document.querySelectorAll('.tab-pane');
+            let totalCount = 0;
+            let newCount = 0;
+            let bookedCount = 0;
+            let proposalCount = 0;
+
+            allPanes.forEach(pane => {
+                const status = pane.getAttribute('data-status');
+                const remainingCards = pane.querySelectorAll('.leads-grid .lead-card').length;
+                totalCount += remainingCards;
+
+                if (status === 'new') newCount = remainingCards;
+                if (status === 'booked') bookedCount = remainingCards;
+                if (status === 'proposal_sent') proposalCount = remainingCards;
+
+                // Update tab badge
+                const badge = document.getElementById(`tab-badge-${status}`);
+                if (badge) badge.textContent = remainingCards;
+
+                // Update bulk delete button visibility
+                const bulkBtn = pane.querySelector('.bulk-delete-status-btn');
+                if (bulkBtn) {
+                    if (remainingCards === 0) bulkBtn.classList.add('hidden');
+                    else bulkBtn.classList.remove('hidden');
+                }
+            });
+
+            // Update top KPI cards
+            const statTotal = document.getElementById('stat-total-leads');
+            const statNew = document.getElementById('stat-new-leads');
+            const statBooked = document.getElementById('stat-booked-leads');
+            const statProposal = document.getElementById('stat-proposal-leads');
+
+            if (statTotal) statTotal.textContent = totalCount;
+            if (statNew) statNew.textContent = newCount;
+            if (statBooked) statBooked.textContent = bookedCount;
+            if (statProposal) statProposal.textContent = proposalCount;
+        }
+
+        // Helper: Glass Toast Notification
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            if (!container) return;
+
+            const toast = document.createElement('div');
+            toast.className = `pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-xl backdrop-blur-md shadow-glass border transition-all duration-300 transform translate-y-2 opacity-0 font-sans text-xs ${
+                type === 'success' 
+                    ? 'bg-ink-elevated/95 text-emerald-200 border-emerald/40' 
+                    : 'bg-ink-elevated/95 text-rose-200 border-crimson/40'
+            }`;
+
+            const iconSvg = type === 'success'
+                ? '<svg class="w-4 h-4 text-emerald-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>'
+                : '<svg class="w-4 h-4 text-rose-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>';
+
+            toast.innerHTML = `
+                ${iconSvg}
+                <span>${escapeHTML(message)}</span>
+            `;
+
+            container.appendChild(toast);
+
+            // Animate In
+            setTimeout(() => {
+                toast.classList.remove('translate-y-2', 'opacity-0');
+            }, 10);
+
+            // Animate Out
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => toast.remove(), 300);
+            }, 3500);
+        }
+
+        function escapeHTML(str) {
+            if (!str) return '';
+            return str.replace(/[&<>'"]/g, tag => ({
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                "'": '&#39;',
+                '"': '&quot;'
+            }[tag] || tag));
+        }
+    </script>
+</body>
+</html>
