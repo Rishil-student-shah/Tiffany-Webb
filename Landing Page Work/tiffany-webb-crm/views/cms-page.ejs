@@ -802,7 +802,7 @@
             const uniqueSections = new Set([...Object.keys(sections), ...(typeof definedCollections !== 'undefined' ? definedCollections : [])]);
             let allSections = Array.from(uniqueSections).filter(s => s !== "booking");
             
-            const pageOrder = ['hero', 'impact_band', 'credibility_bar', 'meet_tiffany', 'expertise', 'who_can_benefit', 'media', 'events', 'proof', 'proof_attributes', 'video_reels', 'proof_testimonials', 'booking', 'footer', 'social_links'];
+            const pageOrder = ['hero', 'impact_band', 'credibility_bar', 'meet_tiffany', 'expertise', 'who_can_benefit', 'media', 'events', 'proof', 'proof_attributes', 'video_reels', 'proof_testimonials', 'booking', 'footer', 'social_links', 'tracks', 'tracks_list'];
             
             allSections.sort((a, b) => {
                 const indexA = pageOrder.indexOf(a);
@@ -834,6 +834,8 @@
                                             if (sectionName === 'proof_attributes') label = 'Credibility Attributes';
                                             if (sectionName === 'who_can_benefit') label = 'Where she works';
                                             if (sectionName === 'gear_method') label = 'The GEAR Method';
+                                            if (sectionName === 'tracks') label = 'Tracks Header';
+                                            if (sectionName === 'tracks_list') label = 'The 20 Topics (Grid)';
                                             if (sectionName === 'how_tiffany_helps') label = 'Capabilities';
                                         %>
                                         <%= label %>
