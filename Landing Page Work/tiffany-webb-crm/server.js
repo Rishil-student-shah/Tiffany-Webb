@@ -383,6 +383,14 @@ app.get('/cms/:slug', requireAuth, async (req, res) => {
       definedCollections = ['impact_band', 'credibility_bar', 'expertise', 'who_can_benefit', 'events', 'proof_attributes', 'proof_testimonials', 'social_links', 'video_reels'];
     } else if (page.slug === 'services') {
       definedCollections = ['how_tiffany_helps', 'gear_method'];
+    } else if (page.slug === 'speaking-topics') {
+      definedCollections = ['tracks_list'];
+    } else if (page.slug === 'insights') {
+      definedCollections = ['articles'];
+    } else if (page.slug === 'impact') {
+      definedCollections = ['events', 'testimonials'];
+    } else if (page.slug === 'media') {
+      definedCollections = ['bios', 'press_kit'];
     }
 
     res.render('cms-page', { 
