@@ -45,6 +45,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({ origin: process.env.FRONTEND_URL || 'http://localhost:4321' }));
 
+// Serve uploaded images statically directly from public/uploads
+app.use('/uploads', express.static(path.join(__dirname, '../tiffany-webb-astro/public/uploads')));
+
 // Set EJS as templating engine
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -430,6 +433,13 @@ app.post('/cms/:slug/collection/:section/new', requireAuth, upload.single('image
     const [pages] = await pool.query('SELECT * FROM website_pages WHERE slug = ?', [req.params.slug]);
     if (pages.length === 0) return res.status(404).send('Page not found');
     
+    if (req.params.section === 'events') {
+      const [existing] = await pool.query('SELECT COUNT(*) as count FROM website_collections WHERE page_id = ? AND section_name = ?', [pages[0].id, req.params.section]);
+      if (existing[0].count >= 3) {
+        return res.redirect(`/cms/${req.params.slug}?error=Maximum+of+3+events+allowed+on+the+showcase`);
+      }
+    }
+
     const { title, subtitle, content_html, image_url, icon_svg, sort_order } = req.body;
     let finalImageUrl = image_url || null;
     if (req.file) {
@@ -721,10 +731,11 @@ app.use(express.static(path.join(__dirname, '../tiffany-webb-astro/dist/client')
 import('file://' + path.join(__dirname, '../tiffany-webb-astro/dist/server/entry.mjs'))
   .then(({ handler: astroHandler }) => {
     app.use(async (req, res, next) => {
-      // Skip API and CRM routes so they are handled by Express
+      // Skip API, CRM, and static uploads routes so they are handled by Express
       if (req.path.startsWith('/api') || req.path.startsWith('/cms') || 
           req.path.startsWith('/dashboard') || req.path.startsWith('/login') || 
-          req.path.startsWith('/users') || req.path.startsWith('/lead')) {
+          req.path.startsWith('/users') || req.path.startsWith('/lead') ||
+          req.path.startsWith('/uploads')) {
           return next();
       }
       astroHandler(req, res, next);

@@ -648,7 +648,666 @@
         h2 svg {
             color: var(--color-gold) !important;
         }
+
+        /* --- CROPPER & IMAGE STUDIO STYLES --- */
+        .cms-image-field-card {
+            display: grid;
+            grid-template-columns: 1fr 280px;
+            gap: 1.5rem;
+            align-items: start;
+            border: 1px solid rgba(194, 149, 69, 0.35) !important;
+            background: rgba(10, 10, 10, 0.7) !important;
+            padding: 1.5rem;
+            border-radius: 14px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+        }
+
+        @media (max-width: 900px) {
+            .cms-image-field-card {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .cms-image-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+        }
+
+        .cms-image-sublabel {
+            font-size: 0.75rem;
+            color: var(--color-gold);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .cms-input-text {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-family: var(--font-sans);
+            background: #050505 !important;
+            color: var(--color-ivory) !important;
+            font-size: 0.9rem;
+            transition: border-color 0.2s;
+        }
+
+        .cms-image-upload-zone {
+            margin-top: 0.25rem;
+            padding: 1.25rem;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px dashed rgba(194, 149, 69, 0.4);
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+        }
+
+        .cms-upload-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cms-upload-title {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--color-ivory);
+        }
+
+        .cms-upload-hint {
+            font-size: 0.72rem;
+            color: var(--color-gold);
+            font-family: var(--font-sans);
+        }
+
+        .cms-real-file-input {
+            display: none;
+        }
+
+        .cms-upload-actions {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .cms-btn-upload {
+            background: linear-gradient(135deg, #c29545 0%, #a47b30 100%) !important;
+            color: #0a0a0a !important;
+            border: none !important;
+            padding: 0.65rem 1.2rem !important;
+            border-radius: 8px !important;
+            font-size: 0.84rem !important;
+            font-weight: 700 !important;
+            cursor: pointer !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 0.5rem !important;
+            transition: all 0.2s ease !important;
+            box-shadow: 0 4px 12px rgba(194, 149, 69, 0.25) !important;
+        }
+
+        .cms-btn-upload:hover {
+            transform: translateY(-1px) !important;
+            box-shadow: 0 6px 16px rgba(194, 149, 69, 0.4) !important;
+        }
+
+        .cms-btn-recrop {
+            background: rgba(255, 255, 255, 0.06) !important;
+            color: var(--color-ivory) !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            padding: 0.65rem 1.2rem !important;
+            border-radius: 8px !important;
+            font-size: 0.84rem !important;
+            font-weight: 600 !important;
+            cursor: pointer !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 0.5rem !important;
+            transition: all 0.2s ease !important;
+            box-shadow: none !important;
+        }
+
+        .cms-btn-recrop:hover {
+            border-color: var(--color-gold) !important;
+            color: var(--color-gold) !important;
+            background: rgba(194, 149, 69, 0.12) !important;
+        }
+
+        .cms-delete-image-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.78rem;
+            color: #f87171 !important;
+            cursor: pointer;
+            margin-top: 0.25rem;
+        }
+
+        /* Right Side: Live Section Mockup Column */
+        .cms-image-preview-column {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.6rem;
+            background: #080c0a;
+            padding: 1.25rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .cms-preview-badge {
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--color-gold);
+            text-align: center;
+        }
+
+        .cms-mockup-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            min-height: 220px;
+            background: radial-gradient(circle at top, rgba(30, 40, 35, 0.5) 0%, #080c0a 100%);
+            border-radius: 8px;
+            padding: 1rem;
+        }
+
+        /* Shape Geometry matching live site */
+        .cms-frame-shape {
+            position: relative;
+            overflow: hidden;
+            background: #0a0a0a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 16px 32px rgba(0, 0, 0, 0.6);
+            transition: all 0.3s ease;
+        }
+
+        /* 1. Hero Cathedral Arch */
+        .cms-frame-shape.shape-hero-arch {
+            width: 160px;
+            height: 200px;
+            aspect-ratio: 4 / 5;
+            border-radius: 999px 999px 10px 10px;
+            border: 1.5px solid var(--color-gold);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6), inset 0 1px 1px rgba(217,162,58,0.3);
+        }
+
+        /* 2. Meet Tiffany Soft Arch */
+        .cms-frame-shape.shape-meet-arch {
+            width: 160px;
+            height: 228px;
+            aspect-ratio: 3.5 / 5;
+            border-radius: 120px 120px 12px 12px;
+            border: 1.5px solid var(--color-gold);
+            box-shadow: 0 16px 36px rgba(0,0,0,0.5);
+        }
+
+        /* 3. Wide Cinema Arch (16:9 - Full Width Half Circle Top) */
+        .cms-frame-shape.shape-landscape-arch {
+            width: 250px;
+            height: 141px;
+            aspect-ratio: 16 / 9;
+            border-radius: 160px 160px 12px 12px;
+            border: 1.5px solid var(--color-gold);
+            box-shadow: 0 16px 36px rgba(0,0,0,0.5);
+        }
+
+        /* 4. Expansive Arch (3:2 - Balanced Wide Half Circle Top) */
+        .cms-frame-shape.shape-wide-arch {
+            width: 230px;
+            height: 153px;
+            aspect-ratio: 3 / 2;
+            border-radius: 140px 140px 12px 12px;
+            border: 1.5px solid var(--color-gold);
+            box-shadow: 0 16px 36px rgba(0,0,0,0.5);
+        }
+
+        /* 5. Square Arch Dome (Half Circle Top on Square) */
+        .cms-frame-shape.shape-square-arch {
+            width: 170px;
+            height: 170px;
+            aspect-ratio: 1 / 1;
+            border-radius: 160px 160px 12px 12px;
+            border: 1.5px solid var(--color-gold);
+            box-shadow: 0 16px 36px rgba(0,0,0,0.5);
+        }
+
+        /* 6. Modern Wide Landscape (Rectangular) */
+        .cms-frame-shape.shape-landscape {
+            width: 250px;
+            height: 141px;
+            aspect-ratio: 16 / 9;
+            border-radius: 12px;
+            border: 1.5px solid var(--color-gold);
+            box-shadow: 0 16px 36px rgba(0,0,0,0.5);
+        }
+
+        /* 6. Classic Portrait */
+        .cms-frame-shape.shape-portrait {
+            width: 160px;
+            height: 213px;
+            aspect-ratio: 3 / 4;
+            border-radius: 12px;
+            border: 1.5px solid var(--color-gold);
+            box-shadow: 0 16px 36px rgba(0,0,0,0.5);
+        }
+
+        /* 7. Luxury Square */
+        .cms-frame-shape.shape-square {
+            width: 170px;
+            height: 170px;
+            aspect-ratio: 1 / 1;
+            border-radius: 12px;
+            border: 1.5px solid var(--color-gold);
+            box-shadow: 0 16px 36px rgba(0,0,0,0.5);
+        }
+
+        /* 8. Adaptive / Freeform */
+        .cms-frame-shape.shape-adaptive {
+            width: 200px;
+            max-height: 220px;
+            border-radius: 12px;
+            border: 1.5px solid var(--color-gold);
+            box-shadow: 0 16px 36px rgba(0,0,0,0.5);
+        }
+
+        /* 9. General Card */
+        .cms-frame-shape.shape-card {
+            width: 200px;
+            height: 140px;
+            border-radius: 10px;
+            border: 1.5px solid rgba(194, 149, 69, 0.6);
+        }
+
+        .cms-preview-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .cms-no-image-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.75rem;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        /* --- MODAL OVERLAY --- */
+        .cropper-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(5, 10, 8, 0.9);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            z-index: 99999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem;
+            box-sizing: border-box;
+            animation: cropperFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes cropperFadeIn {
+            from { opacity: 0; transform: scale(0.98); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .cropper-modal-container {
+            width: 100%;
+            max-width: 1120px;
+            max-height: 92vh;
+            background: #101513;
+            border: 1px solid rgba(194, 149, 69, 0.4);
+            border-radius: 18px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.05);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .cropper-modal-header {
+            padding: 1.25rem 1.75rem;
+            background: #0d1210;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cropper-modal-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-family: var(--font-serif);
+            font-size: 1.4rem;
+            color: var(--color-ivory);
+        }
+
+        .cropper-modal-title svg {
+            color: var(--color-gold);
+        }
+
+        .cropper-close-btn {
+            background: transparent !important;
+            border: none !important;
+            color: rgba(255, 255, 255, 0.6) !important;
+            font-size: 1.8rem;
+            line-height: 1;
+            cursor: pointer;
+            padding: 0.2rem 0.6rem;
+            border-radius: 6px;
+            transition: color 0.2s, background 0.2s;
+            box-shadow: none !important;
+        }
+
+        .cropper-close-btn:hover {
+            color: #ffffff !important;
+            background: rgba(255, 255, 255, 0.1) !important;
+            transform: none !important;
+        }
+
+        .cropper-modal-body {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 1.5rem;
+            padding: 1.5rem;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+
+        @media (max-width: 900px) {
+            .cropper-modal-body {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .cropper-canvas-pane {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .cropper-img-wrapper {
+            width: 100%;
+            height: 420px;
+            background: #050807;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .cropper-img-wrapper img {
+            max-width: 100%;
+            display: block;
+        }
+
+        .cropper-toolbar {
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+            background: #0a0e0c;
+            padding: 1rem 1.25rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .toolbar-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .toolbar-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--color-gold);
+        }
+
+        .aspect-ratio-buttons, .tool-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .aspect-btn, .tool-btn {
+            background: rgba(255, 255, 255, 0.05) !important;
+            color: var(--color-ivory) !important;
+            border: 1px solid rgba(255, 255, 255, 0.12) !important;
+            padding: 0.45rem 0.85rem !important;
+            border-radius: 6px !important;
+            font-size: 0.8rem !important;
+            font-weight: 600 !important;
+            cursor: pointer !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 0.35rem !important;
+            transition: all 0.2s !important;
+            box-shadow: none !important;
+        }
+
+        .aspect-btn:hover, .tool-btn:hover {
+            background: rgba(194, 149, 69, 0.15) !important;
+            border-color: var(--color-gold) !important;
+            color: var(--color-gold) !important;
+            transform: none !important;
+        }
+
+        .aspect-btn.active {
+            background: var(--color-gold) !important;
+            color: #0a0a0a !important;
+            border-color: var(--color-gold) !important;
+        }
+
+        /* Modal Right Column (Preview) */
+        .cropper-preview-pane {
+            background: #0a0e0c;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .preview-pane-header {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+        }
+
+        .preview-title {
+            font-family: var(--font-serif);
+            font-size: 1.25rem;
+            color: var(--color-ivory);
+        }
+
+        .preview-desc {
+            font-size: 0.72rem;
+            color: var(--color-gold);
+        }
+
+        .website-mockup-viewport {
+            width: 100%;
+            min-height: 280px;
+            background: radial-gradient(circle at 50% 20%, #17241e 0%, #0a0f0d 100%);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .modal-mockup-arch {
+            position: relative;
+            overflow: hidden;
+            background: #000;
+            transition: all 0.3s ease;
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.8), inset 0 1px 1px rgba(217, 162, 58, 0.4);
+        }
+
+        .modal-mockup-arch.shape-hero-arch {
+            width: 190px;
+            height: 238px;
+            aspect-ratio: 4 / 5;
+            border-radius: 999px 999px 12px 12px;
+            border: 1.5px solid var(--color-gold);
+        }
+
+        .modal-mockup-arch.shape-meet-arch {
+            width: 190px;
+            height: 271px;
+            aspect-ratio: 3.5 / 5;
+            border-radius: 140px 140px 14px 14px;
+            border: 1.5px solid var(--color-gold);
+        }
+
+        .modal-mockup-arch.shape-landscape-arch {
+            width: 250px;
+            height: 141px;
+            aspect-ratio: 16 / 9;
+            border-radius: 180px 180px 14px 14px;
+            border: 1.5px solid var(--color-gold);
+        }
+
+        .modal-mockup-arch.shape-square-arch {
+            width: 200px;
+            height: 200px;
+            aspect-ratio: 1 / 1;
+            border-radius: 180px 180px 14px 14px;
+            border: 1.5px solid var(--color-gold);
+        }
+
+        .modal-mockup-arch.shape-portrait {
+            width: 180px;
+            height: 240px;
+            aspect-ratio: 3 / 4;
+            border-radius: 14px;
+            border: 1.5px solid var(--color-gold);
+        }
+
+        .modal-mockup-arch.shape-square {
+            width: 200px;
+            height: 200px;
+            aspect-ratio: 1 / 1;
+            border-radius: 12px;
+            border: 1.5px solid var(--color-gold);
+        }
+
+        .modal-mockup-arch.shape-landscape {
+            width: 240px;
+            height: 135px;
+            aspect-ratio: 16 / 9;
+            border-radius: 12px;
+            border: 1.5px solid var(--color-gold);
+        }
+
+        .modal-mockup-arch.shape-adaptive, .modal-mockup-arch.shape-free {
+            width: 200px;
+            height: 200px;
+            border-radius: 8px;
+            border: 1.5px dashed var(--color-gold);
+        }
+
+        .modal-cropper-preview-box {
+            width: 100% !important;
+            height: 100% !important;
+            overflow: hidden;
+        }
+
+        .preview-guide-note {
+            display: flex;
+            gap: 0.5rem;
+            font-size: 0.72rem;
+            color: rgba(255, 255, 255, 0.6);
+            line-height: 1.4;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 0.75rem;
+            border-radius: 8px;
+            border-left: 2px solid var(--color-gold);
+        }
+
+        .preview-guide-note svg {
+            color: var(--color-gold);
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        .cropper-modal-footer {
+            padding: 1.25rem 1.75rem;
+            background: #0d1210;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+        }
+
+        .cropper-cancel-btn {
+            background: transparent !important;
+            color: var(--color-ivory) !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            padding: 0.65rem 1.5rem !important;
+            border-radius: 8px !important;
+            font-weight: 600 !important;
+            font-size: 0.9rem !important;
+            cursor: pointer !important;
+            box-shadow: none !important;
+        }
+
+        .cropper-cancel-btn:hover {
+            background: rgba(255, 255, 255, 0.08) !important;
+            transform: none !important;
+        }
+
+        .cropper-apply-btn {
+            background: linear-gradient(135deg, #c29545 0%, #a47b30 100%) !important;
+            color: #0a0a0a !important;
+            border: none !important;
+            padding: 0.65rem 1.75rem !important;
+            border-radius: 8px !important;
+            font-weight: 700 !important;
+            font-size: 0.9rem !important;
+            cursor: pointer !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 0.5rem !important;
+            box-shadow: 0 4px 15px rgba(194, 149, 69, 0.3) !important;
+        }
+
+        .cropper-apply-btn:hover {
+            transform: translateY(-2px) !important;
+            box-shadow: 0 8px 20px rgba(194, 149, 69, 0.45) !important;
+        }
     </style>
+    <!-- Cropper.js Library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"></script>
 </head>
 
 
@@ -860,6 +1519,7 @@
                                     <% if (sections[sectionName]) { %>
                                         <div style="display: flex; flex-direction: column; gap: 1.5rem;">
                                             <% sections[sectionName].forEach(item => { %>
+                                                <% if (item.key_name.includes('frame_style')) return; %>
                                                 <div style="display: flex; flex-direction: column; gap: 0.5rem;">
                                                     <% if (item.key_name !== 'section_is_active') { %>
                                                     <label style="font-size: 0.8rem; font-weight: 700; color: var(--color-ivory); text-transform: uppercase; letter-spacing: 0.05em;">
@@ -878,6 +1538,20 @@
         <span style="font-size: 0.9rem; color: var(--color-gold); font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">Show this section on the live website</span>
         <input type="hidden" id="hidden_<%= item.id %>" name="content_<%= item.id %>" value="<%= item.content_value %>">
     </div>
+<% } else if (item.key_name === 'show_reel_btn') { %>
+    <div style="display: flex; align-items: center; gap: 1rem; padding: 0.75rem 1rem; background: rgba(217, 162, 58, 0.08); border-radius: 8px; border: 1px solid rgba(217, 162, 58, 0.3); margin-top: 0.25rem;">
+        <label style="position: relative; display: inline-block; width: 50px; height: 26px; flex-shrink: 0;">
+            <input type="checkbox" value="1" <%= item.content_value === '1' || item.content_value === '' || item.content_value === null ? 'checked' : '' %> style="opacity: 0; width: 0; height: 0;" onchange="this.nextElementSibling.style.backgroundColor = this.checked ? '#16a34a' : '#cbd5e1'; this.nextElementSibling.firstElementChild.style.transform = this.checked ? 'translateX(24px)' : 'translateX(0)'; document.getElementById('hidden_<%= item.id %>').value = this.checked ? '1' : '0';">
+            <span style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: <%= item.content_value === '1' || item.content_value === '' || item.content_value === null ? '#16a34a' : '#cbd5e1' %>; transition: .4s; border-radius: 34px;">
+                <span style="position: absolute; content: ''; height: 20px; width: 20px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; transform: <%= item.content_value === '1' || item.content_value === '' || item.content_value === null ? 'translateX(24px)' : 'translateX(0)' %>;"></span>
+            </span>
+        </label>
+        <div>
+            <span style="font-size: 0.9rem; color: var(--color-gold); font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; display: block;">🎥 Show "Watch The Reel" Button in Hero</span>
+            <small style="font-size: 0.75rem; color: rgba(251, 246, 234, 0.6); display: block;">Turn off to remove the secondary CTA button when Video Reels are disabled.</small>
+        </div>
+        <input type="hidden" id="hidden_<%= item.id %>" name="content_<%= item.id %>" value="<%= item.content_value || '1' %>">
+    </div>
 <% } else if (item.content_type === 'text') { %>
                                                         <% if (item.content_value && item.content_value.length > 80) { %>
                                                             <textarea name="content_<%= item.id %>" style="width: 100%; padding: 0.75rem 1rem; border: 1px solid #cbd5e1; border-radius: 6px; box-sizing: border-box; font-family: var(--font-sans); min-height: 100px; font-size: 0.95rem; line-height: 1.5; resize: vertical; transition: border-color 0.2s;" onfocus="this.style.borderColor='#3b82f6'; this.style.outline='none';" onblur="this.style.borderColor='#cbd5e1';"><%= item.content_value %></textarea>
@@ -888,29 +1562,79 @@
                                                         <textarea name="content_<%= item.id %>" style="width: 100%; padding: 0.75rem 1rem; border: 1px solid #cbd5e1; border-radius: 6px; box-sizing: border-box; font-family: var(--font-mono); min-height: 150px; font-size: 0.85rem; line-height: 1.5; background: transparent; resize: vertical; transition: border-color 0.2s;" onfocus="this.style.borderColor='#3b82f6'; this.style.outline='none';" onblur="this.style.borderColor='#cbd5e1';"><%= item.content_value %></textarea>
                                                         <small style="color: var(--color-ivory); font-size: 0.75rem;">Accepts HTML tags like &lt;br&gt;, &lt;strong&gt;, etc.</small>
                                                     <% } else if (item.content_type === 'image') { %>
-                                                        <div style="display: flex; gap: 1.5rem; align-items: flex-start; border: 1px solid #e2e8f0; padding: 1rem; border-radius: 8px; background: transparent;">
-                                                            <div style="flex-grow: 1; display: flex; flex-direction: column; gap: 0.5rem;">
-                                                                <label style="font-size: 0.75rem; color: var(--color-ivory); font-weight: 600;">Current Image Path</label>
-                                                                <input type="text" name="content_<%= item.id %>" value="<%= item.content_value %>" placeholder="/images/example.jpg" style="width: 100%; padding: 0.75rem 1rem; border: 1px solid #cbd5e1; border-radius: 6px; box-sizing: border-box; font-family: var(--font-sans); transition: border-color 0.2s;" onfocus="this.style.borderColor='#3b82f6'; this.style.outline='none';" onblur="this.style.borderColor='#cbd5e1';">
+                                                        <% const frameStyleItem = sections[sectionName] ? sections[sectionName].find(x => x.key_name.includes('frame_style')) : null; %>
+                                                        <% const currentFrameStyle = frameStyleItem ? (frameStyleItem.content_value || (sectionName === 'hero' ? 'shape-hero-arch' : (sectionName === 'meet_tiffany' ? 'shape-meet-arch' : 'shape-landscape'))) : (sectionName === 'hero' ? 'shape-hero-arch' : (sectionName === 'meet_tiffany' ? 'shape-meet-arch' : 'shape-landscape')); %>
+                                                        
+                                                        <div class="cms-image-field-card" data-content-id="<%= item.id %>" data-section="<%= sectionName %>" data-key="<%= item.key_name %>">
+                                                            <!-- Left Side: Inputs, Controls & Buttons -->
+                                                            <div class="cms-image-controls">
+                                                                <label class="cms-image-sublabel">Current Image Path / URL</label>
+                                                                <input type="text" id="input_path_<%= item.id %>" name="content_<%= item.id %>" value="<%= item.content_value || '' %>" placeholder="/uploads/example.png" class="cms-input-text" oninput="updateFieldPreview('<%= item.id %>', this.value)">
                                                                 
-                                                                <div style="margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px dashed #cbd5e1;">
-                                                                    <label style="font-size: 0.75rem; color: var(--color-ivory); font-weight: 600; display: block; margin-bottom: 0.25rem;">Upload New Image (Overrides path above)</label>
-                                                                    <input type="file" name="image_upload_<%= item.id %>" accept="image/*" style="font-family: var(--font-sans); font-size: 0.85rem; padding: 0.5rem; background: var(--color-card); border: 1px solid #cbd5e1; border-radius: 4px; width: 100%; cursor: pointer;">
+                                                                <!-- Changeable Frame Style Selector -->
+                                                                <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(194, 149, 69, 0.3); border-radius: 8px; padding: 0.85rem; display: flex; flex-direction: column; gap: 0.4rem;">
+                                                                    <label style="font-size: 0.75rem; color: var(--color-gold); font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; display: flex; align-items: center; gap: 0.4rem;">
+                                                                        <span>✨ Frame Style & Geometry</span>
+                                                                    </label>                                                                    <select id="select_frame_<%= item.id %>" <% if (frameStyleItem) { %> name="content_<%= frameStyleItem.id %>" <% } %> style="width: 100%; padding: 0.65rem 0.9rem; border: 1px solid var(--color-border); border-radius: 6px; background: #050505; color: var(--color-ivory); font-family: var(--font-sans); font-size: 0.85rem; font-weight: 600; cursor: pointer;" onchange="handleFrameStyleChange('<%= item.id %>', this.value)">
+                                                                        <option value="shape-landscape-arch" <%= currentFrameStyle === 'shape-landscape-arch' ? 'selected' : '' %>>🏛️ Wide Cinema Arch (16:9 - Full Width Half Circle Top)</option>
+                                                                        <option value="shape-wide-arch" <%= currentFrameStyle === 'shape-wide-arch' ? 'selected' : '' %>>🏛️ Expansive Arch (3:2 - Balanced Wide Half Circle Top)</option>
+                                                                        <option value="shape-hero-arch" <%= currentFrameStyle === 'shape-hero-arch' ? 'selected' : '' %>>🏛️ Cathedral Arch Dome (Vertical 4:5 - Half Circle Top)</option>
+                                                                        <option value="shape-meet-arch" <%= currentFrameStyle === 'shape-meet-arch' ? 'selected' : '' %>>✨ Soft Editorial Arch (3.5:5 - Rounded Top Curves)</option>
+                                                                        <option value="shape-square-arch" <%= currentFrameStyle === 'shape-square-arch' ? 'selected' : '' %>>🏛️ Square Arch Dome (Square 1:1 - Half Circle Top)</option>
+                                                                        <option value="shape-landscape" <%= currentFrameStyle === 'shape-landscape' ? 'selected' : '' %>>🔲 Modern Wide Landscape (16:9 - Rounded Rectangle)</option>
+                                                                        <option value="shape-portrait" <%= currentFrameStyle === 'shape-portrait' ? 'selected' : '' %>>🔲 Classic Portrait (3:4)</option>
+                                                                        <option value="shape-square" <%= currentFrameStyle === 'shape-square' ? 'selected' : '' %>>🔲 Luxury Square (1:1)</option>
+                                                                        <option value="shape-adaptive" <%= currentFrameStyle === 'shape-adaptive' ? 'selected' : '' %>>🌐 Adaptive (Natural Freeform Crop)</option>
+                                                                    </select>
+                                                                </div>
+
+                                                                <div class="cms-image-upload-zone">
+                                                                    <div class="cms-upload-header">
+                                                                        <span class="cms-upload-title">Upload & Crop New Image</span>
+                                                                        <span class="cms-upload-hint">Opens Live Interactive Cropper</span>
+                                                                    </div>
+                                                                    
+                                                                    <div class="cms-upload-actions">
+                                                                        <!-- Hidden file input that gets submitted with form -->
+                                                                        <input type="file" id="file_input_<%= item.id %>" name="image_upload_<%= item.id %>" accept="image/*" class="cms-real-file-input" onchange="handleFileSelected(event, '<%= item.id %>', '<%= sectionName %>', '<%= item.key_name %>')">
+                                                                        
+                                                                        <button type="button" class="cms-btn-upload" onclick="document.getElementById('file_input_<%= item.id %>').click()">
+                                                                            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+                                                                            Choose & Crop Image
+                                                                        </button>
+                                                                        
+                                                                        <% if (item.content_value) { %>
+                                                                            <button type="button" class="cms-btn-recrop" onclick="openCropperForExisting('<%= item.id %>', '<%= item.content_value %>', '<%= sectionName %>', '<%= item.key_name %>')">
+                                                                                <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+                                                                                Re-Crop Current Image
+                                                                            </button>
+                                                                        <% } %>
+                                                                    </div>
+                                                                    
+                                                                    <% if (item.content_value) { %>
+                                                                        <label class="cms-delete-image-label">
+                                                                            <input type="checkbox" name="delete_image_<%= item.id %>" value="true" onchange="toggleImageDeleteState('<%= item.id %>', this.checked)">
+                                                                            <span>Delete Image on Save</span>
+                                                                        </label>
+                                                                    <% } %>
                                                                 </div>
                                                             </div>
-                                                            <div style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
-                                                                <% if (item.content_value) { %>
-                                                                    <div style="width: 120px; height: 80px; background: var(--color-card); border-radius: 6px; overflow: hidden; border: 1px solid #cbd5e1; flex-shrink: 0; display: flex; align-items: center; justify-content: center; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);">
-                                                                        <img src="<%= item.content_value %>" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+
+                                                            <!-- Right Side: Section-Accurate Live Preview -->
+                                                            <div class="cms-image-preview-column">
+                                                                <div class="cms-preview-badge" id="preview_badge_<%= item.id %>">
+                                                                    Live Website Frame Preview
+                                                                </div>
+                                                                
+                                                                <div class="cms-mockup-wrapper">
+                                                                    <div id="preview_frame_<%= item.id %>" class="cms-frame-shape <%= currentFrameStyle %>">
+                                                                        <img id="img_preview_<%= item.id %>" src="<%= item.content_value || '' %>" alt="Preview" class="cms-preview-img" style="display: <%= item.content_value ? 'block' : 'none' %>;" onerror="this.onerror=null; if(!this.src.includes(':4321') && this.getAttribute('src') && this.getAttribute('src').startsWith('/uploads/')) { this.src = 'http://localhost:4321' + this.getAttribute('src'); } else { this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='flex'; }">
+                                                                        <div class="cms-no-image-placeholder" style="display: <%= item.content_value ? 'none' : 'flex' %>;">
+                                                                            <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                                                                            <span>No image set</span>
+                                                                        </div>
                                                                     </div>
-                                                                    <label style="font-size: 0.75rem; color: #dc2626; cursor: pointer; display: flex; align-items: center; gap: 0.25rem; font-weight: 600;">
-                                                                        <input type="checkbox" name="delete_image_<%= item.id %>" value="true"> Delete Image
-                                                                    </label>
-                                                                <% } else { %>
-                                                                    <div style="width: 120px; height: 80px; background: #e2e8f0; border-radius: 6px; border: 1px dashed #94a3b8; flex-shrink: 0; display: flex; align-items: center; justify-content: center; color: var(--color-ivory); font-size: 0.8rem;">
-                                                                        No Image
-                                                                    </div>
-                                                                <% } %>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     <% } %>
@@ -923,11 +1647,20 @@
                                     <% if (typeof definedCollections !== 'undefined' && definedCollections.includes(sectionName)) { %>
                                         <div style="border-top: 1px solid #e2e8f0; padding-top: 1.5rem;">
                                             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                                                <h4 style="margin: 0; font-family: var(--font-sans); font-size: 1rem; color: var(--color-ink);">Collection Items</h4>
-                                                <button type="button" onclick="window.location.href='/cms/<%= page.slug %>/collection/<%= sectionName %>/new'" style="background: #3b82f6; color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; font-weight: 600; font-size: 0.8rem; cursor: pointer; display: flex; align-items: center; gap: 0.4rem; font-family: var(--font-sans);">
-                                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                                                    Add New Item
-                                                </button>
+                                                <div>
+                                                    <h4 style="margin: 0; font-family: var(--font-sans); font-size: 1rem; color: var(--color-ink);">Collection Items</h4>
+                                                    <% if (sectionName === 'events') { %>
+                                                        <span style="font-size: 0.75rem; color: var(--color-gold, #D9A23A); font-weight: 500;">(Showcase displays up to 3 cards maximum)</span>
+                                                    <% } %>
+                                                </div>
+                                                <% if (sectionName === 'events' && collectionSections[sectionName] && collectionSections[sectionName].length >= 3) { %>
+                                                    <span style="font-size: 0.8rem; color: #94a3b8; font-style: italic; background: rgba(255,255,255,0.05); padding: 0.4rem 0.8rem; border-radius: 6px; border: 1px solid rgba(255,255,255,0.1);">Max 3 cards reached</span>
+                                                <% } else { %>
+                                                    <button type="button" onclick="window.location.href='/cms/<%= page.slug %>/collection/<%= sectionName %>/new'" style="background: #3b82f6; color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; font-weight: 600; font-size: 0.8rem; cursor: pointer; display: flex; align-items: center; gap: 0.4rem; font-family: var(--font-sans);">
+                                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                                                        Add New Item
+                                                    </button>
+                                                <% } %>
                                             </div>
                                             
                                             <div style="border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden;">
@@ -970,17 +1703,362 @@
         </form>
     </div>
 
+    <!-- CROPPER & LIVE MOCKUP STUDIO MODAL -->
+    <div id="cropperModal" class="cropper-modal-overlay" style="display: none;">
+        <div class="cropper-modal-container">
+            <div class="cropper-modal-header">
+                <div class="cropper-modal-title">
+                    <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+                    <span id="cropperModalTitleText">Image Cropping & Changeable Frame Studio</span>
+                </div>
+                <button type="button" class="cropper-close-btn" onclick="closeCropperModal()">&times;</button>
+            </div>
+
+            <div class="cropper-modal-body">
+                <!-- Left: Interactive Cropping Area -->
+                <div class="cropper-canvas-pane">
+                    <div class="cropper-img-wrapper">
+                        <img id="cropperImageTarget" src="" alt="Crop Source">
+                    </div>
+                    
+                    <!-- Controls Toolbar -->
+                    <div class="cropper-toolbar">
+                        <div id="sectionRatioNotice" style="background: rgba(194, 149, 69, 0.12); border: 1px solid rgba(194, 149, 69, 0.4); padding: 0.75rem 1rem; border-radius: 8px; font-size: 0.8rem; color: #f2efe9; display: flex; align-items: center; gap: 0.5rem;">
+                            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="#c29545"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                            <span id="sectionRatioNoticeText">Select or switch any frame shape below to fit your photo perfectly.</span>
+                        </div>
+
+                        <div class="toolbar-group">
+                            <span class="toolbar-label">Frame & Aspect Ratio:</span>
+                            <div class="aspect-ratio-buttons" id="aspectButtonsContainer">
+                                <button type="button" class="aspect-btn active" data-ratio="1.7777777777777777" onclick="setAspectRatio(16/9, 'landscape-arch', this)">🏛️ Wide Cinema Arch (16:9)</button>
+                                <button type="button" class="aspect-btn" data-ratio="1.5" onclick="setAspectRatio(3/2, 'wide-arch', this)">🏛️ Expansive Arch (3:2)</button>
+                                <button type="button" class="aspect-btn" data-ratio="0.8" onclick="setAspectRatio(0.8, 'hero-arch', this)">🏛️ Cathedral Arch (4:5)</button>
+                                <button type="button" class="aspect-btn" data-ratio="0.7" onclick="setAspectRatio(0.7, 'meet-arch', this)">✨ Soft Arch (3.5:5)</button>
+                                <button type="button" class="aspect-btn" data-ratio="1" onclick="setAspectRatio(1, 'square-arch', this)">🏛️ Square Arch (1:1)</button>
+                                <button type="button" class="aspect-btn" data-ratio="1.7777777777777777" onclick="setAspectRatio(16/9, 'landscape', this)">🔲 Landscape (16:9)</button>
+                                <button type="button" class="aspect-btn" data-ratio="1" onclick="setAspectRatio(1, 'square', this)">🔲 Square (1:1)</button>
+                                <button type="button" class="aspect-btn" data-ratio="NaN" onclick="setAspectRatio(NaN, 'adaptive', this)">🌐 Freeform</button>
+                            </div>
+                        </div>
+
+                        <div class="toolbar-group">
+                            <span class="toolbar-label">Image Adjustments:</span>
+                            <div class="tool-buttons">
+                                <button type="button" class="tool-btn" title="Zoom In" onclick="cropperZoom(0.1)">
+                                    <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"/></svg>
+                                    Zoom In
+                                </button>
+                                <button type="button" class="tool-btn" title="Zoom Out" onclick="cropperZoom(-0.1)">
+                                    <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM13 10H7"/></svg>
+                                    Zoom Out
+                                </button>
+                                <button type="button" class="tool-btn" title="Rotate Left" onclick="cropperRotate(-90)">
+                                    <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"/></svg>
+                                    -90°
+                                </button>
+                                <button type="button" class="tool-btn" title="Rotate Right" onclick="cropperRotate(90)">
+                                    <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 10H11a8 8 0 00-8 8v2m18-10l-6 6m6-6l-6-6"/></svg>
+                                    +90°
+                                </button>
+                                <button type="button" class="tool-btn" title="Flip Horizontal" onclick="cropperFlipX()">
+                                    <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
+                                    Flip
+                                </button>
+                                <button type="button" class="tool-btn" title="Reset" onclick="cropperReset()">
+                                    <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                                    Reset
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Real-World Website Mockup Preview -->
+                <div class="cropper-preview-pane">
+                    <div class="preview-pane-header">
+                        <span class="preview-title" id="previewPaneTitle">Live Website Frame</span>
+                        <span class="preview-desc" id="previewPaneDesc">Exact frame & gold border simulation</span>
+                    </div>
+
+                    <div class="website-mockup-viewport">
+                        <!-- Frame with dynamic shape class -->
+                        <div id="modalMockupFrame" class="modal-mockup-arch shape-landscape-arch">
+                            <div class="modal-cropper-preview-box"></div>
+                        </div>
+                    </div>
+
+                    <div class="preview-guide-note">
+                        <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        <span id="previewGuideText">The live preview on the right shows exactly what will be visible inside the gold-bordered frame on your website.</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cropper-modal-footer">
+                <button type="button" class="cropper-cancel-btn" onclick="closeCropperModal()">Cancel</button>
+                <button type="button" class="cropper-apply-btn" onclick="applyCrop()">
+                    <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                    Apply Crop & Use Image
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script>
+        // Global Cropper state
+        let cropper = null;
+        let activeTargetId = null;
+        let activeSection = null;
+        let activeKey = null;
+        let currentCropShape = 'shape-landscape-arch';
+        let isFlippedX = false;
+
+        function getShapeConfig(shape) {
+            switch(shape) {
+                case 'shape-landscape-arch':
+                    return { ratio: 16/9, name: 'Wide Cinema Arch (16:9)', shape: 'landscape-arch' };
+                case 'shape-wide-arch':
+                    return { ratio: 3/2, name: 'Expansive Arch (3:2)', shape: 'wide-arch' };
+                case 'shape-hero-arch':
+                    return { ratio: 4/5, name: 'Cathedral Arch Dome (4:5)', shape: 'hero-arch' };
+                case 'shape-meet-arch':
+                    return { ratio: 3.5/5, name: 'Soft Editorial Arch (3.5:5)', shape: 'meet-arch' };
+                case 'shape-square-arch':
+                    return { ratio: 1, name: 'Square Arch Dome (1:1)', shape: 'square-arch' };
+                case 'shape-landscape':
+                    return { ratio: 16/9, name: 'Modern Landscape (16:9)', shape: 'landscape' };
+                case 'shape-portrait':
+                    return { ratio: 3/4, name: 'Classic Portrait (3:4)', shape: 'portrait' };
+                case 'shape-square':
+                    return { ratio: 1, name: 'Luxury Square (1:1)', shape: 'square' };
+                case 'shape-adaptive':
+                default:
+                    return { ratio: NaN, name: 'Adaptive / Natural Crop', shape: 'adaptive' };
+            }
+        }
+
+        function handleFrameStyleChange(contentId, newStyle) {
+            const previewFrame = document.getElementById('preview_frame_' + contentId);
+            if (previewFrame) {
+                previewFrame.className = 'cms-frame-shape ' + newStyle;
+            }
+        }
+
+        function handleFileSelected(event, contentId, section, key) {
+            const file = event.target.files && event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                openCropperModal(contentId, e.target.result, section, key);
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function openCropperForExisting(contentId, imageSrc, section, key) {
+            if (!imageSrc) return;
+            openCropperModal(contentId, imageSrc, section, key);
+        }
+
+        function openCropperModal(contentId, imageSrc, section, key) {
+            activeTargetId = contentId;
+            activeSection = section;
+            activeKey = key;
+            isFlippedX = false;
+
+            const modal = document.getElementById('cropperModal');
+            const targetImg = document.getElementById('cropperImageTarget');
+            const mockupFrame = document.getElementById('modalMockupFrame');
+            const titleText = document.getElementById('cropperModalTitleText');
+            const noticeText = document.getElementById('sectionRatioNoticeText');
+            const previewDesc = document.getElementById('previewPaneDesc');
+
+            const selectEl = document.getElementById('select_frame_' + contentId);
+            const currentSelectedShape = selectEl ? selectEl.value : (section === 'hero' ? 'shape-hero-arch' : (section === 'meet_tiffany' ? 'shape-meet-arch' : 'shape-landscape'));
+            
+            const config = getShapeConfig(currentSelectedShape);
+            currentCropShape = currentSelectedShape;
+
+            if (titleText) titleText.textContent = 'Image Cropping & Changeable Frame Studio';
+            if (noticeText) noticeText.textContent = '🖼️ Current Frame: ' + config.name + '. Switch frame styles below anytime to fit horizontal, vertical, or arch photos!';
+            if (previewDesc) previewDesc.textContent = config.name + ' Simulation';
+
+            // Update mockup frame class
+            mockupFrame.className = 'modal-mockup-arch ' + currentSelectedShape;
+
+            // Configure aspect ratio buttons
+            document.querySelectorAll('.aspect-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(config.shape)) {
+                    btn.classList.add('active');
+                }
+            });
+
+            targetImg.src = imageSrc;
+            modal.style.display = 'flex';
+
+            // Destroy existing cropper if any
+            if (cropper) {
+                cropper.destroy();
+                cropper = null;
+            }
+
+            // Initialize Cropper.js
+            setTimeout(() => {
+                cropper = new Cropper(targetImg, {
+                    aspectRatio: config.ratio,
+                    viewMode: 1,
+                    dragMode: 'move',
+                    autoCropArea: 0.95,
+                    restore: false,
+                    guides: true,
+                    center: true,
+                    highlight: false,
+                    cropBoxMovable: true,
+                    cropBoxResizable: true,
+                    toggleDragModeOnDblclick: false,
+                    preview: '.modal-cropper-preview-box'
+                });
+            }, 100);
+        }
+
+        function setAspectRatio(ratio, shape, btn) {
+            if (!cropper) return;
+            document.querySelectorAll('.aspect-btn').forEach(b => b.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+
+            cropper.setAspectRatio(ratio);
+
+            const mockupFrame = document.getElementById('modalMockupFrame');
+            mockupFrame.className = 'modal-mockup-arch shape-' + shape;
+            currentCropShape = 'shape-' + shape;
+
+            // Sync with main card dropdown
+            if (activeTargetId) {
+                const selectEl = document.getElementById('select_frame_' + activeTargetId);
+                if (selectEl) {
+                    selectEl.value = 'shape-' + shape;
+                    handleFrameStyleChange(activeTargetId, 'shape-' + shape);
+                }
+            }
+
+            const previewDesc = document.getElementById('previewPaneDesc');
+            if (previewDesc) {
+                const cfg = getShapeConfig('shape-' + shape);
+                previewDesc.textContent = cfg.name + ' Simulation';
+            }
+        }
+
+        function cropperZoom(val) {
+            if (cropper) cropper.zoom(val);
+        }
+
+        function cropperRotate(deg) {
+            if (cropper) cropper.rotate(deg);
+        }
+
+        function cropperFlipX() {
+            if (!cropper) return;
+            isFlippedX = !isFlippedX;
+            cropper.scaleX(isFlippedX ? -1 : 1);
+        }
+
+        function cropperReset() {
+            if (cropper) {
+                cropper.reset();
+                isFlippedX = false;
+            }
+        }
+
+        function closeCropperModal() {
+            const modal = document.getElementById('cropperModal');
+            modal.style.display = 'none';
+            if (cropper) {
+                cropper.destroy();
+                cropper = null;
+            }
+        }
+
+        function applyCrop() {
+            if (!cropper || !activeTargetId) return;
+
+            const canvas = cropper.getCroppedCanvas({
+                width: 1400,
+                height: 1750,
+                imageSmoothingEnabled: true,
+                imageSmoothingQuality: 'high'
+            });
+
+            if (!canvas) {
+                alert('Could not generate crop.');
+                return;
+            }
+
+            canvas.toBlob((blob) => {
+                if (!blob) return;
+
+                const filename = `tiffany-crop-${Date.now()}.png`;
+                const file = new File([blob], filename, { type: 'image/png' });
+
+                const fileInput = document.getElementById(`file_input_${activeTargetId}`);
+                if (fileInput) {
+                    const dataTransfer = new DataTransfer();
+                    dataTransfer.items.add(file);
+                    fileInput.files = dataTransfer.files;
+                }
+
+                const previewImg = document.getElementById(`img_preview_${activeTargetId}`);
+                const noImgPlaceholder = previewImg ? previewImg.nextElementSibling : null;
+                const pathInput = document.getElementById(`input_path_${activeTargetId}`);
+
+                const objectUrl = URL.createObjectURL(blob);
+                if (previewImg) {
+                    previewImg.src = objectUrl;
+                    previewImg.style.display = 'block';
+                    if (noImgPlaceholder) noImgPlaceholder.style.display = 'none';
+                }
+
+                if (pathInput) {
+                    pathInput.value = `(New crop ready: ${filename} - will upload on Save)`;
+                    pathInput.style.borderColor = '#c29545';
+                }
+
+                closeCropperModal();
+            }, 'image/png', 0.95);
+        }
+
+        function updateFieldPreview(contentId, newPath) {
+            const previewImg = document.getElementById(`img_preview_${contentId}`);
+            const noImgPlaceholder = previewImg ? previewImg.nextElementSibling : null;
+            if (!previewImg) return;
+
+            if (newPath && newPath.trim() !== '') {
+                previewImg.src = newPath.trim();
+                previewImg.style.display = 'block';
+                if (noImgPlaceholder) noImgPlaceholder.style.display = 'none';
+            } else {
+                previewImg.style.display = 'none';
+                if (noImgPlaceholder) noImgPlaceholder.style.display = 'flex';
+            }
+        }
+
+        function toggleImageDeleteState(contentId, isChecked) {
+            const previewImg = document.getElementById(`img_preview_${contentId}`);
+            if (previewImg) {
+                previewImg.style.opacity = isChecked ? '0.2' : '1';
+                previewImg.style.filter = isChecked ? 'grayscale(100%)' : 'none';
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             const tabBtns = document.querySelectorAll('.tab-btn');
             const tabPanes = document.querySelectorAll('.tab-pane');
 
             tabBtns.forEach(btn => {
                 btn.addEventListener('click', (e) => {
-                    // Prevent form submit if it's a button
                     e.preventDefault();
 
-                    // Reset all buttons
                     tabBtns.forEach(b => {
                         b.classList.remove('active');
                         b.style.background = 'transparent';
@@ -991,7 +2069,6 @@
                         }
                     });
 
-                    // Set active button
                     btn.classList.add('active');
                     btn.style.background = '#f1f5f9';
                     const activeSvg = btn.querySelector('svg');
@@ -1000,12 +2077,10 @@
                         activeSvg.style.opacity = '1';
                     }
 
-                    // Hide all panes
                     tabPanes.forEach(pane => {
                         pane.style.display = 'none';
                     });
 
-                    // Show target pane
                     const targetId = btn.getAttribute('data-target');
                     document.getElementById(targetId).style.display = 'block';
                 });
