@@ -1,0 +1,13 @@
+# Dependencies & Build
+node_modules/
+dist/
+.astro/
+.env
+.env.*
+
+# Large media files
+*.mp4
+*.mov
+*.avi
+*.wmv
+*.zip
