@@ -114,7 +114,7 @@ INSERT INTO website_content (page_id, section, key_name, content_value, content_
 
 (@page_home, 'events', 'eyebrow', 'STAGES & IMPACT', 'text'),
 (@page_home, 'events', 'headline', 'Where the work <span class="italic-accent">has taken me.</span>', 'html'),
-(@page_home, 'events', 'btn_text', 'WORK WITH TIFFANY', 'text'),
+(@page_home, 'events', 'btn_text', 'START A CONVERSATION', 'text'),
 (@page_home, 'events', 'btn_link', '/work-with-tiffany', 'text'),
 (@page_home, 'events', 'link_text', 'See the full picture', 'text'),
 (@page_home, 'events', 'section_is_active', '1', 'boolean'),
@@ -129,7 +129,7 @@ INSERT INTO website_content (page_id, section, key_name, content_value, content_
 (@page_home, 'proof_testimonials', 'description', 'What conference organizers, coalition leaders, and clinical directors say about working with Tiffany.', 'textarea'),
 (@page_home, 'proof_testimonials', 'section_is_active', '0', 'boolean'),
 
-(@page_home, 'booking', 'eyebrow', 'WORK WITH TIFFANY', 'text'),
+(@page_home, 'booking', 'eyebrow', 'START A CONVERSATION', 'text'),
 (@page_home, 'booking', 'headline', 'Let\'s create <span class="italic-accent">impact together.</span>', 'html'),
 (@page_home, 'booking', 'subtext', 'Tell me about your organization and what you\'re trying to change. I read every inquiry myself.', 'textarea'),
 (@page_home, 'booking', 'section_is_active', '1', 'boolean');
@@ -261,7 +261,7 @@ INSERT INTO website_content (page_id, section, key_name, content_value, content_
 (@page_services, 'hero', 'eyebrow', 'SERVICES & CAPABILITIES', 'text'),
 (@page_services, 'hero', 'headline', 'Strategy with <span class="italic-accent">people at the center.</span>', 'html'),
 (@page_services, 'hero', 'subtitle', 'From keynote stages to executive strategy, Tiffany Webb helps organizations bridge public health expertise, frontline reality, and actionable community impact.', 'textarea'),
-(@page_services, 'hero', 'primary_cta_text', 'Work with Tiffany →', 'text'),
+(@page_services, 'hero', 'primary_cta_text', 'Start a Conversation →', 'text'),
 (@page_services, 'hero', 'primary_cta_url', '/work-with-tiffany', 'text'),
 (@page_services, 'hero', 'section_is_active', '1', 'boolean'),
 
