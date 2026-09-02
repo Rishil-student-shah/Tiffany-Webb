@@ -9,7 +9,7 @@ INSERT INTO website_pages (slug, name, meta_title, meta_description, is_active) 
 ('about', 'About Tiffany', 'About Tiffany Webb | Chicago Heart — Louisiana Soul', 'Community Impact Strategist, Public Health Educator & Speaker with 15+ years and 4,000+ hours preventing gambling harm.', 1),
 ('services', 'Services & Capabilities', 'Services & Capabilities | Tiffany Webb', 'Strategy with people at the center. Strategic Advisory, Program Architecture, Community Impact, and Speaking.', 1),
 ('speaking-topics', 'Speaking Topics', '21 Speaking Topics | Tiffany Webb', 'Explore 21 signature speaking topics across 4 tracks: Prevention, Outreach, Systems, and Youth & Leadership.', 1),
-('impact', 'Impact & Engagements', 'Community Impact | Tiffany Webb', 'Where the work has taken me. Fifteen years of frontline public health education and community impact.', 1),
+('impact', 'Impact & Engagements', 'Community Impact | Tiffany Webb', 'Where frontline experience creates documented impact. Fifteen years of frontline public health education and community impact.', 1),
 ('media', 'Media & Press Kit', 'Media & Press Kit | Tiffany Webb', 'Official speaker assets, approved bios, emcee introduction script, and commentary topics.', 1),
 ('work-with-tiffany', 'Work With Tiffany', 'Work With Tiffany | Bookings & Inquiries', 'Invite Tiffany Webb for keynotes, workshops, and strategic advisory. Direct booking inquiries and discovery calls.', 1),
 ('insights', 'Insights & Articles', 'Insights & Articles | Tiffany Webb', 'Notes from the frontline of prevention — on gambling harm, public health, and the conversations that change communities.', 1),
@@ -135,43 +135,57 @@ INSERT INTO website_content (page_id, section, key_name, content_value, content_
 (@page_home, 'booking', 'section_is_active', '1', 'boolean');
 
 -- Home Collections
-INSERT INTO website_collections (page_id, section_name, title, subtitle, icon_svg, link_url, image_url, content_html, sort_order, is_active) VALUES
--- Impact Band (4 items)
-(@page_home, 'impact_band', 'PEOPLE AT THE CENTER', '', '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>', NULL, NULL, NULL, 1, 1),
-(@page_home, 'impact_band', 'FAMILIES STRENGTHENED', '', '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>', NULL, NULL, NULL, 2, 1),
-(@page_home, 'impact_band', 'COMMUNITIES EMPOWERED', '', '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>', NULL, NULL, NULL, 3, 1),
-(@page_home, 'impact_band', 'IMPACT THAT LASTS', '', '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>', NULL, NULL, NULL, 4, 1),
+INSERT INTO website_collections (page_id, section_name, item_slug, title, subtitle, badge, icon_svg, link_url, image_url, content_html, sort_order, is_active) VALUES
+-- Impact Band (4 Value Pillars)
+(@page_home, 'impact_band', 'people-center', 'PEOPLE AT THE CENTER', '', 'VALUE PILLAR', '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>', NULL, NULL, NULL, 1, 1),
+(@page_home, 'impact_band', 'families-strengthened', 'FAMILIES STRENGTHENED', '', 'VALUE PILLAR', '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>', NULL, NULL, NULL, 2, 1),
+(@page_home, 'impact_band', 'communities-empowered', 'COMMUNITIES EMPOWERED', '', 'VALUE PILLAR', '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>', NULL, NULL, NULL, 3, 1),
+(@page_home, 'impact_band', 'impact-lasts', 'IMPACT THAT LASTS', '', 'VALUE PILLAR', '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>', NULL, NULL, NULL, 4, 1),
 
--- Credibility Bar (3 authentic items)
-(@page_home, 'credibility_bar', '15+', 'YEARS OF EXPERIENCE', NULL, NULL, NULL, NULL, 1, 1),
-(@page_home, 'credibility_bar', '50+', 'WORKSHOPS · PRESENTATIONS · ACTIVATIONS', NULL, NULL, NULL, NULL, 2, 1),
-(@page_home, 'credibility_bar', '100+', 'COMMUNITY PARTNERS & COLLABORATIONS', NULL, NULL, NULL, NULL, 3, 1),
+-- Credibility Bar (3 Stat Numbers)
+(@page_home, 'credibility_bar', 'stat-1', '15+', 'YEARS OF EXPERIENCE', 'EXPERIENCE', NULL, NULL, NULL, NULL, 1, 1),
+(@page_home, 'credibility_bar', 'stat-2', '50+', 'WORKSHOPS · PRESENTATIONS · ACTIVATIONS', 'ENGAGEMENTS', NULL, NULL, NULL, NULL, 2, 1),
+(@page_home, 'credibility_bar', 'stat-3', '100+', 'COMMUNITY PARTNERS & COLLABORATIONS', 'PARTNERS', NULL, NULL, NULL, NULL, 3, 1),
 
--- Who Can Benefit (8 items)
-(@page_home, 'who_can_benefit', 'Healthcare Systems & Hospital Networks', 'Clinical Teams', NULL, NULL, NULL, NULL, 1, 1),
-(@page_home, 'who_can_benefit', 'Public Health Agencies & Municipal Departments', 'Public Health', NULL, NULL, NULL, NULL, 2, 1),
-(@page_home, 'who_can_benefit', 'Recovery Organizations & ROSC Councils', 'Community Recovery', NULL, NULL, NULL, NULL, 3, 1),
-(@page_home, 'who_can_benefit', 'Colleges, Universities & Athletic Programs', 'Higher Education', NULL, NULL, NULL, NULL, 4, 1),
-(@page_home, 'who_can_benefit', 'Community Nonprofits & Faith-Based Coalitions', 'Grassroots Coalitions', NULL, NULL, NULL, NULL, 5, 1),
-(@page_home, 'who_can_benefit', 'Corporate HR & Employee Assistance Programs (EAPs)', 'Workplace Wellness', NULL, NULL, NULL, NULL, 6, 1),
-(@page_home, 'who_can_benefit', 'Youth Programs, Schools & District Leadership', 'Youth & Education', NULL, NULL, NULL, NULL, 7, 1),
-(@page_home, 'who_can_benefit', 'Policy Makers & Legislative Advocacy Groups', 'Civic Policy', NULL, NULL, NULL, NULL, 8, 1),
+-- Expertise (6 Format Cards)
+(@page_home, 'expertise', 'keynote', 'Keynote', 'Main Stage · 45–60 Mins', '01 // SIGNATURE', NULL, '/work-with-tiffany?format=Keynote', NULL, 'High-energy opening or closing address setting the vision for prevention, health equity, and human-centered community impact.', 1, 1),
+(@page_home, 'expertise', 'conference-session', 'Conference Session', 'Breakout & Deep Dive · 60–90 Mins', '02 // BREAKOUT', NULL, '/work-with-tiffany?format=Conference+Session', NULL, 'Focused technical session equipping clinicians, counselors, and educators with actionable Monday-morning tools.', 2, 1),
+(@page_home, 'expertise', 'panel', 'Panel', 'Panelist or Moderator · 45–75 Mins', '03 // DIALOGUE', NULL, '/work-with-tiffany?format=Panel', NULL, 'Facilitating deep, authentic conversations that elevate community voice, resolve complex tensions, and bridge stakeholder perspectives.', 3, 1),
+(@page_home, 'expertise', 'school-university', 'School & University', 'Campus-Wide · Half-Day / Full-Day', '04 // YOUTH & CAMPUS', NULL, '/work-with-tiffany?format=School+or+University+Event', NULL, 'Engaging assemblies, student-athlete workshops, and staff trainings addressing mobile sports betting and digital well-being.', 4, 1),
+(@page_home, 'expertise', 'workshops-training', 'Workshops & Training', 'Clinical & Frontline · Half-Day to Multi-Day', '05 // INTENSIVE', NULL, '/work-with-tiffany?format=Workshop+or+Training', NULL, 'Intensive clinical toolkits and continuing education on screening protocols (NODS-CLiP) and operationalizing the GEAR Method™.', 5, 1),
+(@page_home, 'expertise', 'strategic-advisory', 'Strategic Advisory', 'Executive Consulting · Multi-Session', '06 // EXECUTIVE', NULL, '/work-with-tiffany?format=Strategic+Consulting+or+Advisory', NULL, 'Advising healthcare executives, municipal health agencies, and ROSC coalitions on sustainable community prevention architecture.', 6, 1),
+
+-- Who Can Benefit (8 Audience Cards)
+(@page_home, 'who_can_benefit', 'healthcare-leaders', 'Healthcare Leaders & Clinical Networks', 'Clinical Teams', '01 // HEALTHCARE', NULL, '/work-with-tiffany?audience=Healthcare', NULL, 'Hospital systems, primary care networks, behavioral health clinics, and treatment providers integrating validated screening protocols.', 1, 1),
+(@page_home, 'who_can_benefit', 'municipal-agencies', 'Municipal Agencies & Public Health Departments', 'Public Health', '02 // CIVIC', NULL, '/work-with-tiffany?audience=Municipal', NULL, 'City and county health agencies seeking data-driven, culturally grounded community wellness initiatives.', 2, 1),
+(@page_home, 'who_can_benefit', 'rosc-councils', 'ROSC Councils & Recovery Coalitions', 'Community Recovery', '03 // RECOVERY', NULL, '/work-with-tiffany?audience=ROSC', NULL, 'Recovery Oriented Systems of Care councils connecting prevention to grassroots harm reduction and care linkage.', 3, 1),
+(@page_home, 'who_can_benefit', 'colleges-universities', 'Colleges, Universities & Athletic Programs', 'Higher Education', '04 // CAMPUS', NULL, '/work-with-tiffany?audience=Higher+Ed', NULL, 'Campus wellness centers, athletic departments, and student organizations addressing digital gaming and betting pressures.', 4, 1),
+(@page_home, 'who_can_benefit', 'faith-based-networks', 'Faith-Based Networks & Community Nonprofits', 'Grassroots Coalitions', '05 // FAITH & CIVIC', NULL, '/work-with-tiffany?audience=Faith-Based', NULL, 'Churches, community coalitions, and grassroots nonprofits creating safe, stigma-free support environments.', 5, 1),
+(@page_home, 'who_can_benefit', 'corporate-eap', 'Corporate HR & Employee Assistance Programs (EAPs)', 'Workplace Wellness', '06 // CORPORATE', NULL, '/work-with-tiffany?audience=Corporate', NULL, 'Enterprise HR leaders and EAP providers addressing hidden behavioral addictions impacting workplace productivity.', 6, 1),
+(@page_home, 'who_can_benefit', 'youth-organizations', 'Youth Organizations, Schools & District Leadership', 'Youth & Education', '07 // YOUTH', NULL, '/work-with-tiffany?audience=Youth', NULL, 'School districts, youth programs, and athletic leagues fostering resilience and positive peer leadership.', 7, 1),
+(@page_home, 'who_can_benefit', 'prevention-coalitions', 'Policy Makers & Prevention Coalitions', 'Civic Policy', '08 // POLICY', NULL, '/work-with-tiffany?audience=Policy', NULL, 'Statewide prevention alliances, task forces, and legislative bodies advancing health equity and sustainable funding.', 8, 1),
+
+-- Speaking Tracks (4 Track Cards)
+(@page_home, 'speaking', 'track-prevention', 'Prevention, Gambling & Emerging Risk', '5 Signature Topics · Clinical & Community', 'TRACK 01', NULL, '/services/speaking-topics?track=prevention', NULL, 'Early warning signs, clinical escalation timelines, youth digital gaming apps, PGAM campaigns, and validated NODS-CLiP screening protocols.', 1, 1),
+(@page_home, 'speaking', 'track-outreach', 'Community Engagement & Outreach', '5 Signature Topics · Grassroots & Policy', 'TRACK 02', NULL, '/services/speaking-topics?track=outreach', NULL, 'The 8 Touchpoints framework, municipal leader resolutions, faith-based sanctuaries, and culturally grounded stigma reduction.', 2, 1),
+(@page_home, 'speaking', 'track-systems', 'Human-Centered Systems & Services', '6 Signature Topics · Healthcare & Systems', 'TRACK 03', NULL, '/services/speaking-topics?track=systems', NULL, 'Co-occurring SUD integration, operationalizing the GEAR Method™, mobile betting demographics, lethality screening, and harm reduction.', 3, 1),
+(@page_home, 'speaking', 'track-youth', 'Purpose, Leadership & Youth Impact', '4 Signature Topics · Youth & Enterprise', 'TRACK 04', NULL, '/services/speaking-topics?track=youth', NULL, 'Motivational interviewing labs, family secondary trauma, signature flagship keynote, and GambleFreeGear wearable advocacy.', 4, 1),
 
 -- Video Reels (3 items)
-(@page_home, 'video_reels', 'National Problem Gambling Conference', 'Keynote Address', NULL, NULL, 'thumb_1', NULL, 1, 1),
-(@page_home, 'video_reels', 'Youth Prevention Summit', 'Student Workshop', NULL, NULL, 'thumb_2', NULL, 2, 1),
-(@page_home, 'video_reels', 'Behavioral Health Alliance', 'Professional Training', NULL, NULL, 'thumb_3', NULL, 3, 1),
+(@page_home, 'video_reels', 'video-1', 'National Problem Gambling Conference', 'Keynote Address', 'KEYNOTE', NULL, NULL, 'thumb_1', NULL, 1, 1),
+(@page_home, 'video_reels', 'video-2', 'Youth Prevention Summit', 'Student Workshop', 'WORKSHOP', NULL, NULL, 'thumb_2', NULL, 2, 1),
+(@page_home, 'video_reels', 'video-3', 'Behavioral Health Alliance', 'Professional Training', 'TRAINING', NULL, NULL, 'thumb_3', NULL, 3, 1),
 
 -- Real Events from Master Tracker (4 items)
-(@page_home, 'events', 'Youth Creative Arts Prevention & Resource Fair', 'Chicago, IL · Aug 2026 · 67 Reach', 'Upcoming', '/impact#engagements-directory', '67 Reach', 'Chicago, IL', 1, 1),
-(@page_home, 'events', 'ICPG Conference: Outreach Best Practices', 'Springfield, IL · 2026 · Statewide Prevention Professionals', 'Past', '/impact#engagements-directory', '350+ Attendees', 'Springfield, IL', 2, 1),
-(@page_home, 'events', 'Women Connection Summit', 'Chicago, IL · 2026 · Community Activation', 'Past', '/impact#engagements-directory', '600+ Attendees', 'Chicago, IL', 3, 1),
-(@page_home, 'events', 'TEEH Foundation ROSC Council', 'South Suburban Chicago, IL · 2026 · ROSC & Care Linkage', 'Past', '/impact#engagements-directory', '250+ Attendees', 'South Suburban Chicago, IL', 4, 1),
+(@page_home, 'events', 'event-youth-fair', 'Youth Creative Arts Prevention & Resource Fair', 'Chicago, IL · Aug 2026 · 67 Reach', 'Community Expo', NULL, '/impact#past-engagements', '67 Reach', 'Youth creative arts exhibition, vision board activation, and signature Prevention Passport screening journey.', 1, 1),
+(@page_home, 'events', 'event-icpg', 'ICPG Statewide Conference: Outreach Best Practices', 'Springfield, IL · 2026 · Statewide Prevention Professionals', 'Breakout', NULL, '/impact#past-engagements', '350+ Attendees', 'Master breakout session on grassroots outreach strategy and health equity in problem gambling prevention.', 2, 1),
+(@page_home, 'events', 'event-women-summit', 'Women Connection Summit', 'Chicago, IL · 2026 · Community Activation', 'Summit', NULL, '/impact#past-engagements', '600+ Attendees', 'Empowering women leaders and educators to address hidden behavioral addictions in family systems.', 3, 1),
+(@page_home, 'events', 'event-rosc', 'TEEH Foundation ROSC Council', 'South Suburban Chicago, IL · 2026 · ROSC & Care Linkage', 'Facilitation', NULL, '/impact#past-engagements', '250+ Attendees', 'Strategic council facilitation integrating problem gambling prevention directly into Recovery Oriented Systems of Care.', 4, 1),
 
 -- Proof Testimonials (3 items - hidden until activated in CRM)
-(@page_home, 'proof_testimonials', 'Director of Clinical Services', 'Midwest Behavioral Health Network', NULL, NULL, NULL, 'Tiffany brought an unprecedented level of clarity, compassion, and practical rigor to our annual conference. Our clinical team walked away with screening protocols they implemented the very next morning.', 1, 1),
-(@page_home, 'proof_testimonials', 'ROSC Council Coordinator', 'Community Prevention Coalition', NULL, NULL, NULL, 'Working with Tiffany transformed how our coalition approaches youth digital gaming and problem gambling prevention. Her ability to authentically connect with diverse community leaders is unmatched.', 2, 1),
-(@page_home, 'proof_testimonials', 'Executive Director', 'Public Health Advocacy Initiative', NULL, NULL, NULL, 'More than just an inspiring keynote speaker — Tiffany is a true strategic partner who helped us structure community outreach programs designed for sustainable, long-term impact.', 3, 1);
+(@page_home, 'proof_testimonials', 'testimonial-1', 'Director of Clinical Services', 'Midwest Behavioral Health Network', 'CLINICAL', NULL, NULL, NULL, 'Tiffany brought an unprecedented level of clarity, compassion, and practical rigor to our annual conference. Our clinical team walked away with screening protocols they implemented the very next morning.', 1, 1),
+(@page_home, 'proof_testimonials', 'testimonial-2', 'ROSC Council Coordinator', 'Community Prevention Coalition', 'COALITION', NULL, NULL, NULL, 'Working with Tiffany transformed how our coalition approaches youth digital gaming and problem gambling prevention. Her ability to authentically connect with diverse community leaders is unmatched.', 2, 1),
+(@page_home, 'proof_testimonials', 'testimonial-3', 'Executive Director', 'Public Health Advocacy Initiative', 'ADVOCACY', NULL, NULL, NULL, 'More than just an inspiring keynote speaker — Tiffany is a true strategic partner who helped us structure community outreach programs designed for sustainable, long-term impact.', 3, 1);
 
 
 -- ==============================================================================
@@ -264,10 +278,15 @@ INSERT INTO website_content (page_id, section, key_name, content_value, content_
 (@page_services, 'gear', 'footer_flow', 'AWARENESS → CONNECTION → ACTION → IMPACT', 'text'),
 (@page_services, 'gear', 'section_is_active', '1', 'boolean'),
 
+(@page_services, 'partnership_framework', 'eyebrow', 'COLLABORATIVE PARTNERSHIP', 'text'),
+(@page_services, 'partnership_framework', 'headline', 'More Than a Speaker. <span class="italic-accent">A Collaborative Partner.</span>', 'html'),
+(@page_services, 'partnership_framework', 'subtitle', 'From one conversation to long-term strategy, Tiffany works alongside organizations to create stronger prevention, engagement, and community impact.', 'textarea'),
+(@page_services, 'partnership_framework', 'section_is_active', '1', 'boolean'),
+
 (@page_services, 'speaking_teaser', 'eyebrow', 'SPEAKING & FACILITATION', 'text'),
 (@page_services, 'speaking_teaser', 'headline', 'Conversations that <span class="italic-accent">create change.</span>', 'html'),
-(@page_services, 'speaking_teaser', 'body_text', 'Twenty-one topics organized across four signature tracks — built for clinicians, educators, students, and community coalitions.', 'textarea'),
-(@page_services, 'speaking_teaser', 'cta_text', 'Explore All 21 Speaking Topics →', 'text'),
+(@page_services, 'speaking_teaser', 'body_text', 'Twenty topics organized across four signature tracks — built for clinicians, educators, students, and community coalitions.', 'textarea'),
+(@page_services, 'speaking_teaser', 'cta_text', 'Explore All 20 Speaking Topics →', 'text'),
 (@page_services, 'speaking_teaser', 'cta_url', '/services/speaking-topics', 'text'),
 (@page_services, 'speaking_teaser', 'section_is_active', '1', 'boolean'),
 
@@ -294,6 +313,13 @@ INSERT INTO website_collections (page_id, section_name, title, subtitle, content
 (@page_services, 'gear_steps', 'A — Activate', 'Move Ideas into Action', 'Turn insight into strategies, programs, experiences, partnerships, and practical next steps that stick.', 3, 1),
 (@page_services, 'gear_steps', 'R — Resource', 'Build the Path Forward', 'Connect people and organizations with information, relationships, services, tools, and opportunities for sustained impact.', 4, 1);
 
+-- 0.7 Partnership Framework (4 Pillars)
+INSERT INTO website_collections (page_id, section_name, item_slug, title, subtitle, badge, content_html, sort_order, is_active) VALUES
+(@page_services, 'partnership_framework', 'speak', 'SPEAK', 'Engage & Educate', '01 // SPEAK', 'Keynotes, Conference Sessions, Workshops, Panels, and Session Moderation designed to shift mindset and spark vital community conversations.', 1, 1),
+(@page_services, 'partnership_framework', 'partner', 'PARTNER', 'Connect & Activate', '02 // PARTNER', 'Resource Tables, Health & Resource Fairs, ROSC Coalition Engagement, and Community Prevention Events establishing trust on the ground.', 2, 1),
+(@page_services, 'partnership_framework', 'strategize', 'STRATEGIZE', 'Plan & Build', '03 // STRATEGIZE', 'Strategic Planning, Community Engagement Strategy, Program Architecture, and Public Health Campaign Design for measurable impact.', 3, 1),
+(@page_services, 'partnership_framework', 'strengthen', 'STRENGTHEN', 'Sustain & Expand', '04 // STRENGTHEN', 'Outreach Touchpoint Optimization, System Architecture Advisory, and Coalition Capacity Building ensuring initiatives last.', 4, 1);
+
 
 -- ==============================================================================
 -- 7. Hydrate Page 4: /impact (Impact & Engagements)
@@ -301,9 +327,9 @@ INSERT INTO website_collections (page_id, section_name, title, subtitle, content
 SET @page_impact = (SELECT id FROM website_pages WHERE slug = 'impact' LIMIT 1);
 
 INSERT INTO website_content (page_id, section, key_name, content_value, content_type) VALUES
-(@page_impact, 'hero', 'eyebrow', 'COMMUNITY IMPACT', 'text'),
-(@page_impact, 'hero', 'headline', 'Where the work <span class="italic-accent">has taken me.</span>', 'html'),
-(@page_impact, 'hero', 'subtitle', 'Fifteen years of prevention work, measured in conversations started, systems changed, and communities that stopped waiting for permission to talk about this.', 'textarea'),
+(@page_impact, 'hero', 'eyebrow', 'EVENTS & IMPACT', 'text'),
+(@page_impact, 'hero', 'headline', 'Where frontline experience <span class="italic-accent">creates documented impact.</span>', 'html'),
+(@page_impact, 'hero', 'subtitle', 'From conference rooms to community spaces, this page documents where Tiffany has brought the conversation, who the work was designed to reach, and the impact that followed.', 'textarea'),
 (@page_impact, 'hero', 'section_is_active', '1', 'boolean'),
 
 (@page_impact, 'stats', 'eyebrow', 'AGGREGATE IMPACT', 'text'),
@@ -312,21 +338,33 @@ INSERT INTO website_content (page_id, section, key_name, content_value, content_
 (@page_impact, 'stats', 'stat_1_label', 'Years in Public Health', 'text'),
 (@page_impact, 'stats', 'stat_2_value', '4,000+', 'text'),
 (@page_impact, 'stats', 'stat_2_label', 'Hours of Frontline Outreach', 'text'),
-(@page_impact, 'stats', 'stat_3_value', '21', 'text'),
+(@page_impact, 'stats', 'stat_3_value', '20', 'text'),
 (@page_impact, 'stats', 'stat_3_label', 'Signature Speaking Topics', 'text'),
 (@page_impact, 'stats', 'section_is_active', '1', 'boolean'),
 
-(@page_impact, 'practice', 'eyebrow', 'PUBLIC HEALTH PRACTICE', 'text'),
-(@page_impact, 'practice', 'headline', 'Prevention that meets people where they are.', 'text'),
-(@page_impact, 'practice', 'body_text', 'Tiffany has spent fifteen years working in school gyms, clinic waiting rooms, church basements, and coalition halls. Her work establishes prevention in spaces standard campaigns never reach.', 'textarea'),
-(@page_impact, 'practice', 'link_text', 'Read more about her specialism →', 'text'),
-(@page_impact, 'practice', 'link_url', '/about#specialism', 'text'),
-(@page_impact, 'practice', 'section_is_active', '1', 'boolean'),
+(@page_impact, 'upcoming', 'eyebrow', 'UPCOMING SCHEDULE', 'text'),
+(@page_impact, 'upcoming', 'headline', 'New engagement dates will be announced <span class="italic-accent">as they are confirmed.</span>', 'html'),
+(@page_impact, 'upcoming', 'subtext', 'Tiffany is currently accepting invitations for keynotes, workshops, and coalition engagements for 2026 / 2027.', 'textarea'),
+(@page_impact, 'upcoming', 'section_is_active', '1', 'boolean'),
 
-(@page_impact, 'cta', 'headline', 'Bring this work to your community.', 'text'),
-(@page_impact, 'cta', 'button_text', 'Invite Tiffany to Speak →', 'text'),
+(@page_impact, 'cta', 'eyebrow', 'BRING TIFFANY IN', 'text'),
+(@page_impact, 'cta', 'headline', 'Bring documented impact to your <span class="italic-accent">organization.</span>', 'html'),
+(@page_impact, 'cta', 'subtitle', 'Check availability and request a custom keynote, training session, or strategic community engagement tailored to your specific goals.', 'textarea'),
+(@page_impact, 'cta', 'button_text', 'Start a Conversation →', 'text'),
 (@page_impact, 'cta', 'button_url', '/work-with-tiffany', 'text'),
 (@page_impact, 'cta', 'section_is_active', '1', 'boolean');
+
+-- Impact Page Collections: Outcome Stories (2 Verified Case Studies)
+INSERT INTO website_collections (page_id, section_name, item_slug, title, subtitle, badge, link_url, image_url, content_html, sort_order, is_active) VALUES
+(@page_impact, 'outcome_stories', 'story-youth-fair', 'Youth Creative Arts Prevention & Resource Fair', 'Blocks 2 Cities + GambleFreeGear · August 2026 · Chicago, IL', 'EVENT SPOTLIGHT', '/impact#past-engagements', '/assets/thumb_1.jpg', 'Grassroots youth and community families navigating emerging digital risks and sports wagering exposure without structured screening.<br/><br/>Tiffany co-led a high-engagement prevention activation featuring the signature Prevention Passport, youth-led panel discussion, creative arts vision board session, and direct linkage to local care partners.<br/><br/><strong>Documented Outcome:</strong> 67 youth, parents, and community members completed the interactive screening journey, connecting families to care resources.', 1, 1),
+(@page_impact, 'outcome_stories', 'story-icpg-conference', 'ICPG Statewide Conference: Outreach Best Practices', 'Illinois Council on Problem Gambling · June 2026 · Springfield, IL', 'CONFERENCE BREAKOUT', '/impact#past-engagements', '/assets/thumb_2.jpg', 'Clinical providers and public health educators across Illinois needed evidence-based, culturally grounded frameworks to reach historically underserved communities.<br/><br/>Tiffany delivered an intensive master breakout session on multicultural outreach strategy, actionable touchpoint architecture, and operationalizing the GEAR Method™ in clinical and community settings.<br/><br/><strong>Documented Outcome:</strong> Equipped 350+ statewide prevention leaders with practical engagement playbooks and NODS-CLiP brief intervention protocols.', 2, 1);
+
+-- Impact Page Collections: Past Engagements (4 Verified Events)
+INSERT INTO website_collections (page_id, section_name, item_slug, title, subtitle, badge, link_url, image_url, content_html, sort_order, is_active) VALUES
+(@page_impact, 'past_engagements', 'past-youth-fair', 'Youth Creative Arts Prevention & Resource Fair', 'Blocks 2 Cities + GambleFreeGear · Chicago, IL', 'Community Expo', NULL, '67 Total Reach', 'Youth creative arts exhibition, vision board activation, and signature Prevention Passport screening journey connecting youth and parents with care partners.', 1, 1),
+(@page_impact, 'past_engagements', 'past-icpg', 'ICPG Statewide Conference: Outreach Best Practices', 'Illinois Council on Problem Gambling · Springfield, IL', 'Conference Breakout', NULL, '350+ Attendees', 'Master breakout session on grassroots outreach strategy, health equity frameworks in problem gambling prevention, and cross-system linkage.', 2, 1),
+(@page_impact, 'past_engagements', 'past-women-summit', 'Women Connection Summit', 'Women Connection Network · Chicago, IL', 'Community Activation', NULL, '600+ Attendees', 'Empowering women leaders, educators, and families to address hidden behavioral addictions and build resilient community support structures.', 3, 1),
+(@page_impact, 'past_engagements', 'past-rosc-council', 'TEEH Foundation ROSC Council', 'TEEH Foundation · South Suburban Chicago, IL', 'Coalition Facilitation', NULL, '250+ Attendees', 'Strategic council facilitation embedding problem gambling prevention and screening workflows directly into local Recovery Oriented Systems of Care.', 4, 1);
 
 
 -- ==============================================================================
@@ -335,29 +373,44 @@ INSERT INTO website_content (page_id, section, key_name, content_value, content_
 SET @page_media = (SELECT id FROM website_pages WHERE slug = 'media' LIMIT 1);
 
 INSERT INTO website_content (page_id, section, key_name, content_value, content_type) VALUES
-(@page_media, 'hero', 'eyebrow', 'MEDIA & PRESS', 'text'),
-(@page_media, 'hero', 'headline', 'Ready for the room <span class="italic-accent">and the story.</span>', 'html'),
-(@page_media, 'hero', 'subtitle', 'Everything event organizers, journalists, and podcast hosts need to feature, interview, or introduce Tiffany Webb.', 'textarea'),
+(@page_media, 'hero', 'eyebrow', 'PRESS KIT & MEDIA ASSETS', 'text'),
+(@page_media, 'hero', 'headline', 'Official speaker <span class="italic-accent">press kit.</span>', 'html'),
+(@page_media, 'hero', 'subtitle', 'Approved bios, high-resolution photography, stage introduction script, and promotional assets for conference chairs, event organizers, and journalists.', 'textarea'),
 (@page_media, 'hero', 'section_is_active', '1', 'boolean'),
 
-(@page_media, 'downloads', 'eyebrow', 'PRESS DOWNLOADS', 'text'),
-(@page_media, 'downloads', 'headline', 'Official Speaker Assets', 'text'),
+(@page_media, 'downloads', 'eyebrow', 'MEDIA ASSETS & DOWNLOADS', 'text'),
+(@page_media, 'downloads', 'headline', 'High-resolution <span class="italic-accent">downloads.</span>', 'html'),
 (@page_media, 'downloads', 'section_is_active', '1', 'boolean'),
 
-(@page_media, 'bios', 'eyebrow', 'APPROVED BIOGRAPHIES', 'text'),
-(@page_media, 'bios', 'headline', 'Bios in 3 Lengths (Third-Person)', 'text'),
+(@page_media, 'bios', 'eyebrow', 'OFFICIAL BIOGRAPHIES', 'text'),
+(@page_media, 'bios', 'headline', 'Approved <span class="italic-accent">biographies.</span>', 'html'),
 (@page_media, 'bios', 'section_is_active', '1', 'boolean'),
 
 (@page_media, 'intro_script', 'eyebrow', 'STAGE INTRODUCTION', 'text'),
-(@page_media, 'intro_script', 'headline', 'Official Stage Emcee Script', 'text'),
-(@page_media, 'intro_script', 'read_time', '~60 Seconds', 'text'),
-(@page_media, 'intro_script', 'script_text', 'Our next speaker has spent more than fifteen years and four thousand hours doing prevention work in the places it\'s hardest to do — schools, clinics, and community rooms across Illinois. She\'s a public-health educator, a Community Impact Strategist, and the founder of GambleFreeGear. She believes prevention begins with a conversation, and she\'s here to start one with us. Please welcome Tiffany Webb.', 'textarea'),
+(@page_media, 'intro_script', 'headline', 'Emcee introduction <span class="italic-accent">script.</span>', 'html'),
+(@page_media, 'intro_script', 'read_time', '~30 Seconds', 'text'),
+(@page_media, 'intro_script', 'script_text', 'Please welcome Tiffany Webb — Community Impact Strategist, Public Health Educator, and founder of GambleFreeGear. With over 15 years of experience across behavioral health and community systems, Tiffany helps healthcare networks, schools, and civic leaders reimagine prevention and build human-centered strategies that last. Please join me in welcoming Tiffany Webb!', 'textarea'),
 (@page_media, 'intro_script', 'section_is_active', '1', 'boolean'),
 
-(@page_media, 'cta', 'headline', 'Book an Interview or Podcast Feature', 'text'),
-(@page_media, 'cta', 'button_text', 'Submit Media Request →', 'text'),
-(@page_media, 'cta', 'button_url', '/work-with-tiffany?type=Media', 'text'),
+(@page_media, 'cta', 'eyebrow', 'MEDIA & PODCAST APPEARANCES', 'text'),
+(@page_media, 'cta', 'headline', 'Host Tiffany on your <span class="italic-accent">broadcast or podcast.</span>', 'html'),
+(@page_media, 'cta', 'subtitle', 'Tiffany is available for television, radio, print, and podcast interviews discussing problem gambling prevention, youth digital health, and community health strategy.', 'textarea'),
+(@page_media, 'cta', 'button_text', 'Request a Media Interview or Podcast Appearance →', 'text'),
+(@page_media, 'cta', 'button_url', '/work-with-tiffany?inquiry=media', 'text'),
 (@page_media, 'cta', 'section_is_active', '1', 'boolean');
+
+-- Media Page Collections: 3 Approved Bios
+INSERT INTO website_collections (page_id, section_name, item_slug, title, subtitle, badge, content_html, sort_order, is_active) VALUES
+(@page_media, 'bios', 'short-bio', 'SHORT BIO', 'For Event Programs & Social Media', '~50 WORDS', 'Tiffany Webb is a Chicago-born Community Impact Strategist and Public Health Speaker with over 15 years of experience in behavioral health and public health education. She brings lived insight and clinical rigor to problem gambling prevention, youth digital risk, and human-centered community health strategies across Illinois and nationally.', 1, 1),
+(@page_media, 'bios', 'medium-bio', 'MEDIUM BIO', 'For Conference Agendas & Website Speaker Profiles', '~150 WORDS', 'Tiffany Webb is a Community Impact Strategist, Public Health Educator, and Speaker specializing in problem gambling prevention, youth digital risk, and community health strategy. With over 15 years of leadership across behavioral health systems and more than 4,000 hours of frontline community outreach, Tiffany bridges the gap between clinical protocols and community trust. She is the founder of GambleFreeGear and the creator of the GEAR Method™ (Generate, Engage, Activate, Resource). An affiliate speaker with the Illinois Council on Problem Gambling (ICPG) and an active advisor to regional ROSC coalitions, Tiffany is trusted by healthcare networks, civic leaders, and youth organizations to deliver high-impact keynotes and actionable workshops.', 2, 1),
+(@page_media, 'bios', 'long-bio', 'LONG BIO', 'For Keynote Introductions, Press Releases & Feature Articles', '~300 WORDS', 'Tiffany Webb is a Community Impact Strategist, Public Health Educator, and Speaker dedicated to transforming how organizations, healthcare systems, and communities address behavioral addiction, emerging digital risks, and public health equity. Raised by her grandmother and a close village of family in Chicago with deep Louisiana roots, Tiffany learned early that true community support requires showing up with empathy, consistency, and respect.\n\nOver the past 15 years, Tiffany has worked across healthcare networks, municipal health agencies, and grassroots recovery coalitions. With more than 4,000 hours of frontline outreach, she specializes in identifying hidden behavioral addictions—including mobile sports wagering and youth digital gaming—that traditional intake protocols often overlook.\n\nShe is the creator of the GEAR Method™ (Generate, Engage, Activate, Resource), a proprietary four-phase framework that helps institutions move from passive awareness to sustainable community action. Tiffany is also the founder of GambleFreeGear, a mission-driven awareness enterprise providing wearable advocacy and educational resources.\n\nAn affiliate speaker with the Illinois Council on Problem Gambling (ICPG) and a trusted facilitator for Recovery Oriented Systems of Care (ROSC) councils, Tiffany delivers evidence-based, emotionally resonant keynotes, clinical trainings, and executive advisory sessions across the country.', 3, 1);
+
+-- Media Page Collections: Downloads & Press Kits
+INSERT INTO website_collections (page_id, section_name, item_slug, title, subtitle, badge, link_url, content_html, sort_order, is_active) VALUES
+(@page_media, 'downloads', 'speaker-one-sheet', 'Speaker One-Sheet PDF', 'For Event Organizers', 'FOR EVENT ORGANIZERS', '/downloads/Tiffany_Webb_Speaker_One_Sheet.pdf', 'Single-page executive overview of signature topics, speaking formats, and organizer credentials. Perfect for committee review.', 1, 1),
+(@page_media, 'downloads', 'headshot-print', 'Official Headshot (Print Resolution)', 'High-Res 300 DPI · CMYK', 'PRINT READY', '/uploads/tiffany_headshot_print.jpg', 'Approved print-quality photography for conference booklets, printed programs, and event banners.', 2, 1),
+(@page_media, 'downloads', 'headshot-web', 'Official Headshot (Digital / Web)', 'Web Ready · RGB', 'WEB READY', '/uploads/tiffany_headshot_web.jpg', 'Optimized web-ready portrait for social media promotion, event landing pages, and slide decks.', 3, 1),
+(@page_media, 'downloads', 'media-kit-zip', 'Media & Brand Kit (ZIP)', 'Complete Asset Pack', 'COMPLETE PACK', '/downloads/Tiffany_Webb_Media_Kit.zip', 'All approved bios, introduction script, logos, and photography in one convenient download package.', 4, 1);
 
 
 -- ==============================================================================

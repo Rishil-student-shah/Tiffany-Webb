@@ -383,18 +383,23 @@ app.get('/cms/:slug', requireAuth, async (req, res) => {
 
     let definedCollections = [];
     if (page.slug === 'home') {
-      definedCollections = ['impact_band', 'credibility_bar', 'expertise', 'who_can_benefit', 'events', 'proof_attributes', 'proof_testimonials', 'social_links', 'video_reels'];
+      definedCollections = ['impact_band', 'credibility_bar', 'expertise', 'who_can_benefit', 'speaking', 'events', 'proof_attributes', 'proof_testimonials', 'social_links', 'video_reels'];
     } else if (page.slug === 'services') {
-      definedCollections = ['how_tiffany_helps', 'gear_method'];
+      definedCollections = ['capabilities', 'gear_method', 'gear_steps', 'partnership_framework', 'how_tiffany_helps'];
     } else if (page.slug === 'speaking-topics') {
       definedCollections = ['tracks_list'];
     } else if (page.slug === 'insights') {
       definedCollections = ['articles'];
     } else if (page.slug === 'impact') {
-      definedCollections = ['events', 'testimonials'];
+      definedCollections = ['outcome_stories', 'past_engagements', 'events', 'testimonials'];
     } else if (page.slug === 'media') {
-      definedCollections = ['bios', 'press_kit'];
+      definedCollections = ['bios', 'downloads', 'press_kit'];
+    } else if (page.slug === 'about') {
+      definedCollections = ['story_vignettes'];
     }
+
+    const allCollectionSectionNames = Object.keys(collectionSections);
+    definedCollections = Array.from(new Set([...definedCollections, ...allCollectionSectionNames]));
 
     res.render('cms-page', { 
       page, 
