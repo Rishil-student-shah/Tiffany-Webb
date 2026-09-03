@@ -3,664 +3,433 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>New Lead - Tiffany Webb CRM</title>
-    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <title>New Lead — Tiffany Webb CRM</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="/css/crm-theme.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
-    <!-- Add SheetJS for Excel parsing -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
-        :root {
-            --color-ink: #0d1210;
-            --color-gold: #c29545;
-            --color-ivory: #f2efe9;
-            --color-bg: #f8f9fa;
-            --font-sans: 'Inter', sans-serif;
-            --font-serif: 'Instrument Serif', serif;
-        }
-
-        body { 
-            font-family: var(--font-sans); 
-            background: var(--color-bg); 
-            margin: 0; 
-            color: #333;
-        }
-
-        .top-nav {
-            background: var(--color-ink);
-            color: var(--color-ivory);
-            padding: 1rem 2rem;
+        .tabs-header {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .nav-logo { font-family: var(--font-serif); font-size: 1.8rem; margin: 0; }
-        .nav-logo span { color: var(--color-gold); font-style: italic; }
-        
-        .nav-links a { color: rgba(242, 239, 233, 0.7); text-decoration: none; margin-left: 1.5rem; }
-        .nav-links a:hover { color: var(--color-gold); }
-
-        .container { max-width: 800px; margin: 3rem auto; padding: 0 2rem; }
-        
-        .panel {
-            background: var(--color-card);
-            padding: 2.5rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            gap: 1rem;
+            border-bottom: 1px solid var(--color-border-subtle);
             margin-bottom: 2rem;
         }
-
-        h2 { font-family: var(--font-serif); font-size: 2.2rem; margin: 0 0 1.5rem 0; color: var(--color-ink); }
-
-        .tabs { display: flex; gap: 1rem; border-bottom: 2px solid #eee; margin-bottom: 2rem; }
-        .tab { padding: 0.75rem 1.5rem; cursor: pointer; font-weight: 500; color: #666; border-bottom: 2px solid transparent; margin-bottom: -2px; }
-        .tab.active { color: var(--color-ink); border-bottom-color: var(--color-gold); }
-
-        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-        .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
-        .form-group.full { grid-column: 1 / -1; }
-        
-        label { font-size: 0.75rem; text-transform: uppercase; font-weight: 600; color: #666; }
-        input, select, textarea { padding: 0.75rem; border: 1px solid #ddd; border-radius: 6px; font-family: var(--font-sans); width: 100%; box-sizing: border-box; }
-        input:focus, select:focus, textarea:focus { outline: none; border-color: var(--color-gold); }
-
-        .btn { padding: 0.75rem 2rem; border-radius: 6px; font-weight: 600; cursor: pointer; border: none; font-family: var(--font-sans); text-decoration: none; display: inline-block; }
-        .btn-primary { background: var(--color-ink); color: var(--color-ivory); }
-        .btn-primary:hover { background: #1a221f; }
-        .btn-gold { background: var(--color-gold); color: white; }
-        .btn-outline { background: transparent; border: 1px solid #ddd; color: #555; }
-        .btn-outline:hover { border-color: var(--color-ink); color: var(--color-ink); }
-
-        .alert { padding: 1rem; border-radius: 6px; margin-bottom: 1.5rem; }
-        .alert-error { background: #fee2e2; color: #991b1b; }
-        .alert-success { background: #dcfce3; color: #166534; }
-
-        .csv-box { border: 2px dashed #ddd; border-radius: 8px; padding: 3rem; text-align: center; background: #fafafa; }
-        .csv-box p { color: #666; margin-bottom: 1rem; }
-        
-        /* Predefined sources array from server */
-        .source-group { display: flex; gap: 1rem; align-items: flex-end; }
-        #custom-source-div { display: none; flex: 1; }
-    </style>
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    <!-- INJECTED PREMIUM CRM THEME -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        /* CRM Sleek Ink & Multi-Color Theme */
-        :root {
-            --color-ink: #0a0a0a; /* Pure deep ink, zero green tint */
-            --color-card: #141414; /* Sleek dark grey/black */
-            --color-border: #262626; /* Neutral border */
-            
-            --color-gold: #c29545;
-            --color-ivory: #ffffff; /* Bright white for maximum contrast */
-            
-            --color-terracotta: #a84747;
-            --color-slate: #5b7994;
-            --color-plum: #885794;
-            --color-text-muted: #a3a3a3;
-            
-            --font-sans: 'Plus Jakarta Sans', 'Inter', sans-serif;
-            --font-serif: 'Instrument Serif', serif;
-        }
-
-        body {
-            background-color: #1A2721 !important; /* Deep Forest Sage */
-            background-image: none !important;
-            color: var(--color-ivory) !important;
-            font-family: var(--font-sans) !important;
-        }
-
-        /* Target all common card classes AND any table wrappers */
-        .stat-card, .card, .dashboard-card, .form-container, .panel, .cms-sidebar, .cms-main, .table-container, .pipeline-card, .pipeline-lead, .message-bubble.inbound, .chart-card, .login-card,
-        div[style*="background: white"], div[style*="background-color: white"], div[style*="background: var(--color-card)"] {
-            background: var(--color-card) !important;
-            border: 1px solid var(--color-border) !important;
-            backdrop-filter: none !important;
-            color: var(--color-ivory) !important;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
-            border-radius: 12px !important;
-        }
-        
-        .message-bubble.outbound {
-            background: rgba(194, 149, 69, 0.15) !important;
-            border: 1px solid var(--color-gold) !important;
-            color: var(--color-ivory) !important;
-        }
-
-        h1, h2, h3, h4, h5, h6, .stat-value {
-            color: var(--color-ivory) !important;
-        }
-        
-        .page-title {
-            color: var(--color-ivory) !important; 
-        }
-
-        /* DISTINCT MULTI-COLOR GRADIENTS FOR CARDS (No single color) */
-        .stat-card {
-            border-top: none !important; /* Remove old solid border */
-        }
-        
-        .stat-card:nth-child(1) {
-            background: linear-gradient(135deg, #2b2212 0%, #141414 100%) !important;
-            border: 1px solid #3d3119 !important;
-        }
-        .stat-card:nth-child(2) {
-            background: linear-gradient(135deg, #2d1616 0%, #141414 100%) !important;
-            border: 1px solid #401f1f !important;
-        }
-        .stat-card:nth-child(3) {
-            background: linear-gradient(135deg, #172433 0%, #141414 100%) !important;
-            border: 1px solid #203347 !important;
-        }
-        .stat-card:nth-child(4) {
-            background: linear-gradient(135deg, #271a2b 0%, #141414 100%) !important;
-            border: 1px solid #3a2640 !important;
-        }
-
-        /* Bright text values on the multi-color cards */
-        .stat-card:nth-child(1) .stat-value { color: #f2c779 !important; }
-        .stat-card:nth-child(2) .stat-value { color: #f28b8b !important; }
-        .stat-card:nth-child(3) .stat-value { color: #8bbaf2 !important; }
-        .stat-card:nth-child(4) .stat-value { color: #db93f2 !important; }
-        
-        /* Gradient background for chart cards (Not Black) */
-        .chart-card {
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%) !important;
-            border: 1px solid #334155 !important;
-            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.4) !important;
-        }
-
-        /* Made labels pure Ivory so forms are easily readable! */
-        .csv-box, .csv-box p, .csv-box span, .csv-box strong {
-            color: var(--color-ivory) !important;
-        }
-        .csv-box {
-            border-color: var(--color-border) !important;
-            background: rgba(255, 255, 255, 0.02) !important;
-        }
-        .column-title {
-            color: var(--color-gold) !important;
-            font-family: var(--font-serif) !important;
-            font-size: 1.5rem !important;
-            letter-spacing: 0.02em;
-        }
-        .stat-label, .text-muted, .text-sm {
-            color: var(--color-text-muted) !important;
-        }
-        p {
-            color: var(--color-ivory) !important;
-        }
-        label {
-            color: var(--color-ivory) !important;
-            font-weight: 600 !important;
-            margin-bottom: 0.5rem !important;
-            display: block !important;
-        }
-        
-        /* Form Tabs (Manual / CSV) Readability */
-        .tab {
-            color: var(--color-ivory) !important;
-            border-bottom: 2px solid transparent !important;
-        }
-        .tab.active {
-            color: var(--color-gold) !important;
-            border-bottom-color: var(--color-gold) !important;
-        }
-        .tab:hover {
-            color: var(--color-gold) !important;
-            opacity: 0.8;
-        }
-
-        /* Pure Deep Ink for Navbar */
-        .top-nav {
-            background: #0a0a0a !important; /* Deep Ink */
-            border-bottom: 1px solid #262626 !important; 
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8) !important;
-        }
-        
-        /* Premium Deep Purple Gradient for the Search/Action Bar */
-        .action-bar {
-            background: linear-gradient(135deg, #2e1045 0%, #170824 100%) !important;
-            border: 1px solid #5a2e7d !important; /* Subtle purple border */
-            border-radius: 12px;
-            padding: 1.25rem;
-            margin-bottom: 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 10px 30px rgba(23, 8, 36, 0.5) !important;
-        }
-        
-        .top-nav .nav-link {
-            color: var(--color-ivory) !important;
-        }
-        .top-nav .nav-logo {
-            color: var(--color-ivory) !important; /* White logo base */
-        }
-        
-        .top-nav .nav-link:hover, .top-nav .nav-link.active {
-            color: var(--color-gold) !important; /* Golden active link */
-            text-shadow: none !important;
-        }
-        
-        .top-nav .nav-logo span {
-            color: var(--color-gold) !important; /* Golden CRM text */
-            font-style: italic;
-        }
-
-        input, textarea, select {
-            background: #050505 !important; 
-            border: 1px solid var(--color-border) !important;
-            color: var(--color-ivory) !important;
-            font-family: var(--font-sans) !important;
-            font-weight: 500 !important;
-            border-radius: 8px !important;
-        }
-
-        input.search-input {
-            border: 1px solid #d8b4e2 !important; /* Soft lavender border */
-            background: rgba(0,0,0,0.3) !important;
-            box-shadow: none !important; /* No neon */
-            color: #fbf6ea !important;
-        }
-
-        input:focus, textarea:focus, select:focus {
-            border-color: #d8b4e2 !important;
-            outline: none !important;
-            box-shadow: 0 0 0 3px rgba(216, 180, 226, 0.2) !important; /* Soft lavender focus */
-        }
-
-        /* Make date picker icon visible on dark background */
-        input[type="date"]::-webkit-calendar-picker-indicator {
-            filter: invert(1) !important;
+        .form-tab {
+            padding: 0.85rem 1.5rem;
+            background: transparent;
+            border: none;
+            color: var(--color-text-dim);
+            font-family: var(--font-sans);
+            font-weight: 600;
+            font-size: 0.9rem;
             cursor: pointer;
+            position: relative;
+            transition: all 0.2s ease;
         }
-
-        .btn, button, .button, input[type="submit"] {
-            background: var(--color-gold) !important;
-            color: #0a0a0a !important;
-            font-weight: 700 !important;
-            border: none !important;
-            font-family: var(--font-sans) !important;
-            border-radius: 8px !important;
-            box-shadow: 0 4px 12px rgba(194, 149, 69, 0.2) !important;
-            transition: all 0.2s ease !important;
-            cursor: pointer !important;
+        .form-tab:hover {
+            color: var(--color-ivory);
         }
-        
-        .btn:hover, button:hover, .button:hover, input[type="submit"]:hover {
-            transform: translateY(-2px) !important;
-            box-shadow: 0 6px 16px rgba(194, 149, 69, 0.3) !important;
+        .form-tab.active {
+            color: var(--color-gold);
         }
-        
-        .btn-secondary, .btn-outline, a.btn-outline {
-            background: transparent !important;
-            border: 1px solid var(--color-gold) !important;
-            color: var(--color-gold) !important;
-            box-shadow: none !important;
+        .form-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--color-gold);
+            box-shadow: 0 0 10px rgba(217, 162, 58, 0.6);
         }
-
-        /* Light Glowing Red Delete Buttons */
-        .btn-danger, button.danger, button.delete, a.btn-danger, button[onclick*="elete"], button[onclick*="ELETE"], a[href*="delete"] {
-            background: #ef4444 !important; /* Lighter, brighter red */
-            border: 1px solid #fca5a5 !important;
-            color: #ffffff !important;
-            box-shadow: 0 0 15px rgba(239, 68, 68, 0.6) !important; /* Glowing effect */
-            text-shadow: 0 1px 2px rgba(0,0,0,0.2) !important;
-            text-decoration: none !important;
-            padding: 0.4rem 0.8rem !important;
-            border-radius: 6px !important;
+        .dropzone-box {
+            border: 2px dashed var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: 3.5rem 2rem;
+            text-align: center;
+            background: var(--color-surface);
+            cursor: pointer;
+            transition: all 0.25s ease;
         }
-        
-        .btn-danger:hover, button[onclick*="elete"]:hover, a[href*="delete"]:hover {
-            background: #f87171 !important;
-            box-shadow: 0 0 22px rgba(239, 68, 68, 0.9) !important; /* Stronger glow on hover */
-        }
-
-        /* FORCE TABLE OVERRIDES AGAINST INLINE STYLES */
-        table, th, td, tr {
-            background: transparent !important;
-        }
-        
-        tr[style*="background"] {
-            background: transparent !important;
-        }
-
-        th {
-            border-bottom: 2px solid var(--color-border) !important;
-            color: var(--color-gold) !important;
-            font-weight: 700 !important;
-            text-transform: uppercase !important;
-            letter-spacing: 0.05em !important;
-        }
-        
-        th[style] {
-            color: var(--color-gold) !important;
-            background: transparent !important;
-        }
-        
-        td {
-            border-bottom: 1px solid var(--color-border) !important;
-            color: var(--color-ivory) !important;
-        }
-        
-        td[style] {
-            color: var(--color-ivory) !important;
-            background: transparent !important;
-        }
-        
-        /* Inline span badges (e.g. Active) */
-        span[style*="background: #dcfce3"], span[style*="background:#dcfce3"] {
-            background: rgba(91, 121, 148, 0.3) !important; /* Slate Blue transparent */
-            color: #92bce3 !important;
-            border: 1px solid rgba(91, 121, 148, 0.5) !important;
-        }
-        
-        /* Table rows hover */
-        tr:hover td {
-            background: rgba(255, 255, 255, 0.03) !important;
-        }
-        
-        /* Pipeline specific */
-        .pipeline-stage {
-            background: transparent !important;
-            border-right: 2px dashed var(--color-border) !important;
-        }
-        
-        .pipeline-lead {
-            border-left: 4px solid var(--color-gold) !important;
-        }
-        
-        a {
-            color: var(--color-gold) !important;
-        }
-        
-        /* FIX INLINE STYLES FOR TITLES */
-        h2[style] {
-            color: var(--color-ivory) !important;
-        }
-        h2 svg {
-            color: var(--color-gold) !important;
+        .dropzone-box:hover {
+            border-color: var(--color-gold);
+            background: rgba(217, 162, 58, 0.04);
         }
     </style>
 </head>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <body>
 
-    <!-- UNIFIED NAVBAR -->
+    <!-- UNIFIED TOP NAVIGATION -->
     <nav class="top-nav">
-        <div class="nav-brand">
+        <a href="/dashboard" class="nav-brand">
             <h1 class="nav-logo">Tiffany Webb <span>CRM</span></h1>
-        </div>
+        </a>
         <div class="nav-links">
             <a href="/dashboard" class="nav-link">Pipeline</a>
-            <a href="/leads/new" class="nav-link">Add Lead</a>
-            <a href="/cms" class="nav-link">Website</a>
+            <a href="/leads/new" class="nav-link active">Add Lead</a>
+            <a href="/cms" class="nav-link">Website CMS</a>
             <a href="/users" class="nav-link">Staff</a>
-            <a href="/login" class="nav-link">Logout</a>
+            <span class="nav-pill">Admin</span>
+            <a href="/logout" class="nav-link" style="color: #ef4444 !important;">Logout</a>
         </div>
     </nav>
-    <!-- END UNIFIED NAVBAR -->
 
-    
-    
-    
-    
+    <div class="main-content" style="max-width: 960px;">
+        <div style="margin-bottom: 2rem;">
+            <div class="crm-eyebrow">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg>
+                Inbound Lead Capture
+            </div>
+            <h1 class="page-title">Create New <span class="italic-accent">Inquiry</span></h1>
+        </div>
 
-    <div class="container">
-        <a href="/dashboard" style="color: #666; text-decoration: none; display: inline-block; margin-bottom: 1rem;">&larr; Back to Pipeline</a>
-        
-        <% if (error) { %> <div class="alert alert-error"><%= error %></div> <% } %>
-        <% if (success) { %> <div class="alert alert-success"><%= success %></div> <% } %>
+        <% if (typeof error !== 'undefined' && error) { %>
+            <div class="alert alert-error">
+                <span><%= error %></span>
+                <button onclick="this.parentElement.style.display='none'" style="background: none; border: none; color: inherit; font-size: 1.2rem; cursor: pointer;">&times;</button>
+            </div>
+        <% } %>
+        <% if (typeof success !== 'undefined' && success) { %>
+            <div class="alert alert-success">
+                <span><%= success %></span>
+                <button onclick="this.parentElement.style.display='none'" style="background: none; border: none; color: inherit; font-size: 1.2rem; cursor: pointer;">&times;</button>
+            </div>
+        <% } %>
+
+        <!-- LIVE DUPLICATE WARNING BANNER -->
+        <div id="duplicateWarningBox" style="display: none; background: rgba(217, 162, 58, 0.12); border: 1px solid var(--color-gold); border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: 1.5rem;">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                    <span style="font-size: 1.3rem;">⚠️</span>
+                    <div>
+                        <div style="font-weight: 700; color: var(--color-gold); font-size: 0.92rem;">Potential Duplicate Lead Found</div>
+                        <div id="duplicateDetails" style="font-size: 0.82rem; color: var(--color-ivory); margin-top: 0.2rem;"></div>
+                    </div>
+                </div>
+                <a id="duplicateLeadLink" href="#" target="_blank" class="btn btn-outline" style="padding: 0.35rem 0.75rem; font-size: 0.78rem; border-color: var(--color-gold); color: var(--color-gold);">
+                    View Existing Lead &rarr;
+                </a>
+            </div>
+        </div>
 
         <div class="panel">
-            <h2>Add Leads</h2>
-            
-            <div class="tabs">
-                <div class="tab active" onclick="switchTab('manual')">Manual Entry</div>
-                <div class="tab" onclick="switchTab('csv')">Bulk CSV Upload</div>
+            <div class="tabs-header">
+                <button type="button" class="form-tab active" onclick="switchTab('manual', this)">Manual Entry Form</button>
+                <button type="button" class="form-tab" onclick="switchTab('batch', this)">Batch CSV / Excel Import</button>
             </div>
 
-            <!-- Manual Form -->
-            <div id="manual-tab">
-                <!-- Submit to the same endpoint we use for website, but redirect to new lead form on success -->
-                <form action="/api/leads" method="POST" onsubmit="return handleManualSubmit(event)">
-                    <!-- Pass a query param to tell server it's from manual form so it can redirect -->
+            <!-- MANUAL ENTRY TAB -->
+            <div id="tab-manual">
+                <form action="/api/leads" method="POST" id="manualLeadForm">
                     <input type="hidden" name="is_manual" value="true">
-                    
-                    <div class="form-grid">
-                        <div class="form-group full">
-                            <label>Lead Source</label>
-                            <div class="source-group">
-                                <select id="source-select" style="flex: 1;" onchange="toggleCustomSource()">
-                                    <% 
-                                    const defaultSources = ['website_form', 'whatsapp'];
-                                    const allSources = [...new Set([...defaultSources, ...sources])];
-                                    allSources.forEach(s => { %>
-                                        <option value="<%= s %>"><%= s %></option>
-                                    <% }); %>
-                                    <option value="OTHER">Other (Type Custom)</option>
-                                </select>
-                                <div id="custom-source-div">
-                                    <input type="text" id="custom-source" placeholder="e.g. dict, referral, event2026">
-                                </div>
-                            </div>
-                            <!-- Hidden actual source field that gets submitted -->
-                            <input type="hidden" name="source" id="actual-source" value="website_form">
+
+                    <div class="data-grid" style="margin-bottom: 0;">
+                        <div class="form-group">
+                            <label>Lead Source / Origin Channel</label>
+                            <select name="source" id="sourceSelect">
+                                <option value="website_form">Website Contact Form</option>
+                                <option value="referral">Direct Executive Referral</option>
+                                <option value="event">Conference / Live Event</option>
+                                <option value="instagram">Instagram Inbound</option>
+                                <option value="linkedin">LinkedIn Direct</option>
+                                <option value="phone">Inbound Phone Call</option>
+                                <option value="email">Direct Email Outreach</option>
+                                <option value="other">Other Channel</option>
+                            </select>
                         </div>
 
-                        <div class="form-group"><label>Contact Name</label><input type="text" name="contact_name"></div>
-                        <div class="form-group"><label>Organization</label><input type="text" name="organization_name"></div>
-                        <div class="form-group"><label>Email</label><input type="email" name="email"></div>
-                        <div class="form-group" style="margin-bottom: 0;">
-                            <label>Phone Number</label>
-                            <div style="display: flex; gap: 0;">
-                                <select name="country_code" style="flex: 0 0 140px; border-top-right-radius: 0; border-bottom-right-radius: 0; border-right: none;">
-                                    <option value="+1">+1 (US/CA)</option>
-                                    <option value="+44">+44 (UK)</option>
-                                    <option value="+61">+61 (AU)</option>
-                                    <option value="+91">+91 (IN)</option>
-                                    <option value="+86">+86 (CN)</option>
-                                    <option value="+81">+81 (JP)</option>
-                                    <option value="+49">+49 (DE)</option>
-                                    <option value="+33">+33 (FR)</option>
-                                    <option value="+39">+39 (IT)</option>
-                                    <option value="+55">+55 (BR)</option>
-                                    <option value="+52">+52 (MX)</option>
-                                    <option value="+34">+34 (ES)</option>
-                                    <option value="+7">+7 (RU)</option>
-                                    <option value="+27">+27 (ZA)</option>
-                                    <option value="+971">+971 (AE)</option>
-                                </select>
-                                <input type="tel" name="phone" placeholder="Phone Number" style="flex: 1; border-top-left-radius: 0; border-bottom-left-radius: 0;">
-                            </div>
-                        </div>
                         <div class="form-group">
-                            <label>Event Type</label>
-                            <select id="event_type_select" onchange="if(this.value === 'OTHER'){document.getElementById('custom_event_type_div').style.display='block';document.getElementById('actual_event_type').value='';}else{document.getElementById('custom_event_type_div').style.display='none';document.getElementById('actual_event_type').value=this.value;}">
-                                <option value="">Select type...</option>
-                                <option value="Conference">Conference</option>
-                                <option value="School or University">School or University</option>
-                                <option value="Healthcare Organization">Healthcare Organization</option>
-                                <option value="Community Event">Community Event</option>
-                                <option value="Panel Discussion">Panel Discussion</option>
-                                <option value="Workshop or Training">Workshop or Training</option>
-                                <option value="Government or Public Health">Government or Public Health</option>
-                                <option value="OTHER">Other (Type Custom)</option>
-                            </select>
-                            <div id="custom_event_type_div" style="display: none; margin-top: 0.5rem;">
-                                <input type="text" id="actual_event_type" name="event_type" placeholder="Please specify event type">
+                            <label>Specific Origin Trigger / Card</label>
+                            <input type="text" name="source_card" placeholder="e.g., Keynote Card / Hero CTA">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Contact Full Name *</label>
+                            <input type="text" name="contact_name" required placeholder="e.g. Dr. Eleanor Vance">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Organization / University</label>
+                            <input type="text" name="organization_name" placeholder="e.g. Stanford Medical Institute">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <input type="email" name="email" id="leadEmailInput" placeholder="eleanor@stanford.edu" oninput="debounceDuplicateCheck()">
+                        </div>
+
+                        <div class="form-group">
+                            <label>International Phone Number</label>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <select name="country_code" style="width: 140px;">
+                                    <option value="+1" selected>🇺🇸 +1 (US/CA)</option>
+                                    <option value="+44">🇬🇧 +44 (UK)</option>
+                                    <option value="+61">🇦🇺 +61 (AU)</option>
+                                    <option value="+91">🇮🇳 +91 (IN)</option>
+                                    <option value="+86">🇨🇳 +86 (CN)</option>
+                                    <option value="+81">🇯🇵 +81 (JP)</option>
+                                    <option value="+49">🇩🇪 +49 (DE)</option>
+                                    <option value="+33">🇫🇷 +33 (FR)</option>
+                                    <option value="+971">🇦🇪 +971 (AE)</option>
+                                </select>
+                                <input type="tel" name="phone" id="leadPhoneInput" placeholder="(555) 000-0000" oninput="debounceDuplicateCheck()">
                             </div>
                         </div>
-                        <div class="form-group"><label>Topic Interest</label><input type="text" name="topic_interest" placeholder="e.g. Prevention, GEAR Model"></div>
-                        <div class="form-group"><label>Event Date</label><input type="date" name="event_date"></div>
-                        <div class="form-group"><label>Location</label><input type="text" name="event_location"></div>
-                        <div class="form-group"><label>Audience Size</label><input type="text" name="estimated_audience_size"></div>
-                        <div class="form-group"><label>Budget Range</label><input type="text" name="budget_range" placeholder="e.g. $5,000–$10,000"></div>
-                        <div class="form-group full"><label>Message / Notes</label><textarea name="message" rows="3"></textarea></div>
+
+                        <div class="form-group">
+                            <label>Event Engagement Type</label>
+                            <select name="event_type" id="eventTypeSelect" onchange="syncTopicDropdown(this.value)">
+                                <option value="Conference Keynote">Conference Keynote</option>
+                                <option value="Executive Boardroom">Executive Boardroom</option>
+                                <option value="Healthcare Organization">Healthcare Organization</option>
+                                <option value="University & Higher Ed">University & Higher Ed</option>
+                                <option value="Workshop / Training">Workshop / Training</option>
+                                <option value="Public Health / Non-Profit">Public Health / Non-Profit</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Topic Interest Track</label>
+                            <select name="topic_interest" id="topicInterestSelect">
+                                <option value="The Resilient Mindset">The Resilient Mindset</option>
+                                <option value="Systems-Driven Healthcare">Systems-Driven Healthcare</option>
+                                <option value="Modern High-Trust Leadership">Modern High-Trust Leadership</option>
+                                <option value="Custom Executive Advisory">Custom Executive Advisory</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Target Event Date</label>
+                            <input type="date" name="event_date">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Event Location / City</label>
+                            <input type="text" name="event_location" placeholder="e.g. Boston, MA (or Virtual)">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Estimated Audience Size</label>
+                            <select name="estimated_audience_size">
+                                <option value="Under 50 attendees">Under 50 attendees</option>
+                                <option value="50–150 attendees">50–150 attendees</option>
+                                <option value="150–500 attendees">150–500 attendees</option>
+                                <option value="500+ attendees">500+ attendees</option>
+                                <option value="1,000+ Keynote">1,000+ Keynote</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Budget Allocation</label>
+                            <input type="text" name="budget_range" placeholder="e.g. $10,000 - $25,000">
+                        </div>
                     </div>
-                    
-                    <button type="submit" class="btn btn-primary" style="margin-top: 1.5rem;">Save Lead</button>
+
+                    <div class="form-group" style="margin-top: 0.5rem;">
+                        <label>Initial Inquiry Notes / Message</label>
+                        <textarea name="message" rows="4" placeholder="Add specific inquiry context, introduction notes, or background..."></textarea>
+                    </div>
+
+                    <div style="display: flex; gap: 1rem; margin-top: 1.5rem; justify-content: flex-end;">
+                        <a href="/dashboard" class="btn btn-outline">Cancel</a>
+                        <button type="submit" class="btn btn-primary">+ Save Lead to Pipeline</button>
+                    </div>
                 </form>
             </div>
 
-            <!-- CSV / Excel Form -->
-            <div id="csv-tab" style="display: none;">
-                <div class="csv-box">
-                    <p>Upload a CSV or Excel file to bulk import leads.</p>
-                    <p style="font-size: 0.85rem; color: #888; margin-bottom: 2rem;">Columns accepted: <strong>source, name, org, email, country_code, phone, event_date, location, size, message</strong>.<br>Empty cells will be safely ignored.</p>
-                    <input type="file" id="csv-file" accept=".csv, .xlsx, .xls" style="margin-bottom: 1rem; width: auto;">
-                    <br>
-                    <button class="btn btn-gold" onclick="processCSV()">Upload & Process</button>
+            <!-- BATCH CSV / EXCEL TAB -->
+            <div id="tab-batch" style="display: none;">
+                <div class="dropzone-box" onclick="document.getElementById('batchFileInput').click()">
+                    <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="var(--color-gold)" stroke-width="1.5" style="margin-bottom: 1rem;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                    <h3 style="font-family: var(--font-serif); font-size: 1.6rem; color: var(--color-ivory); margin-bottom: 0.35rem;">Upload Spreadsheet</h3>
+                    <p style="color: var(--color-text-muted); font-size: 0.88rem; max-width: 460px; margin: 0 auto 1.5rem auto;">
+                        Drag and drop your .csv, .xlsx, or .xls file. Columns mapped: Contact Name, Email, Phone, Organization, Topic, Date.
+                    </p>
+                    <input type="file" id="batchFileInput" accept=".csv, .xlsx, .xls" style="display: none;" onchange="handleFileUpload(event)">
+                    <button type="button" class="btn btn-outline">Select Local File</button>
                 </div>
-                <div id="csv-results" style="margin-top: 1.5rem; text-align: center; display: none;"></div>
+
+                <div id="batchPreviewArea" style="display: none; margin-top: 2rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <h4 style="font-family: var(--font-serif); font-size: 1.4rem; color: var(--color-ivory); margin: 0;">Parsed Leads (<span id="parsedCount" style="color: var(--color-gold);">0</span> found)</h4>
+                        <button type="button" id="importBatchBtn" class="btn btn-primary" onclick="submitBatchImport()">Import All to Database</button>
+                    </div>
+                    <div style="max-height: 300px; overflow-y: auto; border: 1px solid var(--color-border); border-radius: 8px;">
+                        <table id="previewTable">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Organization</th>
+                                    <th>Topic</th>
+                                </tr>
+                            </thead>
+                            <tbody id="previewTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        function switchTab(tab) {
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            event.target.classList.add('active');
-            
-            document.getElementById('manual-tab').style.display = tab === 'manual' ? 'block' : 'none';
-            document.getElementById('csv-tab').style.display = tab === 'csv' ? 'block' : 'none';
-        }
+        function switchTab(mode, btn) {
+            document.querySelectorAll('.form-tab').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
 
-        function toggleCustomSource() {
-            const select = document.getElementById('source-select');
-            const customDiv = document.getElementById('custom-source-div');
-            
-            if (select.value === 'OTHER') {
-                customDiv.style.display = 'block';
+            if (mode === 'manual') {
+                document.getElementById('tab-manual').style.display = 'block';
+                document.getElementById('tab-batch').style.display = 'none';
             } else {
-                customDiv.style.display = 'none';
+                document.getElementById('tab-manual').style.display = 'none';
+                document.getElementById('tab-batch').style.display = 'block';
             }
         }
 
-        function handleManualSubmit(e) {
-            const select = document.getElementById('source-select');
-            const custom = document.getElementById('custom-source');
-            const actual = document.getElementById('actual-source');
-            
-            if (select.value === 'OTHER') {
-                actual.value = custom.value.trim() || 'other';
-            } else {
-                actual.value = select.value;
-            }
-            return true;
+        // Synced topic dropdown based on event type
+        const topicMap = {
+            'Conference Keynote': ['The Resilient Mindset', 'Systems-Driven Healthcare', 'Modern High-Trust Leadership', 'Custom Keynote Topic'],
+            'Executive Boardroom': ['Modern High-Trust Leadership', 'Custom Executive Advisory', 'The Resilient Mindset', 'Healthcare Executive Strategy'],
+            'Healthcare Organization': ['Systems-Driven Healthcare', 'The Resilient Mindset', 'Clinical & Operational Excellence', 'Custom Healthcare Workshop'],
+            'University & Higher Ed': ['The Resilient Mindset', 'Modern High-Trust Leadership', 'Next-Gen Leadership Keynote', 'Student & Faculty Advisory'],
+            'Workshop / Training': ['The Resilient Mindset (Interactive)', 'High-Trust Team Building', 'Operational Systems Sprint', 'Custom Hands-On Lab'],
+            'Public Health / Non-Profit': ['Systems-Driven Healthcare', 'Community Resilience', 'Public Health Keynote', 'Non-Profit Governance']
+        };
+
+        function syncTopicDropdown(eventType) {
+            const topicSelect = document.getElementById('topicInterestSelect');
+            const topics = topicMap[eventType] || ['The Resilient Mindset', 'Systems-Driven Healthcare', 'Modern High-Trust Leadership', 'Custom Executive Advisory'];
+            topicSelect.innerHTML = '';
+            topics.forEach(topic => {
+                const opt = document.createElement('option');
+                opt.value = topic;
+                opt.textContent = topic;
+                topicSelect.appendChild(opt);
+            });
         }
 
-        async function sendBatch(data, resultsDiv) {
+        // Real-time duplicate check with debouncing
+        let duplicateTimeout = null;
+        function debounceDuplicateCheck() {
+            clearTimeout(duplicateTimeout);
+            duplicateTimeout = setTimeout(checkDuplicateLead, 450);
+        }
+
+        async function checkDuplicateLead() {
+            const email = (document.getElementById('leadEmailInput').value || '').trim();
+            const phone = (document.getElementById('leadPhoneInput').value || '').trim();
+            const warningBox = document.getElementById('duplicateWarningBox');
+            const detailsDiv = document.getElementById('duplicateDetails');
+            const leadLink = document.getElementById('duplicateLeadLink');
+
+            if (!email && !phone) {
+                warningBox.style.display = 'none';
+                return;
+            }
+
             try {
-                const response = await fetch('/api/leads/batch', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ leads: data })
-                });
-                
-                const resData = await response.json();
-                if (response.ok) {
-                    resultsDiv.innerHTML = `<span style="color: #166534; font-weight: bold;">Successfully imported ${resData.count} leads!</span> <br><br> <a href="/dashboard" class="btn btn-outline" style="margin-top: 1rem;">Go to Dashboard</a>`;
+                const query = new URLSearchParams({ email, phone }).toString();
+                const res = await fetch(`/api/leads/check-duplicate?${query}`);
+                const data = await res.json();
+
+                if (data.isDuplicate && data.lead) {
+                    const l = data.lead;
+                    detailsDiv.innerHTML = `Existing inquiry from <strong>${l.contact_name || 'Anonymous'}</strong> (${l.organization_name || 'Individual'}) is currently in <strong>${(l.status || 'new').toUpperCase()}</strong> stage.`;
+                    leadLink.href = `/lead/${l.id}`;
+                    warningBox.style.display = 'block';
                 } else {
-                    resultsDiv.innerHTML = `<span style="color: #991b1b;">Error: ${resData.error}</span>`;
+                    warningBox.style.display = 'none';
                 }
             } catch (err) {
-                resultsDiv.innerHTML = `<span style="color: #991b1b;">Connection error. Could not import.</span>`;
+                console.error('Duplicate check error:', err);
             }
         }
 
-        function processCSV() {
-            const fileInput = document.getElementById('csv-file');
-            if (!fileInput.files.length) return alert('Please select a CSV or Excel file first.');
+        let parsedLeadsData = [];
 
-            const file = fileInput.files[0];
-            const resultsDiv = document.getElementById('csv-results');
-            resultsDiv.style.display = 'block';
-            resultsDiv.innerHTML = '<span style="color: #666;">Reading file...</span>';
-            
-            const fileName = file.name.toLowerCase();
+        function handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
 
-            if (fileName.endsWith('.xlsx') || fileName.endsWith('.xls')) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const data = new Uint8Array(e.target.result);
-                    const workbook = XLSX.read(data, {type: 'array'});
-                    const firstSheetName = workbook.SheetNames[0];
-                    const worksheet = workbook.Sheets[firstSheetName];
-                    const json = XLSX.utils.sheet_to_json(worksheet, {defval: ""});
-                    
-                    if (json.length === 0) {
-                        resultsDiv.innerHTML = `<span style="color: #991b1b;">Error: Excel file is empty or formatted incorrectly.</span>`;
-                        return;
-                    }
-                    sendBatch(json, resultsDiv);
-                };
-                reader.readAsArrayBuffer(file);
-            } else {
-                // Parse as CSV using PapaParse
+            const ext = file.name.split('.').pop().toLowerCase();
+            if (ext === 'csv') {
                 Papa.parse(file, {
                     header: true,
                     skipEmptyLines: true,
                     complete: function(results) {
-                        if (results.errors.length > 0) {
-                            console.error('CSV Parsing Errors:', results.errors);
-                        }
-                        sendBatch(results.data, resultsDiv);
+                        processParsedData(results.data);
                     }
                 });
+            } else if (ext === 'xlsx' || ext === 'xls') {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const data = new Uint8Array(e.target.result);
+                    const workbook = XLSX.read(data, { type: 'array' });
+                    const firstSheet = workbook.SheetNames[0];
+                    const jsonData = XLSX.utils.sheet_to_json(workbook.Sheets[firstSheet]);
+                    processParsedData(jsonData);
+                };
+                reader.readAsArrayBuffer(file);
             }
         }
-        
-        // Initialize source actual value
-        document.getElementById('actual-source').value = document.getElementById('source-select').value;
+
+        function processParsedData(data) {
+            parsedLeadsData = data.map(row => ({
+                contact_name: row['Name'] || row['Contact Name'] || row['contact_name'] || row['Full Name'] || 'Unknown',
+                email: row['Email'] || row['email'] || '',
+                phone: row['Phone'] || row['phone'] || '',
+                organization_name: row['Organization'] || row['Company'] || row['organization_name'] || '',
+                topic_interest: row['Topic'] || row['topic_interest'] || '',
+                event_date: row['Date'] || row['event_date'] || null,
+                message: row['Message'] || row['message'] || ''
+            }));
+
+            const tbody = document.getElementById('previewTableBody');
+            tbody.innerHTML = '';
+            parsedLeadsData.forEach(lead => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${lead.contact_name}</td>
+                    <td>${lead.email}</td>
+                    <td>${lead.phone}</td>
+                    <td>${lead.organization_name}</td>
+                    <td>${lead.topic_interest}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            document.getElementById('parsedCount').innerText = parsedLeadsData.length;
+            document.getElementById('batchPreviewArea').style.display = 'block';
+        }
+
+        async function submitBatchImport() {
+            if (parsedLeadsData.length === 0) return;
+            const btn = document.getElementById('importBatchBtn');
+            btn.disabled = true;
+            btn.textContent = 'Importing...';
+
+            try {
+                const res = await fetch('/api/leads/batch', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ leads: parsedLeadsData })
+                });
+                const result = await res.json();
+                if (result.success) {
+                    window.location.href = '/dashboard?success=' + encodeURIComponent(`Successfully imported ${result.count} leads!`);
+                } else {
+                    alert(result.error || 'Failed to import batch');
+                    btn.disabled = false;
+                    btn.textContent = 'Import All to Database';
+                }
+            } catch (err) {
+                alert('Server error processing batch');
+                btn.disabled = false;
+                btn.textContent = 'Import All to Database';
+        }
     </script>
 </body>
 </html>

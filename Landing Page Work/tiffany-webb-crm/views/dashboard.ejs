@@ -3,1007 +3,173 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Tiffany Webb CRM</title>
+    <title>Pipeline Dashboard — Tiffany Webb CRM</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --color-ink: #0d1210;
-            --color-gold: #c29545;
-            --color-ivory: #f2efe9;
-            --color-bg: #f8f9fa;
-            --font-sans: 'Inter', sans-serif;
-            --font-serif: 'Instrument Serif', serif;
-        }
-
-        body { 
-            font-family: var(--font-sans); 
-            background: var(--color-bg); 
-            margin: 0; 
-            color: #333;
-        }
-
-        /* Top Navigation */
-        .top-nav {
-            background: var(--color-ink);
-            color: var(--color-ivory);
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .nav-brand {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .nav-logo {
-            font-family: var(--font-serif);
-            font-size: 1.8rem;
-            margin: 0;
-            color: var(--color-ivory);
-        }
-
-        .nav-logo span {
-            color: var(--color-gold);
-            font-style: italic;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 1.5rem;
-            align-items: center;
-        }
-
-        .nav-link {
-            color: rgba(242, 239, 233, 0.7);
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: color 0.2s;
-        }
-
-        .nav-link:hover, .nav-link.active {
-            color: var(--color-gold);
-        }
-
-        /* Main Container */
-        .main-content {
-            padding: 2rem;
-            max-width: 1600px;
-            margin: 0 auto;
-        }
-
-        /* Header & Stats */
-        .page-header {
-            margin-bottom: 2rem;
-            animation: fadeIn 0.5s ease;
-        }
-
-        .page-title {
-            font-family: var(--font-serif);
-            font-size: 2.2rem;
-            margin: 0 0 1.5rem 0;
-            color: var(--color-ink);
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .stat-card {
-            background: var(--color-card);
-            padding: 1.5rem;
-            border-radius: 12px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
-            border: 1px solid #eaeaea;
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            transition: transform 0.2s;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 16px rgba(0,0,0,0.06);
-        }
-
-        .stat-value {
-            font-size: 2.5rem;
-            font-weight: 600;
-            color: var(--color-ink);
-            line-height: 1;
-        }
-        
-        .stat-card:nth-child(2) .stat-value { color: #d97706; } /* Highlight for New */
-        .stat-card:nth-child(3) .stat-value { color: #059669; } /* Highlight for Booked */
-
-        .stat-label {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: #666;
-            font-weight: 600;
-        }
-
-        /* Filter / Action Bar */
-        .action-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: var(--color-card);
-            padding: 1rem 1.5rem;
-            border-radius: 12px;
-            margin-bottom: 2rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
-            border: 1px solid #eaeaea;
-        }
-
-        .search-input {
-            padding: 0.6rem 1rem;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            width: 300px;
-            font-family: var(--font-sans);
-        }
-
-        .btn-primary {
-            background: var(--color-ink);
-            color: var(--color-ivory);
-            border: none;
-            padding: 0.6rem 1.2rem;
-            border-radius: 6px;
-            font-size: 0.9rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .btn-primary:hover {
-            background: var(--color-gold);
-            color: var(--color-ink);
-        }
-
-        /* Kanban Board */
-        .kanban-wrapper {
-            overflow-x: auto;
-            padding-bottom: 2rem;
-        }
-
-        .kanban-board {
-            display: flex;
-            gap: 1.5rem;
-            min-width: max-content;
-        }
-
-        .column {
-            background: #f1f3f5;
-            border-radius: 12px;
-            width: 320px;
-            padding: 1rem;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            height: calc(100vh - 500px);
-            min-height: 200px;
-            overflow-y: auto;
-            overflow-x: hidden;
-        }
-
-        /* Custom Scrollbar for columns */
-        .column::-webkit-scrollbar {
-            width: 6px;
-        }
-        .column::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        .column::-webkit-scrollbar-thumb {
-            background-color: #cbd5e1;
-            border-radius: 10px;
-        }
-
-        .column-header {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 0 0.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .column-title {
-            margin: 0;
-            font-size: 0.95rem;
-            font-weight: 600;
-            color: #333;
-            text-transform: capitalize;
-        }
-
-        .column-count {
-            background: #e2e8f0;
-            color: #475569;
-            font-size: 0.75rem;
-            font-weight: 600;
-            padding: 2px 8px;
-            border-radius: 12px;
-        }
-
-        /* Cards */
-        .card {
-            background: var(--color-card);
-            padding: 1.25rem;
-            border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-            border: 1px solid #eaeaea;
-            border-left: 4px solid var(--color-ink);
-            cursor: pointer;
-            transition: all 0.2s;
-            animation: fadeIn 0.4s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.08);
-            border-left-color: var(--color-gold);
-        }
-
-        .card-name {
-            font-weight: 600;
-            margin: 0 0 0.25rem 0;
-            font-size: 1rem;
-        }
-
-        .card-org {
-            font-size: 0.85rem;
-            color: #666;
-            margin: 0 0 1rem 0;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .card-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-top: 1px dashed #eee;
-            padding-top: 0.75rem;
-        }
-
-        .card-date {
-            font-size: 0.75rem;
-            color: #888;
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-
-        .badge.website_form { background: #e0f2fe; color: #0369a1; }
-        .badge.whatsapp { background: #dcfce7; color: #15803d; }
-        .badge.instagram { background: #fce7f3; color: #be185d; }
-        .badge.email { background: #f3f4f6; color: #374151; }
-
-        .charts-row {
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .chart-card {
-            background: var(--color-card);
-            padding: 1.5rem;
-            border-radius: 12px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
-            border: 1px solid #eaeaea;
-        }
-
-        .chart-card h3 {
-            margin: 0 0 1rem 0;
-            font-size: 1.1rem;
-            color: var(--color-ink);
-            font-weight: 600;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-    
-        /* NEW PREMIUM UI CLASSES */
-        .premium-nav {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 2.5rem;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            padding-bottom: 0;
-            overflow-x: auto;
-            scrollbar-width: none; /* Firefox */
-        }
-        .premium-nav::-webkit-scrollbar { display: none; } /* Chrome */
-
-        .premium-tab {
-            position: relative;
-            background: transparent;
-            border: none;
-            color: rgba(255, 255, 255, 0.4);
-            font-family: var(--font-sans);
-            font-weight: 600;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            padding: 1rem 1.25rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: color 0.2s ease;
-        }
-
-        .premium-tab:hover {
-            color: rgba(255, 255, 255, 0.8);
-        }
-
-        .premium-tab.active {
-            color: var(--color-gold, #c29545);
-        }
-
-        .premium-tab.active::after {
-            content: '';
-            position: absolute;
-            bottom: -1px;
-            left: 10%;
-            width: 80%;
-            height: 2px;
-            background: var(--color-gold, #c29545);
-            border-radius: 2px;
-            box-shadow: 0 -2px 10px rgba(194, 149, 69, 0.5);
-        }
-
-        .premium-badge {
-            background: rgba(255,255,255,0.08);
-            color: rgba(242, 239, 233, 0.7);
-            font-size: 0.7rem;
-            font-weight: 700;
-            padding: 0.15rem 0.5rem;
-            border-radius: 9999px;
-            transition: all 0.2s ease;
-        }
-
-        .premium-tab.active .premium-badge {
-            background: rgba(194, 149, 69, 0.15);
-            color: var(--color-gold, #c29545);
-        }
-
-        .glass-card {
-            background: rgba(15, 15, 15, 0.4);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 16px;
-            padding: 1.5rem;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            cursor: pointer;
-            text-decoration: none;
-            display: block;
-        }
-
-        .glass-card:hover {
-            background: rgba(20, 20, 20, 0.6);
-            border-color: rgba(194, 149, 69, 0.3);
-            transform: translateY(-4px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2), 0 0 20px rgba(194, 149, 69, 0.05);
-        }
-
-        .gc-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 0.75rem;
-        }
-
-        .gc-title {
-            font-family: var(--font-serif);
-            font-size: 2rem;
-            color: var(--color-ivory, #fff);
-            margin: 0;
-            line-height: 1;
-        }
-
-        .gc-date {
-            font-family: var(--font-mono, monospace);
-            font-size: 0.75rem;
-            font-weight: 500;
-            color: rgba(255, 255, 255, 0.3);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .gc-org {
-            font-family: var(--font-sans);
-            font-size: 0.95rem;
-            color: rgba(255, 255, 255, 0.6);
-            margin: 0 0 1.5rem 0;
-        }
-
-        .gc-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            padding-top: 1rem;
-        }
-
-        .gc-tag {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.3rem 0.75rem;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 6px;
-        }
-
-        .gc-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: #60a5fa;
-            box-shadow: 0 0 8px rgba(96, 165, 250, 0.6);
-        }
-
-        .gc-tag-text {
-            font-family: var(--font-mono, monospace);
-            font-size: 0.7rem;
-            font-weight: 600;
-            color: #93c5fd;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-        }
-
-        .gc-arrow {
-            color: var(--color-gold, #c29545);
-            opacity: 0;
-            transition: opacity 0.3s ease, transform 0.3s ease;
-            transform: translateX(-10px);
-        }
-
-        .glass-card:hover .gc-arrow {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        .btn-ghost-danger {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.85rem;
-            font-weight: 500;
-            font-family: var(--font-sans);
-            color: rgba(248, 113, 113, 0.7);
-            background: rgba(239, 68, 68, 0.05);
-            border: 1px solid rgba(239, 68, 68, 0.1);
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .btn-ghost-danger:hover {
-            color: rgba(248, 113, 113, 1);
-            background: rgba(239, 68, 68, 0.1);
-            border-color: rgba(239, 68, 68, 0.2);
-        }
-
-    </style>
+    <link rel="stylesheet" href="/css/crm-theme.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    <!-- INJECTED PREMIUM CRM THEME -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        /* CRM Sleek Ink & Multi-Color Theme */
-        :root {
-            --color-ink: #0a0a0a; /* Pure deep ink, zero green tint */
-            --color-card: #141414; /* Sleek dark grey/black */
-            --color-border: #262626; /* Neutral border */
-            
-            --color-gold: #c29545;
-            --color-ivory: #ffffff; /* Bright white for maximum contrast */
-            
-            --color-terracotta: #a84747;
-            --color-slate: #5b7994;
-            --color-plum: #885794;
-            --color-text-muted: #a3a3a3;
-            
-            --font-sans: 'Plus Jakarta Sans', 'Inter', sans-serif;
-            --font-serif: 'Instrument Serif', serif;
-        }
-
-        body {
-            background-color: #1A2721 !important; /* Deep Forest Sage */
-            background-image: none !important;
-            color: var(--color-ivory) !important;
-            font-family: var(--font-sans) !important;
-        }
-
-        /* Target all common card classes AND any table wrappers */
-        .stat-card, .card, .dashboard-card, .form-container, .panel, .cms-sidebar, .cms-main, .table-container, .pipeline-card, .pipeline-lead, .message-bubble.inbound, .chart-card, .login-card,
-        div[style*="background: white"], div[style*="background-color: white"], div[style*="background: var(--color-card)"] {
-            background: var(--color-card) !important;
-            border: 1px solid var(--color-border) !important;
-            backdrop-filter: none !important;
-            color: var(--color-ivory) !important;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
-            border-radius: 12px !important;
-        }
-        
-        .message-bubble.outbound {
-            background: rgba(194, 149, 69, 0.15) !important;
-            border: 1px solid var(--color-gold) !important;
-            color: var(--color-ivory) !important;
-        }
-
-        h1, h2, h3, h4, h5, h6, .stat-value {
-            color: var(--color-ivory) !important;
-        }
-        
-        .page-title {
-            color: var(--color-ivory) !important; 
-        }
-
-        /* DISTINCT MULTI-COLOR GRADIENTS FOR CARDS (No single color) */
-        .stat-card {
-            border-top: none !important; /* Remove old solid border */
-        }
-        
-        .stat-card:nth-child(1) {
-            background: linear-gradient(135deg, #2b2212 0%, #141414 100%) !important;
-            border: 1px solid #3d3119 !important;
-        }
-        .stat-card:nth-child(2) {
-            background: linear-gradient(135deg, #2d1616 0%, #141414 100%) !important;
-            border: 1px solid #401f1f !important;
-        }
-        .stat-card:nth-child(3) {
-            background: linear-gradient(135deg, #172433 0%, #141414 100%) !important;
-            border: 1px solid #203347 !important;
-        }
-        .stat-card:nth-child(4) {
-            background: linear-gradient(135deg, #271a2b 0%, #141414 100%) !important;
-            border: 1px solid #3a2640 !important;
-        }
-
-        /* Bright text values on the multi-color cards */
-        .stat-card:nth-child(1) .stat-value { color: #f2c779 !important; }
-        .stat-card:nth-child(2) .stat-value { color: #f28b8b !important; }
-        .stat-card:nth-child(3) .stat-value { color: #8bbaf2 !important; }
-        .stat-card:nth-child(4) .stat-value { color: #db93f2 !important; }
-        
-        /* Gradient background for chart cards (Not Black) */
-        .chart-card {
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%) !important;
-            border: 1px solid #334155 !important;
-            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.4) !important;
-        }
-
-        /* Made labels pure Ivory so forms are easily readable! */
-        .csv-box, .csv-box p, .csv-box span, .csv-box strong {
-            color: var(--color-ivory) !important;
-        }
-        .csv-box {
-            border-color: var(--color-border) !important;
-            background: rgba(255, 255, 255, 0.02) !important;
-        }
-        .column-title {
-            color: var(--color-gold) !important;
-            font-family: var(--font-serif) !important;
-            font-size: 1.5rem !important;
-            letter-spacing: 0.02em;
-        }
-        .stat-label, .text-muted, .text-sm {
-            color: var(--color-text-muted) !important;
-        }
-        p {
-            color: var(--color-ivory) !important;
-        }
-        label {
-            color: var(--color-ivory) !important;
-            font-weight: 600 !important;
-            margin-bottom: 0.5rem !important;
-            display: block !important;
-        }
-        
-        /* Form Tabs (Manual / CSV) Readability */
-        .tab {
-            color: var(--color-ivory) !important;
-            border-bottom: 2px solid transparent !important;
-        }
-        .tab.active {
-            color: var(--color-gold) !important;
-            border-bottom-color: var(--color-gold) !important;
-        }
-        .tab:hover {
-            color: var(--color-gold) !important;
-            opacity: 0.8;
-        }
-
-        /* Pure Deep Ink for Navbar */
-        .top-nav {
-            background: #0a0a0a !important; /* Deep Ink */
-            border-bottom: 1px solid #262626 !important; 
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8) !important;
-        }
-        
-        /* Premium Deep Purple Gradient for the Search/Action Bar */
-        .action-bar {
-            background: linear-gradient(135deg, #2e1045 0%, #170824 100%) !important;
-            border: 1px solid #5a2e7d !important; /* Subtle purple border */
-            border-radius: 12px;
-            padding: 1.25rem;
-            margin-bottom: 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 10px 30px rgba(23, 8, 36, 0.5) !important;
-        }
-        
-        .top-nav .nav-link {
-            color: var(--color-ivory) !important;
-        }
-        .top-nav .nav-logo {
-            color: var(--color-ivory) !important; /* White logo base */
-        }
-        
-        .top-nav .nav-link:hover, .top-nav .nav-link.active {
-            color: var(--color-gold) !important; /* Golden active link */
-            text-shadow: none !important;
-        }
-        
-        .top-nav .nav-logo span {
-            color: var(--color-gold) !important; /* Golden CRM text */
-            font-style: italic;
-        }
-
-        input, textarea, select {
-            background: #050505 !important; 
-            border: 1px solid var(--color-border) !important;
-            color: var(--color-ivory) !important;
-            font-family: var(--font-sans) !important;
-            font-weight: 500 !important;
-            border-radius: 8px !important;
-        }
-
-        input.search-input {
-            border: 1px solid #d8b4e2 !important; /* Soft lavender border */
-            background: rgba(0,0,0,0.3) !important;
-            box-shadow: none !important; /* No neon */
-            color: #fbf6ea !important;
-        }
-
-        input:focus, textarea:focus, select:focus {
-            border-color: #d8b4e2 !important;
-            outline: none !important;
-            box-shadow: 0 0 0 3px rgba(216, 180, 226, 0.2) !important; /* Soft lavender focus */
-        }
-
-        /* Make date picker icon visible on dark background */
-        input[type="date"]::-webkit-calendar-picker-indicator {
-            filter: invert(1) !important;
-            cursor: pointer;
-        }
-
-        .btn, button, .button, input[type="submit"] {
-            background: var(--color-gold) !important;
-            color: #0a0a0a !important;
-            font-weight: 700 !important;
-            border: none !important;
-            font-family: var(--font-sans) !important;
-            border-radius: 8px !important;
-            box-shadow: 0 4px 12px rgba(194, 149, 69, 0.2) !important;
-            transition: all 0.2s ease !important;
-            cursor: pointer !important;
-        }
-        
-        .btn:hover, button:hover, .button:hover, input[type="submit"]:hover {
-            transform: translateY(-2px) !important;
-            box-shadow: 0 6px 16px rgba(194, 149, 69, 0.3) !important;
-        }
-        
-        .btn-secondary, .btn-outline, a.btn-outline {
-            background: transparent !important;
-            border: 1px solid var(--color-gold) !important;
-            color: var(--color-gold) !important;
-            box-shadow: none !important;
-        }
-
-        /* Light Glowing Red Delete Buttons */
-        .btn-danger, button.danger, button.delete, a.btn-danger, button[onclick*="elete"], button[onclick*="ELETE"], a[href*="delete"] {
-            background: #ef4444 !important; /* Lighter, brighter red */
-            border: 1px solid #fca5a5 !important;
-            color: #ffffff !important;
-            box-shadow: 0 0 15px rgba(239, 68, 68, 0.6) !important; /* Glowing effect */
-            text-shadow: 0 1px 2px rgba(0,0,0,0.2) !important;
-            text-decoration: none !important;
-            padding: 0.4rem 0.8rem !important;
-            border-radius: 6px !important;
-        }
-        
-        .btn-danger:hover, button[onclick*="elete"]:hover, a[href*="delete"]:hover {
-            background: #f87171 !important;
-            box-shadow: 0 0 22px rgba(239, 68, 68, 0.9) !important; /* Stronger glow on hover */
-        }
-
-        /* FORCE TABLE OVERRIDES AGAINST INLINE STYLES */
-        table, th, td, tr {
-            background: transparent !important;
-        }
-        
-        tr[style*="background"] {
-            background: transparent !important;
-        }
-
-        th {
-            border-bottom: 2px solid var(--color-border) !important;
-            color: var(--color-gold) !important;
-            font-weight: 700 !important;
-            text-transform: uppercase !important;
-            letter-spacing: 0.05em !important;
-        }
-        
-        th[style] {
-            color: var(--color-gold) !important;
-            background: transparent !important;
-        }
-        
-        td {
-            border-bottom: 1px solid var(--color-border) !important;
-            color: var(--color-ivory) !important;
-        }
-        
-        td[style] {
-            color: var(--color-ivory) !important;
-            background: transparent !important;
-        }
-        
-        /* Inline span badges (e.g. Active) */
-        span[style*="background: #dcfce3"], span[style*="background:#dcfce3"] {
-            background: rgba(91, 121, 148, 0.3) !important; /* Slate Blue transparent */
-            color: #92bce3 !important;
-            border: 1px solid rgba(91, 121, 148, 0.5) !important;
-        }
-        
-        /* Table rows hover */
-        tr:hover td {
-            background: rgba(255, 255, 255, 0.03) !important;
-        }
-        
-        /* Pipeline specific */
-        .pipeline-stage {
-            background: transparent !important;
-            border-right: 2px dashed var(--color-border) !important;
-        }
-        
-        .pipeline-lead {
-            border-left: 4px solid var(--color-gold) !important;
-        }
-        
-        a {
-            color: var(--color-gold) !important;
-        }
-        
-        /* FIX INLINE STYLES FOR TITLES */
-        h2[style] {
-            color: var(--color-ivory) !important;
-        }
-        h2 svg {
-            color: var(--color-gold) !important;
-        }
-    </style>
 </head>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <body>
 
-    <!-- UNIFIED NAVBAR -->
+    <!-- UNIFIED TOP NAVIGATION -->
     <nav class="top-nav">
-        <div class="nav-brand">
+        <a href="/dashboard" class="nav-brand">
             <h1 class="nav-logo">Tiffany Webb <span>CRM</span></h1>
-        </div>
+        </a>
         <div class="nav-links">
-            <a href="/dashboard" class="nav-link">Pipeline</a>
+            <a href="/dashboard" class="nav-link active">Pipeline</a>
             <a href="/leads/new" class="nav-link">Add Lead</a>
-            <a href="/cms" class="nav-link">Website</a>
+            <a href="/cms" class="nav-link">Website CMS</a>
             <a href="/users" class="nav-link">Staff</a>
-            <a href="/login" class="nav-link">Logout</a>
+            <span class="nav-pill">Admin</span>
+            <a href="/logout" class="nav-link" style="color: #ef4444 !important;">Logout</a>
         </div>
     </nav>
-    <!-- END UNIFIED NAVBAR -->
-
-    
-    
-    
-    
 
     <div class="main-content">
-        <div class="page-header">
-            <h2 class="page-title">Booking Pipeline</h2>
-            
-            <% if (typeof error !== 'undefined' && error) { %>
-                <div style="background: #fee2e2; color: #991b1b; padding: 1rem; border-radius: 6px; margin-bottom: 1.5rem; font-family: var(--font-sans);"><%= error %></div>
-            <% } %>
-            <% if (typeof success !== 'undefined' && success) { %>
-                <div style="background: #dcfce3; color: #166534; padding: 1rem; border-radius: 6px; margin-bottom: 1.5rem; font-family: var(--font-sans);"><%= success %></div>
-            <% } %>
+        <!-- HEADER & KEYLINES -->
+        <div style="margin-bottom: 2rem;">
+            <div class="crm-eyebrow">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg>
+                Executive Booking Suite
+            </div>
+            <h1 class="page-title">Booking <span class="italic-accent">Pipeline</span></h1>
+        </div>
 
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <span class="stat-value"><%= leads.length %></span>
-                    <span class="stat-label">Total Leads</span>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-value"><%= leads.filter(l => l.status === 'new').length %></span>
-                    <span class="stat-label">New / Unread</span>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-value"><%= leads.filter(l => l.status === 'booked').length %></span>
-                    <span class="stat-label">Booked</span>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-value"><%= leads.filter(l => l.status === 'proposal_sent').length %></span>
-                    <span class="stat-label">Proposals Out</span>
+        <% if (typeof error !== 'undefined' && error) { %>
+            <div class="alert alert-error">
+                <span><%= error %></span>
+                <button onclick="this.parentElement.style.display='none'" style="background: none; border: none; color: inherit; font-size: 1.2rem; cursor: pointer;">&times;</button>
+            </div>
+        <% } %>
+        <% if (typeof success !== 'undefined' && success) { %>
+            <div class="alert alert-success">
+                <span><%= success %></span>
+                <button onclick="this.parentElement.style.display='none'" style="background: none; border: none; color: inherit; font-size: 1.2rem; cursor: pointer;">&times;</button>
+            </div>
+        <% } %>
+
+        <!-- KPI STRIP -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <span class="stat-value"><%= leads.length %></span>
+                <span class="stat-label">Total Pipeline Inquiries</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-value" style="color: var(--color-gold) !important;"><%= leads.filter(l => l.status === 'new').length %></span>
+                <span class="stat-label">New / Unread</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-value" style="color: var(--color-terracotta) !important;"><%= leads.filter(l => l.status === 'proposal_sent').length %></span>
+                <span class="stat-label">Proposals Out</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-value" style="color: #10b981 !important;"><%= leads.filter(l => l.status === 'booked').length %></span>
+                <span class="stat-label">Confirmed Engagements</span>
+            </div>
+        </div>
+
+        <!-- CHARTS ROW -->
+        <div class="charts-row">
+            <div class="chart-card">
+                <h3>Lead Sources</h3>
+                <div style="height: 240px; display: flex; justify-content: center; align-items: center;">
+                    <canvas id="sourceChart"></canvas>
                 </div>
             </div>
-            
-            <div class="charts-row">
-                <div class="chart-card">
-                    <h3>Lead Sources</h3>
-                    <div style="height: 250px; display: flex; justify-content: center;">
-                        <canvas id="sourceChart"></canvas>
-                    </div>
-                </div>
-                <div class="chart-card">
-                    <h3>Pipeline Funnel</h3>
-                    <div style="height: 250px;">
-                        <canvas id="funnelChart"></canvas>
-                    </div>
-                </div>
-            </div>
-
-            <div class="action-bar">
-                <div style="display: flex; gap: 0.5rem; flex: 1; max-width: 450px;">
-                    <input type="text" id="searchInput" class="search-input" style="flex: 1;" placeholder="Search by name, email, org, or phone...">
-                    <button id="searchBtn" class="btn-primary" style="background: var(--color-gold); color: var(--color-ink);">Search</button>
-                </div>
-                <div style="display: flex; gap: 1rem;">
-                    <button class="btn-primary" style="background: #dc3545; border-color: #dc3545; color: white;" onclick="bulkDelete('all')">Delete All Leads</button>
-                    <button class="btn-primary" onclick="window.location.href='/leads/new'">+ Add Manual Lead</button>
-                </div>
-            </div>
-
-            <!-- Dedicated Search Results Box -->
-            <div id="searchResultsContainer" style="display: none; background: var(--color-card); border: 1px solid var(--color-border); border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-                    <h3 style="margin: 0; color: var(--color-gold);">Search Results <span id="searchResultCount" style="color: var(--color-text-muted); font-size: 0.9rem; font-weight: normal; margin-left: 0.5rem;"></span></h3>
-                    <button onclick="clearSearch()" class="btn-primary" style="background: transparent; border: 1px solid var(--color-border); color: var(--color-ivory); padding: 0.4rem 1rem;">Clear Search</button>
-                </div>
-                <div id="searchResultsGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem;">
-                    <!-- Filtered cards will be appended here -->
+            <div class="chart-card">
+                <h3>Pipeline Funnel Conversion</h3>
+                <div style="height: 240px;">
+                    <canvas id="funnelChart"></canvas>
                 </div>
             </div>
         </div>
 
-        <!-- Status Tabs Navbar -->
-        <div class="premium-nav">
+        <!-- ACTION BAR -->
+        <div class="action-bar">
+            <div style="display: flex; gap: 0.75rem; flex: 1; max-width: 500px;">
+                <input type="text" id="searchInput" class="search-input" placeholder="Search leads by contact, organization, email...">
+                <button id="searchBtn" class="btn btn-primary" onclick="performSearch()">Search</button>
+            </div>
+            <div style="display: flex; gap: 1rem; align-items: center;">
+                <button class="btn btn-ghost-danger" onclick="bulkDelete('all')">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                    Purge All Leads
+                </button>
+                <a href="/leads/new" class="btn btn-primary">+ Add New Lead</a>
+            </div>
+        </div>
+
+        <!-- SEARCH RESULTS CONTAINER -->
+        <div id="searchResultsContainer" style="display: none; background: var(--color-card); border: 1px solid var(--color-border); border-radius: 16px; padding: 2rem; margin-bottom: 2.5rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                <h3 style="margin: 0; font-family: var(--font-serif); font-size: 1.8rem; color: var(--color-ivory);">Search Results <span id="searchResultCount" style="color: var(--color-gold); font-size: 1rem; font-family: var(--font-mono); font-weight: normal; margin-left: 0.5rem;"></span></h3>
+                <button onclick="clearSearch()" class="btn btn-outline" style="padding: 0.4rem 1rem;">Clear Search</button>
+            </div>
+            <div id="searchResultsGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem;">
+            </div>
+        </div>
+
+        <!-- 8-STAGE KANBAN NAVIGATION TABS -->
+        <div class="premium-nav" id="kanbanTabs">
             <% 
             const statuses = ['new', 'contacted', 'qualified', 'proposal_sent', 'booked', 'completed', 'declined', 'lost'];
             statuses.forEach((status, i) => { 
                 const count = leads.filter(l => l.status === status).length;
             %>
-                <button id="tab-btn-<%= status %>" class="premium-tab tab-btn <%= i === 0 ? 'active' : '' %>" onclick="showTab('<%= status %>')">
+                <button id="tab-btn-<%= status %>" class="premium-tab <%= i === 0 ? 'active' : '' %>" onclick="showTab('<%= status %>')">
                     <%= status.replace('_', ' ') %>
                     <span class="premium-badge"><%= count %></span>
                 </button>
             <% }) %>
         </div>
 
+        <!-- STAGES PANES -->
         <div class="tab-content-wrapper" id="kanban-wrapper">
             <% 
             statuses.forEach((status, i) => { 
                 const colLeads = leads.filter(l => l.status === status);
             %>
                 <div id="tab-pane-<%= status %>" class="tab-pane" style="display: <%= i === 0 ? 'block' : 'none' %>;">
-                    <div class="column-header" style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.75rem;">
                         <div>
-                            <h3 style="font-family: var(--font-serif); font-size: 3rem; color: var(--color-ivory); margin: 0; line-height: 1;"><%= status.replace('_', ' ') %> Leads</h3>
-                            <p style="color: rgba(255,255,255,0.4); margin: 0.5rem 0 0 0; font-size: 0.85rem;">Manage and track <%= status.replace('_', ' ') %> inquiries.</p>
+                            <h2 style="font-family: var(--font-serif); font-size: 2.2rem; color: var(--color-ivory); margin: 0; text-transform: capitalize;">
+                                <%= status.replace('_', ' ') %> <span class="italic-accent">Stage</span>
+                            </h2>
+                            <p style="color: var(--color-text-muted); font-size: 0.88rem; margin-top: 0.25rem;">
+                                Inquiries currently in <%= status.replace('_', ' ') %> stage (<%= colLeads.length %> total).
+                            </p>
                         </div>
                         <% if (colLeads.length > 0) { %>
                             <button onclick="bulkDelete('<%= status %>')" class="btn-ghost-danger">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path></svg>
-                                Delete All
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/></svg>
+                                Clear <%= status.replace('_', ' ') %>
                             </button>
                         <% } %>
                     </div>
                     
                     <% if (colLeads.length === 0) { %>
-                        <p style="color: var(--color-text-muted); font-style: italic;">No leads in this status.</p>
+                        <div style="background: var(--color-surface); border: 1px dashed var(--color-border); border-radius: 12px; padding: 3.5rem 2rem; text-align: center; color: var(--color-text-muted);">
+                            <p style="font-family: var(--font-serif); font-size: 1.5rem; color: var(--color-ivory); margin-bottom: 0.5rem;">No Leads in <%= status.replace('_', ' ') %></p>
+                            <p style="font-size: 0.88rem;">New inquiries will appear here automatically when moved to this stage.</p>
+                        </div>
                     <% } else { %>
-                        <div class="leads-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem;">
+                        <div class="leads-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem;">
                             <% colLeads.forEach(lead => { %>
-                                <div class="glass-card" data-search="<%= (lead.contact_name || '') + ' ' + (lead.email || '') + ' ' + (lead.phone || '') + ' ' + (lead.organization_name || '') %>" onclick="window.location.href='/lead/<%= lead.id %>'">
+                                <div class="glass-card lead-card-item" data-search="<%= (lead.contact_name || '') + ' ' + (lead.email || '') + ' ' + (lead.phone || '') + ' ' + (lead.organization_name || '') + ' ' + (lead.source || '') %>" onclick="window.location.href='/lead/<%= lead.id %>'">
                                     <div class="gc-header">
                                         <h3 class="gc-title"><%= lead.contact_name || lead.phone || 'Unknown Lead' %></h3>
                                         <span class="gc-date"><%= lead.event_date ? new Date(lead.event_date).toLocaleDateString(undefined, {month: 'short', day: 'numeric'}) : 'TBD' %></span>
                                     </div>
-                                    <p class="gc-org"><%= lead.organization_name || 'No Organization' %></p>
+                                    <p class="gc-org"><%= lead.organization_name || 'Individual / General Inquiry' %></p>
                                     
                                     <div class="gc-footer">
                                         <div class="gc-tag">
                                             <span class="gc-dot"></span>
-                                            <span class="gc-tag-text"><%= lead.source_card || lead.source.replace('_', ' ') %></span>
+                                            <span class="gc-tag-text"><%= lead.source_card || lead.source_section || lead.source.replace('_', ' ') %></span>
                                         </div>
                                         <div class="gc-arrow">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                                         </div>
                                     </div>
                                 </div>
@@ -1015,7 +181,7 @@
         </div>
     </div>
 
-    <!-- Chart Logic -->
+    <!-- SCRIPT & CHARTS -->
     <script>
         const chartData = <%- chartData %>;
         
@@ -1027,29 +193,36 @@
         new Chart(sourceCtx, {
             type: 'doughnut',
             data: {
-                labels: sourceLabels,
+                labels: sourceLabels.length > 0 ? sourceLabels : ['Direct'],
                 datasets: [{
-                    data: sourceValues,
-                    backgroundColor: ['#a84747', '#c29545', '#885794', '#4a6b5c'], // No blue colors
-                    borderWidth: 0
+                    data: sourceValues.length > 0 ? sourceValues : [1],
+                    backgroundColor: ['#D9A23A', '#E17356', '#6C2D5A', '#10B981', '#38BDF8'],
+                    borderWidth: 0,
+                    hoverOffset: 4
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {
-                    legend: { position: 'bottom', labels: { color: '#fbf6ea', font: { family: 'Inter' } } }
-                }
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: '#FBF6EA',
+                            font: { family: 'Plus Jakarta Sans', size: 12 },
+                            padding: 15
+                        }
+                    }
+                },
+                cutout: '68%'
             }
         });
 
-        // 2. Funnel Bar Chart
+        // 2. Funnel Bar Chart (Signature Luxury Gradient)
         const funnelCtx = document.getElementById('funnelChart').getContext('2d');
-        
-        // Create gradient for the bar chart (Terracotta/Coral to contrast with navy)
-        const barGradient = funnelCtx.createLinearGradient(0, 0, 0, 400);
-        barGradient.addColorStop(0, '#e58e73'); // Soft Coral
-        barGradient.addColorStop(1, '#9a3b3b'); // Rich Terracotta
+        const barGradient = funnelCtx.createLinearGradient(0, 0, 0, 240);
+        barGradient.addColorStop(0, '#D9A23A');
+        barGradient.addColorStop(1, '#6C2D5A');
 
         new Chart(funnelCtx, {
             type: 'bar',
@@ -1058,21 +231,29 @@
                 datasets: [{
                     label: 'Leads',
                     data: [
-                        chartData.funnelData.new, 
-                        chartData.funnelData.qualified, 
-                        chartData.funnelData.proposal_sent, 
-                        chartData.funnelData.booked
+                        chartData.funnelData.new || 0, 
+                        chartData.funnelData.qualified || 0, 
+                        chartData.funnelData.proposal_sent || 0, 
+                        chartData.funnelData.booked || 0
                     ],
                     backgroundColor: barGradient,
-                    borderRadius: 6
+                    borderRadius: 8,
+                    maxBarThickness: 45
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
                 scales: {
-                    y: { beginAtZero: true, ticks: { color: '#fbf6ea', stepSize: 1, font: { family: 'Inter' } }, grid: { color: 'rgba(255,255,255,0.05)' } },
-                    x: { ticks: { color: '#fbf6ea', font: { family: 'Inter' } }, grid: { display: false } }
+                    y: {
+                        beginAtZero: true,
+                        ticks: { color: 'rgba(251, 246, 234, 0.6)', stepSize: 1, font: { family: 'JetBrains Mono' } },
+                        grid: { color: 'rgba(251, 246, 234, 0.05)' }
+                    },
+                    x: {
+                        ticks: { color: '#FBF6EA', font: { family: 'Plus Jakarta Sans', weight: '600' } },
+                        grid: { display: false }
+                    }
                 },
                 plugins: {
                     legend: { display: false }
@@ -1080,66 +261,47 @@
             }
         });
 
+        // Tab Switching
         function showTab(status) {
-            // Hide all tabs
-            document.querySelectorAll('.tab-pane').forEach(pane => {
-                pane.style.display = 'none';
-            });
-            // Show selected tab
-            document.getElementById('tab-pane-' + status).style.display = 'block';
+            document.querySelectorAll('.tab-pane').forEach(pane => pane.style.display = 'none');
+            const targetPane = document.getElementById('tab-pane-' + status);
+            if (targetPane) targetPane.style.display = 'block';
             
-            // Update active button state
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('active');
-                btn.style.opacity = '0.5';
-                btn.style.boxShadow = 'none';
-            });
+            document.querySelectorAll('.premium-tab').forEach(btn => btn.classList.remove('active'));
             const activeBtn = document.getElementById('tab-btn-' + status);
-            activeBtn.classList.add('active');
-            activeBtn.style.opacity = '1';
-            activeBtn.style.boxShadow = '0 4px 12px rgba(194, 149, 69, 0.3)';
+            if (activeBtn) activeBtn.classList.add('active');
         }
-
-        // Set initial active styles on load
-        document.addEventListener("DOMContentLoaded", () => {
-            const firstTab = document.querySelector('.tab-btn.active');
-            if (firstTab) {
-                firstTab.style.opacity = '1';
-                firstTab.style.boxShadow = '0 4px 12px rgba(194, 149, 69, 0.3)';
-            }
-        });
 
         // Search Filtering Logic
         const searchInput = document.getElementById('searchInput');
-        const searchBtn = document.getElementById('searchBtn');
         const searchResultsContainer = document.getElementById('searchResultsContainer');
         const searchResultsGrid = document.getElementById('searchResultsGrid');
         const searchResultCount = document.getElementById('searchResultCount');
-        const kanbanWrapper = document.querySelector('.kanban-wrapper');
+        const kanbanWrapper = document.getElementById('kanban-wrapper');
+        const kanbanTabs = document.getElementById('kanbanTabs');
 
         function performSearch() {
-            const query = searchInput.value.toLowerCase().trim();
+            const query = (searchInput.value || '').toLowerCase().trim();
             if (!query) {
                 clearSearch();
                 return;
             }
 
-            const cards = document.querySelectorAll('.kanban-board .card');
+            const cards = document.querySelectorAll('.lead-card-item');
             searchResultsGrid.innerHTML = '';
             let count = 0;
 
             cards.forEach(card => {
                 const searchData = (card.getAttribute('data-search') || '').toLowerCase();
-                if (card.hasAttribute('data-search') && searchData.includes(query)) {
+                if (searchData.includes(query)) {
                     const clone = card.cloneNode(true);
-                    clone.style.display = 'block';
                     searchResultsGrid.appendChild(clone);
                     count++;
                 }
             });
 
             if (count === 0) {
-                searchResultsGrid.innerHTML = '<p style="color: var(--color-text-muted); grid-column: 1 / -1;">No leads found matching your search.</p>';
+                searchResultsGrid.innerHTML = '<p style="color: var(--color-text-muted); grid-column: 1 / -1; padding: 2rem 0; text-align: center;">No leads found matching your search query.</p>';
                 searchResultCount.textContent = '(0 found)';
             } else {
                 searchResultCount.textContent = `(${count} found)`;
@@ -1147,37 +309,31 @@
 
             searchResultsContainer.style.display = 'block';
             kanbanWrapper.style.display = 'none';
+            kanbanTabs.style.display = 'none';
         }
 
         function clearSearch() {
             searchInput.value = '';
             searchResultsContainer.style.display = 'none';
             kanbanWrapper.style.display = 'block';
+            kanbanTabs.style.display = 'flex';
         }
 
-        if(searchBtn) {
-            searchBtn.addEventListener('click', performSearch);
-        }
-        if(searchInput) {
+        if (searchInput) {
             searchInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    performSearch();
-                }
+                if (e.key === 'Enter') performSearch();
             });
-            // Also allow clearing if input is empty
             searchInput.addEventListener('input', function(e) {
-                if (e.target.value.trim() === '') {
-                    clearSearch();
-                }
+                if (e.target.value.trim() === '') clearSearch();
             });
         }
 
-        // Bulk Delete Logic
+        // Bulk Delete API
         async function bulkDelete(status) {
             const isAll = status === 'all';
             const msg = isAll 
-                ? "Are you absolutely sure you want to DELETE ALL LEADS in the system? This action cannot be undone."
-                : `Are you sure you want to delete all '${status.replace('_', ' ')}' leads?`;
+                ? "Are you absolutely certain you want to purge ALL leads from the system? This action cannot be reversed."
+                : `Are you sure you want to delete all leads in the '${status.replace('_', ' ')}' stage?`;
             
             if (confirm(msg)) {
                 try {
@@ -1186,7 +342,6 @@
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ status })
                     });
-                    
                     const result = await response.json();
                     if (result.success) {
                         window.location.reload();
@@ -1194,7 +349,7 @@
                         alert(result.error || 'Failed to delete leads');
                     }
                 } catch (err) {
-                    alert('Error connecting to the server');
+                    alert('Error communicating with server');
                 }
             }
         }

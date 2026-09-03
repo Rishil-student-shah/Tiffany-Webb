@@ -3,825 +3,221 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Tiffany Webb CRM</title>
+    <title>Staff & Team Management — Tiffany Webb CRM</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/crm-theme.css">
     <style>
-        :root {
-            --color-ink: #0d1210;
-            --color-gold: #c29545;
-            --color-ivory: #f2efe9;
-            --color-bg: #f8f9fa;
-            --font-sans: 'Inter', sans-serif;
-            --font-serif: 'Instrument Serif', serif;
-        }
-
-        body { 
-            font-family: var(--font-sans); 
-            background: var(--color-bg); 
-            margin: 0; 
-            color: #333;
-        }
-
-        /* Top Navigation */
-        .top-nav {
-            background: var(--color-ink);
-            color: var(--color-ivory);
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .nav-brand {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .nav-logo {
-            font-family: var(--font-serif);
-            font-size: 1.8rem;
-            margin: 0;
-            color: var(--color-ivory);
-        }
-
-        .nav-logo span {
-            color: var(--color-gold);
-            font-style: italic;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 1.5rem;
-            align-items: center;
-        }
-
-        .nav-link {
-            color: rgba(242, 239, 233, 0.7);
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: color 0.2s;
-        }
-
-        .nav-link:hover, .nav-link.active {
-            color: var(--color-gold);
-        }
-
-        /* Main Container */
-        .main-content {
-            padding: 2rem;
-            max-width: 1600px;
-            margin: 0 auto;
-        }
-
-        /* Header & Stats */
-        .page-header {
-            margin-bottom: 2rem;
-            animation: fadeIn 0.5s ease;
-        }
-
-        .page-title {
-            font-family: var(--font-serif);
-            font-size: 2.2rem;
-            margin: 0 0 1.5rem 0;
-            color: var(--color-ink);
-        }
-
-        .stats-grid {
+        .users-layout {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
+            grid-template-columns: 1.8fr 1.2fr;
+            gap: 2rem;
         }
-
-        .stat-card {
-            background: var(--color-card);
-            padding: 1.5rem;
-            border-radius: 12px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
-            border: 1px solid #eaeaea;
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            transition: transform 0.2s;
+        @media (max-width: 1024px) {
+            .users-layout {
+                grid-template-columns: 1fr;
+            }
         }
-
-        .stat-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 16px rgba(0,0,0,0.06);
-        }
-
-        .stat-value {
-            font-size: 2.5rem;
-            font-weight: 600;
-            color: var(--color-ink);
-            line-height: 1;
-        }
-        
-        .stat-card:nth-child(2) .stat-value { color: #d97706; } /* Highlight for New */
-        .stat-card:nth-child(3) .stat-value { color: #059669; } /* Highlight for Booked */
-
-        .stat-label {
-            font-size: 0.75rem;
+        .role-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.65rem;
+            border-radius: var(--radius-full);
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: #666;
-            font-weight: 600;
-        }
-
-        /* Filter / Action Bar */
-        .action-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: var(--color-card);
-            padding: 1rem 1.5rem;
-            border-radius: 12px;
-            margin-bottom: 2rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
-            border: 1px solid #eaeaea;
-        }
-
-        .search-input {
-            padding: 0.6rem 1rem;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            width: 300px;
-            font-family: var(--font-sans);
-        }
-
-        .btn-primary {
-            background: var(--color-ink);
-            color: var(--color-ivory);
-            border: none;
-            padding: 0.6rem 1.2rem;
-            border-radius: 6px;
-            font-size: 0.9rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .btn-primary:hover {
-            background: var(--color-gold);
-            color: var(--color-ink);
-        }
-
-        /* Kanban Board */
-        .kanban-wrapper {
-            overflow-x: auto;
-            padding-bottom: 2rem;
-        }
-
-        .kanban-board {
-            display: flex;
-            gap: 1.5rem;
-            min-width: max-content;
-        }
-
-        .column {
-            background: #f1f3f5;
-            border-radius: 12px;
-            width: 320px;
-            padding: 1rem;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            height: calc(100vh - 500px);
-            min-height: 200px;
-            overflow-y: auto;
-            overflow-x: hidden;
-        }
-
-        /* Custom Scrollbar for columns */
-        .column::-webkit-scrollbar {
-            width: 6px;
-        }
-        .column::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        .column::-webkit-scrollbar-thumb {
-            background-color: #cbd5e1;
-            border-radius: 10px;
-        }
-
-        .column-header {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 0 0.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .column-title {
-            margin: 0;
-            font-size: 0.95rem;
-            font-weight: 600;
-            color: #333;
-            text-transform: capitalize;
-        }
-
-        .column-count {
-            background: #e2e8f0;
-            color: #475569;
-            font-size: 0.75rem;
-            font-weight: 600;
-            padding: 2px 8px;
-            border-radius: 12px;
-        }
-
-        /* Cards */
-        .card {
-            background: var(--color-card);
-            padding: 1.25rem;
-            border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-            border: 1px solid #eaeaea;
-            border-left: 4px solid var(--color-ink);
-            cursor: pointer;
-            transition: all 0.2s;
-            animation: fadeIn 0.4s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.08);
-            border-left-color: var(--color-gold);
-        }
-
-        .card-name {
-            font-weight: 600;
-            margin: 0 0 0.25rem 0;
-            font-size: 1rem;
-        }
-
-        .card-org {
-            font-size: 0.85rem;
-            color: #666;
-            margin: 0 0 1rem 0;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .card-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-top: 1px dashed #eee;
-            padding-top: 0.75rem;
-        }
-
-        .card-date {
-            font-size: 0.75rem;
-            color: #888;
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-
-        .badge.website_form { background: #e0f2fe; color: #0369a1; }
-        .badge.whatsapp { background: #dcfce7; color: #15803d; }
-        .badge.instagram { background: #fce7f3; color: #be185d; }
-        .badge.email { background: #f3f4f6; color: #374151; }
-
-        .charts-row {
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .chart-card {
-            background: var(--color-card);
-            padding: 1.5rem;
-            border-radius: 12px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
-            border: 1px solid #eaeaea;
-        }
-
-        .chart-card h3 {
-            margin: 0 0 1rem 0;
-            font-size: 1.1rem;
-            color: var(--color-ink);
-            font-weight: 600;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-    </style>
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    <!-- INJECTED PREMIUM CRM THEME -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        /* CRM Sleek Ink & Multi-Color Theme */
-        :root {
-            --color-ink: #0a0a0a; /* Pure deep ink, zero green tint */
-            --color-card: #141414; /* Sleek dark grey/black */
-            --color-border: #262626; /* Neutral border */
-            
-            --color-gold: #c29545;
-            --color-ivory: #ffffff; /* Bright white for maximum contrast */
-            
-            --color-terracotta: #a84747;
-            --color-slate: #5b7994;
-            --color-plum: #885794;
-            --color-text-muted: #a3a3a3;
-            
-            --font-sans: 'Plus Jakarta Sans', 'Inter', sans-serif;
-            --font-serif: 'Instrument Serif', serif;
-        }
-
-        body {
-            background-color: #1A2721 !important; /* Deep Forest Sage */
-            background-image: none !important;
-            color: var(--color-ivory) !important;
-            font-family: var(--font-sans) !important;
-        }
-
-        /* Target all common card classes AND any table wrappers */
-        .stat-card, .card, .dashboard-card, .form-container, .panel, .cms-sidebar, .cms-main, .table-container, .pipeline-card, .pipeline-lead, .message-bubble.inbound, .chart-card, .login-card,
-        div[style*="background: white"], div[style*="background-color: white"], div[style*="background: var(--color-card)"] {
-            background: var(--color-card) !important;
-            border: 1px solid var(--color-border) !important;
-            backdrop-filter: none !important;
-            color: var(--color-ivory) !important;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
-            border-radius: 12px !important;
-        }
-        
-        .message-bubble.outbound {
-            background: rgba(194, 149, 69, 0.15) !important;
-            border: 1px solid var(--color-gold) !important;
-            color: var(--color-ivory) !important;
-        }
-
-        h1, h2, h3, h4, h5, h6, .stat-value {
-            color: var(--color-ivory) !important;
-        }
-        
-        .page-title {
-            color: var(--color-ivory) !important; 
-        }
-
-        /* DISTINCT MULTI-COLOR GRADIENTS FOR CARDS (No single color) */
-        .stat-card {
-            border-top: none !important; /* Remove old solid border */
-        }
-        
-        .stat-card:nth-child(1) {
-            background: linear-gradient(135deg, #2b2212 0%, #141414 100%) !important;
-            border: 1px solid #3d3119 !important;
-        }
-        .stat-card:nth-child(2) {
-            background: linear-gradient(135deg, #2d1616 0%, #141414 100%) !important;
-            border: 1px solid #401f1f !important;
-        }
-        .stat-card:nth-child(3) {
-            background: linear-gradient(135deg, #172433 0%, #141414 100%) !important;
-            border: 1px solid #203347 !important;
-        }
-        .stat-card:nth-child(4) {
-            background: linear-gradient(135deg, #271a2b 0%, #141414 100%) !important;
-            border: 1px solid #3a2640 !important;
-        }
-
-        /* Bright text values on the multi-color cards */
-        .stat-card:nth-child(1) .stat-value { color: #f2c779 !important; }
-        .stat-card:nth-child(2) .stat-value { color: #f28b8b !important; }
-        .stat-card:nth-child(3) .stat-value { color: #8bbaf2 !important; }
-        .stat-card:nth-child(4) .stat-value { color: #db93f2 !important; }
-        
-        /* Gradient background for chart cards (Not Black) */
-        .chart-card {
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%) !important;
-            border: 1px solid #334155 !important;
-            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.4) !important;
-        }
-
-        /* Made labels pure Ivory so forms are easily readable! */
-        .csv-box, .csv-box p, .csv-box span, .csv-box strong {
-            color: var(--color-ivory) !important;
-        }
-        .csv-box {
-            border-color: var(--color-border) !important;
-            background: rgba(255, 255, 255, 0.02) !important;
-        }
-        .column-title {
-            color: var(--color-gold) !important;
-            font-family: var(--font-serif) !important;
-            font-size: 1.5rem !important;
-            letter-spacing: 0.02em;
-        }
-        .stat-label, .text-muted, .text-sm {
-            color: var(--color-text-muted) !important;
-        }
-        p {
-            color: var(--color-ivory) !important;
-        }
-        label {
-            color: var(--color-ivory) !important;
-            font-weight: 600 !important;
-            margin-bottom: 0.5rem !important;
-            display: block !important;
-        }
-        
-        /* Form Tabs (Manual / CSV) Readability */
-        .tab {
-            color: var(--color-ivory) !important;
-            border-bottom: 2px solid transparent !important;
-        }
-        .tab.active {
-            color: var(--color-gold) !important;
-            border-bottom-color: var(--color-gold) !important;
-        }
-        .tab:hover {
-            color: var(--color-gold) !important;
-            opacity: 0.8;
-        }
-
-        /* Pure Deep Ink for Navbar */
-        .top-nav {
-            background: #0a0a0a !important; /* Deep Ink */
-            border-bottom: 1px solid #262626 !important; 
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8) !important;
-        }
-        
-        /* Premium Deep Purple Gradient for the Search/Action Bar */
-        .action-bar {
-            background: linear-gradient(135deg, #2e1045 0%, #170824 100%) !important;
-            border: 1px solid #5a2e7d !important; /* Subtle purple border */
-            border-radius: 12px;
-            padding: 1.25rem;
-            margin-bottom: 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 10px 30px rgba(23, 8, 36, 0.5) !important;
-        }
-        
-        .top-nav .nav-link {
-            color: var(--color-ivory) !important;
-        }
-        .top-nav .nav-logo {
-            color: var(--color-ivory) !important; /* White logo base */
-        }
-        
-        .top-nav .nav-link:hover, .top-nav .nav-link.active {
-            color: var(--color-gold) !important; /* Golden active link */
-            text-shadow: none !important;
-        }
-        
-        .top-nav .nav-logo span {
-            color: var(--color-gold) !important; /* Golden CRM text */
-            font-style: italic;
-        }
-
-        input, textarea, select {
-            background: #050505 !important; 
-            border: 1px solid var(--color-border) !important;
-            color: var(--color-ivory) !important;
-            font-family: var(--font-sans) !important;
-            font-weight: 500 !important;
-            border-radius: 8px !important;
-        }
-
-        input.search-input {
-            border: 1px solid #d8b4e2 !important; /* Soft lavender border */
-            background: rgba(0,0,0,0.3) !important;
-            box-shadow: none !important; /* No neon */
-            color: #fbf6ea !important;
-        }
-
-        input:focus, textarea:focus, select:focus {
-            border-color: #d8b4e2 !important;
-            outline: none !important;
-            box-shadow: 0 0 0 3px rgba(216, 180, 226, 0.2) !important; /* Soft lavender focus */
-        }
-
-        /* Make date picker icon visible on dark background */
-        input[type="date"]::-webkit-calendar-picker-indicator {
-            filter: invert(1) !important;
-            cursor: pointer;
-        }
-
-        .btn, button, .button, input[type="submit"] {
-            background: var(--color-gold) !important;
-            color: #0a0a0a !important;
-            font-weight: 700 !important;
-            border: none !important;
-            font-family: var(--font-sans) !important;
-            border-radius: 8px !important;
-            box-shadow: 0 4px 12px rgba(194, 149, 69, 0.2) !important;
-            transition: all 0.2s ease !important;
-            cursor: pointer !important;
-        }
-        
-        .btn:hover, button:hover, .button:hover, input[type="submit"]:hover {
-            transform: translateY(-2px) !important;
-            box-shadow: 0 6px 16px rgba(194, 149, 69, 0.3) !important;
-        }
-        
-        .btn-secondary, .btn-outline, a.btn-outline {
-            background: transparent !important;
-            border: 1px solid var(--color-gold) !important;
-            color: var(--color-gold) !important;
-            box-shadow: none !important;
-        }
-
-        /* Light Glowing Red Delete Buttons */
-        .btn-danger, button.danger, button.delete, a.btn-danger, button[onclick*="elete"], button[onclick*="ELETE"], a[href*="delete"] {
-            background: #ef4444 !important; /* Lighter, brighter red */
-            border: 1px solid #fca5a5 !important;
-            color: #ffffff !important;
-            box-shadow: 0 0 15px rgba(239, 68, 68, 0.6) !important; /* Glowing effect */
-            text-shadow: 0 1px 2px rgba(0,0,0,0.2) !important;
-            text-decoration: none !important;
-            padding: 0.4rem 0.8rem !important;
-            border-radius: 6px !important;
-        }
-        
-        .btn-danger:hover, button[onclick*="elete"]:hover, a[href*="delete"]:hover {
-            background: #f87171 !important;
-            box-shadow: 0 0 22px rgba(239, 68, 68, 0.9) !important; /* Stronger glow on hover */
-        }
-
-        /* FORCE TABLE OVERRIDES AGAINST INLINE STYLES */
-        table, th, td, tr {
-            background: transparent !important;
-        }
-        
-        tr[style*="background"] {
-            background: transparent !important;
-        }
-
-        th {
-            border-bottom: 2px solid var(--color-border) !important;
-            color: var(--color-gold) !important;
-            font-weight: 700 !important;
-            text-transform: uppercase !important;
-            letter-spacing: 0.05em !important;
-        }
-        
-        th[style] {
-            color: var(--color-gold) !important;
-            background: transparent !important;
-        }
-        
-        td {
-            border-bottom: 1px solid var(--color-border) !important;
-            color: var(--color-ivory) !important;
-        }
-        
-        td[style] {
-            color: var(--color-ivory) !important;
-            background: transparent !important;
-        }
-        
-        /* Inline span badges (e.g. Active) */
-        span[style*="background: #dcfce3"], span[style*="background:#dcfce3"] {
-            background: rgba(91, 121, 148, 0.3) !important; /* Slate Blue transparent */
-            color: #92bce3 !important;
-            border: 1px solid rgba(91, 121, 148, 0.5) !important;
-        }
-        
-        /* Table rows hover */
-        tr:hover td {
-            background: rgba(255, 255, 255, 0.03) !important;
-        }
-        
-        /* Pipeline specific */
-        .pipeline-stage {
-            background: transparent !important;
-            border-right: 2px dashed var(--color-border) !important;
-        }
-        
-        .pipeline-lead {
-            border-left: 4px solid var(--color-gold) !important;
-        }
-        
-        a {
-            color: var(--color-gold) !important;
-        }
-        
-        /* FIX INLINE STYLES FOR TITLES */
-        h2[style] {
-            color: var(--color-ivory) !important;
-        }
-        h2 svg {
-            color: var(--color-gold) !important;
+            letter-spacing: 0.08em;
+        }
+        .role-admin {
+            background: rgba(217, 162, 58, 0.15);
+            color: var(--color-gold);
+            border: 1px solid rgba(217, 162, 58, 0.35);
+        }
+        .role-staff {
+            background: rgba(56, 189, 248, 0.12);
+            color: #38bdf8;
+            border: 1px solid rgba(56, 189, 248, 0.3);
         }
     </style>
 </head>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <body>
 
-    <!-- UNIFIED NAVBAR -->
+    <!-- UNIFIED TOP NAVIGATION -->
     <nav class="top-nav">
-        <div class="nav-brand">
+        <a href="/dashboard" class="nav-brand">
             <h1 class="nav-logo">Tiffany Webb <span>CRM</span></h1>
-        </div>
+        </a>
         <div class="nav-links">
             <a href="/dashboard" class="nav-link">Pipeline</a>
             <a href="/leads/new" class="nav-link">Add Lead</a>
-            <a href="/cms" class="nav-link">Website</a>
-            <a href="/users" class="nav-link">Staff</a>
-            <a href="/login" class="nav-link">Logout</a>
+            <a href="/cms" class="nav-link">Website CMS</a>
+            <a href="/users" class="nav-link active">Staff</a>
+            <span class="nav-pill">Admin</span>
+            <a href="/logout" class="nav-link" style="color: #ef4444 !important;">Logout</a>
         </div>
     </nav>
-    <!-- END UNIFIED NAVBAR -->
 
-    
-    
-    
-    
-    
+    <div class="main-content" style="max-width: 1280px;">
+        <div style="margin-bottom: 2rem;">
+            <div class="crm-eyebrow">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg>
+                Access Governance
+            </div>
+            <h1 class="page-title">Staff & Access <span class="italic-accent">Management</span></h1>
+            <p style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 0.25rem;">
+                Control team member accounts, roles, administrative privileges, and security credentials.
+            </p>
+        </div>
 
-    <div class="main-content">
-        <div class="page-header">
-            <h2 class="page-title">Staff Management</h2>
-            
-            <% if (typeof error !== 'undefined' && error) { %>
-                <div style="background: #fee2e2; color: #991b1b; padding: 1rem 1.5rem; border-radius: 6px; margin-bottom: 1.5rem; font-family: var(--font-sans); display: flex; justify-content: space-between; align-items: center; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
-                    <span><%= error %></span>
-                    <button onclick="this.parentElement.style.display='none'" type="button" style="background: none; border: none; color: #991b1b; font-size: 1.5rem; cursor: pointer; padding: 0; line-height: 1;">&times;</button>
-                </div>
-            <% } %>
-            <% if (typeof success !== 'undefined' && success) { %>
-                <div style="background: #dcfce3; color: #166534; padding: 1rem 1.5rem; border-radius: 6px; margin-bottom: 1.5rem; font-family: var(--font-sans); display: flex; justify-content: space-between; align-items: center; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
-                    <span><%= success %></span>
-                    <button onclick="this.parentElement.style.display='none'" type="button" style="background: none; border: none; color: #166534; font-size: 1.5rem; cursor: pointer; padding: 0; line-height: 1;">&times;</button>
-                </div>
-            <% } %>
+        <% if (typeof error !== 'undefined' && error) { %>
+            <div class="alert alert-error">
+                <span><%= error %></span>
+                <button onclick="this.parentElement.style.display='none'" style="background: none; border: none; color: inherit; font-size: 1.2rem; cursor: pointer;">&times;</button>
+            </div>
+        <% } %>
+        <% if (typeof success !== 'undefined' && success) { %>
+            <div class="alert alert-success">
+                <span><%= success %></span>
+                <button onclick="this.parentElement.style.display='none'" style="background: none; border: none; color: inherit; font-size: 1.2rem; cursor: pointer;">&times;</button>
+            </div>
+        <% } %>
 
-            <div style="display: grid; grid-template-columns: 1fr 350px; gap: 2rem;">
-                <!-- User List -->
-                <div class="chart-card" style="padding: 1.5rem;">
-                    <h3 style="margin-top: 0;">Current Staff</h3>
-                    <table style="width: 100%; border-collapse: collapse; margin-top: 1rem; text-align: left;">
-                        <thead>
-                            <tr style="border-bottom: 2px solid #eee;">
-                                <th style="padding: 1rem 0.5rem; color: #666;">Name</th>
-                                <th style="padding: 1rem 0.5rem; color: #666;">Email</th>
-                                <th style="padding: 1rem 0.5rem; color: #666;">Role</th>
-                                <th style="padding: 1rem 0.5rem; color: #666;">Status</th>
-                                <th style="padding: 1rem 0.5rem; color: #666;">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <% users.forEach(user => { %>
-                                <tr style="border-bottom: 1px solid #f5f5f5;">
-                                    <td style="padding: 1rem 0.5rem; font-weight: 500;"><%= user.name %></td>
-                                    <td style="padding: 1rem 0.5rem; color: #555;"><%= user.email %></td>
-                                    <td style="padding: 1rem 0.5rem;">
-                                        <span class="badge" style="background: #f3f4f6; color: #374151;"><%= user.role %></span>
-                                    </td>
-                                    <td style="padding: 1rem 0.5rem;">
+        <div class="users-layout">
+            <!-- LEFT: STAFF TABLE -->
+            <div class="panel">
+                <h2 class="panel-title" style="margin-bottom: 1.5rem;">Active Staff Accounts (<%= users.length %>)</h2>
+                
+                <table style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>Name & Email</th>
+                            <th>Role</th>
+                            <th>Status</th>
+                            <th style="text-align: right;">Access Governance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% users.forEach(user => { %>
+                            <tr>
+                                <td>
+                                    <div style="font-weight: 600; color: var(--color-ivory);"><%= user.name %></div>
+                                    <div style="font-size: 0.8rem; color: var(--color-text-dim); font-family: var(--font-mono);"><%= user.email %></div>
+                                </td>
+                                <td>
+                                    <span class="role-badge <%= user.role === 'admin' ? 'role-admin' : 'role-staff' %>">
+                                        <%= user.role === 'admin' ? 'Admin' : (user.role === 'assistant' ? 'Assistant' : 'Staff') %>
+                                    </span>
+                                </td>
+                                <td>
+                                    <form action="/users/<%= user.id %>/toggle-status" method="POST" style="margin: 0; display: inline;">
                                         <% if (user.is_active) { %>
-                                            <span class="badge" style="background: #dcfce7; color: #15803d;">Active</span>
+                                            <button type="submit" title="Click to Deactivate" class="status-pill active" style="background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.35); padding: 0.25rem 0.65rem; font-size: 0.72rem; cursor: pointer; border-radius: 999px;">
+                                                <span style="width: 6px; height: 6px; border-radius: 50%; background: #34d399; display: inline-block; margin-right: 4px;"></span> Active
+                                            </button>
                                         <% } else { %>
-                                            <span class="badge" style="background: #fee2e2; color: #991b1b;">Inactive</span>
+                                            <button type="submit" title="Click to Activate" class="status-pill inactive" style="background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.35); padding: 0.25rem 0.65rem; font-size: 0.72rem; cursor: pointer; border-radius: 999px;">
+                                                <span style="width: 6px; height: 6px; border-radius: 50%; background: #f87171; display: inline-block; margin-right: 4px;"></span> Inactive
+                                            </button>
                                         <% } %>
-                                    </td>
-                                    <td style="padding: 1rem 0.5rem; display: flex; gap: 0.75rem; align-items: center;">
-                                        <button type="button" class="btn btn-outline" style="padding: 0.2rem 0.5rem; font-size: 0.8rem;" onclick="openPasswordModal('<%= user.id %>', '<%= user.name %>')">Change Password</button>
+                                    </form>
+                                </td>
+                                <td style="text-align: right;">
+                                    <div style="display: inline-flex; gap: 0.5rem; align-items: center;">
+                                        <button type="button" class="btn btn-outline" style="padding: 0.35rem 0.65rem; font-size: 0.75rem;" onclick="openPasswordModal('<%= user.id %>', '<%= user.name %>')">
+                                            Reset Password
+                                        </button>
+
+                                        <% if (user.is_active) { %>
+                                            <form action="/users/<%= user.id %>/revoke-session" method="POST" style="margin: 0;" onsubmit="return confirm('Revoke all active sessions and access for <%= user.name %>?');">
+                                                <button type="submit" class="btn btn-outline" style="padding: 0.35rem 0.65rem; font-size: 0.75rem; border-color: rgba(239, 68, 68, 0.4); color: #f87171;">
+                                                    Revoke Session
+                                                </button>
+                                            </form>
+                                        <% } %>
                                         
                                         <% if (user.role !== 'admin' || (typeof currentUser !== 'undefined' && currentUser.id === user.id)) { %>
-                                            <form action="/users/<%= user.id %>/delete" method="POST" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this user?');">
-                                                <button type="submit" class="btn-danger">Delete</button>
+                                            <form action="/users/<%= user.id %>/delete" method="POST" style="margin: 0;" onsubmit="return confirm('Permanently delete account for <%= user.name %>?');">
+                                                <button type="submit" class="btn btn-ghost-danger" style="padding: 0.35rem 0.55rem; font-size: 0.75rem;">Delete</button>
                                             </form>
                                         <% } else { %>
-                                            <span style="color: #9ca3af; font-size: 0.85rem; cursor: not-allowed;" title="Admins cannot delete other Admins">Delete</span>
+                                            <span style="color: var(--color-text-dim); font-size: 0.72rem; font-family: var(--font-mono); padding: 0.35rem;" title="Admins cannot delete other Admins">Protected</span>
                                         <% } %>
-                                    </td>
-                                </tr>
-                            <% }) %>
-                        </tbody>
-                    </table>
-                </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
 
-                <!-- Add User Form -->
-                <div class="chart-card" style="padding: 1.5rem; height: fit-content;">
-                    <h3 style="margin-top: 0;">Add New Staff</h3>
-                    <form action="/users" method="POST" style="display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem;">
-                        <div>
-                            <label style="display: block; margin-bottom: 0.5rem; font-size: 0.85rem; font-weight: 600; color: #555;">Name</label>
-                            <input type="text" name="name" required style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; font-family: var(--font-sans);">
+            <!-- RIGHT: CREATE STAFF FORM -->
+            <div class="panel" style="height: fit-content;">
+                <h2 class="panel-title" style="margin-bottom: 1.5rem;">Add New Staff</h2>
+                <form action="/users" method="POST">
+                    <div class="form-group">
+                        <label>Staff Member Name</label>
+                        <input type="text" name="name" required placeholder="e.g. Marcus Vance">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Work Email Address</label>
+                        <input type="email" name="email" required placeholder="marcus@tiffanywebb.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Security Role Assignment</label>
+                        <select name="role">
+                            <option value="assistant">Executive Assistant (Pipeline & CRM Inbound)</option>
+                            <option value="staff">Staff Member (General Pipeline Access)</option>
+                            <option value="admin">Administrator (Full Access & CMS Management)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Initial Temporary Password</label>
+                        <div style="position: relative;">
+                            <input type="password" name="password" id="createStaffPassword" required placeholder="••••••••••••">
+                            <button type="button" onclick="togglePasswordVisibility('createStaffPassword')" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: var(--color-gold); font-size: 0.9rem;">
+                                👁️
+                            </button>
                         </div>
-                        <div>
-                            <label style="display: block; margin-bottom: 0.5rem; font-size: 0.85rem; font-weight: 600; color: #555;">Email Address</label>
-                            <input type="email" name="email" required style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; font-family: var(--font-sans);">
-                        </div>
-                        <div>
-                            <label style="display: block; margin-bottom: 0.5rem; font-size: 0.85rem; font-weight: 600; color: #555;">Role</label>
-                            <select name="role" style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; font-family: var(--font-sans);">
-                                <option value="admin">Admin</option>
-                                <option value="staff">Staff</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label style="display: block; margin-bottom: 0.5rem; font-size: 0.85rem; font-weight: 600; color: #555;">Initial Password</label>
-                            <div style="position: relative;">
-                                <input type="password" name="password" id="newStaffPassword" required style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; font-family: var(--font-sans);">
-                                <button type="button" onclick="togglePassword('newStaffPassword')" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: #666;">
-                                    👁️
-                                </button>
-                            </div>
-                        </div>
-                        <button type="submit" style="background: var(--color-ink); color: var(--color-ivory); border: none; padding: 0.8rem; border-radius: 6px; font-weight: 600; cursor: pointer; margin-top: 0.5rem; font-family: var(--font-sans);">Create User</button>
-                    </form>
-                </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">+ Provision Staff Account</button>
+                </form>
             </div>
         </div>
     </div>
 
-    <!-- Change Password Modal -->
-    <div id="passwordModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
-        <div style="background: var(--color-card); padding: 2rem; border-radius: 12px; width: 400px; max-width: 90%; box-shadow: 0 4px 20px rgba(0,0,0,0.15);">
-            <h3 style="margin-top: 0; margin-bottom: 0.5rem; font-family: var(--font-sans); color: var(--color-ink);">Change Password</h3>
-            <p style="margin: 0 0 1.5rem 0; color: #666; font-size: 0.9rem;">Update password for <strong id="modalUserName"></strong></p>
+    <!-- CHANGE PASSWORD MODAL -->
+    <div id="passwordModal" style="display: none; position: fixed; inset: 0; background: rgba(13, 12, 8, 0.88); backdrop-filter: blur(10px); z-index: 9999; align-items: center; justify-content: center; padding: 1.5rem;">
+        <div class="panel" style="width: 100%; max-width: 440px; margin: 0; box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);">
+            <h3 style="font-family: var(--font-serif); font-size: 1.6rem; color: var(--color-ivory); margin: 0 0 0.25rem 0;">Change Password</h3>
+            <p style="color: var(--color-text-muted); font-size: 0.85rem; margin-bottom: 1.5rem;">Update credentials for <strong id="modalUserName" style="color: var(--color-gold);"></strong></p>
             
             <form id="passwordForm" method="POST">
-                <div style="margin-bottom: 1.5rem;">
-                    <label style="display: block; margin-bottom: 0.5rem; font-size: 0.85rem; font-weight: 600; color: #555;">New Password</label>
+                <div class="form-group">
+                    <label>New Secure Password</label>
                     <div style="position: relative;">
-                        <input type="password" name="new_password" id="changePasswordInput" required style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; font-family: var(--font-sans);">
-                        <button type="button" onclick="togglePassword('changePasswordInput')" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: #666;">
+                        <input type="password" name="new_password" id="changePasswordInput" required placeholder="••••••••••••">
+                        <button type="button" onclick="togglePasswordVisibility('changePasswordInput')" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: var(--color-gold); font-size: 0.9rem;">
                             👁️
                         </button>
                     </div>
                 </div>
-                <div style="display: flex; gap: 1rem; justify-content: flex-end;">
-                    <button type="button" onclick="closePasswordModal()" style="background: #f1f5f9; color: #475569; border: none; padding: 0.75rem 1.5rem; border-radius: 6px; font-weight: 600; cursor: pointer; font-family: var(--font-sans);">Cancel</button>
-                    <button type="submit" style="background: var(--color-ink); color: var(--color-ivory); border: none; padding: 0.75rem 1.5rem; border-radius: 6px; font-weight: 600; cursor: pointer; font-family: var(--font-sans);">Update Password</button>
+
+                <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 1.5rem;">
+                    <button type="button" class="btn btn-outline" onclick="closePasswordModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save New Password</button>
                 </div>
             </form>
         </div>
     </div>
 
     <script>
-        function togglePassword(inputId) {
-            const input = document.getElementById(inputId);
+        function togglePasswordVisibility(id) {
+            const input = document.getElementById(id);
             if (input.type === 'password') {
                 input.type = 'text';
             } else {

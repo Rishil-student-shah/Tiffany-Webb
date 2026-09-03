@@ -65,29 +65,240 @@ const pool = mysql.createPool({
   queueLimit: 0
 });
 
-// Middleware
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(cors({ origin: process.env.FRONTEND_URL || 'http://localhost:4321' }));
+// Helper: Save base64 cropped image to uploads directory
+function saveBase64Image(dataUrl) {
+  if (!dataUrl || typeof dataUrl !== 'string' || !dataUrl.startsWith('data:image/')) {
+    return dataUrl;
+  }
+  try {
+    const matches = dataUrl.match(/^data:image\/([a-zA-Z0-9+]+);base64,(.+)$/);
+    if (!matches || matches.length !== 3) {
+      return dataUrl;
+    }
+    const ext = matches[1] === 'jpeg' ? 'jpg' : matches[1];
+    const buffer = Buffer.from(matches[2], 'base64');
+    const uploadDir = path.join(__dirname, '../tiffany-webb-astro/public/uploads');
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true });
+    }
+    const filename = `${Date.now()}-cropped-${Math.round(Math.random() * 1E9)}.${ext}`;
+    fs.writeFileSync(path.join(uploadDir, filename), buffer);
+    return `/uploads/${filename}`;
+  } catch (e) {
+    console.error('Error saving base64 image:', e);
+    return dataUrl;
+  }
+}
 
-// Serve uploaded images statically directly from public/uploads
+// Helper: Cookie parser
+function parseCookies(req) {
+  const list = {};
+  const rc = req.headers.cookie;
+  if (!rc) return list;
+  rc.split(';').forEach(cookie => {
+    const parts = cookie.split('=');
+    const name = parts.shift().trim();
+    if (name) {
+      list[name] = decodeURIComponent(parts.join('='));
+    }
+  });
+  return list;
+}
+
+const JWT_SECRET = process.env.JWT_SECRET || 'tiffany-webb-crm-secret-key-2025';
+
+// --- 8-Layer Cyber-Attack Security Suite ---
+
+// Layer 1: Helmet HTTP Headers & Clickjacking Defense
+let helmet;
+try {
+  helmet = require('helmet');
+} catch (e) {}
+
+if (helmet) {
+  app.use(helmet({
+    contentSecurityPolicy: false, // Allows inline EJS script tags
+    frameguard: { action: 'deny' } // Prevents Clickjacking
+  }));
+} else {
+  // Comprehensive native security headers fallback
+  app.use((req, res, next) => {
+    res.setHeader('X-Frame-Options', 'DENY');
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    res.setHeader('X-XSS-Protection', '1; mode=block');
+    res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+    res.removeHeader('X-Powered-By');
+    next();
+  });
+}
+app.disable('x-powered-by');
+
+// Layer 2: CORS Hardening
+const allowedOrigins = [
+  'http://localhost:4321',
+  'http://127.0.0.1:4321',
+  'http://localhost:3000',
+  'http://127.0.0.1:3000',
+  process.env.FRONTEND_URL
+].filter(Boolean);
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('CORS access denied: origin not allowed'));
+    }
+  },
+  credentials: true
+}));
+
+// Layer 3: Body Parsers
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+
+// Layer 4: XSS Input Sanitization
+function sanitizeValue(value) {
+  if (typeof value === 'string') {
+    return value
+      .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+      .replace(/javascript:/gi, '')
+      .replace(/onload=/gi, '')
+      .replace(/onerror=/gi, '')
+      .replace(/onclick=/gi, '')
+      .replace(/onmouseover=/gi, '')
+      .replace(/<iframe\b[^<]*(?:(?!<\/iframe>)<[^<]*)*<\/iframe>/gi, '');
+  }
+  if (Array.isArray(value)) {
+    return value.map(sanitizeValue);
+  }
+  if (value !== null && typeof value === 'object') {
+    const cleanObj = {};
+    for (const [k, v] of Object.entries(value)) {
+      cleanObj[k] = sanitizeValue(v);
+    }
+    return cleanObj;
+  }
+  return value;
+}
+
+let xss;
+try {
+  xss = require('xss-clean');
+} catch (e) {}
+
+if (xss) {
+  try {
+    app.use(xss());
+  } catch (e) {
+    app.use((req, res, next) => {
+      if (req.body) req.body = sanitizeValue(req.body);
+      next();
+    });
+  }
+} else {
+  app.use((req, res, next) => {
+    if (req.body) req.body = sanitizeValue(req.body);
+    next();
+  });
+}
+
+// Layer 5: Rate Limiting Suite (Brute Force & DoS Defense)
+let rateLimit;
+try {
+  rateLimit = require('express-rate-limit');
+} catch (e) {}
+
+function createLimiter(windowMs, max, message) {
+  if (rateLimit) {
+    return rateLimit({
+      windowMs,
+      max,
+      message: typeof message === 'object' ? message : { error: message },
+      standardHeaders: true,
+      legacyHeaders: false
+    });
+  }
+  // Native high-performance sliding window fallback
+  const hitMap = new Map();
+  setInterval(() => {
+    const now = Date.now();
+    for (const [ip, data] of hitMap.entries()) {
+      if (now > data.resetTime) hitMap.delete(ip);
+    }
+  }, windowMs);
+
+  return (req, res, next) => {
+    const ip = req.ip || (req.socket && req.socket.remoteAddress) || '127.0.0.1';
+    const now = Date.now();
+    const data = hitMap.get(ip) || { count: 0, resetTime: now + windowMs };
+    if (now > data.resetTime) {
+      data.count = 0;
+      data.resetTime = now + windowMs;
+    }
+    data.count++;
+    hitMap.set(ip, data);
+    if (data.count > max) {
+      if (typeof message === 'object') {
+        return res.status(429).json(message);
+      }
+      return res.status(429).send(message);
+    }
+    next();
+  };
+}
+
+const loginLimiter = createLimiter(15 * 60 * 1000, 5, 'Too many failed login attempts. Please try again in 15 minutes.');
+const leadApiLimiter = createLimiter(60 * 60 * 1000, 30, { error: 'Inquiry limit reached from this IP. Please try again later.' });
+
+app.use('/login', (req, res, next) => {
+  if (req.method === 'POST') {
+    return loginLimiter(req, res, next);
+  }
+  next();
+});
+
+// Layer 6: Static Assets Serving
+app.use('/public', express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public')));
 app.use('/uploads', express.static(path.join(__dirname, '../tiffany-webb-astro/public/uploads')));
 
 // Set EJS as templating engine
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// Auth middleware for dashboard pages
-const requireAuth = (req, res, next) => {
-  // Simple cookie-based or query-based token check for EJS routes (for now we'll use a simple approach)
-  // In a real app with EJS, you'd use a cookie-parser and session, but we can do JWT via cookies.
-  // For simplicity, we'll set up a basic session or token check later.
-  next(); 
+// Auth middleware for dashboard pages (Secure Cookie + JWT Verification)
+const requireAuth = async (req, res, next) => {
+  const cookies = parseCookies(req);
+  const token = cookies.auth_token;
+  if (!token) {
+    return res.redirect('/login');
+  }
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET);
+    const [users] = await pool.query('SELECT id, name, email, role, is_active FROM users WHERE id = ?', [decoded.id]);
+    if (users.length === 0 || !users[0].is_active) {
+      res.clearCookie('auth_token', { httpOnly: true, sameSite: 'strict' });
+      return res.redirect('/login?error=' + encodeURIComponent('Session expired or account deactivated'));
+    }
+    req.user = users[0];
+    res.locals.currentUser = users[0];
+    next();
+  } catch (err) {
+    res.clearCookie('auth_token', { httpOnly: true, sameSite: 'strict' });
+    return res.redirect('/login');
+  }
 };
 
 // --- API Routes (Phase 1) ---
 
-app.post('/api/leads', async (req, res) => {
+// Public Lead API Limiter applied to external inquiries
+app.post('/api/leads', (req, res, next) => {
+  if (req.body && req.body.is_manual) {
+    return next();
+  }
+  return leadApiLimiter(req, res, next);
+}, async (req, res) => {
   try {
     const { 
       contact_name, organization_name, email, country_code, phone, 
@@ -148,14 +359,50 @@ app.post('/api/leads', async (req, res) => {
   }
 });
 
+// Check Duplicate Lead API
+app.get('/api/leads/check-duplicate', requireAuth, async (req, res) => {
+  try {
+    const { email, phone } = req.query;
+    if (!email && !phone) {
+      return res.json({ isDuplicate: false });
+    }
+    const conditions = [];
+    const params = [];
+    if (email && email.trim()) {
+      conditions.push('LOWER(email) = LOWER(?)');
+      params.push(email.trim());
+    }
+    if (phone && phone.trim()) {
+      const cleanPhone = phone.replace(/\D/g, '');
+      if (cleanPhone.length >= 7) {
+        conditions.push("REPLACE(REPLACE(REPLACE(REPLACE(phone, ' ', ''), '-', ''), '(', ''), ')', '') LIKE ?");
+        params.push(`%${cleanPhone.slice(-7)}%`);
+      } else {
+        conditions.push('phone = ?');
+        params.push(phone.trim());
+      }
+    }
+    if (conditions.length === 0) {
+      return res.json({ isDuplicate: false });
+    }
+    const [matches] = await pool.query(
+      `SELECT id, contact_name, email, phone, status, organization_name, created_at FROM leads WHERE ${conditions.join(' OR ')} ORDER BY created_at DESC LIMIT 1`,
+      params
+    );
+    if (matches.length > 0) {
+      return res.json({ isDuplicate: true, lead: matches[0] });
+    }
+    res.json({ isDuplicate: false });
+  } catch (err) {
+    console.error('Duplicate check error:', err);
+    res.status(500).json({ error: 'Duplicate check failed' });
+  }
+});
+
 app.post('/webhooks/gupshup', async (req, res) => {
   try {
     // Basic Gupshup webhook handler logic
-    // Expecting body to contain sender phone and message text
     const payload = req.body;
-    
-    // In a real implementation we would parse Gupshup's specific JSON structure.
-    // Assuming simple payload for now: { phone: '...', text: '...' }
     const phone = payload.phone;
     const text = payload.text;
     
@@ -185,11 +432,10 @@ app.post('/webhooks/gupshup', async (req, res) => {
 
 // --- Dashboard Routes (EJS) ---
 
-
-
 app.get('/login', (req, res) => {
   const success = req.query.reset === 'success' ? 'Password reset successfully. You can now log in.' : null;
-  res.render('login', { error: null, success });
+  const error = req.query.error || null;
+  res.render('login', { error, success });
 });
 
 app.post('/login', async (req, res) => {
@@ -197,23 +443,44 @@ app.post('/login', async (req, res) => {
   try {
     const [users] = await pool.query('SELECT * FROM users WHERE email = ?', [email]);
     if (users.length === 0) {
-      return res.render('login', { error: 'Invalid credentials', success: null });
+      return res.render('login', { error: 'Invalid email or password', success: null });
     }
     
     const user = users[0];
+    if (user.is_active === 0) {
+      return res.render('login', { error: 'Your account has been deactivated. Please contact an administrator.', success: null });
+    }
+
     const match = await bcrypt.compare(password, user.password_hash);
-    
     if (!match) {
-      return res.render('login', { error: 'Invalid credentials', success: null });
+      return res.render('login', { error: 'Invalid email or password', success: null });
     }
     
-    // For Phase 1 EJS simplicity without full session store, we could set a cookie with JWT
-    // Just redirect to dashboard for now
+    // Sign JWT token and set secure HTTP-only cookie
+    const token = jwt.sign(
+      { id: user.id, email: user.email, name: user.name, role: user.role },
+      JWT_SECRET,
+      { expiresIn: '7d' }
+    );
+
+    res.cookie('auth_token', token, {
+      httpOnly: true,
+      sameSite: 'strict',
+      secure: process.env.NODE_ENV === 'production',
+      maxAge: 7 * 24 * 60 * 60 * 1000
+    });
+
+    await pool.query('UPDATE users SET last_login_at = NOW() WHERE id = ?', [user.id]);
     res.redirect('/dashboard');
   } catch (err) {
     console.error(err);
-    res.render('login', { error: 'Server error', success: null });
+    res.render('login', { error: 'Server error during authentication', success: null });
   }
+});
+
+app.get('/logout', (req, res) => {
+  res.clearCookie('auth_token', { httpOnly: true, sameSite: 'strict' });
+  res.redirect('/login');
 });
 
 // --- Forgot Password ---
@@ -326,13 +593,13 @@ app.get('/dashboard', requireAuth, async (req, res) => {
   }
 });
 
-// User Management (Admin only ideally, but we'll use requireAuth for now)
+// User Management
 app.get('/users', requireAuth, async (req, res) => {
   try {
     const [users] = await pool.query('SELECT id, name, email, role, is_active, last_login_at FROM users ORDER BY created_at DESC');
     res.render('users', { 
       users,
-      currentUser: { id: 1, role: 'admin' }, // Temporary dummy user until full session auth
+      currentUser: res.locals.currentUser || req.user || { id: 1, role: 'admin' },
       error: req.query.error,
       success: req.query.success
     });
@@ -351,7 +618,7 @@ app.post('/users', requireAuth, async (req, res) => {
     }
     
     const hashedPassword = await bcrypt.hash(password, 10);
-    await pool.query('INSERT INTO users (name, email, role, password_hash) VALUES (?, ?, ?, ?)', [name, email, role, hashedPassword]);
+    await pool.query('INSERT INTO users (name, email, role, password_hash, is_active) VALUES (?, ?, ?, ?, 1)', [name, email, role, hashedPassword]);
     
     res.redirect('/users?success=User created successfully');
   } catch (err) {
@@ -372,11 +639,38 @@ app.post('/users/:id/change-password', requireAuth, async (req, res) => {
   }
 });
 
+app.post('/users/:id/revoke-session', requireAuth, async (req, res) => {
+  try {
+    const [userToRevoke] = await pool.query('SELECT role FROM users WHERE id = ?', [req.params.id]);
+    if (userToRevoke.length === 0) return res.redirect('/users?error=User not found');
+    
+    // Revoke access by deactivating account
+    await pool.query('UPDATE users SET is_active = 0 WHERE id = ?', [req.params.id]);
+    res.redirect('/users?success=User session and access revoked successfully');
+  } catch (err) {
+    console.error(err);
+    res.redirect('/users?error=Failed to revoke user session');
+  }
+});
+
+app.post('/users/:id/toggle-status', requireAuth, async (req, res) => {
+  try {
+    const [userToToggle] = await pool.query('SELECT is_active, role FROM users WHERE id = ?', [req.params.id]);
+    if (userToToggle.length === 0) return res.redirect('/users?error=User not found');
+    
+    const newStatus = userToToggle[0].is_active ? 0 : 1;
+    await pool.query('UPDATE users SET is_active = ? WHERE id = ?', [newStatus, req.params.id]);
+    res.redirect(`/users?success=User account ${newStatus ? 'activated' : 'deactivated'} successfully`);
+  } catch (err) {
+    console.error(err);
+    res.redirect('/users?error=Failed to toggle user status');
+  }
+});
+
 app.post('/users/:id/delete', requireAuth, async (req, res) => {
   try {
     const [userToDelete] = await pool.query('SELECT role FROM users WHERE id = ?', [req.params.id]);
     if (userToDelete.length > 0 && userToDelete[0].role === 'admin') {
-       // Ideally check if currentUser is NOT the same admin. But per requirements: "one admin can not delete another admin"
        return res.redirect('/users?error=Cannot delete an Admin user');
     }
     
@@ -501,6 +795,8 @@ app.post('/cms/:slug/collection/:section/new', requireAuth, collectionUpload, as
       finalImageUrl = '/uploads/' + req.files['image_file'][0].filename;
     } else if (req.file && req.file.fieldname === 'image_file') {
       finalImageUrl = '/uploads/' + req.file.filename;
+    } else if (finalImageUrl) {
+      finalImageUrl = saveBase64Image(finalImageUrl);
     }
 
     let finalLinkUrl = link_url || existing_video_url || null;
@@ -553,6 +849,8 @@ app.post('/cms/:slug/collection/:section/:id/edit', requireAuth, collectionUploa
       finalImageUrl = '/uploads/' + req.files['image_file'][0].filename;
     } else if (req.file && req.file.fieldname === 'image_file') {
       finalImageUrl = '/uploads/' + req.file.filename;
+    } else if (finalImageUrl) {
+      finalImageUrl = saveBase64Image(finalImageUrl);
     }
 
     let finalLinkUrl = link_url || existing_video_url || null;
