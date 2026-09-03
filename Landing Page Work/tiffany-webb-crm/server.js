@@ -89,7 +89,11 @@ const requireAuth = (req, res, next) => {
 
 app.post('/api/leads', async (req, res) => {
   try {
-    const { contact_name, organization_name, email, country_code, phone, event_type, event_date, event_location, estimated_audience_size, message, source, is_manual } = req.body;
+    const { 
+      contact_name, organization_name, email, country_code, phone, 
+      event_type, event_date, event_location, estimated_audience_size, 
+      message, source, source_section, source_card, topic_interest, budget_range, is_manual 
+    } = req.body;
     
     // MySQL DATE column requires YYYY-MM-DD or null. If we get a string that isn't a valid date, we set it to null.
     let validDate = null;
@@ -101,12 +105,33 @@ app.post('/api/leads', async (req, res) => {
     }
 
     const [result] = await pool.query(`
-      INSERT INTO leads (source, contact_name, organization_name, email, country_code, phone, event_type, event_date, event_location, estimated_audience_size, message)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    `, [source || 'website_form', contact_name, organization_name, email, country_code || null, phone, event_type, validDate, event_location, estimated_audience_size || null, message]);
+      INSERT INTO leads (
+        source, source_section, source_card, contact_name, organization_name, 
+        email, country_code, phone, event_type, topic_interest, event_date, 
+        event_location, estimated_audience_size, budget_range, message
+      )
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `, [
+      source || 'website_form',
+      source_section || 'Direct / General Inquiry',
+      source_card || null,
+      contact_name,
+      organization_name,
+      email,
+      country_code || null,
+      phone,
+      event_type,
+      topic_interest || null,
+      validDate,
+      event_location,
+      estimated_audience_size || null,
+      budget_range || null,
+      message
+    ]);
     
-    // Add activity log
-    await pool.query('INSERT INTO activity_log (lead_id, action, detail) VALUES (?, ?, ?)', [result.insertId, 'lead_created', 'Lead created from website form']);
+    // Log detailed activity with origin card
+    const originDetail = source_card ? `Inquiry via ${source_section || 'Website'} (${source_card})` : `Inquiry via ${source_section || 'Website'}`;
+    await pool.query('INSERT INTO activity_log (lead_id, action, detail) VALUES (?, ?, ?)', [result.insertId, 'lead_created', originDetail]);
     
     if (is_manual) {
         res.redirect('/leads/new?success=Lead successfully added!');
@@ -647,7 +672,7 @@ app.post('/lead/:id/status', requireAuth, async (req, res) => {
 // Edit Lead Details
 app.post('/lead/:id/edit', requireAuth, async (req, res) => {
   try {
-    const { contact_name, organization_name, email, country_code, phone, event_type, event_date, event_location, estimated_audience_size, message } = req.body;
+    const { contact_name, organization_name, email, country_code, phone, event_type, topic_interest, event_date, event_location, estimated_audience_size, budget_range, message } = req.body;
     
     let validDate = null;
     if (event_date) {
@@ -659,9 +684,9 @@ app.post('/lead/:id/edit', requireAuth, async (req, res) => {
 
     await pool.query(`
       UPDATE leads 
-      SET contact_name = ?, organization_name = ?, email = ?, country_code = ?, phone = ?, event_type = ?, event_date = ?, event_location = ?, estimated_audience_size = ?, message = ?
+      SET contact_name = ?, organization_name = ?, email = ?, country_code = ?, phone = ?, event_type = ?, topic_interest = ?, event_date = ?, event_location = ?, estimated_audience_size = ?, budget_range = ?, message = ?
       WHERE id = ?
-    `, [contact_name, organization_name, email, country_code || null, phone, event_type, validDate, event_location, estimated_audience_size, message || null, req.params.id]);
+    `, [contact_name, organization_name, email, country_code || null, phone, event_type, topic_interest || null, validDate, event_location, estimated_audience_size || null, budget_range || null, message || null, req.params.id]);
     
     await pool.query('INSERT INTO activity_log (lead_id, action, detail) VALUES (?, ?, ?)', [req.params.id, 'lead_updated', 'Lead details and message thread manually updated']);
     res.redirect(`/lead/${req.params.id}`);
@@ -748,18 +773,27 @@ app.post('/api/leads/batch', requireAuth, async (req, res) => {
         }
         
         await pool.query(`
-          INSERT INTO leads (source, contact_name, organization_name, email, phone, event_type, event_date, event_location, estimated_audience_size, message)
-          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+          INSERT INTO leads (
+            source, source_section, source_card, contact_name, organization_name, 
+            email, country_code, phone, event_type, topic_interest, event_date, 
+            event_location, estimated_audience_size, budget_range, message
+          )
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         `, [
           lead.source || 'csv_upload', 
+          lead.source_section || 'Batch CSV Import',
+          lead.source_card || null,
           lead.contact_name || lead.name || 'Unknown', 
           lead.organization_name || lead.org || null, 
           lead.email || null, 
+          lead.country_code || null,
           lead.phone || null, 
           lead.event_type || null, 
+          lead.topic_interest || lead.topic || null,
           validDate, 
           lead.event_location || lead.location || null, 
           lead.estimated_audience_size || lead.size || null, 
+          lead.budget_range || lead.budget || null,
           lead.message || null
         ]);
         inserted++;

@@ -694,15 +694,42 @@
                     </div>
                 </div>
 
+                <div class="panel" style="background: rgba(217, 162, 58, 0.08); border: 1px solid rgba(217, 162, 58, 0.3); border-radius: 12px; padding: 1.25rem; margin-bottom: 1.5rem;">
+                    <h3 style="color: var(--color-gold); font-family: var(--font-serif); font-size: 1.2rem; margin: 0 0 0.75rem 0; display: flex; align-items: center; gap: 8px;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                        Lead Origin & Inbound Attribution
+                    </h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem;">
+                        <div>
+                            <span style="font-size: 0.75rem; text-transform: uppercase; color: #888; display: block; font-weight: 600;">Origin Section</span>
+                            <span style="color: #fff; font-weight: 600; font-size: 0.95rem;"><%= lead.source_section || 'General Booking Form' %></span>
+                        </div>
+                        <div>
+                            <span style="font-size: 0.75rem; text-transform: uppercase; color: #888; display: block; font-weight: 600;">Origin Card / Trigger</span>
+                            <span style="color: #fff; font-weight: 600; font-size: 0.95rem;"><%= lead.source_card || 'Direct Navigation' %></span>
+                        </div>
+                        <div>
+                            <span style="font-size: 0.75rem; text-transform: uppercase; color: #888; display: block; font-weight: 600;">Topic Interest</span>
+                            <span style="color: var(--color-gold); font-weight: 600; font-size: 0.95rem;"><%= lead.topic_interest || 'General Discussion' %></span>
+                        </div>
+                        <div>
+                            <span style="font-size: 0.75rem; text-transform: uppercase; color: #888; display: block; font-weight: 600;">Budget Range</span>
+                            <span style="color: #fff; font-weight: 600; font-size: 0.95rem;"><%= lead.budget_range || 'Not specified' %></span>
+                        </div>
+                    </div>
+                </div>
+
                 <div id="view-mode" class="data-grid">
                     <div class="data-item"><span class="data-label">Contact Name</span><span class="data-value"><%= lead.contact_name || '-' %></span></div>
                     <div class="data-item"><span class="data-label">Organization</span><span class="data-value"><%= lead.organization_name || '-' %></span></div>
                     <div class="data-item"><span class="data-label">Email</span><span class="data-value"><%= lead.email || '-' %></span></div>
                     <div class="data-item"><span class="data-label">Phone</span><span class="data-value"><%= lead.country_code ? lead.country_code + ' ' : '' %><%= lead.phone || '-' %></span></div>
                     <div class="data-item"><span class="data-label">Event Type</span><span class="data-value"><%= lead.event_type || '-' %></span></div>
+                    <div class="data-item"><span class="data-label">Topic Interest</span><span class="data-value"><%= lead.topic_interest || '-' %></span></div>
                     <div class="data-item"><span class="data-label">Event Date</span><span class="data-value"><%= lead.event_date ? new Date(lead.event_date).toLocaleDateString() : 'TBD' %></span></div>
                     <div class="data-item"><span class="data-label">Location</span><span class="data-value"><%= lead.event_location || '-' %></span></div>
                     <div class="data-item"><span class="data-label">Audience Size</span><span class="data-value"><%= lead.estimated_audience_size || '-' %></span></div>
+                    <div class="data-item"><span class="data-label">Budget Range</span><span class="data-value"><%= lead.budget_range || '-' %></span></div>
                 </div>
 
                 <form id="edit-mode" class="edit-form" action="/lead/<%= lead.id %>/edit" method="POST">
@@ -743,6 +770,7 @@
                                 <% }); %>
                             </select>
                         </div>
+                        <div class="form-group"><label>Topic Interest</label><input type="text" name="topic_interest" value="<%= lead.topic_interest || '' %>"></div>
                         <div class="form-group"><label>Event Date</label><input type="date" name="event_date" value="<%= lead.event_date ? new Date(lead.event_date).toISOString().split('T')[0] : '' %>"></div>
                         <div class="form-group"><label>Location</label><input type="text" name="event_location" value="<%= lead.event_location || '' %>"></div>
                         <div class="form-group">
@@ -755,6 +783,7 @@
                                 <% }); %>
                             </select>
                         </div>
+                        <div class="form-group"><label>Budget Range</label><input type="text" name="budget_range" value="<%= lead.budget_range || '' %>"></div>
                         <div class="form-group" style="grid-column: 1 / -1;">
                             <label>Message Thread / Initial Inquiry</label>
                             <textarea name="message" rows="4" style="width: 100%;"><%= lead.message || '' %></textarea>

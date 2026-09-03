@@ -43,7 +43,8 @@ async function setup() {
     await connection.query(`USE \`${process.env.DB_NAME || 'tiffany_crm'}\``);
 
     console.log('Running schema.sql...');
-    await executeSqlFile(connection, path.join(__dirname, 'db', 'schema.sql'));
+    const schemaPath = fs.existsSync(path.join(__dirname, 'schema.sql')) ? path.join(__dirname, 'schema.sql') : path.join(__dirname, 'db', 'schema.sql');
+    await executeSqlFile(connection, schemaPath);
     console.log('Schema verified.');
 
     // Ensure schema migrations for existing columns
@@ -75,7 +76,8 @@ async function setup() {
 
     // Run seed_inner_pages.sql
     console.log('Running seed_inner_pages.sql...');
-    await executeSqlFile(connection, path.join(__dirname, 'db', 'seed_inner_pages.sql'));
+    const seedPath = fs.existsSync(path.join(__dirname, 'seed_inner_pages.sql')) ? path.join(__dirname, 'seed_inner_pages.sql') : path.join(__dirname, 'db', 'seed_inner_pages.sql');
+    await executeSqlFile(connection, seedPath);
     console.log('Seed completed successfully.');
 
     await connection.end();
