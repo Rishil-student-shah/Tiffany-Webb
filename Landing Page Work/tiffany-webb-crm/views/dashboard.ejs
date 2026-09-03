@@ -52,19 +52,19 @@
         <!-- KPI STRIP -->
         <div class="stats-grid">
             <div class="stat-card">
-                <span class="stat-value"><%= leads.length %></span>
+                <span class="stat-value" id="kpi-total-leads"><%= leads.length %></span>
                 <span class="stat-label">Total Pipeline Inquiries</span>
             </div>
             <div class="stat-card">
-                <span class="stat-value" style="color: var(--color-gold) !important;"><%= leads.filter(l => l.status === 'new').length %></span>
+                <span class="stat-value" id="kpi-new-leads" style="color: var(--color-gold) !important;"><%= leads.filter(l => l.status === 'new').length %></span>
                 <span class="stat-label">New / Unread</span>
             </div>
             <div class="stat-card">
-                <span class="stat-value" style="color: var(--color-terracotta) !important;"><%= leads.filter(l => l.status === 'proposal_sent').length %></span>
+                <span class="stat-value" id="kpi-proposal-leads" style="color: var(--color-terracotta) !important;"><%= leads.filter(l => l.status === 'proposal_sent').length %></span>
                 <span class="stat-label">Proposals Out</span>
             </div>
             <div class="stat-card">
-                <span class="stat-value" style="color: #10b981 !important;"><%= leads.filter(l => l.status === 'booked').length %></span>
+                <span class="stat-value" id="kpi-booked-leads" style="color: #10b981 !important;"><%= leads.filter(l => l.status === 'booked').length %></span>
                 <span class="stat-label">Confirmed Engagements</span>
             </div>
         </div>
@@ -85,271 +85,597 @@
             </div>
         </div>
 
-        <!-- ACTION BAR -->
-        <div class="action-bar">
-            <div style="display: flex; gap: 0.75rem; flex: 1; max-width: 500px;">
-                <input type="text" id="searchInput" class="search-input" placeholder="Search leads by contact, organization, email...">
-                <button id="searchBtn" class="btn btn-primary" onclick="performSearch()">Search</button>
+        <!-- EXECUTIVE STATUS STICKY NAVBAR -->
+        <div class="executive-navbar-sticky" id="statusNavbar">
+            <!-- Stage Tabs -->
+            <div class="status-tabs-container" id="statusTabsNav">
+                <% 
+                const filterTabs = [
+                    { id: 'all', label: 'All Deals' },
+                    { id: 'new', label: 'New Inquiries' },
+                    { id: 'contacted', label: 'Discovery Call' },
+                    { id: 'qualified', label: 'Qualified ($5k+)' },
+                    { id: 'proposal_sent', label: 'Proposal Sent' },
+                    { id: 'booked', label: 'Confirmed Booked' }
+                ];
+                filterTabs.forEach((tab, index) => { 
+                    const count = tab.id === 'all' 
+                        ? (leads ? leads.length : 0) 
+                        : (leads ? leads.filter(l => l.status === tab.id).length : 0);
+                %>
+                    <button class="status-tab-btn <%= index === 0 ? 'active' : '' %>" data-tab-stage="<%= tab.id %>" onclick="filterLedger('<%= tab.id %>')">
+                        <span><%= tab.label %></span>
+                        <span class="status-pill-count" id="count-tab-<%= tab.id %>"><%= count %></span>
+                    </button>
+                <% }) %>
             </div>
-            <div style="display: flex; gap: 1rem; align-items: center;">
-                <button class="btn btn-ghost-danger" onclick="bulkDelete('all')">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
-                    Purge All Leads
+
+            <!-- Real-time Instant Search & Actions -->
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <div class="navbar-search-group">
+                    <svg class="navbar-search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    <input type="text" id="ledgerSearchInput" class="navbar-search-input" placeholder="Search org, contact, topic, city..." oninput="handleLedgerSearch()">
+                </div>
+                <button class="btn btn-ghost-danger" onclick="bulkDeletePrompt()" style="white-space: nowrap; padding: 0.5rem 0.85rem;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                    Purge
                 </button>
-                <a href="/leads/new" class="btn btn-primary">+ Add New Lead</a>
+                <a href="/leads/new" class="btn btn-primary" style="white-space: nowrap; padding: 0.5rem 1rem; font-size: 0.85rem;">+ Add Lead</a>
             </div>
         </div>
 
-        <!-- SEARCH RESULTS CONTAINER -->
-        <div id="searchResultsContainer" style="display: none; background: var(--color-card); border: 1px solid var(--color-border); border-radius: 16px; padding: 2rem; margin-bottom: 2.5rem;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-                <h3 style="margin: 0; font-family: var(--font-serif); font-size: 1.8rem; color: var(--color-ivory);">Search Results <span id="searchResultCount" style="color: var(--color-gold); font-size: 1rem; font-family: var(--font-mono); font-weight: normal; margin-left: 0.5rem;"></span></h3>
-                <button onclick="clearSearch()" class="btn btn-outline" style="padding: 0.4rem 1rem;">Clear Search</button>
+        <!-- CONTINUOUS 1-ROW-PER-LEAD TABLE / LEDGER -->
+        <div class="ledger-container" id="ledgerContainer">
+            <!-- Header Row -->
+            <div class="ledger-table-header">
+                <div>Organization & Contact</div>
+                <div>Origin & Topic</div>
+                <div>Event Details</div>
+                <div>Honorarium</div>
+                <div>Pipeline Stage</div>
+                <div style="text-align: right;">Actions</div>
             </div>
-            <div id="searchResultsGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem;">
-            </div>
-        </div>
 
-        <!-- 8-STAGE KANBAN NAVIGATION TABS -->
-        <div class="premium-nav" id="kanbanTabs">
-            <% 
-            const statuses = ['new', 'contacted', 'qualified', 'proposal_sent', 'booked', 'completed', 'declined', 'lost'];
-            statuses.forEach((status, i) => { 
-                const count = leads.filter(l => l.status === status).length;
-            %>
-                <button id="tab-btn-<%= status %>" class="premium-tab <%= i === 0 ? 'active' : '' %>" onclick="showTab('<%= status %>')">
-                    <%= status.replace('_', ' ') %>
-                    <span class="premium-badge"><%= count %></span>
-                </button>
-            <% }) %>
-        </div>
-
-        <!-- STAGES PANES -->
-        <div class="tab-content-wrapper" id="kanban-wrapper">
-            <% 
-            statuses.forEach((status, i) => { 
-                const colLeads = leads.filter(l => l.status === status);
-            %>
-                <div id="tab-pane-<%= status %>" class="tab-pane" style="display: <%= i === 0 ? 'block' : 'none' %>;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.75rem;">
-                        <div>
-                            <h2 style="font-family: var(--font-serif); font-size: 2.2rem; color: var(--color-ivory); margin: 0; text-transform: capitalize;">
-                                <%= status.replace('_', ' ') %> <span class="italic-accent">Stage</span>
-                            </h2>
-                            <p style="color: var(--color-text-muted); font-size: 0.88rem; margin-top: 0.25rem;">
-                                Inquiries currently in <%= status.replace('_', ' ') %> stage (<%= colLeads.length %> total).
-                            </p>
-                        </div>
-                        <% if (colLeads.length > 0) { %>
-                            <button onclick="bulkDelete('<%= status %>')" class="btn-ghost-danger">
-                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/></svg>
-                                Clear <%= status.replace('_', ' ') %>
-                            </button>
-                        <% } %>
+            <!-- Leads Rows List -->
+            <div id="ledgerRowsList">
+                <% if (!leads || leads.length === 0) { %>
+                    <div id="ledgerEmptyState" style="padding: 4rem 2rem; text-align: center; color: var(--color-text-muted);">
+                        <p style="font-family: var(--font-serif); font-size: 1.6rem; color: var(--color-ivory); margin-bottom: 0.5rem;">No Inquiries in new / current pipeline stage</p>
+                        <p style="font-size: 0.9rem;">New client inquiries from the website will automatically appear in this ledger.</p>
                     </div>
-                    
-                    <% if (colLeads.length === 0) { %>
-                        <div style="background: var(--color-surface); border: 1px dashed var(--color-border); border-radius: 12px; padding: 3.5rem 2rem; text-align: center; color: var(--color-text-muted);">
-                            <p style="font-family: var(--font-serif); font-size: 1.5rem; color: var(--color-ivory); margin-bottom: 0.5rem;">No Leads in <%= status.replace('_', ' ') %></p>
-                            <p style="font-size: 0.88rem;">New inquiries will appear here automatically when moved to this stage.</p>
-                        </div>
-                    <% } else { %>
-                        <div class="leads-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem;">
-                            <% colLeads.forEach(lead => { %>
-                                <div class="glass-card lead-card-item" data-search="<%= (lead.contact_name || '') + ' ' + (lead.email || '') + ' ' + (lead.phone || '') + ' ' + (lead.organization_name || '') + ' ' + (lead.source || '') %>" onclick="window.location.href='/lead/<%= lead.id %>'">
-                                    <div class="gc-header">
-                                        <h3 class="gc-title"><%= lead.contact_name || lead.phone || 'Unknown Lead' %></h3>
-                                        <span class="gc-date"><%= lead.event_date ? new Date(lead.event_date).toLocaleDateString(undefined, {month: 'short', day: 'numeric'}) : 'TBD' %></span>
+                <% } else { %>
+                    <% leads.forEach(lead => { 
+                        const org = lead.organization_name || 'Individual / General Inquiry';
+                        const contact = lead.contact_name || lead.email || ('Inquiry #' + lead.id);
+                        const initialChar = (lead.organization_name && lead.organization_name.trim().length > 0) 
+                            ? lead.organization_name.trim().charAt(0).toUpperCase() 
+                            : (lead.contact_name && lead.contact_name.trim().length > 0 
+                                ? lead.contact_name.trim().charAt(0).toUpperCase() 
+                                : 'L');
+                        const originText = lead.source_card || lead.source_section || (lead.source ? lead.source.replace('_', ' ') : 'Website Form');
+                        const topicText = lead.topic_interest || lead.event_type || 'Keynote Presentation';
+                        const dateFormatted = lead.event_date ? new Date(lead.event_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'Date TBD';
+                        const submitTime = lead.created_at ? new Date(lead.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : 'Recent';
+                        const budget = lead.budget_range || '$5k–$10k';
+                        const cleanPhone = (lead.phone || '').replace(/[^0-9]/g, '');
+                        let waPhone = cleanPhone;
+                        if (lead.country_code) {
+                            const cleanCC = lead.country_code.replace(/[^0-9]/g, '');
+                            if (cleanCC && !cleanPhone.startsWith(cleanCC)) {
+                                waPhone = cleanCC + cleanPhone;
+                            }
+                        }
+                        const searchTokens = [
+                            lead.contact_name || '',
+                            lead.organization_name || '',
+                            lead.email || '',
+                            lead.phone || '',
+                            lead.event_location || '',
+                            lead.topic_interest || '',
+                            lead.event_type || '',
+                            lead.source || '',
+                            lead.source_section || '',
+                            lead.source_card || '',
+                            lead.budget_range || '',
+                            lead.message || ''
+                        ].join(' ').toLowerCase();
+                    %>
+                        <div class="ledger-item lead-card-<%= lead.id %> lead-row-<%= lead.id %>" 
+                             id="lead-item-<%= lead.id %>" 
+                             data-id="<%= lead.id %>" 
+                             data-stage="<%= lead.status %>" 
+                             data-search="<%= searchTokens %>">
+                            
+                            <!-- 1-Row Grid -->
+                            <div class="ledger-row" onclick="toggleDossier(<%= lead.id %>, event)">
+                                <!-- Col 1: Initial Avatar + Org + Contact + Submit Time (3 cols) -->
+                                <div class="ledger-col col-org-contact">
+                                    <div class="ledger-avatar">
+                                        <%= initialChar %>
                                     </div>
-                                    <p class="gc-org"><%= lead.organization_name || 'Individual / General Inquiry' %></p>
-                                    
-                                    <div class="gc-footer">
-                                        <div class="gc-tag">
-                                            <span class="gc-dot"></span>
-                                            <span class="gc-tag-text"><%= lead.source_card || lead.source_section || lead.source.replace('_', ' ') %></span>
+                                    <div class="lead-meta-text">
+                                        <span class="lead-org-name" title="<%= org %>"><%= org %></span>
+                                        <span class="lead-contact-person" title="<%= contact %>"><%= contact %></span>
+                                        <span class="lead-submit-time">Submitted: <%= submitTime %></span>
+                                    </div>
+                                </div>
+
+                                <!-- Col 2: Origin Badge + Section + Topic (3 cols) -->
+                                <div class="ledger-col col-origin-topic">
+                                    <div class="origin-badge" title="<%= originText %>">
+                                        <span class="origin-badge-dot"></span>
+                                        <span><%= originText %></span>
+                                    </div>
+                                    <span class="lead-topic-title" title="<%= topicText %>"><%= topicText %></span>
+                                    <span class="lead-section-subtext" title="<%= lead.source_section || 'Direct Inbound' %>"><%= lead.source_section || 'Direct Inbound' %></span>
+                                </div>
+
+                                <!-- Col 3: Event Date + Location + Audience (2 cols) -->
+                                <div class="ledger-col col-event-details">
+                                    <span class="lead-event-date">
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                                        <%= dateFormatted %>
+                                    </span>
+                                    <span class="lead-event-loc" title="<%= lead.event_location || 'Location TBD' %>">
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                                        <%= lead.event_location || 'Location TBD' %>
+                                    </span>
+                                    <span class="lead-event-audience">
+                                        Audience: <%= lead.estimated_audience_size ? lead.estimated_audience_size : 'TBD' %>
+                                    </span>
+                                </div>
+
+                                <!-- Col 4: Gold Honorarium/Budget Pill (1 col) -->
+                                <div class="ledger-col col-budget">
+                                    <span class="badge-budget"><%= budget %></span>
+                                </div>
+
+                                <!-- Col 5: Inline Stage Dropdown with AJAX (2 cols) -->
+                                <div class="ledger-col col-stage" onclick="event.stopPropagation()">
+                                    <select class="stage-select" id="stage-select-<%= lead.id %>" onchange="updateLeadStage(<%= lead.id %>, this.value, event)">
+                                        <option value="new" <%= lead.status === 'new' ? 'selected' : '' %>>New Inquiries</option>
+                                        <option value="contacted" <%= lead.status === 'contacted' ? 'selected' : '' %>>Discovery Call</option>
+                                        <option value="qualified" <%= lead.status === 'qualified' ? 'selected' : '' %>>Qualified ($5k+)</option>
+                                        <option value="proposal_sent" <%= lead.status === 'proposal_sent' ? 'selected' : '' %>>Proposal Sent</option>
+                                        <option value="booked" <%= lead.status === 'booked' ? 'selected' : '' %>>Confirmed Booked</option>
+                                        <option value="completed" <%= lead.status === 'completed' ? 'selected' : '' %>>Completed</option>
+                                        <option value="declined" <%= lead.status === 'declined' ? 'selected' : '' %>>Declined</option>
+                                        <option value="lost" <%= lead.status === 'lost' ? 'selected' : '' %>>Lost</option>
+                                    </select>
+                                </div>
+
+                                <!-- Col 6: WhatsApp, Email & Expand Toggle (1 col) -->
+                                <div class="ledger-col col-actions" onclick="event.stopPropagation()">
+                                    <% if (waPhone) { %>
+                                        <a href="https://wa.me/<%= waPhone %>" target="_blank" rel="noopener" class="action-icon-btn whatsapp" title="Chat on WhatsApp (+<%= waPhone %>)">
+                                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                                        </a>
+                                    <% } %>
+                                    <% if (lead.email) { %>
+                                        <a href="mailto:<%= lead.email %>" class="action-icon-btn email" title="Send Email (<%= lead.email %>)">
+                                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                                        </a>
+                                    <% } %>
+                                    <button type="button" class="action-icon-btn" title="Toggle Executive Dossier" onclick="toggleDossier(<%= lead.id %>, event)">
+                                        <svg class="accordion-toggle-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Inline Accordion Dossier Drawer -->
+                            <div class="ledger-dossier" id="dossier-<%= lead.id %>">
+                                <div class="dossier-grid">
+                                    <!-- Left: Client Inquiry Message -->
+                                    <div class="dossier-message-box">
+                                        <div class="dossier-message-title">
+                                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                                            Client Inquiry Message & Objectives
                                         </div>
-                                        <div class="gc-arrow">
-                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                                        <div class="dossier-message-text"><%= lead.message || 'No additional inquiry message text submitted with this lead.' %></div>
+                                    </div>
+
+                                    <!-- Right: Attribution & Contact Details -->
+                                    <div class="dossier-meta-card">
+                                        <div>
+                                            <div class="dossier-message-title" style="margin-bottom: 1rem;">
+                                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                                                Attribution & Contact Metadata
+                                            </div>
+                                            <div class="dossier-meta-list">
+                                                <div class="dossier-meta-item">
+                                                    <span class="dossier-meta-label">Channel Source</span>
+                                                    <span class="dossier-meta-value"><%= (lead.source || 'website').replace('_', ' ') %></span>
+                                                </div>
+                                                <div class="dossier-meta-item">
+                                                    <span class="dossier-meta-label">Section Origin</span>
+                                                    <span class="dossier-meta-value"><%= lead.source_section || 'General Web' %></span>
+                                                </div>
+                                                <div class="dossier-meta-item">
+                                                    <span class="dossier-meta-label">Card / Track</span>
+                                                    <span class="dossier-meta-value"><%= lead.source_card || 'Keynote Presentation' %></span>
+                                                </div>
+                                                <div class="dossier-meta-item">
+                                                    <span class="dossier-meta-label">Direct Email</span>
+                                                    <span class="dossier-meta-value"><%= lead.email || 'N/A' %></span>
+                                                </div>
+                                                <div class="dossier-meta-item">
+                                                    <span class="dossier-meta-label">Phone / WhatsApp</span>
+                                                    <span class="dossier-meta-value"><%= lead.phone || 'N/A' %></span>
+                                                </div>
+                                                <div class="dossier-meta-item">
+                                                    <span class="dossier-meta-label">Created Timestamp</span>
+                                                    <span class="dossier-meta-value"><%= lead.created_at ? new Date(lead.created_at).toLocaleString() : 'N/A' %></span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Dossier Bottom Actions -->
+                                        <div class="dossier-actions">
+                                            <a href="/lead/<%= lead.id %>" class="btn btn-primary" style="padding: 0.45rem 1.1rem; font-size: 0.82rem;">
+                                                Open Full Lead Dossier & Activity &rarr;
+                                            </a>
+                                            <button type="button" class="btn btn-ghost-danger" onclick="deleteSingleLead(<%= lead.id %>, event)">
+                                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/></svg>
+                                                Delete Lead
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
-                            <% }) %>
+                            </div>
                         </div>
-                    <% } %>
-                </div>
-            <% }) %>
+                    <% }) %>
+                <% } %>
+            </div>
+
+            <!-- Client Filter No Matches State -->
+            <div id="noFilterMatches" style="display: none; padding: 4rem 2rem; text-align: center; color: var(--color-text-muted);">
+                <p style="font-family: var(--font-serif); font-size: 1.6rem; color: var(--color-ivory); margin-bottom: 0.5rem;">No Matching Deals</p>
+                <p style="font-size: 0.9rem;">No leads match the current stage tab or search query.</p>
+            </div>
         </div>
     </div>
 
-    <!-- SCRIPT & CHARTS -->
+    <!-- TOAST NOTIFICATION -->
+    <div id="crmToast" class="crm-toast">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D9A23A" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        <span id="crmToastMessage">Status updated successfully</span>
+    </div>
+
+    <!-- SAFE CHART DATA SCRIPT TAG -->
+    <script id="crm-chart-payload" type="application/json">
+        <%- (function() {
+            if (!chartData) return '{}';
+            if (typeof chartData === 'object') return JSON.stringify(chartData).replace(/</g, '\\u003c');
+            if (typeof chartData === 'string') return chartData.replace(/</g, '\\u003c');
+            return '{}';
+        })() %>
+    </script>
+
+    <!-- SCRIPT & CHARTS & CLIENT ENGINE -->
     <script>
-        const chartData = <%- chartData %>;
-        
-        // 1. Source Doughnut Chart
-        const sourceCtx = document.getElementById('sourceChart').getContext('2d');
-        const sourceLabels = Object.keys(chartData.sourceData).map(s => s.replace('_', ' '));
-        const sourceValues = Object.values(chartData.sourceData);
-        
-        new Chart(sourceCtx, {
-            type: 'doughnut',
-            data: {
-                labels: sourceLabels.length > 0 ? sourceLabels : ['Direct'],
-                datasets: [{
-                    data: sourceValues.length > 0 ? sourceValues : [1],
-                    backgroundColor: ['#D9A23A', '#E17356', '#6C2D5A', '#10B981', '#38BDF8'],
-                    borderWidth: 0,
-                    hoverOffset: 4
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                        labels: {
-                            color: '#FBF6EA',
-                            font: { family: 'Plus Jakarta Sans', size: 12 },
-                            padding: 15
-                        }
-                    }
-                },
-                cutout: '68%'
-            }
-        });
-
-        // 2. Funnel Bar Chart (Signature Luxury Gradient)
-        const funnelCtx = document.getElementById('funnelChart').getContext('2d');
-        const barGradient = funnelCtx.createLinearGradient(0, 0, 0, 240);
-        barGradient.addColorStop(0, '#D9A23A');
-        barGradient.addColorStop(1, '#6C2D5A');
-
-        new Chart(funnelCtx, {
-            type: 'bar',
-            data: {
-                labels: ['New', 'Qualified', 'Proposal Sent', 'Booked'],
-                datasets: [{
-                    label: 'Leads',
-                    data: [
-                        chartData.funnelData.new || 0, 
-                        chartData.funnelData.qualified || 0, 
-                        chartData.funnelData.proposal_sent || 0, 
-                        chartData.funnelData.booked || 0
-                    ],
-                    backgroundColor: barGradient,
-                    borderRadius: 8,
-                    maxBarThickness: 45
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        ticks: { color: 'rgba(251, 246, 234, 0.6)', stepSize: 1, font: { family: 'JetBrains Mono' } },
-                        grid: { color: 'rgba(251, 246, 234, 0.05)' }
-                    },
-                    x: {
-                        ticks: { color: '#FBF6EA', font: { family: 'Plus Jakarta Sans', weight: '600' } },
-                        grid: { display: false }
-                    }
-                },
-                plugins: {
-                    legend: { display: false }
+        // 1. Chart Initialization
+        let chartDataPayload = { sourceData: {}, funnelData: { new: 0, qualified: 0, proposal_sent: 0, booked: 0 } };
+        try {
+            const rawPayload = document.getElementById('crm-chart-payload').textContent;
+            if (rawPayload && rawPayload.trim()) {
+                const parsed = JSON.parse(rawPayload);
+                if (parsed && typeof parsed === 'object') {
+                    chartDataPayload = parsed;
                 }
             }
-        });
-
-        // Tab Switching
-        function showTab(status) {
-            document.querySelectorAll('.tab-pane').forEach(pane => pane.style.display = 'none');
-            const targetPane = document.getElementById('tab-pane-' + status);
-            if (targetPane) targetPane.style.display = 'block';
-            
-            document.querySelectorAll('.premium-tab').forEach(btn => btn.classList.remove('active'));
-            const activeBtn = document.getElementById('tab-btn-' + status);
-            if (activeBtn) activeBtn.classList.add('active');
+        } catch (e) {
+            console.error('Error parsing chart data payload:', e);
         }
 
-        // Search Filtering Logic
-        const searchInput = document.getElementById('searchInput');
-        const searchResultsContainer = document.getElementById('searchResultsContainer');
-        const searchResultsGrid = document.getElementById('searchResultsGrid');
-        const searchResultCount = document.getElementById('searchResultCount');
-        const kanbanWrapper = document.getElementById('kanban-wrapper');
-        const kanbanTabs = document.getElementById('kanbanTabs');
+        const sourceCtx = document.getElementById('sourceChart');
+        if (sourceCtx) {
+            const sourceLabels = Object.keys(chartDataPayload.sourceData || {}).map(s => s.replace('_', ' '));
+            const sourceValues = Object.values(chartDataPayload.sourceData || {});
+            
+            new Chart(sourceCtx.getContext('2d'), {
+                type: 'doughnut',
+                data: {
+                    labels: sourceLabels.length > 0 ? sourceLabels : ['Direct Inbound'],
+                    datasets: [{
+                        data: sourceValues.length > 0 ? sourceValues : [1],
+                        backgroundColor: ['#D9A23A', '#E17356', '#6C2D5A', '#10B981', '#38BDF8'],
+                        borderWidth: 0,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: '#FBF6EA',
+                                font: { family: 'Plus Jakarta Sans', size: 12 },
+                                padding: 15
+                            }
+                        }
+                    },
+                    cutout: '68%'
+                }
+            });
+        }
 
-        function performSearch() {
-            const query = (searchInput.value || '').toLowerCase().trim();
-            if (!query) {
-                clearSearch();
+        const funnelCtx = document.getElementById('funnelChart');
+        if (funnelCtx) {
+            const ctx2d = funnelCtx.getContext('2d');
+            const barGradient = ctx2d.createLinearGradient(0, 0, 0, 240);
+            barGradient.addColorStop(0, '#D9A23A');
+            barGradient.addColorStop(1, '#6C2D5A');
+
+            const fData = chartDataPayload.funnelData || {};
+            new Chart(ctx2d, {
+                type: 'bar',
+                data: {
+                    labels: ['New', 'Qualified', 'Proposal Sent', 'Booked'],
+                    datasets: [{
+                        label: 'Leads',
+                        data: [
+                            fData.new || 0, 
+                            fData.qualified || 0, 
+                            fData.proposal_sent || 0, 
+                            fData.booked || 0
+                        ],
+                        backgroundColor: barGradient,
+                        borderRadius: 8,
+                        maxBarThickness: 45
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: { color: 'rgba(251, 246, 234, 0.6)', stepSize: 1, font: { family: 'JetBrains Mono' } },
+                            grid: { color: 'rgba(251, 246, 234, 0.05)' }
+                        },
+                        x: {
+                            ticks: { color: '#FBF6EA', font: { family: 'Plus Jakarta Sans', weight: '600' } },
+                            grid: { display: false }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+        }
+
+        // 2. Active Filtering State
+        let currentFilterStage = 'all';
+        let currentSearchQuery = '';
+
+        function filterLedger(stage) {
+            currentFilterStage = stage;
+            
+            // Update Tab UI
+            document.querySelectorAll('.status-tab-btn').forEach(btn => {
+                if (btn.getAttribute('data-tab-stage') === stage) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+
+            applyLedgerFilters();
+        }
+
+        function handleLedgerSearch() {
+            const searchInput = document.getElementById('ledgerSearchInput');
+            currentSearchQuery = (searchInput ? searchInput.value : '').toLowerCase().trim();
+            applyLedgerFilters();
+        }
+
+        function applyLedgerFilters() {
+            const items = document.querySelectorAll('.ledger-item');
+            const noFilterMatches = document.getElementById('noFilterMatches');
+            const searchTokens = currentSearchQuery.split(/\s+/).filter(Boolean);
+            let visibleCount = 0;
+
+            items.forEach(item => {
+                const itemStage = item.getAttribute('data-stage') || '';
+                const itemSearch = item.getAttribute('data-search') || '';
+
+                // Stage check
+                const stageMatches = (currentFilterStage === 'all') || (itemStage === currentFilterStage);
+
+                // Search tokens check (AND logic)
+                const searchMatches = searchTokens.length === 0 || searchTokens.every(token => itemSearch.includes(token));
+
+                if (stageMatches && searchMatches) {
+                    item.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+
+            if (noFilterMatches) {
+                noFilterMatches.style.display = (visibleCount === 0) ? 'block' : 'none';
+            }
+        }
+
+        // 3. Accordion Toggle
+        function toggleDossier(id, event) {
+            if (event) event.stopPropagation();
+            const item = document.getElementById('lead-item-' + id);
+            if (item) {
+                item.classList.toggle('expanded');
+            }
+        }
+
+        // 4. AJAX Stage Update
+        async function updateLeadStage(id, newStage, event) {
+            if (event) event.stopPropagation();
+            const selectEl = document.getElementById('stage-select-' + id);
+            const rowItem = document.getElementById('lead-item-' + id);
+            const previousStage = rowItem ? rowItem.getAttribute('data-stage') : null;
+
+            try {
+                const response = await fetch('/lead/' + id + '/status', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({ status: newStage })
+                });
+
+                if (response.ok) {
+                    // Update data-stage attribute on row
+                    if (rowItem) {
+                        rowItem.setAttribute('data-stage', newStage);
+                    }
+
+                    // Recalculate Tab and KPI Counts
+                    recalculateCounts();
+
+                    // Re-apply filter if not on 'all'
+                    applyLedgerFilters();
+
+                    showToast(`Lead #${id} moved to "${getStageLabel(newStage)}"`);
+                } else {
+                    if (selectEl && previousStage) selectEl.value = previousStage;
+                    showToast('Failed to update status on server');
+                }
+            } catch (err) {
+                console.error('AJAX error updating stage:', err);
+                if (selectEl && previousStage) selectEl.value = previousStage;
+                showToast('Error communicating with server');
+            }
+        }
+
+        function getStageLabel(stage) {
+            const map = {
+                'new': 'New Inquiries',
+                'contacted': 'Discovery Call',
+                'qualified': 'Qualified ($5k+)',
+                'proposal_sent': 'Proposal Sent',
+                'booked': 'Confirmed Booked',
+                'completed': 'Completed',
+                'declined': 'Declined',
+                'lost': 'Lost'
+            };
+            return map[stage] || stage;
+        }
+
+        function recalculateCounts() {
+            const items = Array.from(document.querySelectorAll('.ledger-item'));
+            const total = items.length;
+            const counts = {
+                all: total,
+                new: 0,
+                contacted: 0,
+                qualified: 0,
+                proposal_sent: 0,
+                booked: 0,
+                completed: 0,
+                declined: 0,
+                lost: 0
+            };
+
+            items.forEach(item => {
+                const stage = item.getAttribute('data-stage');
+                if (counts[stage] !== undefined) {
+                    counts[stage]++;
+                }
+            });
+
+            // Update Tab Count Badges
+            Object.keys(counts).forEach(key => {
+                const tabCountEl = document.getElementById('count-tab-' + key);
+                if (tabCountEl) {
+                    tabCountEl.textContent = counts[key];
+                }
+            });
+
+            // Update KPI strip
+            const kpiTotal = document.getElementById('kpi-total-leads');
+            const kpiNew = document.getElementById('kpi-new-leads');
+            const kpiProposal = document.getElementById('kpi-proposal-leads');
+            const kpiBooked = document.getElementById('kpi-booked-leads');
+
+            if (kpiTotal) kpiTotal.textContent = total;
+            if (kpiNew) kpiNew.textContent = counts['new'];
+            if (kpiProposal) kpiProposal.textContent = counts['proposal_sent'];
+            if (kpiBooked) kpiBooked.textContent = counts['booked'];
+        }
+
+        // 5. Toast Feedback Helper
+        let toastTimeout;
+        function showToast(message) {
+            const toast = document.getElementById('crmToast');
+            const toastMsg = document.getElementById('crmToastMessage');
+            if (toast && toastMsg) {
+                toastMsg.textContent = message;
+                toast.classList.add('show');
+                clearTimeout(toastTimeout);
+                toastTimeout = setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 3200);
+            }
+        }
+
+        // 6. Delete Handlers
+        async function deleteSingleLead(id, event) {
+            if (event) event.stopPropagation();
+            if (!confirm(`Are you sure you want to delete Lead #${id}? This action cannot be reversed.`)) {
                 return;
             }
 
-            const cards = document.querySelectorAll('.lead-card-item');
-            searchResultsGrid.innerHTML = '';
-            let count = 0;
+            try {
+                const response = await fetch('/lead/' + id + '/delete', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
 
-            cards.forEach(card => {
-                const searchData = (card.getAttribute('data-search') || '').toLowerCase();
-                if (searchData.includes(query)) {
-                    const clone = card.cloneNode(true);
-                    searchResultsGrid.appendChild(clone);
-                    count++;
+                if (response.ok || response.redirected) {
+                    const rowItem = document.getElementById('lead-item-' + id);
+                    if (rowItem) {
+                        rowItem.remove();
+                    }
+                    recalculateCounts();
+                    applyLedgerFilters();
+                    showToast(`Lead #${id} deleted successfully`);
+                } else {
+                    showToast('Failed to delete lead');
                 }
-            });
-
-            if (count === 0) {
-                searchResultsGrid.innerHTML = '<p style="color: var(--color-text-muted); grid-column: 1 / -1; padding: 2rem 0; text-align: center;">No leads found matching your search query.</p>';
-                searchResultCount.textContent = '(0 found)';
-            } else {
-                searchResultCount.textContent = `(${count} found)`;
+            } catch (err) {
+                console.error(err);
+                showToast('Error communicating with server');
             }
-
-            searchResultsContainer.style.display = 'block';
-            kanbanWrapper.style.display = 'none';
-            kanbanTabs.style.display = 'none';
         }
 
-        function clearSearch() {
-            searchInput.value = '';
-            searchResultsContainer.style.display = 'none';
-            kanbanWrapper.style.display = 'block';
-            kanbanTabs.style.display = 'flex';
-        }
+        async function bulkDeletePrompt() {
+            const msg = currentFilterStage === 'all'
+                ? "Are you absolutely certain you want to purge ALL leads from the system?"
+                : `Are you sure you want to purge all leads in the '${getStageLabel(currentFilterStage)}' stage?`;
 
-        if (searchInput) {
-            searchInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') performSearch();
-            });
-            searchInput.addEventListener('input', function(e) {
-                if (e.target.value.trim() === '') clearSearch();
-            });
-        }
-
-        // Bulk Delete API
-        async function bulkDelete(status) {
-            const isAll = status === 'all';
-            const msg = isAll 
-                ? "Are you absolutely certain you want to purge ALL leads from the system? This action cannot be reversed."
-                : `Are you sure you want to delete all leads in the '${status.replace('_', ' ')}' stage?`;
-            
             if (confirm(msg)) {
                 try {
                     const response = await fetch('/api/leads/bulk-delete', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ status })
+                        body: JSON.stringify({ status: currentFilterStage })
                     });
                     const result = await response.json();
                     if (result.success) {
                         window.location.reload();
                     } else {
-                        alert(result.error || 'Failed to delete leads');
+                        showToast(result.error || 'Failed to purge leads');
                     }
                 } catch (err) {
-                    alert('Error communicating with server');
+                    console.error(err);
+                    showToast('Error communicating with server');
                 }
             }
         }

@@ -960,9 +960,15 @@ app.post('/lead/:id/status', requireAuth, async (req, res) => {
     const { status } = req.body;
     await pool.query('UPDATE leads SET status = ? WHERE id = ?', [status, req.params.id]);
     await pool.query('INSERT INTO activity_log (lead_id, action, detail) VALUES (?, ?, ?)', [req.params.id, 'status_changed', `Status updated to ${status}`]);
+    if (req.xhr || req.headers.accept?.includes('application/json') || req.is('json') || req.headers['content-type']?.includes('application/json')) {
+      return res.json({ success: true, status });
+    }
     res.redirect(`/lead/${req.params.id}`);
   } catch (err) {
     console.error(err);
+    if (req.xhr || req.headers.accept?.includes('application/json') || req.is('json') || req.headers['content-type']?.includes('application/json')) {
+      return res.status(500).json({ error: 'Error updating status' });
+    }
     res.status(500).send('Error updating status');
   }
 });
@@ -1000,9 +1006,15 @@ app.post('/lead/:id/delete', requireAuth, async (req, res) => {
         await pool.query('DELETE FROM activity_log WHERE lead_id = ?', [req.params.id]);
         await pool.query('DELETE FROM messages WHERE lead_id = ?', [req.params.id]);
         await pool.query('DELETE FROM leads WHERE id = ?', [req.params.id]);
+        if (req.xhr || req.headers.accept?.includes('application/json') || req.is('json') || req.headers['content-type']?.includes('application/json')) {
+            return res.json({ success: true, message: 'Lead deleted successfully' });
+        }
         res.redirect('/dashboard?success=Lead deleted successfully');
     } catch (err) {
         console.error('Delete error:', err);
+        if (req.xhr || req.headers.accept?.includes('application/json') || req.is('json') || req.headers['content-type']?.includes('application/json')) {
+            return res.status(500).json({ error: 'Cannot delete lead due to database constraint' });
+        }
         res.redirect(`/lead/${req.params.id}?error=Cannot delete lead due to database constraint`);
     }
 });
