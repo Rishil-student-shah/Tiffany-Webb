@@ -65,6 +65,28 @@ const pool = mysql.createPool({
   queueLimit: 0
 });
 
+// Ensure database tables and schema migrations
+(async () => {
+  try {
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS lead_notes (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        lead_id INT NOT NULL,
+        user_id INT NULL,
+        author_name VARCHAR(150) NOT NULL,
+        author_role VARCHAR(50) NOT NULL DEFAULT 'staff',
+        note TEXT NOT NULL,
+        created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (lead_id) REFERENCES leads(id) ON DELETE CASCADE,
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    `);
+    console.log('[Database] lead_notes table verified/created.');
+  } catch (err) {
+    console.error('[Database Migration Warning]:', err.message);
+  }
+})();
+
 // Helper: Save base64 cropped image to uploads directory
 function saveBase64Image(dataUrl) {
   if (!dataUrl || typeof dataUrl !== 'string' || !dataUrl.startsWith('data:image/')) {
@@ -439,6 +461,78 @@ app.post('/api/leads/batch', async (req, res) => {
   } catch (err) {
     console.error('[Batch Import Error]:', err.message);
     res.status(500).json({ error: 'Internal server error importing batch' });
+  }
+});
+
+// --- Persistent Multi-User Client Notes Endpoints ---
+
+// POST /api/leads/:id/notes (Add Persistent Note)
+app.post('/api/leads/:id/notes', async (req, res) => {
+  try {
+    const leadId = req.params.id;
+    const { note } = req.body;
+    if (!note || !note.trim()) {
+      return res.status(400).json({ error: 'Note content cannot be empty' });
+    }
+    // Resolve author from authenticated session or fallback
+    let user = req.user;
+    if (!user) {
+      const cookies = parseCookies(req);
+      if (cookies.auth_token) {
+        try {
+          const decoded = jwt.verify(cookies.auth_token, JWT_SECRET);
+          const [users] = await pool.query('SELECT id, name, email, role, is_active FROM users WHERE id = ?', [decoded.id]);
+          if (users.length > 0 && users[0].is_active) {
+            user = users[0];
+          }
+        } catch (e) {}
+      }
+    }
+    const authorName = user ? user.name : (req.session?.user?.name || 'Tiffany Webb (Admin)');
+    const authorRole = user ? user.role : (req.session?.user?.role || 'admin');
+    const userId = user ? user.id : (req.session?.user?.id || null);
+
+    const [result] = await pool.query(`
+      INSERT INTO lead_notes (lead_id, user_id, author_name, author_role, note)
+      VALUES (?, ?, ?, ?, ?)
+    `, [leadId, userId, authorName, authorRole, note.trim()]);
+
+    // Record note in Activity Log so all users see it
+    const summary = note.trim().length > 60 ? note.trim().substring(0, 60) + '...' : note.trim();
+    await pool.query(`
+      INSERT INTO activity_log (lead_id, user_id, action, detail)
+      VALUES (?, ?, 'note_added', ?)
+    `, [leadId, userId, `Internal note by ${authorName} (${authorRole}): "${summary}"`]);
+
+    res.json({
+      success: true,
+      note: {
+        id: result.insertId,
+        author_name: authorName,
+        author_role: authorRole,
+        note: note.trim(),
+        created_at: new Date()
+      }
+    });
+  } catch (err) {
+    console.error('[Add Note Error]:', err.message);
+    res.status(500).json({ error: 'Failed to save note' });
+  }
+});
+
+// GET /api/leads/:id/notes (Retrieve Lead Notes)
+app.get('/api/leads/:id/notes', async (req, res) => {
+  try {
+    const [notes] = await pool.query(`
+      SELECT id, author_name, author_role, note, created_at 
+      FROM lead_notes 
+      WHERE lead_id = ? 
+      ORDER BY created_at DESC
+    `, [req.params.id]);
+    res.json({ success: true, notes });
+  } catch (err) {
+    console.error('[Get Notes Error]:', err.message);
+    res.status(500).json({ error: 'Failed to fetch notes' });
   }
 });
 

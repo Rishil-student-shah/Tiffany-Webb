@@ -259,9 +259,11 @@
                                             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FBF6EA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
                                         </a>
                                     <% } %>
-                                    <!-- 3rd Button: Dossier Toggle with Explicit Visible Gold Chevron -->
+                                    <!-- 3rd Button: Toggle Executive Dossier with Visible Chevron -->
                                     <button type="button" class="action-icon-btn toggle-btn" title="Toggle Executive Dossier" onclick="toggleDossier(<%= lead.id %>, event)">
-                                        <svg class="accordion-toggle-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#D9A23A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                        <svg class="accordion-toggle-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D9A23A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: block; pointer-events: none;">
+                                            <polyline points="6 9 12 15 18 9"></polyline>
+                                        </svg>
                                     </button>
                                 </div>
                             </div>
@@ -323,6 +325,26 @@
                                                 Delete Lead
                                             </button>
                                         </div>
+                                    </div>
+                                </div>
+
+                                <!-- Team Internal Notes Hub -->
+                                <div class="dossier-notes-section" style="margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid rgba(217, 162, 58, 0.15);">
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                                        <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-gold); font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; display: flex; align-items: center; gap: 6px;">
+                                            📝 Team Internal Notes & History
+                                        </span>
+                                    </div>
+                                    <!-- Add Note Input Bar -->
+                                    <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
+                                        <input type="text" id="note-input-<%= lead.id %>" placeholder="Add a private note about this client (visible to team & admin)..." style="flex: 1; padding: 0.5rem 0.85rem; font-size: 0.82rem; background: #090907; border: 1px solid var(--color-border); border-radius: 8px; color: #fff;" onkeydown="if(event.key==='Enter'){event.preventDefault();postLeadNote(<%= lead.id %>);}">
+                                        <button type="button" class="btn btn-primary" onclick="postLeadNote(<%= lead.id %>)" style="padding: 0.5rem 1rem; font-size: 0.8rem; font-weight: 700; white-space: nowrap;">
+                                            + Post Note
+                                        </button>
+                                    </div>
+                                    <!-- Notes Stream Container -->
+                                    <div id="notes-list-<%= lead.id %>" style="display: flex; flex-direction: column; gap: 0.5rem; max-height: 180px; overflow-y: auto;">
+                                        <div style="font-size: 0.78rem; color: var(--color-text-dim); font-style: italic;">Loading previous notes...</div>
                                     </div>
                                 </div>
                             </div>
@@ -505,12 +527,75 @@
             }
         }
 
-        // 3. Accordion Toggle
+        // 3. Accordion Toggle & Notes Stream
         function toggleDossier(id, event) {
             if (event) event.stopPropagation();
             const item = document.getElementById('lead-item-' + id);
             if (item) {
+                const isExpanding = !item.classList.contains('expanded');
                 item.classList.toggle('expanded');
+                if (isExpanding) {
+                    loadLeadNotes(id);
+                }
+            }
+        }
+
+        // Fetch and post notes
+        async function loadLeadNotes(leadId) {
+            const list = document.getElementById(`notes-list-${leadId}`);
+            if (!list) return;
+            try {
+                const res = await fetch(`/api/leads/${leadId}/notes`);
+                const data = await res.json();
+                if (data.notes && data.notes.length > 0) {
+                    list.innerHTML = data.notes.map(n => `
+                        <div style="padding: 0.5rem 0.75rem; background: rgba(251, 246, 234, 0.03); border: 1px solid rgba(217, 162, 58, 0.15); border-radius: 6px; font-size: 0.82rem;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.2rem;">
+                                <span style="font-weight: 700; color: var(--color-gold); font-size: 0.78rem;">${escapeHtml(n.author_name)} <span style="color: var(--color-text-dim); font-weight: 400; font-size: 0.72rem;">(${(n.author_role || 'staff').toUpperCase()})</span></span>
+                                <span style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--color-text-dim);">${new Date(n.created_at).toLocaleDateString([], {month:'short', day:'numeric', hour:'2-digit', minute:'2-digit'})}</span>
+                            </div>
+                            <div style="color: var(--color-ivory);">${escapeHtml(n.note)}</div>
+                        </div>
+                    `).join('');
+                } else {
+                    list.innerHTML = '<div style="font-size: 0.78rem; color: var(--color-text-dim); font-style: italic;">No internal notes recorded yet.</div>';
+                }
+            } catch (e) {
+                list.innerHTML = '<div style="font-size: 0.78rem; color: #ef4444;">Failed to load notes.</div>';
+            }
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        async function postLeadNote(leadId) {
+            const input = document.getElementById(`note-input-${leadId}`);
+            if (!input) return;
+            const note = input.value.trim();
+            if (!note) return;
+            try {
+                const res = await fetch(`/api/leads/${leadId}/notes`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ note })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    input.value = '';
+                    loadLeadNotes(leadId); // Refresh notes stream
+                    showToast('Note added successfully');
+                } else {
+                    alert(data.error || 'Failed to post note');
+                }
+            } catch (e) {
+                alert('Server error saving note');
             }
         }
 
