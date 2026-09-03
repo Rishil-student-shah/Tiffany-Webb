@@ -90,7 +90,7 @@ INSERT INTO website_content (page_id, section, key_name, content_value, content_
 
 (@page_home, 'who_can_benefit', 'eyebrow', 'WHO CAN BENEFIT FROM TIFFANY\'S WORK?', 'text'),
 (@page_home, 'who_can_benefit', 'headline', 'For leaders ready to <span class="italic-accent">rethink what\'s possible.</span>', 'html'),
-(@page_home, 'who_can_benefit', 'body_1', 'Tiffany works with leaders and organizations navigating growth, change, engagement, and community impact. She brings a human-centered perspective to complex challenges—helping organizations understand the people they serve, rethink familiar approaches, and build strategies designed for meaningful, sustainable impact.', 'textarea'),
+(@page_home, 'who_can_benefit', 'body_1', 'Communities most affected by gambling harm can also be among the hardest for traditional prevention efforts to reach. Tiffany\'s work is built to help close that gap — with cultural fluency, frontline experience, creativity, and evidence-informed strategies that make prevention easier to understand, access, and act on.', 'textarea'),
 (@page_home, 'who_can_benefit', 'section_is_active', '1', 'boolean'),
 
 (@page_home, 'expertise', 'eyebrow', 'SPEAKING TRACKS', 'text'),
@@ -152,15 +152,17 @@ INSERT INTO website_collections (page_id, section_name, title, subtitle, icon_sv
 (@page_home, 'credibility_bar', 'ROSC Councils', 'Recovery Coalitions', NULL, NULL, NULL, NULL, 3, 1),
 (@page_home, 'credibility_bar', 'Municipal Agencies', 'Policy & Health Depts', NULL, NULL, NULL, NULL, 4, 1),
 
--- Who Can Benefit (8 items)
-(@page_home, 'who_can_benefit', 'Healthcare Systems & Hospital Networks', 'Clinical Teams', NULL, NULL, NULL, NULL, 1, 1),
-(@page_home, 'who_can_benefit', 'Public Health Agencies & Municipal Departments', 'Public Health', NULL, NULL, NULL, NULL, 2, 1),
-(@page_home, 'who_can_benefit', 'Recovery Organizations & ROSC Councils', 'Community Recovery', NULL, NULL, NULL, NULL, 3, 1),
-(@page_home, 'who_can_benefit', 'Colleges, Universities & Athletic Programs', 'Higher Education', NULL, NULL, NULL, NULL, 4, 1),
-(@page_home, 'who_can_benefit', 'Community Nonprofits & Faith-Based Coalitions', 'Grassroots Coalitions', NULL, NULL, NULL, NULL, 5, 1),
-(@page_home, 'who_can_benefit', 'Corporate HR & Employee Assistance Programs (EAPs)', 'Workplace Wellness', NULL, NULL, NULL, NULL, 6, 1),
-(@page_home, 'who_can_benefit', 'Youth Programs, Schools & District Leadership', 'Youth & Education', NULL, NULL, NULL, NULL, 7, 1),
-(@page_home, 'who_can_benefit', 'Policy Makers & Legislative Advocacy Groups', 'Civic Policy', NULL, NULL, NULL, NULL, 8, 1),
+-- Who Can Benefit (10 items)
+(@page_home, 'who_can_benefit', 'Conferences & Professional Associations', 'Keynotes & Summits', NULL, '/work-with-tiffany?audience=Conferences', NULL, 'Keynotes, breakout sessions, and expert panels for national summits, annual conferences, and professional associations.', 1, 1),
+(@page_home, 'who_can_benefit', 'Schools & Youth Organizations', 'Youth & Schools', NULL, '/work-with-tiffany?audience=Schools', NULL, 'Age-appropriate youth prevention, interactive workshops, and family engagement around digital risk and healthy choices.', 2, 1),
+(@page_home, 'who_can_benefit', 'Colleges & Universities', 'Higher Education', NULL, '/work-with-tiffany?audience=Colleges', NULL, 'Campus-wide wellness activations, athletic department sessions, student affairs programming, and Greek life dialogues.', 3, 1),
+(@page_home, 'who_can_benefit', 'Healthcare & Hospital Systems', 'Clinical Networks', NULL, '/work-with-tiffany?audience=Healthcare', NULL, 'Hospitals, primary care networks, clinical teams, and health systems integrating validated gambling screening protocols.', 4, 1),
+(@page_home, 'who_can_benefit', 'Government & Public Health', 'Municipal & County', NULL, '/work-with-tiffany?audience=Government', NULL, 'Municipal health agencies, public health departments, county boards, and prevention policy task forces.', 5, 1),
+(@page_home, 'who_can_benefit', 'Behavioral Health Providers', 'Clinicians & Counselors', NULL, '/work-with-tiffany?audience=Behavioral+Health', NULL, 'Clinicians, addiction counselors, social workers, and mental health frontline teams managing co-occurring risks.', 6, 1),
+(@page_home, 'who_can_benefit', 'Recovery Networks', 'Peer Support & RCOs', NULL, '/work-with-tiffany?audience=Recovery+Networks', NULL, 'Peer-support organizations, recovery community organizations (RCOs), and grassroots harm-reduction initiatives.', 7, 1),
+(@page_home, 'who_can_benefit', 'Community Coalitions & ROSC Councils', 'ROSC & Prevention', NULL, '/work-with-tiffany?audience=ROSC+Councils', NULL, 'Recovery Oriented Systems of Care (ROSC) councils, prevention coalitions, and regional cross-sector partnerships.', 8, 1),
+(@page_home, 'who_can_benefit', 'Community Organizations & Nonprofits', 'Nonprofits & Health Centers', NULL, '/work-with-tiffany?audience=Community+Nonprofits', NULL, 'Mission-driven neighborhood groups, civic organizations, and community health centers serving local families.', 9, 1),
+(@page_home, 'who_can_benefit', 'Faith Communities', 'Churches & Ministries', NULL, '/work-with-tiffany?audience=Faith+Communities', NULL, 'Churches, ministries, faith networks, and faith-based community outreach programs offering compassionate support.', 10, 1),
 
 -- Video Reels (3 items)
 (@page_home, 'video_reels', 'National Problem Gambling Conference', 'Keynote Address', NULL, NULL, 'thumb_1', NULL, 1, 1),
