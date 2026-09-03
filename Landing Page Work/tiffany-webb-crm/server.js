@@ -13,10 +13,13 @@ require('dotenv').config();
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Configure Multer for image uploads
+// Configure Multer for image and video uploads
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    const uploadDir = path.join(__dirname, '../tiffany-webb-astro/public/uploads');
+    let uploadDir = path.join(__dirname, '../tiffany-webb-astro/public/uploads');
+    if (file.fieldname === 'video_file' || (file.mimetype && file.mimetype.startsWith('video/'))) {
+      uploadDir = path.join(__dirname, '../tiffany-webb-astro/public/uploads/videos');
+    }
     if (!fs.existsSync(uploadDir)) {
       fs.mkdirSync(uploadDir, { recursive: true });
     }
@@ -24,10 +27,32 @@ const storage = multer.diskStorage({
   },
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    cb(null, uniqueSuffix + '-' + file.originalname);
+    const ext = path.extname(file.originalname);
+    const baseName = path.basename(file.originalname, ext).replace(/[^a-zA-Z0-9_-]/g, '_');
+    cb(null, `${uniqueSuffix}-${baseName}${ext}`);
   }
 });
-const upload = multer({ storage: storage });
+
+const upload = multer({
+  storage: storage,
+  limits: { fileSize: 60 * 1024 * 1024 }, // 60MB max
+  fileFilter: function (req, file, cb) {
+    if (file.fieldname === 'video_file') {
+      const allowedExts = ['.mp4', '.webm', '.mov'];
+      const ext = path.extname(file.originalname).toLowerCase();
+      if (allowedExts.includes(ext) || (file.mimetype && (file.mimetype.startsWith('video/') || file.mimetype === 'application/octet-stream'))) {
+        return cb(null, true);
+      }
+      return cb(new Error('Only .mp4, .webm, and .mov video files are allowed'));
+    }
+    cb(null, true);
+  }
+});
+
+const collectionUpload = upload.fields([
+  { name: 'image_file', maxCount: 1 },
+  { name: 'video_file', maxCount: 1 }
+]);
 
 // Database pool
 const pool = mysql.createPool({
@@ -433,7 +458,7 @@ app.get('/cms/:slug/collection/:section/new', requireAuth, async (req, res) => {
 });
 
 // Collection Items - NEW (POST)
-app.post('/cms/:slug/collection/:section/new', requireAuth, upload.single('image_file'), async (req, res) => {
+app.post('/cms/:slug/collection/:section/new', requireAuth, collectionUpload, async (req, res) => {
   try {
     const [pages] = await pool.query('SELECT * FROM website_pages WHERE slug = ?', [req.params.slug]);
     if (pages.length === 0) return res.status(404).send('Page not found');
@@ -445,15 +470,24 @@ app.post('/cms/:slug/collection/:section/new', requireAuth, upload.single('image
       }
     }
 
-    const { title, subtitle, content_html, image_url, icon_svg, sort_order } = req.body;
+    const { title, subtitle, badge, content_html, link_url, existing_video_url, image_url, icon_svg, sort_order } = req.body;
     let finalImageUrl = image_url || null;
-    if (req.file) {
+    if (req.files && req.files['image_file'] && req.files['image_file'][0]) {
+      finalImageUrl = '/uploads/' + req.files['image_file'][0].filename;
+    } else if (req.file && req.file.fieldname === 'image_file') {
       finalImageUrl = '/uploads/' + req.file.filename;
+    }
+
+    let finalLinkUrl = link_url || existing_video_url || null;
+    if (req.files && req.files['video_file'] && req.files['video_file'][0]) {
+      finalLinkUrl = '/uploads/videos/' + req.files['video_file'][0].filename;
+    } else if (req.file && req.file.fieldname === 'video_file') {
+      finalLinkUrl = '/uploads/videos/' + req.file.filename;
     }
     
     await pool.query(
-      'INSERT INTO website_collections (page_id, section_name, title, subtitle, content_html, image_url, icon_svg, sort_order) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-      [pages[0].id, req.params.section, title || null, subtitle || null, content_html || null, finalImageUrl, icon_svg || null, sort_order || 0]
+      'INSERT INTO website_collections (page_id, section_name, title, subtitle, badge, link_url, content_html, image_url, icon_svg, sort_order) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+      [pages[0].id, req.params.section, title || null, subtitle || null, badge || null, finalLinkUrl, content_html || null, finalImageUrl, icon_svg || null, sort_order || 0]
     );
     
     res.redirect(`/cms/${req.params.slug}?success=Item+added+successfully`);
@@ -485,18 +519,27 @@ app.get('/cms/:slug/collection/:section/:id/edit', requireAuth, async (req, res)
 });
 
 // Collection Items - EDIT (POST)
-app.post('/cms/:slug/collection/:section/:id/edit', requireAuth, upload.single('image_file'), async (req, res) => {
+app.post('/cms/:slug/collection/:section/:id/edit', requireAuth, collectionUpload, async (req, res) => {
   try {
-    const { title, subtitle, content_html, image_url, icon_svg, sort_order } = req.body;
+    const { title, subtitle, badge, content_html, link_url, existing_video_url, image_url, icon_svg, sort_order } = req.body;
     
     let finalImageUrl = image_url || null;
-    if (req.file) {
+    if (req.files && req.files['image_file'] && req.files['image_file'][0]) {
+      finalImageUrl = '/uploads/' + req.files['image_file'][0].filename;
+    } else if (req.file && req.file.fieldname === 'image_file') {
       finalImageUrl = '/uploads/' + req.file.filename;
+    }
+
+    let finalLinkUrl = link_url || existing_video_url || null;
+    if (req.files && req.files['video_file'] && req.files['video_file'][0]) {
+      finalLinkUrl = '/uploads/videos/' + req.files['video_file'][0].filename;
+    } else if (req.file && req.file.fieldname === 'video_file') {
+      finalLinkUrl = '/uploads/videos/' + req.file.filename;
     }
     
     await pool.query(
-      'UPDATE website_collections SET title=?, subtitle=?, content_html=?, image_url=?, icon_svg=?, sort_order=? WHERE id=?',
-      [title || null, subtitle || null, content_html || null, finalImageUrl, icon_svg || null, sort_order || 0, req.params.id]
+      'UPDATE website_collections SET title=?, subtitle=?, badge=?, link_url=?, content_html=?, image_url=?, icon_svg=?, sort_order=? WHERE id=?',
+      [title || null, subtitle || null, badge || null, finalLinkUrl, content_html || null, finalImageUrl, icon_svg || null, sort_order || 0, req.params.id]
     );
     
     res.redirect(`/cms/${req.params.slug}?success=Item+updated+successfully`);
