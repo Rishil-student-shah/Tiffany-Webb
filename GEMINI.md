@@ -30,3 +30,28 @@ description: Design system rules for section titles, half-text gradients, and ey
   text-transform: uppercase;
   font-family: var(--font-mono);
   ```
+
+## 3. Canonical Domain & Contact Invariants
+- **Official Production Domain**: `tiffanywebbimpact.com`
+- **Executive CRM & CMS Subdomain**: `crm.tiffanywebbimpact.com`
+- **Official Booking & Inbound Email**: `booking@tiffanywebbimpact.com`
+- **Strict Invariant**:
+  - Never use `tiffanywebb.com` or generic placeholder emails (`info@...`, `hello@...`) in production code, mailer transports, CORS whitelists, or documentation.
+  - All public inquiries, Nodemailer notification configs, and Hostinger DNS/SSL setups must strictly target `tiffanywebbimpact.com` and `booking@tiffanywebbimpact.com`.
+
+## 4. Platform Nomenclature Invariant (Tiffany Webb Impact OS™)
+- **Official Platform Name**: `Tiffany Webb Impact OS™` (or `Impact OS™`).
+- **Strict Invariant**:
+  - Never refer to the platform as generic "CRM", "CMS", or "Admin Panel" in user-facing UI, navbars, page titles, or client documentation.
+  - Navbar logo branding must strictly display as:
+    ```html
+    <h1 class="nav-logo">Tiffany Webb <span>Impact OS</span></h1>
+    ```
+  - Page titles and browser tab metadata must strictly use:
+    ```html
+    <title>[Module Name] — Tiffany Webb Impact OS</title>
+    ```
+    *(e.g., `Pipeline Ledger — Tiffany Webb Impact OS`, `Website Studio — Tiffany Webb Impact OS`)*
+  - The pipeline ledger and live website editor are official sub-modules of the unified **Impact OS™** (`Pipeline Ledger` and `Website Studio`).
+
+

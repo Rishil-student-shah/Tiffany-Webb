@@ -59,7 +59,7 @@ test('1.1: Render with completely empty leads array and empty chartData', () => 
     }, { filename: VIEW_PATH });
 
     assert.ok(html.includes('id="kpi-total-leads"'), 'KPI total leads container must exist');
-    assert.ok(html.includes('Booking Pipeline'), 'Title must render');
+    assert.ok(html.includes('Pipeline Ledger'), 'Title must render');
     assert.ok(html.includes('No Inquiries in new'), 'Standard empty state for "new" tab must render');
 });
 

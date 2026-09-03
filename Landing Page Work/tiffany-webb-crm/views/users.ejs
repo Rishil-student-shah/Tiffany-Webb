@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Staff & Team Management — Tiffany Webb CRM</title>
+    <title>Team & Access — Tiffany Webb Impact OS</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="/css/crm-theme.css">
@@ -46,13 +46,13 @@
     <!-- UNIFIED TOP NAVIGATION -->
     <nav class="top-nav">
         <a href="/dashboard" class="nav-brand">
-            <h1 class="nav-logo">Tiffany Webb <span>CRM</span></h1>
+            <h1 class="nav-logo">Tiffany Webb <span>Impact OS</span></h1>
         </a>
         <div class="nav-links">
-            <a href="/dashboard" class="nav-link">Pipeline</a>
-            <a href="/leads/new" class="nav-link">Add Lead</a>
-            <a href="/cms" class="nav-link">Website CMS</a>
-            <a href="/users" class="nav-link active">Staff</a>
+            <a href="/dashboard" class="nav-link">Pipeline Ledger</a>
+            <a href="/leads/new" class="nav-link">+ Log Inbound</a>
+            <a href="/cms" class="nav-link">Website Studio</a>
+            <a href="/users" class="nav-link active">Team & Access</a>
             <span class="nav-pill">Admin</span>
             <a href="/logout" class="nav-link" style="color: #ef4444 !important;">Logout</a>
         </div>
@@ -60,11 +60,13 @@
 
     <div class="main-content" style="max-width: 1280px;">
         <div style="margin-bottom: 2rem;">
-            <div class="crm-eyebrow">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg>
+            <div class="crm-eyebrow" style="color: #D9A23A !important; font-family: var(--font-mono); font-size: 0.85rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; display: flex; align-items: center; gap: 6px;">
+                <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #D9A23A; box-shadow: 0 0 10px #D9A23A;"></span>
                 Access Governance
             </div>
-            <h1 class="page-title">Staff & Access <span class="italic-accent">Management</span></h1>
+            <h1 class="page-title" style="font-family: var(--font-serif); font-size: 2.75rem; color: #FBF6EA; margin-top: 0.35rem;">
+                Team & <span class="italic-accent">Access</span>
+            </h1>
             <p style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 0.25rem;">
                 Control team member accounts, roles, administrative privileges, and security credentials.
             </p>
@@ -162,15 +164,15 @@
 
                     <div class="form-group">
                         <label>Work Email Address</label>
-                        <input type="email" name="email" required placeholder="marcus@tiffanywebb.com">
+                        <input type="email" name="email" required placeholder="marcus@tiffanywebbimpact.com">
                     </div>
 
                     <div class="form-group">
                         <label>Security Role Assignment</label>
                         <select name="role">
-                            <option value="assistant">Executive Assistant (Pipeline & CRM Inbound)</option>
+                            <option value="assistant">Executive Assistant (Pipeline & Inbound)</option>
                             <option value="staff">Staff Member (General Pipeline Access)</option>
-                            <option value="admin">Administrator (Full Access & CMS Management)</option>
+                            <option value="admin">Administrator (Full Access & Studio Management)</option>
                         </select>
                     </div>
 

@@ -567,7 +567,22 @@ app.post('/webhooks/gupshup', async (req, res) => {
   }
 });
 
-// --- Dashboard Routes (EJS) ---
+// --- Impact OS Routes (EJS) ---
+
+// Root Entry Point: Redirect to Login (if unauthenticated) or Dashboard (if authenticated)
+app.get('/', (req, res) => {
+  const cookies = parseCookies(req);
+  const token = cookies.auth_token;
+  if (!token) {
+    return res.redirect('/login');
+  }
+  try {
+    jwt.verify(token, JWT_SECRET);
+    return res.redirect('/dashboard');
+  } catch (err) {
+    return res.redirect('/login');
+  }
+});
 
 app.get('/login', (req, res) => {
   const success = req.query.reset === 'success' ? 'Password reset successfully. You can now log in.' : null;
@@ -652,7 +667,7 @@ app.post('/forgot-password', async (req, res) => {
     });
     
     await transporter.sendMail({
-      from: `"Tiffany Webb CRM" <${process.env.EMAIL_HOST_USER}>`,
+      from: `"Tiffany Webb Impact OS" <${process.env.EMAIL_HOST_USER}>`,
       to: user.email,
       subject: 'Password Reset OTP',
       html: `<p>You requested a password reset.</p><p>Your 6-digit OTP is: <strong>${otp}</strong></p><p>This OTP is valid for 15 minutes. If you didn't request this, please ignore this email.</p>`
@@ -1253,30 +1268,13 @@ app.post('/api/leads/batch', requireAuth, async (req, res) => {
   }
 });
 
-// Serve Astro static assets
-app.use(express.static(path.join(__dirname, '../tiffany-webb-astro/dist/client')));
+// 404 Fallback: Redirect unknown routes back to Impact OS Dashboard
+app.use((req, res) => {
+  res.status(404).redirect('/dashboard');
+});
 
-// Mount Astro SSR handler for all other routes
-import('file://' + path.join(__dirname, '../tiffany-webb-astro/dist/server/entry.mjs'))
-  .then(({ handler: astroHandler }) => {
-    app.use(async (req, res, next) => {
-      // Skip API, CRM, and static uploads routes so they are handled by Express
-      if (req.path.startsWith('/api') || req.path.startsWith('/cms') || 
-          req.path.startsWith('/dashboard') || req.path.startsWith('/login') || 
-          req.path.startsWith('/users') || req.path.startsWith('/lead') ||
-          req.path.startsWith('/uploads')) {
-          return next();
-      }
-      astroHandler(req, res, next);
-    });
+// Start Tiffany Webb Impact OS Server
+app.listen(port, () => {
+  console.log(`🛡️ Tiffany Webb Impact OS™ active on http://localhost:${port}`);
+});
 
-    app.listen(port, () => {
-      console.log(`Unified Server running on port ${port} (CRM + Website)`);
-    });
-  })
-  .catch(err => {
-    console.error('Failed to load Astro middleware:', err);
-    app.listen(port, () => {
-      console.log(`CRM Server running on port ${port} (Astro integration failed)`);
-    });
-  });

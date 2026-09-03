@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= item ? 'Edit Collection Item' : 'New Collection Item' %> — Tiffany Webb CRM</title>
+    <title><%= item ? 'Edit Collection Item' : 'New Collection Item' %> — Tiffany Webb Impact OS</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="/css/crm-theme.css">
@@ -84,13 +84,13 @@
     <!-- UNIFIED TOP NAVIGATION -->
     <nav class="top-nav">
         <a href="/dashboard" class="nav-brand">
-            <h1 class="nav-logo">Tiffany Webb <span>CRM</span></h1>
+            <h1 class="nav-logo">Tiffany Webb <span>Impact OS</span></h1>
         </a>
         <div class="nav-links">
-            <a href="/dashboard" class="nav-link">Pipeline</a>
-            <a href="/leads/new" class="nav-link">Add Lead</a>
-            <a href="/cms" class="nav-link active">Website CMS</a>
-            <a href="/users" class="nav-link">Staff</a>
+            <a href="/dashboard" class="nav-link">Pipeline Ledger</a>
+            <a href="/leads/new" class="nav-link">+ Log Inbound</a>
+            <a href="/cms" class="nav-link active">Website Studio</a>
+            <a href="/users" class="nav-link">Team & Access</a>
             <span class="nav-pill">Admin</span>
             <a href="/logout" class="nav-link" style="color: #ef4444 !important;">Logout</a>
         </div>
@@ -101,11 +101,11 @@
             <a href="/cms/<%= page.slug %>" class="btn btn-outline" style="padding: 0.45rem 1rem; font-size: 0.82rem; margin-bottom: 1rem; display: inline-flex;">
                 &larr; Back to <%= page.name %> Page Editor
             </a>
-            <div class="crm-eyebrow">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg>
+            <div class="crm-eyebrow" style="color: #D9A23A !important; font-family: var(--font-mono); font-size: 0.85rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; display: flex; align-items: center; gap: 6px;">
+                <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #D9A23A; box-shadow: 0 0 10px #D9A23A;"></span>
                 Multi-Asset Studio Editor
             </div>
-            <h1 class="page-title"><%= item ? 'Edit' : 'Add New' %> <span class="italic-accent">Collection Item</span></h1>
+            <h1 class="page-title" style="font-family: var(--font-serif); font-size: 2.75rem; color: #FBF6EA; margin-top: 0.35rem;"><%= item ? 'Edit' : 'Add New' %> <span class="italic-accent">Collection Item</span></h1>
             <p style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 0.25rem;">
                 Page: <strong><%= page.name %></strong> &bull; Section: <strong style="text-transform: capitalize;"><%= section.replace(/_/g, ' ') %></strong>
             </p>

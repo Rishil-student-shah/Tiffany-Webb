@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pipeline Dashboard — Tiffany Webb CRM</title>
+    <title>Pipeline Ledger — Tiffany Webb Impact OS</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="/css/crm-theme.css">
@@ -14,13 +14,13 @@
     <!-- UNIFIED TOP NAVIGATION -->
     <nav class="top-nav">
         <a href="/dashboard" class="nav-brand">
-            <h1 class="nav-logo">Tiffany Webb <span>CRM</span></h1>
+            <h1 class="nav-logo">Tiffany Webb <span>Impact OS</span></h1>
         </a>
         <div class="nav-links">
-            <a href="/dashboard" class="nav-link active">Pipeline</a>
-            <a href="/leads/new" class="nav-link">Add Lead</a>
-            <a href="/cms" class="nav-link">Website CMS</a>
-            <a href="/users" class="nav-link">Staff</a>
+            <a href="/dashboard" class="nav-link active">Pipeline Ledger</a>
+            <a href="/leads/new" class="nav-link">+ Log Inbound</a>
+            <a href="/cms" class="nav-link">Website Studio</a>
+            <a href="/users" class="nav-link">Team & Access</a>
             <span class="nav-pill">Admin</span>
             <a href="/logout" class="nav-link" style="color: #ef4444 !important;">Logout</a>
         </div>
@@ -29,11 +29,13 @@
     <div class="main-content">
         <!-- HEADER & KEYLINES -->
         <div style="margin-bottom: 2rem;">
-            <div class="crm-eyebrow">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg>
-                Executive Booking Suite
+            <div class="crm-eyebrow" style="color: #D9A23A !important; font-family: var(--font-mono); font-size: 0.85rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; display: flex; align-items: center; gap: 6px;">
+                <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #D9A23A; box-shadow: 0 0 10px #D9A23A;"></span>
+                Executive Command & Deal Flow
             </div>
-            <h1 class="page-title">Booking <span class="italic-accent">Pipeline</span></h1>
+            <h1 class="page-title" style="font-family: var(--font-serif); font-size: 2.75rem; color: #FBF6EA; margin-top: 0.35rem;">
+                Executive <span class="italic-accent">Pipeline Ledger</span>
+            </h1>
         </div>
 
         <% if (typeof error !== 'undefined' && error) { %>
@@ -123,7 +125,7 @@
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
                     Purge
                 </button>
-                <a href="/leads/new" class="btn btn-primary" style="white-space: nowrap; padding: 0.5rem 1rem; font-size: 0.85rem;">+ Add Lead</a>
+                <a href="/leads/new" class="btn btn-primary" style="white-space: nowrap; padding: 0.5rem 1rem; font-size: 0.85rem;">+ Log Inbound</a>
             </div>
         </div>
 
@@ -548,15 +550,29 @@
                 const res = await fetch(`/api/leads/${leadId}/notes`);
                 const data = await res.json();
                 if (data.notes && data.notes.length > 0) {
-                    list.innerHTML = data.notes.map(n => `
-                        <div style="padding: 0.5rem 0.75rem; background: rgba(251, 246, 234, 0.03); border: 1px solid rgba(217, 162, 58, 0.15); border-radius: 6px; font-size: 0.82rem;">
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.2rem;">
-                                <span style="font-weight: 700; color: var(--color-gold); font-size: 0.78rem;">${escapeHtml(n.author_name)} <span style="color: var(--color-text-dim); font-weight: 400; font-size: 0.72rem;">(${(n.author_role || 'staff').toUpperCase()})</span></span>
-                                <span style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--color-text-dim);">${new Date(n.created_at).toLocaleDateString([], {month:'short', day:'numeric', hour:'2-digit', minute:'2-digit'})}</span>
+                    list.innerHTML = data.notes.map(n => {
+                        const authorName = n.author_name || 'Staff Member';
+                        const initialChar = (authorName.trim().charAt(0) || 'U').toUpperCase();
+                        const role = (n.author_role || 'staff').toUpperCase();
+                        const timeStr = new Date(n.created_at).toLocaleString([], { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+                        return `
+                            <div class="note-card" style="padding: 0.65rem 0.85rem; background: rgba(251, 246, 234, 0.03); border: 1px solid rgba(217, 162, 58, 0.15); border-radius: 8px; font-size: 0.82rem; display: flex; gap: 0.75rem; align-items: flex-start;">
+                                <div class="note-avatar" style="width: 28px; height: 28px; min-width: 28px; border-radius: 50%; background: linear-gradient(135deg, #1C1A14 0%, #29241B 100%); border: 1px solid var(--color-gold); color: var(--color-ivory); font-family: var(--font-serif); font-size: 0.85rem; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 2px 6px rgba(0,0,0,0.4);">
+                                    ${escapeHtml(initialChar)}
+                                </div>
+                                <div style="flex: 1; min-width: 0;">
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem; flex-wrap: wrap; gap: 0.4rem;">
+                                        <div style="display: flex; align-items: center; gap: 0.45rem;">
+                                            <span style="font-weight: 700; color: var(--color-ivory); font-size: 0.82rem;">${escapeHtml(authorName)}</span>
+                                            <span style="display: inline-block; padding: 0.12rem 0.45rem; background: rgba(217, 162, 58, 0.12); border: 1px solid rgba(217, 162, 58, 0.35); border-radius: 100px; font-family: var(--font-mono); font-size: 0.65rem; font-weight: 700; color: var(--color-gold); letter-spacing: 0.05em; text-transform: uppercase;">${escapeHtml(role)}</span>
+                                        </div>
+                                        <span style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--color-text-dim);">${escapeHtml(timeStr)}</span>
+                                    </div>
+                                    <div style="color: rgba(251, 246, 234, 0.9); font-size: 0.84rem; line-height: 1.45; white-space: pre-wrap; word-break: break-word;">${escapeHtml(n.note)}</div>
+                                </div>
                             </div>
-                            <div style="color: var(--color-ivory);">${escapeHtml(n.note)}</div>
-                        </div>
-                    `).join('');
+                        `;
+                    }).join('');
                 } else {
                     list.innerHTML = '<div style="font-size: 0.78rem; color: var(--color-text-dim); font-style: italic;">No internal notes recorded yet.</div>';
                 }
