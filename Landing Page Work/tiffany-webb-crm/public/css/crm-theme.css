@@ -980,7 +980,7 @@ tr:hover td {
 
 .ledger-table-header {
     display: grid;
-    grid-template-columns: 3.2fr 3.2fr 2.2fr 1.2fr 1.8fr 0.9fr;
+    grid-template-columns: 3.2fr 3fr 2fr 1fr 170px 125px;
     gap: 1rem;
     padding: 0.9rem 1.4rem;
     background: rgba(13, 12, 8, 0.7);
@@ -1009,7 +1009,7 @@ tr:hover td {
 
 .ledger-row {
     display: grid;
-    grid-template-columns: 3.2fr 3.2fr 2.2fr 1.2fr 1.8fr 0.9fr;
+    grid-template-columns: 3.2fr 3fr 2fr 1fr 170px 125px;
     gap: 1rem;
     padding: 1.1rem 1.4rem;
     align-items: center;
@@ -1196,6 +1196,8 @@ tr:hover td {
 /* Col 5: Inline Stage Dropdown */
 .col-stage {
     justify-content: flex-start;
+    min-width: 170px;
+    flex-shrink: 0;
 }
 
 .stage-select {
@@ -1208,6 +1210,8 @@ tr:hover td {
     font-weight: 600 !important;
     padding: 0.45rem 0.8rem !important;
     width: 100%;
+    max-width: 170px;
+    box-sizing: border-box;
     cursor: pointer;
     transition: all 0.2s ease;
 }
@@ -1219,30 +1223,42 @@ tr:hover td {
 
 /* Col 6: Quick Actions */
 .col-actions {
+    display: flex;
+    align-items: center;
     justify-content: flex-end;
-    gap: 0.4rem;
+    gap: 8px;
+    min-width: 125px;
+    flex-shrink: 0;
 }
 
 .action-icon-btn {
     width: 32px;
     height: 32px;
     min-width: 32px;
-    border-radius: var(--radius-md);
-    background: rgba(251, 246, 234, 0.05);
-    border: 1px solid var(--color-border);
-    color: var(--color-text-muted);
+    border-radius: 8px;
+    background: rgba(251, 246, 234, 0.06);
+    border: 1px solid rgba(217, 162, 58, 0.25);
+    color: #FBF6EA;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     text-decoration: none;
-    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    padding: 0;
+    transition: all 0.2s ease;
+}
+
+.action-icon-btn svg {
+    display: block;
+    width: 15px;
+    height: 15px;
+    pointer-events: none;
 }
 
 .action-icon-btn:hover {
-    background: rgba(217, 162, 58, 0.15);
-    border-color: var(--color-gold);
-    color: var(--color-gold);
+    background: rgba(217, 162, 58, 0.2);
+    border-color: #D9A23A;
+    color: #D9A23A;
     transform: translateY(-1px);
 }
 

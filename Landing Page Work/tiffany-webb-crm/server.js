@@ -399,6 +399,49 @@ app.get('/api/leads/check-duplicate', requireAuth, async (req, res) => {
   }
 });
 
+// Batch Leads CSV/Excel Import Endpoint
+app.post('/api/leads/batch', async (req, res) => {
+  try {
+    const { leads } = req.body;
+    if (!Array.isArray(leads) || leads.length === 0) {
+      return res.status(400).json({ error: 'No leads provided in batch' });
+    }
+    let insertedCount = 0;
+    for (const lead of leads) {
+      if (!lead.contact_name && !lead.email && !lead.phone) continue;
+      let validDate = null;
+      if (lead.event_date && !isNaN(Date.parse(lead.event_date))) {
+        validDate = new Date(lead.event_date).toISOString().split('T')[0];
+      }
+      const [result] = await pool.query(`
+        INSERT INTO leads (
+          source, source_section, source_card, contact_name, organization_name,
+          email, phone, topic_interest, event_date, message, status
+        )
+        VALUES ('manual', 'Batch CSV Import', 'Excel Upload', ?, ?, ?, ?, ?, ?, ?, 'new')
+      `, [
+        lead.contact_name || 'Imported Lead',
+        lead.organization_name || null,
+        lead.email || null,
+        lead.phone || null,
+        lead.topic_interest || 'General Discussion',
+        validDate,
+        lead.message || 'Imported via CSV/Excel batch upload'
+      ]);
+      await pool.query('INSERT INTO activity_log (lead_id, action, detail) VALUES (?, ?, ?)', [
+        result.insertId,
+        'lead_created',
+        `Lead imported via Batch Spreadsheet (${lead.contact_name || 'New Lead'})`
+      ]);
+      insertedCount++;
+    }
+    res.json({ success: true, count: insertedCount });
+  } catch (err) {
+    console.error('[Batch Import Error]:', err.message);
+    res.status(500).json({ error: 'Internal server error importing batch' });
+  }
+});
+
 app.post('/webhooks/gupshup', async (req, res) => {
   try {
     // Basic Gupshup webhook handler logic
