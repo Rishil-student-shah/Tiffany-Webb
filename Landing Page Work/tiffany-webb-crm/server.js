@@ -11,6 +11,7 @@ const multer = require('multer');
 require('dotenv').config();
 
 const app = express();
+app.set('trust proxy', 1);
 const port = process.env.PORT || 3000;
 
 // Configure Multer for image and video uploads
@@ -37,15 +38,25 @@ const upload = multer({
   storage: storage,
   limits: { fileSize: 60 * 1024 * 1024 }, // 60MB max
   fileFilter: function (req, file, cb) {
+    const ext = path.extname(file.originalname).toLowerCase();
+    const mimetype = (file.mimetype || '').toLowerCase();
     if (file.fieldname === 'video_file') {
       const allowedExts = ['.mp4', '.webm', '.mov'];
-      const ext = path.extname(file.originalname).toLowerCase();
-      if (allowedExts.includes(ext) || (file.mimetype && (file.mimetype.startsWith('video/') || file.mimetype === 'application/octet-stream'))) {
-        return cb(null, true);
+      const allowedMimes = ['video/mp4', 'video/webm', 'video/quicktime', 'video/x-quicktime', 'video/mov'];
+      if (!allowedExts.includes(ext) || !allowedMimes.includes(mimetype)) {
+        return cb(new Error('Only .mp4, .webm, and .mov video files are allowed'));
       }
-      return cb(new Error('Only .mp4, .webm, and .mov video files are allowed'));
+      return cb(null, true);
     }
-    cb(null, true);
+    if (file.fieldname === 'image_file' || file.fieldname.startsWith('image_upload_') || file.fieldname === 'image') {
+      const allowedExts = ['.jpg', '.jpeg', '.png', '.webp', '.gif'];
+      const allowedMimes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/pjpeg', 'image/x-png'];
+      if (!allowedExts.includes(ext) || !allowedMimes.includes(mimetype)) {
+        return cb(new Error('Only .jpg, .jpeg, .png, .webp, and .gif image files are allowed'));
+      }
+      return cb(null, true);
+    }
+    cb(new Error('File upload type not allowed'));
   }
 });
 
@@ -87,18 +98,41 @@ const pool = mysql.createPool({
   }
 })();
 
-// Helper: Save base64 cropped image to uploads directory
+// Helper: Save base64 cropped image to uploads directory with strict MIME whitelist
 function saveBase64Image(dataUrl) {
   if (!dataUrl || typeof dataUrl !== 'string' || !dataUrl.startsWith('data:image/')) {
     return dataUrl;
   }
   try {
-    const matches = dataUrl.match(/^data:image\/([a-zA-Z0-9+]+);base64,(.+)$/);
+    const trimmed = dataUrl.trim();
+    const matches = trimmed.match(/^data:image\/([a-zA-Z0-9_\-\+]+);base64,([\s\S]+)$/);
     if (!matches || matches.length !== 3) {
-      return dataUrl;
+      console.warn('[Impact OS Security] Rejected malformed base64 image data URL');
+      return null;
     }
-    const ext = matches[1] === 'jpeg' ? 'jpg' : matches[1];
-    const buffer = Buffer.from(matches[2], 'base64');
+
+    const rawSubtype = matches[1].toLowerCase();
+    const safeImageSubtypes = {
+      'jpeg': 'jpg',
+      'jpg': 'jpg',
+      'png': 'png',
+      'webp': 'webp',
+      'gif': 'gif'
+    };
+
+    const ext = safeImageSubtypes[rawSubtype];
+    if (!ext) {
+      console.warn(`[Impact OS Security] Blocked base64 image upload with disallowed MIME subtype: "${rawSubtype}"`);
+      return null;
+    }
+
+    const base64Data = matches[2].replace(/\s+/g, '');
+    const buffer = Buffer.from(base64Data, 'base64');
+    if (buffer.length === 0 || buffer.length > 10 * 1024 * 1024) {
+      console.warn(`[Impact OS Security] Blocked base64 image upload with invalid payload size (${buffer.length} bytes)`);
+      return null;
+    }
+
     const uploadDir = path.join(__dirname, '../tiffany-webb-astro/public/uploads');
     if (!fs.existsSync(uploadDir)) {
       fs.mkdirSync(uploadDir, { recursive: true });
@@ -107,8 +141,8 @@ function saveBase64Image(dataUrl) {
     fs.writeFileSync(path.join(uploadDir, filename), buffer);
     return `/uploads/${filename}`;
   } catch (e) {
-    console.error('Error saving base64 image:', e);
-    return dataUrl;
+    console.error('[Impact OS Security] Error saving base64 image:', e);
+    return null;
   }
 }
 
@@ -140,7 +174,8 @@ try {
 if (helmet) {
   app.use(helmet({
     contentSecurityPolicy: false, // Allows inline EJS script tags
-    frameguard: { action: 'deny' } // Prevents Clickjacking
+    frameguard: { action: 'deny' }, // Prevents Clickjacking
+    noSniff: true
   }));
 } else {
   // Comprehensive native security headers fallback
@@ -161,6 +196,9 @@ const allowedOrigins = [
   'http://127.0.0.1:4321',
   'http://localhost:3000',
   'http://127.0.0.1:3000',
+  'https://tiffanywebbimpact.com',
+  'https://www.tiffanywebbimpact.com',
+  'https://crm.tiffanywebbimpact.com',
   process.env.FRONTEND_URL
 ].filter(Boolean);
 
@@ -169,27 +207,46 @@ app.use(cors({
     if (!origin || allowedOrigins.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
-      callback(new Error('CORS access denied: origin not allowed'));
+      callback(null, false);
     }
   },
-  credentials: true
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept']
 }));
 
 // Layer 3: Body Parsers
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-// Layer 4: XSS Input Sanitization
+// Layer 4: Recursive XSS Input Sanitization
+function sanitizeString(str) {
+  if (typeof str !== 'string') return str;
+  let prev;
+  let clean = str;
+  let iterations = 0;
+  do {
+    prev = clean;
+    clean = clean
+      .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+      .replace(/<script\b[^>]*>/gi, '')
+      .replace(/<\/script>/gi, '')
+      .replace(/<iframe\b[^<]*(?:(?!<\/iframe>)<[^<]*)*<\/iframe>/gi, '')
+      .replace(/<iframe\b[^>]*>/gi, '')
+      .replace(/<\/iframe>/gi, '')
+      .replace(/javascript:/gi, '')
+      .replace(/onload\s*=/gi, '')
+      .replace(/onerror\s*=/gi, '')
+      .replace(/onclick\s*=/gi, '')
+      .replace(/onmouseover\s*=/gi, '');
+    iterations++;
+  } while (clean !== prev && iterations < 25);
+  return clean;
+}
+
 function sanitizeValue(value) {
   if (typeof value === 'string') {
-    return value
-      .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
-      .replace(/javascript:/gi, '')
-      .replace(/onload=/gi, '')
-      .replace(/onerror=/gi, '')
-      .replace(/onclick=/gi, '')
-      .replace(/onmouseover=/gi, '')
-      .replace(/<iframe\b[^<]*(?:(?!<\/iframe>)<[^<]*)*<\/iframe>/gi, '');
+    return sanitizeString(value);
   }
   if (Array.isArray(value)) {
     return value.map(sanitizeValue);
@@ -204,6 +261,13 @@ function sanitizeValue(value) {
   return value;
 }
 
+const sanitizeMulterBody = (req, res, next) => {
+  if (req.body) {
+    req.body = sanitizeValue(req.body);
+  }
+  next();
+};
+
 let xss;
 try {
   xss = require('xss-clean');
@@ -212,18 +276,14 @@ try {
 if (xss) {
   try {
     app.use(xss());
-  } catch (e) {
-    app.use((req, res, next) => {
-      if (req.body) req.body = sanitizeValue(req.body);
-      next();
-    });
-  }
-} else {
-  app.use((req, res, next) => {
-    if (req.body) req.body = sanitizeValue(req.body);
-    next();
-  });
+  } catch (e) {}
 }
+
+app.use((req, res, next) => {
+  if (req.body) req.body = sanitizeValue(req.body);
+  if (req.query) req.query = sanitizeValue(req.query);
+  next();
+});
 
 // Layer 5: Rate Limiting Suite (Brute Force & DoS Defense)
 let rateLimit;
@@ -231,14 +291,15 @@ try {
   rateLimit = require('express-rate-limit');
 } catch (e) {}
 
-function createLimiter(windowMs, max, message) {
+function createLimiter(windowMs, max, message, options = {}) {
   if (rateLimit) {
     return rateLimit({
       windowMs,
       max,
       message: typeof message === 'object' ? message : { error: message },
       standardHeaders: true,
-      legacyHeaders: false
+      legacyHeaders: false,
+      ...options
     });
   }
   // Native high-performance sliding window fallback
@@ -258,19 +319,33 @@ function createLimiter(windowMs, max, message) {
       data.count = 0;
       data.resetTime = now + windowMs;
     }
-    data.count++;
-    hitMap.set(ip, data);
-    if (data.count > max) {
+    if (data.count >= max) {
       if (typeof message === 'object') {
         return res.status(429).json(message);
       }
       return res.status(429).send(message);
     }
+    if (options.skipSuccessfulRequests) {
+      res.on('finish', () => {
+        if (res.statusCode >= 400) {
+          data.count++;
+          hitMap.set(ip, data);
+        }
+      });
+    } else {
+      data.count++;
+      hitMap.set(ip, data);
+    }
     next();
   };
 }
 
-const loginLimiter = createLimiter(15 * 60 * 1000, 5, 'Too many failed login attempts. Please try again in 15 minutes.');
+const loginLimiter = createLimiter(
+  15 * 60 * 1000,
+  5,
+  'Too many failed login attempts. Please try again in 15 minutes.',
+  { skipSuccessfulRequests: true }
+);
 const leadApiLimiter = createLimiter(60 * 60 * 1000, 30, { error: 'Inquiry limit reached from this IP. Please try again later.' });
 
 app.use('/login', (req, res, next) => {
@@ -421,76 +496,21 @@ app.get('/api/leads/check-duplicate', requireAuth, async (req, res) => {
   }
 });
 
-// Batch Leads CSV/Excel Import Endpoint
-app.post('/api/leads/batch', async (req, res) => {
-  try {
-    const { leads } = req.body;
-    if (!Array.isArray(leads) || leads.length === 0) {
-      return res.status(400).json({ error: 'No leads provided in batch' });
-    }
-    let insertedCount = 0;
-    for (const lead of leads) {
-      if (!lead.contact_name && !lead.email && !lead.phone) continue;
-      let validDate = null;
-      if (lead.event_date && !isNaN(Date.parse(lead.event_date))) {
-        validDate = new Date(lead.event_date).toISOString().split('T')[0];
-      }
-      const [result] = await pool.query(`
-        INSERT INTO leads (
-          source, source_section, source_card, contact_name, organization_name,
-          email, phone, topic_interest, event_date, message, status
-        )
-        VALUES ('manual', 'Batch CSV Import', 'Excel Upload', ?, ?, ?, ?, ?, ?, ?, 'new')
-      `, [
-        lead.contact_name || 'Imported Lead',
-        lead.organization_name || null,
-        lead.email || null,
-        lead.phone || null,
-        lead.topic_interest || 'General Discussion',
-        validDate,
-        lead.message || 'Imported via CSV/Excel batch upload'
-      ]);
-      await pool.query('INSERT INTO activity_log (lead_id, action, detail) VALUES (?, ?, ?)', [
-        result.insertId,
-        'lead_created',
-        `Lead imported via Batch Spreadsheet (${lead.contact_name || 'New Lead'})`
-      ]);
-      insertedCount++;
-    }
-    res.json({ success: true, count: insertedCount });
-  } catch (err) {
-    console.error('[Batch Import Error]:', err.message);
-    res.status(500).json({ error: 'Internal server error importing batch' });
-  }
-});
-
 // --- Persistent Multi-User Client Notes Endpoints ---
 
 // POST /api/leads/:id/notes (Add Persistent Note)
-app.post('/api/leads/:id/notes', async (req, res) => {
+app.post('/api/leads/:id/notes', requireAuth, async (req, res) => {
   try {
     const leadId = req.params.id;
     const { note } = req.body;
     if (!note || !note.trim()) {
       return res.status(400).json({ error: 'Note content cannot be empty' });
     }
-    // Resolve author from authenticated session or fallback
-    let user = req.user;
-    if (!user) {
-      const cookies = parseCookies(req);
-      if (cookies.auth_token) {
-        try {
-          const decoded = jwt.verify(cookies.auth_token, JWT_SECRET);
-          const [users] = await pool.query('SELECT id, name, email, role, is_active FROM users WHERE id = ?', [decoded.id]);
-          if (users.length > 0 && users[0].is_active) {
-            user = users[0];
-          }
-        } catch (e) {}
-      }
-    }
-    const authorName = user ? user.name : (req.session?.user?.name || 'Tiffany Webb (Admin)');
-    const authorRole = user ? user.role : (req.session?.user?.role || 'admin');
-    const userId = user ? user.id : (req.session?.user?.id || null);
+
+    // Author identity is strictly resolved from verified JWT session
+    const authorName = req.user.name;
+    const authorRole = req.user.role || 'staff';
+    const userId = req.user.id;
 
     const [result] = await pool.query(`
       INSERT INTO lead_notes (lead_id, user_id, author_name, author_role, note)
@@ -591,21 +611,25 @@ app.get('/login', (req, res) => {
 });
 
 app.post('/login', async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password } = req.body || {};
+  if (!email || !password || !String(email).trim() || !String(password).trim()) {
+    return res.status(400).render('login', { error: 'Email and password are required', success: null });
+  }
   try {
-    const [users] = await pool.query('SELECT * FROM users WHERE email = ?', [email]);
+    const cleanEmail = String(email).trim();
+    const [users] = await pool.query('SELECT * FROM users WHERE email = ?', [cleanEmail]);
     if (users.length === 0) {
-      return res.render('login', { error: 'Invalid email or password', success: null });
+      return res.status(401).render('login', { error: 'Invalid email or password', success: null });
     }
     
     const user = users[0];
     if (user.is_active === 0) {
-      return res.render('login', { error: 'Your account has been deactivated. Please contact an administrator.', success: null });
+      return res.status(403).render('login', { error: 'Your account has been deactivated. Please contact an administrator.', success: null });
     }
 
     const match = await bcrypt.compare(password, user.password_hash);
     if (!match) {
-      return res.render('login', { error: 'Invalid email or password', success: null });
+      return res.status(401).render('login', { error: 'Invalid email or password', success: null });
     }
     
     // Sign JWT token and set secure HTTP-only cookie
@@ -625,8 +649,8 @@ app.post('/login', async (req, res) => {
     await pool.query('UPDATE users SET last_login_at = NOW() WHERE id = ?', [user.id]);
     res.redirect('/dashboard');
   } catch (err) {
-    console.error(err);
-    res.render('login', { error: 'Server error during authentication', success: null });
+    console.error('Login authentication error:', err);
+    res.status(500).render('login', { error: 'Server error during authentication', success: null });
   }
 });
 
@@ -929,7 +953,7 @@ app.get('/cms/:slug/collection/:section/new', requireAuth, async (req, res) => {
 });
 
 // Collection Items - NEW (POST)
-app.post('/cms/:slug/collection/:section/new', requireAuth, collectionUpload, async (req, res) => {
+app.post('/cms/:slug/collection/:section/new', requireAuth, collectionUpload, sanitizeMulterBody, async (req, res) => {
   try {
     const [pages] = await pool.query('SELECT * FROM website_pages WHERE slug = ?', [req.params.slug]);
     if (pages.length === 0) return res.status(404).send('Page not found');
@@ -992,7 +1016,7 @@ app.get('/cms/:slug/collection/:section/:id/edit', requireAuth, async (req, res)
 });
 
 // Collection Items - EDIT (POST)
-app.post('/cms/:slug/collection/:section/:id/edit', requireAuth, collectionUpload, async (req, res) => {
+app.post('/cms/:slug/collection/:section/:id/edit', requireAuth, collectionUpload, sanitizeMulterBody, async (req, res) => {
   try {
     const { title, subtitle, badge, content_html, link_url, existing_video_url, image_url, icon_svg, sort_order } = req.body;
     
@@ -1050,7 +1074,7 @@ app.post('/api/pages/:id/toggle', requireAuth, async (req, res) => {
     }
 });
 
-app.post('/cms/:slug', requireAuth, upload.any(), async (req, res) => {
+app.post('/cms/:slug', requireAuth, upload.any(), sanitizeMulterBody, async (req, res) => {
   try {
     const [pages] = await pool.query('SELECT id FROM website_pages WHERE slug = ?', [req.params.slug]);
     if (pages.length === 0) return res.status(404).send('Page not found');
@@ -1234,7 +1258,7 @@ app.post('/api/leads/batch', requireAuth, async (req, res) => {
             }
         }
         
-        await pool.query(`
+        const [result] = await pool.query(`
           INSERT INTO leads (
             source, source_section, source_card, contact_name, organization_name, 
             email, country_code, phone, event_type, topic_interest, event_date, 
@@ -1242,7 +1266,7 @@ app.post('/api/leads/batch', requireAuth, async (req, res) => {
           )
           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         `, [
-          lead.source || 'csv_upload', 
+          (lead.source && ['website_form', 'whatsapp', 'instagram', 'email', 'referral', 'manual'].includes(lead.source)) ? lead.source : 'manual', 
           lead.source_section || 'Batch CSV Import',
           lead.source_card || null,
           lead.contact_name || lead.name || 'Unknown', 
@@ -1258,6 +1282,13 @@ app.post('/api/leads/batch', requireAuth, async (req, res) => {
           lead.budget_range || lead.budget || null,
           lead.message || null
         ]);
+        if (result && result.insertId) {
+          await pool.query('INSERT INTO activity_log (lead_id, action, detail) VALUES (?, ?, ?)', [
+            result.insertId,
+            'lead_created',
+            `Lead imported via Batch Spreadsheet (${lead.contact_name || lead.name || 'New Lead'})`
+          ]);
+        }
         inserted++;
     }
     
@@ -1266,6 +1297,16 @@ app.post('/api/leads/batch', requireAuth, async (req, res) => {
     console.error(err);
     res.status(500).json({ error: 'Database error processing batch' });
   }
+});
+
+// Error Handling Middleware
+app.use((err, req, res, next) => {
+  console.error('[Impact OS Error]:', err.message);
+  if (req.xhr || (req.headers.accept && req.headers.accept.includes('application/json'))) {
+    return res.status(err.status || 400).json({ error: err.message || 'An error occurred' });
+  }
+  const referer = req.header('Referer') || '/dashboard';
+  res.redirect(`${referer.split('?')[0]}?error=${encodeURIComponent(err.message || 'An error occurred')}`);
 });
 
 // 404 Fallback: Redirect unknown routes back to Impact OS Dashboard

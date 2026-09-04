@@ -30,7 +30,7 @@
         <!-- HEADER & KEYLINES -->
         <div style="margin-bottom: 2rem;">
             <div class="crm-eyebrow" style="color: #D9A23A !important; font-family: var(--font-mono); font-size: 0.85rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; display: flex; align-items: center; gap: 6px;">
-                <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #D9A23A; box-shadow: 0 0 10px #D9A23A;"></span>
+                <span class="pulse-dot"></span>
                 Executive Command & Deal Flow
             </div>
             <h1 class="page-title" style="font-family: var(--font-serif); font-size: 2.75rem; color: #FBF6EA; margin-top: 0.35rem;">
@@ -548,6 +548,10 @@
             if (!list) return;
             try {
                 const res = await fetch(`/api/leads/${leadId}/notes`);
+                if (res.status === 401 || res.redirected) {
+                    list.innerHTML = '<div style="font-size: 0.78rem; color: var(--color-gold); font-style: italic;">Session expired. <a href="/login?error=Session+expired" style="color: var(--color-gold); text-decoration: underline;">Log in</a> to view notes.</div>';
+                    return;
+                }
                 const data = await res.json();
                 if (data.notes && data.notes.length > 0) {
                     list.innerHTML = data.notes.map(n => {
@@ -602,6 +606,13 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ note })
                 });
+                if (res.status === 401 || res.redirected) {
+                    showToast('Session expired. Redirecting to login...');
+                    setTimeout(() => {
+                        window.location.href = '/login?error=Session+expired';
+                    }, 800);
+                    return;
+                }
                 const data = await res.json();
                 if (data.success) {
                     input.value = '';

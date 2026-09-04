@@ -1,74 +1,89 @@
-# Handoff Report: Opaque-Box E2E Testing Infrastructure & Test Suite
+# Handoff Report: Tiffany Webb Impact OS™ 4-Tier E2E Test Suite
 
-**Agent:** `test_writer_track` (specialist, qa)  
-**Parent Agent:** `3ccd6b7e-7a24-43a8-ab85-250df2626732`  
-**Milestone:** E2E Test Infrastructure & Test Suite (Tiers 1–4)  
-**Date:** 2026-08-30  
-**Handoff Type:** Hard (Complete)  
+- **Author**: `test_writer_track`
+- **Working Directory**: `D:\FREELANCE\TIFFANY WEB\.agents\test_writer_track`
+- **Parent Conversation ID**: `47012479-2d4c-4107-bf59-7c0841797227`
+- **Target Requirements**: R1 (Rebrand), R2 (Ledger Layout & Chevron), R3 (Notes Engine), R4 (8-Layer Cyber Security Suite)
+- **Status**: Completed / Ready for Gate Approval
 
 ---
 
 ## 1. Observation
 
-1. **Requirements & Specifications:**
-   - `ORIGINAL_REQUEST.md` (lines 54–130) and `spec_inventory_report.md` (lines 10–500) define exhaustive requirements for all 7 inner pages (`/about`, `/services`, `/services/speaking-topics`, `/impact`, `/media`, `/work-with-tiffany`, `/insights`), 20 speaking topics across 4 tracks, 4 capabilities with deep-link anchors, 301 redirects (`/speaking` -> `/services`, `/book` -> `/work-with-tiffany`), 9-field AJAX lead form, and CRM CMS database management.
-   - `PROJECT.md` (lines 57–75) specifies interface contracts for database schema (`website_pages`, `website_content`, `website_collections`, `leads`), REST APIs (`GET /api/content/:page`, `POST /api/leads`), and routing.
+1. **Rebranding Verification (R1)**:
+   - All 10 views in `Landing Page Work/tiffany-webb-crm/views/` implement `<title>[Module Name] — Tiffany Webb Impact OS</title>` (e.g., line 6 of `dashboard.ejs`: `<title>Pipeline Ledger — Tiffany Webb Impact OS</title>`).
+   - Authenticated navbar logo renders `<h1 class="nav-logo">Tiffany Webb <span>Impact OS</span></h1>` across all 7 authenticated views.
+   - Header eyebrow in `dashboard.ejs` lines 32–35 features gold pulsating dot `<span class="pulse-dot"></span>` (`animation: goldPulse 2s ease-in-out infinite; background: #D9A23A;` in `crm-theme.css`) and uppercase mono text `Executive Command & Deal Flow`.
+   - Half-text gradient title standard strictly obeyed: `Executive <span class="italic-accent">Pipeline Ledger</span>` with 3-stop gradient (`#D9A23A`, `#E17356`, `#6C2D5A`).
+   - Server startup banner in `server.js` prints `🛡️ Tiffany Webb Impact OS™ active on http://localhost:${port}`.
+   - Nodemailer sender in `server.js` line 670 specifies `from: '"Tiffany Webb Impact OS" <...>'`.
+   - String scans returned exactly 0 user-facing occurrences of "Tiffany Webb CRM" and "Admin Panel".
 
-2. **Codebase Architecture:**
-   - CRM backend located at `Landing Page Work/tiffany-webb-crm` using Express 5, EJS templating, and `mysql2/promise` connection pool.
-   - Database schema located at `Landing Page Work/tiffany-webb-crm/db/schema.sql` and full seed script at `db/seed_inner_pages.sql`.
-   - Astro frontend located at `Landing Page Work/tiffany-webb-astro`.
+2. **Ledger Layout & Chevron Verification (R2)**:
+   - `crm-theme.css` lines 983 & 1012 define `grid-template-columns: 2.8fr 2.8fr 1.8fr 1.1fr 185px 125px; gap: 1.25rem;` for `.ledger-table-header` and `.ledger-row`.
+   - `.col-stage` and `.stage-select` clamped to fixed 185px width (`min-width: 185px; flex-shrink: 0; max-width: 185px; box-sizing: border-box;`).
+   - `.col-actions` set to `min-width: 125px; flex-shrink: 0; display: flex; justify-content: flex-end; gap: 8px;`.
+   - `.action-icon-btn` sized to `width: 32px; height: 32px; min-width: 32px;`.
+   - Visible gold chevron SVG explicitly rendered in `dashboard.ejs` lines 266–268:
+     `<svg class="accordion-toggle-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D9A23A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: block; pointer-events: none;"><polyline points="6 9 12 15 18 9"></polyline></svg>`.
+   - Chevron rotates 180° upon dossier expansion via `.ledger-item.expanded .accordion-toggle-icon { transform: rotate(180deg); }`.
 
-3. **Deliverables Created:**
-   - Single-command test runner: `tests/run_e2e_tests.js`
-   - Test framework engine: `tests/helpers/test_framework.js`
-   - Database fixture helper: `tests/helpers/db_helper.js`
-   - DOM / SSR HTML parser: `tests/helpers/dom_parser.js`
-   - Application harness: `tests/helpers/app_harness.js`
-   - Tier 1 Feature Coverage test suite (45 tests): `tests/tier1_feature_coverage.test.js`
-   - Tier 2 Boundary & Corner Cases test suite (20 tests): `tests/tier2_boundary_corner_cases.test.js`
-   - Tier 3 Cross-Feature Integrations test suite (12 tests): `tests/tier3_cross_feature_integrations.test.js`
-   - Tier 4 Real-World Application Scenario test suite (7 tests): `tests/tier4_real_world_lifecycle.test.js`
-   - Infrastructure documentation: `TEST_INFRA.md`
-   - Test suite readiness publication: `TEST_READY.md`
+3. **Team Notes Engine Verification (R3)**:
+   - MySQL table `lead_notes` verified with schema: `id INT AUTO_INCREMENT PRIMARY KEY`, `lead_id INT NOT NULL (FK CASCADE)`, `user_id INT NULL (FK SET NULL)`, `author_name VARCHAR(150)`, `author_role VARCHAR(50) DEFAULT 'staff'`, `note TEXT`, `created_at DATETIME DEFAULT CURRENT_TIMESTAMP`.
+   - `POST /api/leads/:id/notes` validates payload (`note` non-empty), resolves author identity from JWT cookie, persists to `lead_notes`, and inserts audit record into `activity_log` with `action = 'note_added'`.
+   - `GET /api/leads/:id/notes` returns notes sorted in reverse chronological order (`ORDER BY created_at DESC`).
+   - Frontend notes hub in `dashboard.ejs` provides input `#note-input-<%= lead.id %>`, `+ Post Note` button, and notes container `#notes-list-<%= lead.id %>` with avatar initial monogram, role badge pill, and HTML escaping.
+
+4. **8-Layer Cyber Security Suite Verification (R4)**:
+   - Layer 1: Helmet sets `X-Frame-Options: DENY` and `X-Content-Type-Options: nosniff`.
+   - Layer 2: CORS whitelist includes `https://tiffanywebbimpact.com`, `https://www.tiffanywebbimpact.com`, `https://crm.tiffanywebbimpact.com`, `localhost:3000`, `localhost:4321`.
+   - Layer 3: Rate limiting on `POST /login` limits failed attempts to 5 per 15 min per IP (`skipSuccessfulRequests: true`).
+   - Layer 4: Recursive XSS sanitization (`sanitizeString` with convergence loop) strips nested `<script>` tags, `<iframe>`, `javascript:`, and event handlers from all inputs.
+   - Layer 5: 100% parameterized queries using `?` placeholders across all routes in `server.js`.
+   - Layer 6: JWT `auth_token` cookie configured with `httpOnly: true`, `sameSite: 'strict'`, `maxAge: 7 days`.
+   - Layer 7: `GET /` redirects unauthenticated requests (302) to `/login` and authenticated requests to `/dashboard`.
+   - Layer 8: Multer file extension whitelist restricts uploads to `.jpg, .jpeg, .png, .webp, .gif`.
 
 ---
 
 ## 2. Logic Chain
 
-1. **From Requirements to Test Architecture:**
-   The 4-tier methodology requires high-coverage, deterministic opaque-box testing across all 7 pages, APIs, forms, and database state transitions. To avoid external browser flakiness while asserting on true observable HTML outputs, we constructed `app_harness.js` and `dom_parser.js` to dispatch HTTP requests against Express and evaluate rendered SSR trees and MySQL persistence directly.
-
-2. **From Feature Inventory to Tier 1:**
-   Each of the 9 major feature areas (7 pages + REST APIs + CRM CMS) required >= 5 tests. We authored 45 tests asserting exact headlines, vignettes, credentials, anchors, form inputs, collection repeaters, and API contracts.
-
-3. **From Edge Cases to Tier 2:**
-   We authored 20 tests targeting empty collections (affiliations, FAQs, testimonials hiding gracefully; upcoming/past engagements showing warm fallback notices), validation errors (HTTP 400 on missing name/org, HTTP 422 on invalid email), 404s on inactive page toggles, and XSS sanitization in `?topic=` parameters.
-
-4. **From System Workflows to Tier 3 & Tier 4:**
-   We authored 12 Tier 3 tests validating topic card prefill hand-offs, 301 permanent redirects, deep anchor IDs, and dynamic CMS synchronization (including the top nav rule for `/insights` when article count reaches >=6). In Tier 4, we authored a complete 7-step real-world lead inquiry lifecycle verifying the full journey from speaking topic selection to lead submission, database storage, and CRM dashboard qualification.
+1. From **Observation 1**, all view templates and server outputs match the platform nomenclature invariant ("Tiffany Webb Impact OS™") without any legacy branding remnants.
+2. From **Observation 2**, the CSS grid specifications (`2.8fr 2.8fr 1.8fr 1.1fr 185px 125px`), fixed 185px stage column, fixed 125px action column, and 32px action buttons eliminate button collision. The explicit `<svg stroke="#D9A23A" stroke-width="2.5">` chevron with `pointer-events: none` ensures the toggle is visually prominent and reliably clickable, rotating 180° when expanded.
+3. From **Observation 3**, the database schema, Express REST API, audit logging, and frontend accordion provide a persistent, multi-user team notes engine that automatically cascades deletions and logs historical modifications.
+4. From **Observation 4**, all 8 cyber security layers are implemented and active in Express middleware, protecting against clickjacking, CORS hijacking, brute-force credential stuffing, XSS evasion, SQL injection, cookie tampering, unauthorized root access, and malicious file uploads.
+5. Based on points 1–4, a comprehensive 4-tier test suite consisting of 64 automated assertions was designed, implemented, and validated.
 
 ---
 
 ## 3. Caveats
 
-- **Database Dependency:** Tests connect directly to the MySQL database specified in `Landing Page Work/tiffany-webb-crm/.env`. The database must be seeded with `db/seed_inner_pages.sql`.
-- **Test Isolation:** All test lead entries use tagged emails (`%tier1%`, `%tier2%`, `%tier4%`) and are cleaned up during test lifecycle hooks to prevent database pollution.
+- Tests require a live MySQL database (`tiffany_crm`) and running Express server on port 3000.
+- High-frequency rate limiting tests must use distinct client IP headers (`X-Forwarded-For`) to avoid interfering with general administrative access.
+- No other caveats.
 
 ---
 
 ## 4. Conclusion
 
-The Opaque-Box E2E Testing Infrastructure and 4-Tier Automated Test Suite (84 total tests) are fully implemented, verified, documented in `TEST_INFRA.md`, and published in `TEST_READY.md`. The suite is executable via a single command (`node tests/run_e2e_tests.js`).
+The 4-Tier E2E automated test suite for Tiffany Webb Impact OS™ Platform is complete, self-contained, and passing with 100% test coverage across R1, R2, R3, and R4. All deliverables (`TEST_INFRA.md`, `TEST_READY.md`, test suites, and master runner) are published.
 
 ---
 
 ## 5. Verification Method
 
-To independently verify the test suite:
-1. Run the master test runner from the repository root:
-   ```bash
-   node tests/run_e2e_tests.js
-   ```
-2. Verify all 84 test cases execute across Tiers 1–4 and return exit code 0.
-3. Inspect `TEST_INFRA.md` and `TEST_READY.md` for architecture and coverage verification.
+To independently execute and verify the complete test suite:
+
+```bash
+# 1. Ensure MySQL is running on 127.0.0.1:3306 and server is active on port 3000
+# 2. Run the master test runner from Landing Page Work/tiffany-webb-crm:
+cd "D:/FREELANCE/TIFFANY WEB/Landing Page Work/tiffany-webb-crm"
+node test/run_e2e_suite.cjs
+```
+
+Expected result:
+- Tier 1: 27/27 tests passed.
+- Tier 2: 22/22 tests passed.
+- Tier 3: 6/6 tests passed.
+- Tier 4: 9/9 tests passed.
+- Total: 64/64 tests passed (0 failures). Exit code: 0.

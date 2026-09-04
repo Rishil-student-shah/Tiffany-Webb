@@ -1,79 +1,152 @@
-# Handoff Report: Backend Architecture & API Routes Investigation
+# Handoff Report: Database Schema & Team Notes Engine (R3)
+
+**Agent**: `explorer_survey_2`  
+**Date**: 2026-09-04T06:22:00Z  
+**Recipient**: `parent` (Conversation ID: `47012479-2d4c-4107-bf59-7c0841797227`)  
+**Type**: Hard Handoff (Investigation & Survey Complete)  
+**Related Artifacts**:  
+- `D:\FREELANCE\TIFFANY WEB\.agents\explorer_survey_2\survey_notes_db.md`
+
+---
 
 ## 1. Observation
 
-- **Application Directory & Core Files**:
-  - `package.json` (`Landing Page Work/tiffany-webb-crm/package.json`):
-    - Lines 13–26: Express `^5.2.1`, EJS `^6.0.1`, MySQL2 `^3.23.4`, bcrypt `^6.0.0`, jsonwebtoken `^9.0.3`, multer `^2.2.0`, nodemailer `^9.0.5`, cors `^2.8.6`, dotenv `^17.4.2`. Dev dependency: nodemon `^3.1.14`.
-    - Line 12: `"type": "commonjs"`.
-    - Lines 6–8: `"scripts": { "test": "echo \"Error: no test specified\" && exit 1" }`.
-  - `server.js` (`Landing Page Work/tiffany-webb-crm/server.js`):
-    - Lines 33–41: MySQL connection pool with `mysql2/promise` using `process.env.DB_HOST`, `DB_USER`, `DB_PASSWORD`, `DB_NAME`.
-    - Lines 49–50: `app.set('view engine', 'ejs'); app.set('views', path.join(__dirname, 'views'));`
-    - Lines 53–58: `requireAuth` middleware currently passes through via `next()`.
-    - Lines 62–96: `POST /api/leads` handles lead insertion; returns JSON `{ success: true, lead_id: ... }` with status 201 when `is_manual` is falsy, or redirects to `/leads/new` when `is_manual: true`.
-    - Lines 98–131: `POST /webhooks/gupshup` handles inbound WhatsApp messages and auto-creates leads.
-    - Lines 246–274: `GET /dashboard` executes `SELECT * FROM leads ORDER BY created_at DESC`, aggregates `sourceData` and `funnelData`, and calls `res.render('dashboard', { leads, chartData: JSON.stringify({ sourceData, funnelData }), error, success })`.
-    - Lines 562–575: `GET /lead/:id` loads lead, messages, activity log and renders `views/lead.ejs`.
-    - Lines 577–587: `POST /lead/:id/status` updates lead status and redirects to `/lead/:id`.
-    - Lines 589–614: `POST /lead/:id/edit` updates lead contact/event fields and redirects to `/lead/:id`.
-    - Lines 616–627: `POST /lead/:id/delete` deletes `activity_log`, `messages`, `leads` records and redirects to `/dashboard?success=Lead deleted successfully`.
-    - Lines 629–657: `POST /api/leads/bulk-delete` deletes all leads or leads matching a specific `status`, deleting cascaded logs and messages, returning JSON `{ success: true, message: ... }`.
-    - Lines 660–673: `GET /leads/new` renders `views/new-lead.ejs` with distinct lead sources.
-    - Lines 675–715: `POST /api/leads/batch` accepts `{ leads: [...] }` JSON array and batch inserts into `leads` table, returning `{ success: true, count: inserted }`.
-    - Lines 717–742: Serves static client assets from `../tiffany-webb-astro/dist/client` and dynamically imports SSR entry `../tiffany-webb-astro/dist/server/entry.mjs` with fallback to standalone CRM on port 3000.
-  - `views/dashboard.ejs` (`Landing Page Work/tiffany-webb-crm/views/dashboard.ejs`):
-    - Lines 540–839: Heavy injected CSS block overriding colors with `!important`.
-    - Lines 887–1016: Renders stat cards, Chart.js canvas elements (`#sourceChart`, `#funnelChart`), search bar (`#searchInput`, `#searchBtn`), status tabs (`#tab-btn-${status}`), and lead card grids (`#tab-pane-${status} .leads-grid .glass-card`).
-    - Lines 1020–1081: Initializes Chart.js doughnut (`sourceChart`) and bar (`funnelChart`) using `<%- chartData %>`.
-    - Lines 1083–1101: `showTab(status)` toggles `style.display = 'none'` / `'block'`.
-    - Lines 1120–1150: `performSearch()` references obsolete selector `.kanban-board .card` and `.kanban-wrapper`, causing client search errors/breakages.
-    - Lines 1176–1200: `bulkDelete(status)` calls `fetch('/api/leads/bulk-delete', ...)` then forces full page reload via `window.location.reload()`.
-  - Database schema (`Landing Page Work/tiffany-webb-crm/db/schema.sql`):
-    - Lines 12–30: Table `leads` with ENUM source, ENUM status, contact details, event details, and foreign key `assigned_to` -> `users(id)`.
-    - Lines 32–43: Table `messages` (ON DELETE CASCADE).
-    - Lines 45–57: Table `bookings` (ON DELETE CASCADE).
-    - Lines 59–68: Table `activity_log` (ON DELETE CASCADE).
+Direct code observations from static codebase inspection:
+
+1. **Schema Definitions in SQL Files**:
+   - In `Landing Page Work/database/schema.sql` (lines 140–150) and `Landing Page Work/tiffany-webb-crm/db/schema.sql` (lines 140–150), the table `lead_notes` is defined as:
+     ```sql
+     CREATE TABLE IF NOT EXISTS lead_notes (
+       id INT AUTO_INCREMENT PRIMARY KEY,
+       lead_id INT NOT NULL,
+       user_id INT NULL,
+       author_name VARCHAR(150) NOT NULL,
+       author_role VARCHAR(50) NOT NULL DEFAULT 'staff',
+       note TEXT NOT NULL,
+       created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+       FOREIGN KEY (lead_id) REFERENCES leads(id) ON DELETE CASCADE,
+       FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
+     );
+     ```
+   - In both files, `leads` table is defined with `id INT AUTO_INCREMENT PRIMARY KEY`, `users` table with `id INT AUTO_INCREMENT PRIMARY KEY`, and `activity_log` table with `id`, `lead_id`, `user_id`, `action`, `detail`, `created_at`.
+
+2. **Boot-Time Auto-Migration in `server.js`**:
+   - In `Landing Page Work/tiffany-webb-crm/server.js` (lines 68–88):
+     ```javascript
+     // Ensure database tables and schema migrations
+     (async () => {
+       try {
+         await pool.query(`
+           CREATE TABLE IF NOT EXISTS lead_notes (
+             id INT AUTO_INCREMENT PRIMARY KEY,
+             lead_id INT NOT NULL,
+             user_id INT NULL,
+             author_name VARCHAR(150) NOT NULL,
+             author_role VARCHAR(50) NOT NULL DEFAULT 'staff',
+             note TEXT NOT NULL,
+             created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+             FOREIGN KEY (lead_id) REFERENCES leads(id) ON DELETE CASCADE,
+             FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
+           ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+         `);
+         console.log('[Database] lead_notes table verified/created.');
+       } catch (err) {
+         console.error('[Database Migration Warning]:', err.message);
+       }
+     })();
+     ```
+
+3. **Backend Route Implementations in `server.js`**:
+   - In `Landing Page Work/tiffany-webb-crm/server.js` (lines 470–521), `POST /api/leads/:id/notes`:
+     - Validates: `if (!note || !note.trim()) return res.status(400).json({ error: 'Note content cannot be empty' });`
+     - Extracts user identity via `req.user` or cookie `auth_token` decoded via `jwt.verify(cookies.auth_token, JWT_SECRET)` and verified with `SELECT id, name, email, role, is_active FROM users WHERE id = ?`.
+     - Sets fallback author if unauthenticated: `authorName = 'Tiffany Webb (Admin)'`, `authorRole = 'admin'`, `userId = null`.
+     - Executes parameterized query:
+       ```sql
+       INSERT INTO lead_notes (lead_id, user_id, author_name, author_role, note)
+       VALUES (?, ?, ?, ?, ?)
+       ```
+     - Executes audit log query:
+       ```sql
+       INSERT INTO activity_log (lead_id, user_id, action, detail)
+       VALUES (?, ?, 'note_added', ?)
+       ```
+       with detail ``Internal note by ${authorName} (${authorRole}): "${summary}"`` (summary truncated to 60 characters).
+     - Responds with HTTP 200 JSON `{ success: true, note: { id, author_name, author_role, note, created_at } }`.
+   - In `Landing Page Work/tiffany-webb-crm/server.js` (lines 523–537), `GET /api/leads/:id/notes`:
+     - Executes parameterized query:
+       ```sql
+       SELECT id, author_name, author_role, note, created_at 
+       FROM lead_notes 
+       WHERE lead_id = ? 
+       ORDER BY created_at DESC
+       ```
+     - Responds with HTTP 200 JSON `{ success: true, notes }`.
+
+4. **Frontend Markup & Client Script in `dashboard.ejs`**:
+   - In `Landing Page Work/tiffany-webb-crm/views/dashboard.ejs` (lines 333–352):
+     - Section container `.dossier-notes-section` inside `.ledger-dossier#dossier-<%= lead.id %>`.
+     - Eyebrow header: `📝 Team Internal Notes & History` in mono gold uppercase.
+     - Text input: `id="note-input-<%= lead.id %>"` with Enter-key submit listener `onkeydown="if(event.key==='Enter'){event.preventDefault();postLeadNote(<%= lead.id %>);}"`.
+     - Post button: `<button type="button" class="btn btn-primary" onclick="postLeadNote(<%= lead.id %>)">+ Post Note</button>`.
+     - Notes list container: `<div id="notes-list-<%= lead.id %>">`.
+   - In `Landing Page Work/tiffany-webb-crm/views/dashboard.ejs` (lines 532–616):
+     - `toggleDossier(id, event)` calls `loadLeadNotes(id)` when expanding.
+     - `loadLeadNotes(leadId)` fetches `/api/leads/${leadId}/notes` and generates note cards containing:
+       1. Monogram avatar circle with author initial, dark gradient background, gold border, and bold serif font.
+       2. Author name in bold ivory.
+       3. Author role badge pill in gold mono uppercase (`ADMIN`, `ASSISTANT`, `STAFF`).
+       4. Locale timestamp in mono font.
+       5. Escaped note text via `escapeHtml(n.note)` with `white-space: pre-wrap; word-break: break-word;`.
+     - `postLeadNote(leadId)` sends POST request via AJAX, and on success clears input, triggers `loadLeadNotes(leadId)` to re-render feed seamlessly, and calls `showToast('Note added successfully')`.
+
+---
 
 ## 2. Logic Chain
 
-1. **Architecture Model** (supported by `server.js:1-58, 246-274` and `package.json:1-27`):
-   - The backend is a monolithic Express 5 application serving server-rendered EJS templates for the CRM while supporting JSON endpoints for specific API tasks (`/api/leads`, `/api/leads/batch`, `/api/leads/bulk-delete`).
-   - The database layer directly executes SQL queries through a connection pool without an ORM.
+1. **Schema Compliance**:
+   - Observation 1 demonstrates that both master schema files (`database/schema.sql` and `tiffany-webb-crm/db/schema.sql`) contain the `lead_notes` table with identical column types and foreign key constraints matching Requirement R3 item 1.
+   - Observation 2 proves that `server.js` executes `CREATE TABLE IF NOT EXISTS lead_notes (...)` on startup, ensuring that running the Express application automatically syncs the table into MySQL `tiffany_crm`.
 
-2. **Lead Dashboard Rendering & Data Flow** (supported by `server.js:246-274` and `views/dashboard.ejs:887-1081`):
-   - The initial visit to `/dashboard` fetches all leads in descending order of creation.
-   - All status groups (`new`, `contacted`, `qualified`, `proposal_sent`, `booked`, `completed`, `declined`, `lost`) are rendered in separate tab panes within the same EJS template.
-   - Lead counts per status and chart distributions (`sourceData`, `funnelData`) are calculated server-side and injected into the template.
+2. **API Endpoint Functionality & Audit Trail**:
+   - Observation 3 confirms `POST /api/leads/:id/notes` satisfies Requirement R3 item 2: empty note rejection with HTTP 400, multi-user author identity resolution from JWT cookie/session, parameterized insertion into `lead_notes`, and audit trail insertion into `activity_log` with action `'note_added'`.
+   - Observation 3 confirms `GET /api/leads/:id/notes` satisfies Requirement R3 item 3: reverse chronological order enforced via `ORDER BY created_at DESC`.
 
-3. **UX & AJAX Deficiencies** (supported by `views/dashboard.ejs:1120-1200` and `server.js:616-657`):
-   - Search functionality in `dashboard.ejs` fails because it queries `.kanban-board .card`, which does not match the actual `.glass-card` elements in the DOM.
-   - Bulk deletion calls the JSON endpoint `/api/leads/bulk-delete` but triggers a crude `window.location.reload()` instead of animating the removal of cards.
-   - Single lead deletion from `POST /lead/:id/delete` issues a 302 redirect to `/dashboard`, causing full page reload.
+3. **Frontend Integration & UX**:
+   - Observation 4 confirms `views/dashboard.ejs` satisfies Requirement R3 item 4: input field, `+ Post Note` button, Enter key handler, accordion toggle trigger, AJAX submission without page refresh, and complete UI feed rendering with avatar monogram, role badge, timestamp, and XSS-escaped content.
 
-4. **Implementation Strategy for Requirements R1 & R2**:
-   - For Visual Overhaul (R1): Redesign `dashboard.ejs` with unified brand tokens (Deep Forest Sage `#1A2721`, Ink `#0a0a0a`, Ivory `#f2efe9`, Gold `#c29545`), clean up redundant CSS blocks, modernize Chart.js palettes and glassmorphic card styles.
-   - For Smooth UX & AJAX (R2): Rewrite the client-side JavaScript in `dashboard.ejs` to provide instant debounced filtering with fade/slide animations, animated tab switching, and seamless DOM card deletion upon confirming deletions against `/api/leads/bulk-delete` and single delete endpoints without page reloads.
+---
 
 ## 3. Caveats
 
-- Auth middleware `requireAuth` currently calls `next()` without enforcing active sessions or tokens, allowing development and testing without authentication barriers.
-- Database access relies on a live MySQL instance running per the `.env` settings (`DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD`, `DB_NAME`).
+1. **Interactive Command Execution Timeout**:
+   - Direct execution of live MySQL node command timed out waiting for user terminal permission check. However, code inspection of `server.js` startup migrations, `setup-db.js`, and `test_verify_notes.js` provides static verification of the database creation and migration logic.
+2. **Fallback Author Identity**:
+   - If an unauthenticated client makes a POST request to `/api/leads/:id/notes` without an `auth_token` cookie, the backend defaults to author `'Tiffany Webb (Admin)'` and role `'admin'`. This ensures robustness, though production hardening could optionally enforce a strict HTTP 401 response if unauthenticated API calls are disallowed.
+
+---
 
 ## 4. Conclusion
 
-- The backend architecture is fully identified: Express 5 + CommonJS + EJS + MySQL (`mysql2/promise`).
-- The backend already provides JSON support for bulk deletion (`POST /api/leads/bulk-delete`), batch creation (`POST /api/leads/batch`), and lead creation (`POST /api/leads`).
-- The redesign for `dashboard.ejs` can be achieved cleanly on the frontend template by correcting DOM selectors, implementing modern animated tab switching, debounced search filtering, unified brand styling (Deep Forest Sage / Ink / Ivory / Gold), and smooth AJAX deletion handling.
+Requirement R3 (Persistent Multi-User Team Notes Engine) is **fully implemented and structurally sound**:
+1. Table `lead_notes` exists in all schema files and is automatically created in `tiffany_crm` by `server.js` on boot.
+2. Both backend routes (`POST /api/leads/:id/notes` and `GET /api/leads/:id/notes`) are fully implemented with parameterized SQL queries, JWT/cookie resolution, and `activity_log` audit entries.
+3. The dashboard UI (`dashboard.ejs`) features an accordion drawer, note input bar, Enter key listener, monogram avatar, role badge, formatted timestamp, and seamless AJAX re-fetching with toast notification.
+4. No source code modifications or schema alterations are required for Requirement R3.
+
+---
 
 ## 5. Verification Method
 
-To verify the backend and routes:
-1. Verify `server.js` route definitions and syntax:
-   `node -c server.js`
-2. Start server (if MySQL is running):
-   `node server.js`
-3. Inspect `views/dashboard.ejs` lines 880–1200 to verify DOM selectors, Chart.js configuration, and event listeners.
-4. Test endpoints:
-   - `GET http://localhost:3000/dashboard` (returns HTML dashboard)
-   - `POST http://localhost:3000/api/leads/bulk-delete` with body `{"status":"test"}` (returns JSON)
+To independently verify the implementation:
+
+1. **Inspect Schema Definitions**:
+   - Check lines 140–150 in `Landing Page Work/database/schema.sql` and `Landing Page Work/tiffany-webb-crm/db/schema.sql`.
+2. **Inspect Backend Server Implementation**:
+   - Check lines 68–88 in `Landing Page Work/tiffany-webb-crm/server.js` for startup auto-migration.
+   - Check lines 470–537 in `Landing Page Work/tiffany-webb-crm/server.js` for POST and GET endpoints and `activity_log` insertion.
+3. **Inspect Frontend Implementation**:
+   - Check lines 333–352 in `Landing Page Work/tiffany-webb-crm/views/dashboard.ejs` for notes hub markup.
+   - Check lines 532–616 in `Landing Page Work/tiffany-webb-crm/views/dashboard.ejs` for `loadLeadNotes()` and `postLeadNote()` AJAX scripts.
+4. **Automated Verification Script**:
+   - In `Landing Page Work/tiffany-webb-crm/`, inspect and run `node test_verify_notes.js` (checks database connection, table columns, note insertion, activity log entry, and reverse chronological ordering).

@@ -393,6 +393,7 @@
 
         function processParsedData(data) {
             parsedLeadsData = data.map(row => ({
+                source: 'manual',
                 contact_name: row['Name'] || row['Contact Name'] || row['contact_name'] || row['Full Name'] || 'Unknown',
                 email: row['Email'] || row['email'] || '',
                 phone: row['Phone'] || row['phone'] || '',

@@ -1,19 +1,41 @@
-## 2026-08-30T08:59:16Z
+# Dispatch for Explorer Survey 1
 
-You are explorer_survey_1.
-Your working directory is: D:\FREELANCE\TIFFANY WEB\.agents\explorer_survey_1
+## 2026-09-04T06:16:00Z
+You are explorer_survey_1, an exploration agent.
+Working directory: D:\FREELANCE\TIFFANY WEB\.agents\explorer_survey_1
+Parent conversation ID: 47012479-2d4c-4107-bf59-7c0841797227
 
-MANDATORY FIRST STEP: Read the authoritative user request at:
-D:\FREELANCE\TIFFANY WEB\.agents\ORIGINAL_REQUEST.md
+MANDATORY INPUT: Read the authoritative request in:
+`D:\FREELANCE\TIFFANY WEB\.agents\ORIGINAL_REQUEST.md` (specifically section `## 2026-09-03T20:59:19Z`, R1, R2, and Acceptance Criteria).
+Also read design system rules in:
+- `D:\FREELANCE\TIFFANY WEB\GEMINI.md`
+- `D:\FREELANCE\TIFFANY WEB\.agents\rules\design_system_rules.md`
 
-Your Mission:
-Investigate the frontend structure of the Tiffany Webb CRM Leads Dashboard.
-Target app directory: D:\FREELANCE\TIFFANY WEB\Landing Page Work\tiffany-webb-crm
+OBJECTIVES:
+1. Rebrand to "Tiffany Webb Impact OS™" (R1):
+   - Inspect all .ejs templates in `D:\FREELANCE\TIFFANY WEB\Landing Page Work\tiffany-webb-crm\views\`:
+     dashboard.ejs, new-lead.ejs, cms.ejs, cms-page.ejs, cms-collection-edit.ejs, users.ejs, lead.ejs, login.ejs, forgot-password.ejs, reset-password.ejs.
+   - Inspect `Landing Page Work/tiffany-webb-crm/server.js` for console startup banner, Nodemailer email sender, and user-facing strings.
+   - Check grep for any remaining occurrences of "Tiffany Webb CRM", "CRM", "Admin Panel".
+   - Verify required navbar markup: `<h1 class="nav-logo">Tiffany Webb <span>Impact OS</span></h1>`.
+   - Verify sub-module nav links: Pipeline Ledger (/dashboard), + Log Inbound (/leads/new), Website Studio (/cms), Team & Access (/users), Admin pill, Logout.
+   - Verify page `<title>`: `[Module Name] — Tiffany Webb Impact OS`.
+   - Verify dashboard header eyebrow: gold pulsating dot + `Executive Command & Deal Flow`.
+   - Verify dashboard title: `Executive <span class="italic-accent">Pipeline Ledger</span>` (half-text gradient).
 
-Tasks:
-1. Explore and thoroughly inspect `views/dashboard.ejs` and any related view files (partials, headers, footers, layouts).
-2. Document the current DOM structure: lead listing (table vs cards), search inputs, filter tabs/buttons, delete buttons, action bars, and charts.
-3. Identify existing JavaScript logic in `views/dashboard.ejs` or `public/js/` (form submissions, event listeners, page reload behavior).
-4. Identify how data is passed from EJS backend into the view (template variables like `leads`, `stats`, etc.).
-5. Produce a detailed analysis report and handoff report in your working directory at `D:\FREELANCE\TIFFANY WEB\.agents\explorer_survey_1\analysis.md` and `D:\FREELANCE\TIFFANY WEB\.agents\explorer_survey_1\handoff.md`.
-6. When done, send a message back to parent summarizing your findings.
+2. Pipeline Ledger UI Layout & Chevron (R2):
+   - Inspect `Landing Page Work/tiffany-webb-crm/public/css/crm-theme.css` and `dashboard.ejs` styles.
+   - Check `.ledger-table-header` and `.ledger-row` grid template columns (`2.8fr 2.8fr 1.8fr 1.1fr 185px 125px` with gap `1.25rem`).
+   - Check `.col-stage` (`min-width: 185px; flex-shrink: 0;`), `.stage-select` (`max-width: 185px; box-sizing: border-box;`).
+   - Check `.col-actions` (`min-width: 125px; flex-shrink: 0; display: flex; justify-content: flex-end; gap: 8px;`).
+   - Check `.action-icon-btn` (`32px × 32px` with `min-width: 32px`).
+   - Check 3rd button (chevron): gold chevron SVG `<svg stroke="#D9A23A" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>` with `pointer-events: none` and 180° rotation on expansion.
+
+OUTPUT:
+Write your full findings to:
+`D:\FREELANCE\TIFFANY WEB\.agents\explorer_survey_1\survey_views_ui.md`
+and write a standard handoff report to:
+`D:\FREELANCE\TIFFANY WEB\.agents\explorer_survey_1\handoff.md`
+
+When complete, notify parent (ID: 47012479-2d4c-4107-bf59-7c0841797227) via send_message.
+Do NOT modify any source code files — you are read-only!
