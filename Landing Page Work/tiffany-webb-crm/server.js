@@ -741,30 +741,41 @@ app.post('/reset-password', async (req, res) => {
 // --- Dashboard Routes (EJS) ---
 app.get('/dashboard', requireAuth, async (req, res) => {
   try {
-    const [leads] = await pool.query('SELECT * FROM leads ORDER BY created_at DESC');
+    // Join bookings to get confirmed revenue & event dates
+    const [leads] = await pool.query(`
+      SELECT l.*, b.fee_amount, b.confirmed_date, b.deposit_status 
+      FROM leads l 
+      LEFT JOIN bookings b ON l.id = b.lead_id 
+      ORDER BY l.created_at DESC
+    `);
     
     // Aggregations for charts
     const sourceData = {};
-    const funnelData = { new: 0, qualified: 0, proposal_sent: 0, booked: 0 };
+    const funnelData = { new: 0, qualified: 0, proposal_sent: 0, booked: 0, completed: 0 };
     
+    let totalConfirmedRevenue = 0;
     leads.forEach(lead => {
       // Aggregate sources
       sourceData[lead.source] = (sourceData[lead.source] || 0) + 1;
       
-      // Aggregate funnel (only counting specific key steps)
+      // Aggregate funnel
       if (funnelData[lead.status] !== undefined) {
         funnelData[lead.status]++;
       }
+      // Calculate confirmed revenue for booked / completed deals
+      if ((lead.status === 'booked' || lead.status === 'completed') && lead.fee_amount) {
+        totalConfirmedRevenue += Number(lead.fee_amount) || 0;
+      }
     });
-
     res.render('dashboard', { 
         leads, 
+        totalConfirmedRevenue,
         chartData: JSON.stringify({ sourceData, funnelData }),
         error: req.query.error,
         success: req.query.success
     });
   } catch (err) {
-    console.error(err);
+    console.error('Error loading dashboard:', err);
     res.status(500).send('Error loading dashboard');
   }
 });

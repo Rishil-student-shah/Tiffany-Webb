@@ -11,6 +11,10 @@
 </head>
 <body>
 
+    <!-- Custom Luxury Cursor -->
+    <div class="custom-cursor-dot" id="cursorDot"></div>
+    <div class="custom-cursor-ring" id="cursorRing"></div>
+
     <!-- UNIFIED TOP NAVIGATION -->
     <nav class="top-nav">
         <a href="/dashboard" class="nav-brand">
@@ -29,7 +33,7 @@
     <div class="main-content">
         <!-- HEADER & KEYLINES -->
         <div style="margin-bottom: 2rem;">
-            <div class="crm-eyebrow" style="color: #D9A23A !important; font-family: var(--font-mono); font-size: 0.85rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; display: flex; align-items: center; gap: 6px;">
+            <div class="crm-eyebrow" style="color: #D9A23A !important; font-family: var(--font-mono); font-size: 0.95rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; display: flex; align-items: center; gap: 6px;">
                 <span class="pulse-dot"></span>
                 Executive Command & Deal Flow
             </div>
@@ -53,9 +57,13 @@
 
         <!-- KPI STRIP -->
         <div class="stats-grid">
+            <div class="stat-card stat-card-revenue">
+                <span class="stat-value" id="kpi-revenue" style="color: #D9A23A !important;">$<%= Number(typeof totalConfirmedRevenue !== 'undefined' ? totalConfirmedRevenue : 0).toLocaleString('en-US') %></span>
+                <span class="stat-label">Confirmed Revenue</span>
+            </div>
             <div class="stat-card">
                 <span class="stat-value" id="kpi-total-leads"><%= leads.length %></span>
-                <span class="stat-label">Total Pipeline Inquiries</span>
+                <span class="stat-label">Total Inquiries</span>
             </div>
             <div class="stat-card">
                 <span class="stat-value" id="kpi-new-leads" style="color: var(--color-gold) !important;"><%= leads.filter(l => l.status === 'new').length %></span>
@@ -67,7 +75,19 @@
             </div>
             <div class="stat-card">
                 <span class="stat-value" id="kpi-booked-leads" style="color: #10b981 !important;"><%= leads.filter(l => l.status === 'booked').length %></span>
-                <span class="stat-label">Confirmed Engagements</span>
+                <span class="stat-label">Confirmed Booked</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-value" id="kpi-completed-leads" style="color: #38bdf8 !important;"><%= leads.filter(l => l.status === 'completed').length %></span>
+                <span class="stat-label">Completed Events</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-value" id="kpi-declined-leads" style="color: var(--color-text-dim) !important;"><%= leads.filter(l => l.status === 'declined').length %></span>
+                <span class="stat-label">Declined</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-value" id="kpi-lost-leads" style="color: #ef4444 !important;"><%= leads.filter(l => l.status === 'lost').length %></span>
+                <span class="stat-label">Lost</span>
             </div>
         </div>
 
@@ -98,7 +118,10 @@
                     { id: 'contacted', label: 'Discovery Call' },
                     { id: 'qualified', label: 'Qualified ($5k+)' },
                     { id: 'proposal_sent', label: 'Proposal Sent' },
-                    { id: 'booked', label: 'Confirmed Booked' }
+                    { id: 'booked', label: 'Confirmed Booked' },
+                    { id: 'completed', label: 'Completed' },
+                    { id: 'declined', label: 'Declined' },
+                    { id: 'lost', label: 'Lost' }
                 ];
                 filterTabs.forEach((tab, index) => { 
                     const count = tab.id === 'all' 
@@ -113,9 +136,9 @@
             </div>
 
             <!-- Real-time Instant Search & Actions -->
-            <div style="display: flex; align-items: center; gap: 1rem;">
+            <div class="navbar-actions-group" style="display: flex; align-items: center; gap: 1rem;">
                 <div class="navbar-search-group">
-                    <svg class="navbar-search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg class="navbar-search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#D9A23A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="11" cy="11" r="8"></circle>
                         <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                     </svg>
@@ -189,6 +212,7 @@
                              id="lead-item-<%= lead.id %>" 
                              data-id="<%= lead.id %>" 
                              data-stage="<%= lead.status %>" 
+                             data-fee="<%= lead.fee_amount || 0 %>" 
                              data-search="<%= searchTokens %>">
                             
                             <!-- 1-Row Grid -->
@@ -382,7 +406,7 @@
     <!-- SCRIPT & CHARTS & CLIENT ENGINE -->
     <script>
         // 1. Chart Initialization
-        let chartDataPayload = { sourceData: {}, funnelData: { new: 0, qualified: 0, proposal_sent: 0, booked: 0 } };
+        let chartDataPayload = { sourceData: {}, funnelData: { new: 0, qualified: 0, proposal_sent: 0, booked: 0, completed: 0 } };
         try {
             const rawPayload = document.getElementById('crm-chart-payload').textContent;
             if (rawPayload && rawPayload.trim()) {
@@ -440,14 +464,15 @@
             new Chart(ctx2d, {
                 type: 'bar',
                 data: {
-                    labels: ['New', 'Qualified', 'Proposal Sent', 'Booked'],
+                    labels: ['New', 'Qualified', 'Proposal Sent', 'Booked', 'Completed'],
                     datasets: [{
                         label: 'Leads',
                         data: [
                             fData.new || 0, 
                             fData.qualified || 0, 
                             fData.proposal_sent || 0, 
-                            fData.booked || 0
+                            fData.booked || 0,
+                            fData.completed || 0
                         ],
                         backgroundColor: barGradient,
                         borderRadius: 8,
@@ -696,10 +721,16 @@
                 lost: 0
             };
 
+            let confirmedRev = 0;
+
             items.forEach(item => {
                 const stage = item.getAttribute('data-stage');
                 if (counts[stage] !== undefined) {
                     counts[stage]++;
+                }
+                const fee = Number(item.getAttribute('data-fee') || 0);
+                if ((stage === 'booked' || stage === 'completed') && fee > 0) {
+                    confirmedRev += fee;
                 }
             });
 
@@ -712,15 +743,23 @@
             });
 
             // Update KPI strip
+            const kpiRevenue = document.getElementById('kpi-revenue');
             const kpiTotal = document.getElementById('kpi-total-leads');
             const kpiNew = document.getElementById('kpi-new-leads');
             const kpiProposal = document.getElementById('kpi-proposal-leads');
             const kpiBooked = document.getElementById('kpi-booked-leads');
+            const kpiCompleted = document.getElementById('kpi-completed-leads');
+            const kpiDeclined = document.getElementById('kpi-declined-leads');
+            const kpiLost = document.getElementById('kpi-lost-leads');
 
+            if (kpiRevenue) kpiRevenue.textContent = '$' + confirmedRev.toLocaleString('en-US');
             if (kpiTotal) kpiTotal.textContent = total;
             if (kpiNew) kpiNew.textContent = counts['new'];
             if (kpiProposal) kpiProposal.textContent = counts['proposal_sent'];
             if (kpiBooked) kpiBooked.textContent = counts['booked'];
+            if (kpiCompleted) kpiCompleted.textContent = counts['completed'];
+            if (kpiDeclined) kpiDeclined.textContent = counts['declined'];
+            if (kpiLost) kpiLost.textContent = counts['lost'];
         }
 
         // 5. Toast Feedback Helper
@@ -792,6 +831,64 @@
                 }
             }
         }
+
+        // 7. Custom Luxury Cursor Engine
+        (function() {
+            const dot = document.getElementById('cursorDot');
+            const ring = document.getElementById('cursorRing');
+            if (!dot || !ring) return;
+
+            // Only enable on desktop pointer devices
+            if (window.matchMedia('(pointer: coarse)').matches) {
+                dot.style.display = 'none';
+                ring.style.display = 'none';
+                return;
+            }
+
+            let mouseX = -100, mouseY = -100;
+            let ringX = -100, ringY = -100;
+
+            window.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+                dot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
+            });
+
+            function renderRing() {
+                ringX += (mouseX - ringX) * 0.18;
+                ringY += (mouseY - ringY) * 0.18;
+                ring.style.transform = `translate3d(${ringX}px, ${ringY}px, 0)`;
+                requestAnimationFrame(renderRing);
+            }
+            requestAnimationFrame(renderRing);
+
+            // Magnetic hover expansion
+            const interactiveSelector = 'a, button, input, select, textarea, .ledger-row, .status-tab-btn, .action-icon-btn, [role="button"], .stat-card';
+            document.addEventListener('mouseover', (e) => {
+                const target = e.target.closest(interactiveSelector);
+                if (target) {
+                    ring.classList.add('cursor-hover');
+                    dot.classList.add('cursor-hover-dot');
+                }
+            });
+            document.addEventListener('mouseout', (e) => {
+                const target = e.target.closest(interactiveSelector);
+                if (target) {
+                    ring.classList.remove('cursor-hover');
+                    dot.classList.remove('cursor-hover-dot');
+                }
+            });
+
+            // Window boundary visibility
+            document.addEventListener('mouseleave', () => {
+                dot.style.opacity = '0';
+                ring.style.opacity = '0';
+            });
+            document.addEventListener('mouseenter', () => {
+                dot.style.opacity = '1';
+                ring.style.opacity = '1';
+            });
+        })();
     </script>
 </body>
 </html>
