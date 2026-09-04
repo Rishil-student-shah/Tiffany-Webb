@@ -62,31 +62,31 @@
                 <span class="stat-label">Confirmed Revenue</span>
             </div>
             <div class="stat-card">
-                <span class="stat-value" id="kpi-total-leads"><%= leads.length %></span>
+                <span class="stat-value" id="kpi-total-leads"><%= (leads || []).length %></span>
                 <span class="stat-label">Total Inquiries</span>
             </div>
             <div class="stat-card">
-                <span class="stat-value" id="kpi-new-leads" style="color: var(--color-gold) !important;"><%= leads.filter(l => l.status === 'new').length %></span>
+                <span class="stat-value" id="kpi-new-leads" style="color: var(--color-gold) !important;"><%= (leads || []).filter(l => l.status === 'new').length %></span>
                 <span class="stat-label">New / Unread</span>
             </div>
             <div class="stat-card">
-                <span class="stat-value" id="kpi-proposal-leads" style="color: var(--color-terracotta) !important;"><%= leads.filter(l => l.status === 'proposal_sent').length %></span>
+                <span class="stat-value" id="kpi-proposal-leads" style="color: var(--color-terracotta) !important;"><%= (leads || []).filter(l => l.status === 'proposal_sent').length %></span>
                 <span class="stat-label">Proposals Out</span>
             </div>
             <div class="stat-card">
-                <span class="stat-value" id="kpi-booked-leads" style="color: #10b981 !important;"><%= leads.filter(l => l.status === 'booked').length %></span>
+                <span class="stat-value" id="kpi-booked-leads" style="color: #10b981 !important;"><%= (leads || []).filter(l => l.status === 'booked').length %></span>
                 <span class="stat-label">Confirmed Booked</span>
             </div>
             <div class="stat-card">
-                <span class="stat-value" id="kpi-completed-leads" style="color: #38bdf8 !important;"><%= leads.filter(l => l.status === 'completed').length %></span>
+                <span class="stat-value" id="kpi-completed-leads" style="color: #38bdf8 !important;"><%= (leads || []).filter(l => l.status === 'completed').length %></span>
                 <span class="stat-label">Completed Events</span>
             </div>
             <div class="stat-card">
-                <span class="stat-value" id="kpi-declined-leads" style="color: var(--color-text-dim) !important;"><%= leads.filter(l => l.status === 'declined').length %></span>
+                <span class="stat-value" id="kpi-declined-leads" style="color: var(--color-text-dim) !important;"><%= (leads || []).filter(l => l.status === 'declined').length %></span>
                 <span class="stat-label">Declined</span>
             </div>
             <div class="stat-card">
-                <span class="stat-value" id="kpi-lost-leads" style="color: #ef4444 !important;"><%= leads.filter(l => l.status === 'lost').length %></span>
+                <span class="stat-value" id="kpi-lost-leads" style="color: #ef4444 !important;"><%= (leads || []).filter(l => l.status === 'lost').length %></span>
                 <span class="stat-label">Lost</span>
             </div>
         </div>
@@ -454,6 +454,7 @@
         }
 
         const funnelCtx = document.getElementById('funnelChart');
+        let funnelChartInstance = null;
         if (funnelCtx) {
             const ctx2d = funnelCtx.getContext('2d');
             const barGradient = ctx2d.createLinearGradient(0, 0, 0, 240);
@@ -461,7 +462,7 @@
             barGradient.addColorStop(1, '#6C2D5A');
 
             const fData = chartDataPayload.funnelData || {};
-            new Chart(ctx2d, {
+            funnelChartInstance = new Chart(ctx2d, {
                 type: 'bar',
                 data: {
                     labels: ['New', 'Qualified', 'Proposal Sent', 'Booked', 'Completed'],
@@ -760,6 +761,18 @@
             if (kpiCompleted) kpiCompleted.textContent = counts['completed'];
             if (kpiDeclined) kpiDeclined.textContent = counts['declined'];
             if (kpiLost) kpiLost.textContent = counts['lost'];
+
+            // Update Funnel Chart if initialized
+            if (funnelChartInstance && funnelChartInstance.data && funnelChartInstance.data.datasets && funnelChartInstance.data.datasets[0]) {
+                funnelChartInstance.data.datasets[0].data = [
+                    counts['new'],
+                    counts['qualified'],
+                    counts['proposal_sent'],
+                    counts['booked'],
+                    counts['completed']
+                ];
+                funnelChartInstance.update();
+            }
         }
 
         // 5. Toast Feedback Helper

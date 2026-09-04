@@ -96,6 +96,17 @@ async function runTests() {
   assert(emptyRender.includes('$0'), 'Empty revenue renders $0 cleanly');
   assert(emptyRender.includes('No Inquiries in new / current pipeline stage'), 'Empty ledger state displays correctly');
 
+  // TEST 3b: Template rendering with null leads (defensive edge case)
+  const nullLeadsRender = ejs.render(templateContent, {
+    leads: null,
+    totalConfirmedRevenue: null,
+    chartData: JSON.stringify({ sourceData: {}, funnelData: { new: 0, qualified: 0, proposal_sent: 0, booked: 0, completed: 0 } }),
+    error: null,
+    success: null
+  }, { filename: templatePath });
+  assert(nullLeadsRender.includes('id="kpi-total-leads">0<'), 'Null leads renders 0 total inquiries safely');
+  assert(nullLeadsRender.includes('No Inquiries in new / current pipeline stage'), 'Null leads renders empty state safely');
+
   // TEST 4: CSS file inspection
   const cssPath = path.join(__dirname, 'public', 'css', 'crm-theme.css');
   const cssContent = fs.readFileSync(cssPath, 'utf8');
@@ -103,12 +114,14 @@ async function runTests() {
   assert(cssContent.includes('.custom-cursor-dot'), 'CSS contains .custom-cursor-dot');
   assert(cssContent.includes('.custom-cursor-ring'), 'CSS contains .custom-cursor-ring');
   assert(cssContent.includes('.cursor-hover'), 'CSS contains .cursor-hover');
+  assert(cssContent.includes('@media (pointer: coarse)'), 'CSS disables custom cursor on mobile touch');
   assert(cssContent.includes('padding: 0.6rem 1rem 0.6rem 2.8rem !important;'), 'CSS has search input padding guardrail to prevent overlap');
   assert(cssContent.includes('left: 0.95rem;'), 'CSS positions search icon left: 0.95rem');
   assert(cssContent.includes('background: #080705 !important'), 'CSS has distinct velvet obsidian navbar background');
   assert(cssContent.includes('.stat-card-revenue'), 'CSS has .stat-card-revenue styling');
   assert(cssContent.includes('@media (max-width: 1024px)'), 'CSS contains @media (max-width: 1024px) responsive rules');
   assert(cssContent.includes('@media (max-width: 768px)'), 'CSS contains @media (max-width: 768px) responsive rules');
+  assert(cssContent.includes('@media (max-width: 480px)'), 'CSS contains @media (max-width: 480px) mobile rules');
 
   // TEST 5: Real MySQL Database Integration (if DB is accessible)
   try {
