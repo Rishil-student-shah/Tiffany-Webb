@@ -956,38 +956,46 @@ tr:hover td {
 }
 
 .navbar-search-group {
-    display: flex;
-    align-items: center;
-    min-width: 280px;
-    position: relative;
+    display: flex !important;
+    align-items: center !important;
+    min-width: 320px;
+    position: relative !important;
 }
 
-.navbar-search-input {
+input[type="text"].navbar-search-input,
+.navbar-search-group input.navbar-search-input,
+.navbar-search-group input[type="text"],
+#ledgerSearchInput {
     background: #090907 !important;
-    border: 1px solid var(--color-border) !important;
+    border: 1px solid rgba(217, 162, 58, 0.25) !important;
     border-radius: var(--radius-md) !important;
     color: var(--color-ivory) !important;
     padding: 0.6rem 1rem 0.6rem 2.8rem !important;
+    padding-left: 2.8rem !important;
     font-family: var(--font-sans) !important;
     font-size: 0.85rem !important;
-    width: 100%;
-    transition: all 0.2s ease;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    transition: all 0.2s ease !important;
 }
 
-.navbar-search-input:focus {
+input[type="text"].navbar-search-input:focus,
+.navbar-search-group input.navbar-search-input:focus,
+#ledgerSearchInput:focus {
     border-color: var(--color-gold) !important;
     outline: none !important;
-    box-shadow: 0 0 0 3px rgba(217, 162, 58, 0.18) !important;
+    box-shadow: 0 0 0 3px rgba(217, 162, 58, 0.2) !important;
 }
 
 .navbar-search-icon {
-    position: absolute;
+    position: absolute !important;
     left: 0.95rem;
-    top: 50%;
-    transform: translateY(-50%);
+    left: 0.95rem !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
     color: #D9A23A !important;
-    pointer-events: none;
-    z-index: 2;
+    pointer-events: none !important;
+    z-index: 10 !important;
 }
 
 /* Continuous Ledger Container */
