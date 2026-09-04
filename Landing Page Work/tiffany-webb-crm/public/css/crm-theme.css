@@ -226,10 +226,10 @@ html, body {
    ========================================================================== */
 
 .stats-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-    gap: 1.1rem;
-    margin-bottom: 2rem;
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 1.25rem;
+    margin-bottom: 2.25rem;
 }
 
 .stat-card {
