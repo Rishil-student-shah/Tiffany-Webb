@@ -1459,7 +1459,274 @@ app.post('/api/leads/batch', requireAuth, async (req, res) => {
 });
 
 // ==============================================================================
-// AUTONOMOUS EMAIL ENGINE: 8:00 AM Daily Briefing & 1-Hour Action Alerts (Task 05)
+// LUXURY EDITORIAL EMAIL TEMPLATE COMPILER (Impact OS™ Signature Obsidian Canvas)
+// ==============================================================================
+function compileLuxuryEmailTemplate(options = {}) {
+  const {
+    type = 'briefing', // 'briefing' | 'alert' | 'generic'
+    title = 'Executive Briefing',
+    subtitle = '',
+    kpis = [],
+    dueToday = [],
+    overdue = [],
+    overnightLeads = [],
+    item = null,
+    waPhone = '',
+    cleanPhone = '',
+    crmUrl = process.env.CRM_URL || 'https://crm.tiffanywebbimpact.com'
+  } = options;
+
+  const keyline = type === 'alert' 
+    ? 'TIFFANY WEBB IMPACT OS™ · EXECUTIVE ACTION ALERT' 
+    : 'TIFFANY WEBB IMPACT OS™ · MORNING BRIEFING';
+
+  let bodyContent = '';
+
+  if (type === 'briefing') {
+    // Summary KPI Strip
+    const kpiHtml = kpis && kpis.length > 0 ? `
+      <table cellpadding="0" cellspacing="0" border="0" width="100%" style="margin-bottom: 24px;">
+        <tr>
+          ${kpis.map((kpi, idx) => `
+            <td width="${Math.floor(100 / kpis.length)}%" style="padding: ${idx === 0 ? '0 6px 0 0' : (idx === kpis.length - 1 ? '0 0 0 6px' : '0 6px')};">
+              <div style="background: #1C1A14; border: 1px solid ${kpi.color === '#ef4444' ? 'rgba(239,68,68,0.35)' : (kpi.color === '#38bdf8' ? 'rgba(56,189,248,0.35)' : 'rgba(217,162,58,0.25)')}; border-radius: 8px; padding: 14px 10px; text-align: center;">
+                <div style="font-size: 26px; font-weight: 800; color: ${kpi.color || '#D9A23A'}; line-height: 1; margin-bottom: 4px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">${kpi.value}</div>
+                <div style="font-size: 10px; font-weight: 700; color: rgba(251,246,234,0.65); text-transform: uppercase; letter-spacing: 0.12em; font-family: 'Courier New', monospace, sans-serif;">${kpi.label}</div>
+              </div>
+            </td>
+          `).join('')}
+        </tr>
+      </table>
+    ` : '';
+
+    // Follow-ups Due Today
+    let dueSectionHtml = '';
+    if (dueToday) {
+      dueSectionHtml = `
+        <div style="margin-bottom: 24px;">
+          <div style="border-bottom: 1px solid rgba(217,162,58,0.2); padding-bottom: 8px; margin-bottom: 12px;">
+            <span style="color: #D9A23A; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">⏰ Follow-ups Due Today</span>
+          </div>
+          ${dueToday.length === 0 ? `
+            <div style="background: #1C1A14; border: 1px dashed rgba(217,162,58,0.2); border-radius: 8px; padding: 16px; text-align: center; color: rgba(251,246,234,0.5); font-size: 13px; font-style: italic;">
+              No follow-ups scheduled for today.
+            </div>
+          ` : dueToday.map(f => {
+            const timeStr = f.followup_at ? new Date(f.followup_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Today';
+            const fCleanPhone = (f.phone || '').replace(/[^0-9]/g, '');
+            let fWaPhone = fCleanPhone;
+            if (f.country_code) {
+              const cleanCC = f.country_code.replace(/[^0-9]/g, '');
+              if (cleanCC && !fCleanPhone.startsWith(cleanCC)) fWaPhone = cleanCC + fCleanPhone;
+            }
+            return `
+              <div style="background: #1C1A14; border: 1px solid rgba(217,162,58,0.2); border-left: 3px solid #D9A23A; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px;">
+                <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                  <tr>
+                    <td style="color: #FBF6EA; font-weight: 700; font-size: 14px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+                      ${f.contact_name || f.organization_name || 'Lead #' + f.lead_id}
+                      ${f.organization_name && f.contact_name ? `<span style="color: rgba(251,246,234,0.55); font-weight: 400; font-size: 12px;"> · ${f.organization_name}</span>` : ''}
+                    </td>
+                    <td align="right" style="color: #D9A23A; font-family: 'Courier New', monospace, sans-serif; font-size: 12px; font-weight: 700;">
+                      ${timeStr}
+                    </td>
+                  </tr>
+                </table>
+                <div style="background: rgba(217,162,58,0.06); border-radius: 4px; padding: 8px 10px; margin-top: 8px; color: rgba(251,246,234,0.88); font-size: 13px; font-style: italic; line-height: 1.4;">
+                  "${f.note}"
+                </div>
+                ${(fWaPhone || f.phone || f.email) ? `
+                  <div style="margin-top: 8px; font-size: 11px;">
+                    ${fWaPhone ? `<a href="https://wa.me/${fWaPhone}" style="color: #25D366; text-decoration: none; margin-right: 12px; font-weight: 600;">💬 WhatsApp</a>` : ''}
+                    ${f.phone ? `<a href="tel:${f.phone}" style="color: #D9A23A; text-decoration: none; margin-right: 12px; font-weight: 600;">📞 Call</a>` : ''}
+                    ${f.email ? `<a href="mailto:${f.email}" style="color: rgba(251,246,234,0.7); text-decoration: none; font-weight: 600;">✉️ Email</a>` : ''}
+                  </div>
+                ` : ''}
+              </div>
+            `;
+          }).join('')}
+        </div>
+      `;
+    }
+
+    // Overdue Section (if any)
+    let overdueSectionHtml = '';
+    if (overdue && overdue.length > 0) {
+      overdueSectionHtml = `
+        <div style="margin-bottom: 24px;">
+          <div style="border-bottom: 1px solid rgba(239,68,68,0.25); padding-bottom: 8px; margin-bottom: 12px;">
+            <span style="color: #ef4444; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">⚠️ Overdue Action Items (${overdue.length})</span>
+          </div>
+          ${overdue.map(f => {
+            const timeStr = f.followup_at ? new Date(f.followup_at).toLocaleDateString([], { month: 'short', day: 'numeric' }) : 'Overdue';
+            return `
+              <div style="background: #1C1A14; border: 1px solid rgba(239,68,68,0.25); border-left: 3px solid #ef4444; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px;">
+                <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                  <tr>
+                    <td style="color: #FBF6EA; font-weight: 700; font-size: 14px;">
+                      ${f.contact_name || f.organization_name || 'Lead #' + f.lead_id}
+                    </td>
+                    <td align="right" style="color: #ef4444; font-family: 'Courier New', monospace, sans-serif; font-size: 12px; font-weight: 700;">
+                      ${timeStr}
+                    </td>
+                  </tr>
+                </table>
+                <div style="background: rgba(239,68,68,0.06); border-radius: 4px; padding: 8px 10px; margin-top: 8px; color: rgba(251,246,234,0.85); font-size: 13px; font-style: italic;">
+                  "${f.note}"
+                </div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      `;
+    }
+
+    // Overnight Inquiries Section
+    let overnightSectionHtml = '';
+    if (overnightLeads) {
+      overnightSectionHtml = `
+        <div style="margin-bottom: 24px;">
+          <div style="border-bottom: 1px solid rgba(56,189,248,0.2); padding-bottom: 8px; margin-bottom: 12px;">
+            <span style="color: #38bdf8; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">📥 New Overnight Inquiries (Last 24h)</span>
+          </div>
+          ${overnightLeads.length === 0 ? `
+            <div style="background: #1C1A14; border: 1px dashed rgba(56,189,248,0.2); border-radius: 8px; padding: 16px; text-align: center; color: rgba(251,246,234,0.5); font-size: 13px; font-style: italic;">
+              No new inquiries received overnight.
+            </div>
+          ` : overnightLeads.map(l => `
+            <div style="background: #1C1A14; border: 1px solid rgba(56,189,248,0.2); border-left: 3px solid #38bdf8; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px;">
+              <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                <tr>
+                  <td style="color: #FBF6EA; font-weight: 700; font-size: 14px;">
+                    ${l.contact_name || 'Inquiry #' + l.id} ${l.organization_name ? `<span style="color: rgba(251,246,234,0.55); font-weight: 400; font-size: 12px;">(${l.organization_name})</span>` : ''}
+                  </td>
+                  <td align="right" style="color: #38bdf8; font-size: 11px; font-weight: 600; text-transform: uppercase; font-family: 'Courier New', monospace, sans-serif;">
+                    ${(l.source || 'website').toUpperCase()}
+                  </td>
+                </tr>
+              </table>
+              <div style="color: rgba(251,246,234,0.7); font-size: 12px; margin-top: 6px;">
+                Topic: <strong style="color: #FBF6EA;">${l.topic_interest || l.event_type || 'General'}</strong> · Budget: <strong style="color: #D9A23A;">${l.budget_range || 'Not specified'}</strong>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    bodyContent = `
+      ${kpiHtml}
+      ${dueSectionHtml}
+      ${overdueSectionHtml}
+      ${overnightSectionHtml}
+      <div style="text-align: center; margin-top: 28px; padding-top: 20px; border-top: 1px solid rgba(217,162,58,0.18);">
+        <a href="${crmUrl}/dashboard" style="background: linear-gradient(135deg, #D9A23A 0%, #B88328 100%); color: #080705; text-decoration: none; font-weight: 800; font-size: 14px; padding: 12px 28px; border-radius: 8px; display: inline-block; box-shadow: 0 4px 15px rgba(217,162,58,0.35); letter-spacing: 0.02em;">Open Impact OS Pipeline Ledger &rarr;</a>
+      </div>
+    `;
+  } else if (type === 'alert' && item) {
+    const timeFormatted = item.followup_at ? new Date(item.followup_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Soon';
+    bodyContent = `
+      <!-- Dossier Card -->
+      <div style="background: #1C1A14; border-radius: 8px; padding: 18px; margin-bottom: 20px; border: 1px solid rgba(217,162,58,0.25); border-left: 4px solid #D9A23A;">
+        <table cellpadding="0" cellspacing="0" border="0" width="100%">
+          <tr>
+            <td>
+              <div style="font-size: 16px; font-weight: 700; color: #FBF6EA;">${item.contact_name || 'Client'} ${item.organization_name ? `<span style="font-weight: 400; color: rgba(251,246,234,0.6); font-size: 13px;">(${item.organization_name})</span>` : ''}</div>
+              <div style="color: #D9A23A; font-size: 12px; font-weight: 700; text-transform: uppercase; margin-top: 4px; font-family: 'Courier New', monospace, sans-serif;">STAGE: ${(item.status || 'new').replace(/_/g, ' ').toUpperCase()} · TIME: ${timeFormatted}</div>
+            </td>
+          </tr>
+        </table>
+        
+        <div style="background: rgba(217,162,58,0.08); border-left: 3px solid #D9A23A; padding: 10px 14px; border-radius: 4px; margin-top: 14px; color: #FBF6EA; font-size: 14px; line-height: 1.5;">
+          <div style="color: #D9A23A; font-size: 11px; font-weight: 700; text-transform: uppercase; margin-bottom: 4px; font-family: 'Courier New', monospace, sans-serif;">Scheduled Note:</div>
+          "${item.note}"
+        </div>
+      </div>
+
+      <!-- High-Contrast 1-Click Action Buttons -->
+      <div style="margin-bottom: 24px;">
+        <table cellpadding="0" cellspacing="0" border="0" width="100%">
+          <tr>
+            ${waPhone ? `
+              <td style="padding-right: 6px;" width="33%">
+                <a href="https://wa.me/${waPhone}" style="display: block; text-align: center; background: #25D366; color: #FFFFFF; text-decoration: none; font-weight: 700; padding: 12px 10px; border-radius: 6px; font-size: 13px; box-shadow: 0 4px 12px rgba(37,211,102,0.3);">💬 WhatsApp</a>
+              </td>
+            ` : ''}
+            ${(cleanPhone || item.phone) ? `
+              <td style="padding: 0 3px;" width="33%">
+                <a href="tel:${cleanPhone || item.phone}" style="display: block; text-align: center; background: linear-gradient(135deg, #D9A23A 0%, #B88328 100%); color: #080705; text-decoration: none; font-weight: 700; padding: 12px 10px; border-radius: 6px; font-size: 13px; box-shadow: 0 4px 12px rgba(217,162,58,0.3);">📞 Direct Call</a>
+              </td>
+            ` : ''}
+            ${item.email ? `
+              <td style="padding-left: 6px;" width="33%">
+                <a href="mailto:${item.email}" style="display: block; text-align: center; background: rgba(251,246,234,0.1); border: 1px solid rgba(217,162,58,0.3); color: #FBF6EA; text-decoration: none; font-weight: 700; padding: 12px 10px; border-radius: 6px; font-size: 13px;">✉️ Send Email</a>
+              </td>
+            ` : ''}
+          </tr>
+        </table>
+      </div>
+
+      <div style="text-align: center; border-top: 1px solid rgba(217,162,58,0.18); padding-top: 18px;">
+        <a href="${crmUrl}/lead/${item.lead_id}" style="color: #D9A23A; font-size: 13px; font-weight: 600; text-decoration: none;">View Full Lead Dossier on Impact OS &rarr;</a>
+      </div>
+    `;
+  }
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${title} — Tiffany Webb Impact OS</title>
+</head>
+<body style="margin: 0; padding: 24px 12px; background-color: #080705; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased;">
+  <table cellpadding="0" cellspacing="0" border="0" width="100%" style="background-color: #080705;">
+    <tr>
+      <td align="center">
+        <!-- Inner Luxury Obsidian Card -->
+        <table cellpadding="0" cellspacing="0" border="0" width="100%" style="max-width: 580px; background-color: #14120D; border: 1px solid rgba(217,162,58,0.25); border-radius: 12px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.85);">
+          <!-- Top Signature Gradient Keyline -->
+          <tr>
+            <td style="background: linear-gradient(92deg, #D9A23A 0%, #E17356 50%, #6C2D5A 100%); height: 3px; font-size: 1px; line-height: 1px;">&nbsp;</td>
+          </tr>
+          <!-- Card Content Area -->
+          <tr>
+            <td style="padding: 28px 24px;">
+              <!-- Header Keyline with Indicator -->
+              <table cellpadding="0" cellspacing="0" border="0" width="100%" style="margin-bottom: 12px;">
+                <tr>
+                  <td style="vertical-align: middle;">
+                    <span style="display: inline-block; width: 7px; height: 7px; background-color: #D9A23A; border-radius: 50%; vertical-align: middle; margin-right: 6px; box-shadow: 0 0 6px #D9A23A;"></span>
+                    <span style="color: #D9A23A; font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; font-family: 'Courier New', monospace, sans-serif; vertical-align: middle;">${keyline}</span>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Title & Subtitle -->
+              <h1 style="color: #FBF6EA; font-size: 22px; font-weight: 700; margin: 0 0 6px; line-height: 1.3; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+                ${title}
+              </h1>
+              ${subtitle ? `<p style="color: rgba(251,246,234,0.6); font-size: 13px; margin: 0 0 22px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">${subtitle}</p>` : '<div style="margin-bottom: 20px;"></div>'}
+
+              <!-- Dynamic Body Content -->
+              ${bodyContent}
+
+              <!-- Official Dispatch Brand Footer -->
+              <div style="margin-top: 26px; padding-top: 16px; border-top: 1px solid rgba(217,162,58,0.12); text-align: center; color: rgba(251,246,234,0.4); font-size: 11px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+                Official Executive Dispatch · Tiffany Webb Impact OS™ · <a href="${crmUrl}" style="color: #D9A23A; text-decoration: none;">crm.tiffanywebbimpact.com</a>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`;
+}
+
+// ==============================================================================
+// AUTONOMOUS EMAIL ENGINE: 8:00 AM Daily Briefing & 1-Hour Action Alerts
 // ==============================================================================
 
 let lastMorningBriefingDate = null;
@@ -1482,7 +1749,7 @@ async function checkAndSendMorningBriefing() {
 
       // 1. Follow-ups due today
       const [dueToday] = await pool.query(`
-        SELECT ln.*, l.contact_name, l.organization_name, l.phone, l.email, l.status, l.source_section 
+        SELECT ln.*, l.contact_name, l.organization_name, l.phone, l.country_code, l.email, l.status, l.source_section 
         FROM lead_notes ln
         JOIN leads l ON ln.lead_id = l.id
         WHERE DATE(ln.followup_at) = CURDATE() AND ln.is_completed = 0
@@ -1491,7 +1758,7 @@ async function checkAndSendMorningBriefing() {
 
       // 2. Overdue deals / follow-ups
       const [overdue] = await pool.query(`
-        SELECT ln.*, l.contact_name, l.organization_name, l.phone, l.email, l.status, l.source_section 
+        SELECT ln.*, l.contact_name, l.organization_name, l.phone, l.country_code, l.email, l.status, l.source_section 
         FROM lead_notes ln
         JOIN leads l ON ln.lead_id = l.id
         WHERE ln.followup_at < NOW() AND DATE(ln.followup_at) < CURDATE() AND ln.is_completed = 0
@@ -1507,63 +1774,20 @@ async function checkAndSendMorningBriefing() {
 
       const crmUrl = process.env.CRM_URL || 'https://crm.tiffanywebbimpact.com';
 
-      const briefingHtml = `
-        <div style="background: #0D0C08; color: #FBF6EA; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 2rem; max-width: 600px; margin: 0 auto; border-radius: 12px; border: 1px solid rgba(217,162,58,0.25);">
-          <div style="border-bottom: 1px solid rgba(217,162,58,0.2); padding-bottom: 1rem; margin-bottom: 1.5rem;">
-            <span style="color: #D9A23A; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase;">Tiffany Webb Impact OS™</span>
-            <h1 style="color: #FBF6EA; font-size: 1.6rem; margin: 0.5rem 0 0;">🌅 Daily Morning Executive Briefing</h1>
-            <p style="color: rgba(251,246,234,0.6); font-size: 0.85rem; margin-top: 0.25rem;">Date: ${now.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
-          </div>
-
-          <!-- Summary KPI Strip -->
-          <div style="display: flex; gap: 10px; margin-bottom: 1.5rem;">
-            <div style="flex: 1; background: #1C1A14; border: 1px solid rgba(217,162,58,0.2); border-radius: 8px; padding: 12px; text-align: center;">
-              <div style="font-size: 1.4rem; font-weight: 700; color: #D9A23A;">${dueToday.length}</div>
-              <div style="font-size: 0.72rem; color: rgba(251,246,234,0.6); text-transform: uppercase;">Due Today</div>
-            </div>
-            <div style="flex: 1; background: #1C1A14; border: 1px solid rgba(239,68,68,0.3); border-radius: 8px; padding: 12px; text-align: center;">
-              <div style="font-size: 1.4rem; font-weight: 700; color: #ef4444;">${overdue.length}</div>
-              <div style="font-size: 0.72rem; color: rgba(251,246,234,0.6); text-transform: uppercase;">Overdue</div>
-            </div>
-            <div style="flex: 1; background: #1C1A14; border: 1px solid rgba(56,189,248,0.3); border-radius: 8px; padding: 12px; text-align: center;">
-              <div style="font-size: 1.4rem; font-weight: 700; color: #38bdf8;">${overnightLeads.length}</div>
-              <div style="font-size: 0.72rem; color: rgba(251,246,234,0.6); text-transform: uppercase;">New Inquiries</div>
-            </div>
-          </div>
-
-          <!-- Follow-ups Due Today -->
-          <div style="margin-bottom: 1.5rem;">
-            <h3 style="color: #D9A23A; font-size: 1rem; border-bottom: 1px solid rgba(217,162,58,0.15); padding-bottom: 6px; margin-bottom: 10px;">⏰ Follow-ups Due Today</h3>
-            ${dueToday.length === 0 ? '<p style="color: rgba(251,246,234,0.5); font-size: 0.85rem; font-style: italic;">No follow-ups scheduled for today.</p>' : dueToday.map(f => {
-              const timeStr = f.followup_at ? new Date(f.followup_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Today';
-              return `
-                <div style="background: #1C1A14; border-left: 3px solid #D9A23A; border-radius: 4px; padding: 10px 12px; margin-bottom: 8px;">
-                  <div style="display: flex; justify-content: space-between; font-weight: 700; font-size: 0.9rem;">
-                    <span>${f.organization_name || f.contact_name || 'Lead #' + f.lead_id}</span>
-                    <span style="color: #D9A23A; font-size: 0.8rem;">${timeStr}</span>
-                  </div>
-                  <div style="color: rgba(251,246,234,0.85); font-size: 0.82rem; margin-top: 4px;">"${f.note}"</div>
-                </div>
-              `;
-            }).join('')}
-          </div>
-
-          <!-- Overnight Inquiries -->
-          <div style="margin-bottom: 1.5rem;">
-            <h3 style="color: #38bdf8; font-size: 1rem; border-bottom: 1px solid rgba(56,189,248,0.15); padding-bottom: 6px; margin-bottom: 10px;">📥 New Overnight Inquiries (Last 24h)</h3>
-            ${overnightLeads.length === 0 ? '<p style="color: rgba(251,246,234,0.5); font-size: 0.85rem; font-style: italic;">No new inquiries received overnight.</p>' : overnightLeads.map(l => `
-              <div style="background: #1C1A14; border-left: 3px solid #38bdf8; border-radius: 4px; padding: 10px 12px; margin-bottom: 8px;">
-                <div style="font-weight: 700; font-size: 0.9rem;">${l.contact_name || 'Inquiry #' + l.id} ${l.organization_name ? `(${l.organization_name})` : ''}</div>
-                <div style="color: rgba(251,246,234,0.7); font-size: 0.8rem;">Topic: ${l.topic_interest || l.event_type || 'General'} · Budget: ${l.budget_range || 'Not specified'}</div>
-              </div>
-            `).join('')}
-          </div>
-
-          <div style="text-align: center; margin-top: 2rem; padding-top: 1rem; border-top: 1px solid rgba(217,162,58,0.2);">
-            <a href="${crmUrl}/dashboard" style="display: inline-block; background: #D9A23A; color: #0D0C08; text-decoration: none; font-weight: 700; padding: 10px 22px; border-radius: 6px; font-size: 0.88rem;">Open Impact OS Pipeline Ledger &rarr;</a>
-          </div>
-        </div>
-      `;
+      const briefingHtml = compileLuxuryEmailTemplate({
+        type: 'briefing',
+        title: '🌅 Daily Morning Executive Briefing',
+        subtitle: `Date: ${now.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}`,
+        kpis: [
+          { label: 'Due Today', value: (dueToday || []).length, color: '#D9A23A' },
+          { label: 'Overdue', value: (overdue || []).length, color: '#ef4444' },
+          { label: 'New Inquiries', value: (overnightLeads || []).length, color: '#38bdf8' }
+        ],
+        dueToday: dueToday || [],
+        overdue: overdue || [],
+        overnightLeads: overnightLeads || [],
+        crmUrl
+      });
 
       await transporter.sendMail({
         from: `"Tiffany Webb Impact OS" <${process.env.EMAIL_HOST_USER || 'booking@tiffanywebbimpact.com'}>`,
@@ -1609,33 +1833,15 @@ async function checkAndSendFollowupAlerts() {
         const crmUrl = process.env.CRM_URL || 'https://crm.tiffanywebbimpact.com';
         const timeFormatted = item.followup_at ? new Date(item.followup_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Soon';
 
-        const alertHtml = `
-          <div style="background: #0D0C08; color: #FBF6EA; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 2rem; max-width: 550px; margin: 0 auto; border-radius: 12px; border: 1px solid #D9A23A;">
-            <div style="border-bottom: 1px solid rgba(217,162,58,0.2); padding-bottom: 1rem; margin-bottom: 1.25rem;">
-              <span style="color: #D9A23A; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase;">Tiffany Webb Impact OS™ · Action Alert</span>
-              <h1 style="color: #FBF6EA; font-size: 1.4rem; margin: 0.35rem 0 0;">⚡ Follow-Up Due in 60 Minutes (${timeFormatted})</h1>
-            </div>
-
-            <div style="background: #1C1A14; border-radius: 8px; padding: 1.25rem; margin-bottom: 1.5rem; border: 1px solid rgba(217,162,58,0.2);">
-              <div style="font-size: 1.1rem; font-weight: 700; color: #FBF6EA;">${item.contact_name || 'Client'} ${item.organization_name ? `(${item.organization_name})` : ''}</div>
-              <div style="color: #D9A23A; font-size: 0.85rem; margin-top: 2px;">Stage: ${(item.status || 'new').toUpperCase()}</div>
-              <div style="background: rgba(217,162,58,0.08); border-left: 3px solid #D9A23A; padding: 8px 12px; border-radius: 4px; margin-top: 10px; color: #FBF6EA; font-size: 0.88rem;">
-                <strong>Scheduled Note:</strong> "${item.note}"
-              </div>
-            </div>
-
-            <!-- 1-Click Action Buttons -->
-            <div style="display: flex; gap: 10px; margin-bottom: 1.5rem; flex-wrap: wrap;">
-              ${waPhone ? `<a href="https://wa.me/${waPhone}" style="flex: 1; min-width: 130px; text-align: center; background: #25D366; color: #fff; text-decoration: none; font-weight: 700; padding: 10px 14px; border-radius: 6px; font-size: 0.85rem;">💬 WhatsApp (+${waPhone})</a>` : ''}
-              ${item.phone ? `<a href="tel:${item.phone}" style="flex: 1; min-width: 130px; text-align: center; background: #38bdf8; color: #0D0C08; text-decoration: none; font-weight: 700; padding: 10px 14px; border-radius: 6px; font-size: 0.85rem;">📞 Call Client</a>` : ''}
-              ${item.email ? `<a href="mailto:${item.email}" style="flex: 1; min-width: 130px; text-align: center; background: rgba(251,246,234,0.15); color: #FBF6EA; text-decoration: none; font-weight: 700; padding: 10px 14px; border-radius: 6px; font-size: 0.85rem;">✉️ Send Email</a>` : ''}
-            </div>
-
-            <div style="text-align: center; border-top: 1px solid rgba(217,162,58,0.15); padding-top: 1rem;">
-              <a href="${crmUrl}/lead/${item.lead_id}" style="color: #D9A23A; font-size: 0.85rem; text-decoration: underline;">View Full Lead Dossier on Impact OS &rarr;</a>
-            </div>
-          </div>
-        `;
+        const alertHtml = compileLuxuryEmailTemplate({
+          type: 'alert',
+          title: `⚡ Follow-Up Due in 60 Minutes (${timeFormatted})`,
+          subtitle: `Scheduled Action Alert · Due at ${timeFormatted}`,
+          item,
+          waPhone,
+          cleanPhone,
+          crmUrl
+        });
 
         await transporter.sendMail({
           from: `"Tiffany Webb Impact OS" <${process.env.EMAIL_HOST_USER || 'booking@tiffanywebbimpact.com'}>`,
@@ -1656,6 +1862,92 @@ async function checkAndSendFollowupAlerts() {
   }
 }
 
+// Test Route: Instant Luxury Briefing Email Dispatch
+app.get('/api/test-email', async (req, res) => {
+  try {
+    const recipient = process.env.BRIEFING_EMAIL || 'rishilwork08@gmail.com';
+    const transporter = createMailTransporter();
+    
+    // Fetch live data for realistic briefing preview
+    let dueToday = [];
+    let overdue = [];
+    let overnightLeads = [];
+
+    try {
+      [dueToday] = await pool.query(`
+        SELECT ln.*, l.contact_name, l.organization_name, l.phone, l.country_code, l.email, l.status, l.source_section 
+        FROM lead_notes ln
+        JOIN leads l ON ln.lead_id = l.id
+        WHERE DATE(ln.followup_at) = CURDATE() AND ln.is_completed = 0
+        ORDER BY ln.followup_at ASC
+      `);
+
+      [overdue] = await pool.query(`
+        SELECT ln.*, l.contact_name, l.organization_name, l.phone, l.country_code, l.email, l.status, l.source_section 
+        FROM lead_notes ln
+        JOIN leads l ON ln.lead_id = l.id
+        WHERE ln.followup_at < NOW() AND DATE(ln.followup_at) < CURDATE() AND ln.is_completed = 0
+        ORDER BY ln.followup_at ASC
+      `);
+
+      [overnightLeads] = await pool.query(`
+        SELECT * FROM leads 
+        WHERE created_at >= NOW() - INTERVAL 24 HOUR AND status = 'new'
+        ORDER BY created_at DESC
+      `);
+    } catch (dbErr) {
+      console.warn('[Test Email] Database query notice:', dbErr.message);
+    }
+
+    const now = new Date();
+    const crmUrl = process.env.CRM_URL || 'https://crm.tiffanywebbimpact.com';
+
+    const briefingHtml = compileLuxuryEmailTemplate({
+      type: 'briefing',
+      title: '🌅 Daily Morning Executive Briefing',
+      subtitle: `Date: ${now.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}`,
+      kpis: [
+        { label: 'Due Today', value: (dueToday || []).length, color: '#D9A23A' },
+        { label: 'Overdue', value: (overdue || []).length, color: '#ef4444' },
+        { label: 'New Inquiries', value: (overnightLeads || []).length, color: '#38bdf8' }
+      ],
+      dueToday: dueToday || [],
+      overdue: overdue || [],
+      overnightLeads: overnightLeads || [],
+      crmUrl
+    });
+
+    if (!transporter) {
+      return res.status(200).json({
+        success: true,
+        message: 'Luxury briefing email template successfully rendered (Mail transporter unconfigured in .env)',
+        deliveredTo: recipient,
+        templateLength: briefingHtml.length
+      });
+    }
+
+    const info = await transporter.sendMail({
+      from: `"Tiffany Webb Impact OS" <${process.env.EMAIL_HOST_USER || 'booking@tiffanywebbimpact.com'}>`,
+      to: recipient,
+      subject: `[Impact OS Test] Daily Morning Executive Briefing — ${now.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`,
+      html: briefingHtml
+    });
+
+    return res.json({
+      success: true,
+      message: 'Test email successfully sent!',
+      deliveredTo: recipient,
+      messageId: info.messageId
+    });
+  } catch (err) {
+    console.error('[Test Email Error]:', err.message);
+    res.status(500).json({
+      success: false,
+      error: err.message,
+      deliveredTo: process.env.BRIEFING_EMAIL || 'rishilwork08@gmail.com'
+    });
+  }
+});
 
 // Background Cron Scheduler (Runs every 60 seconds)
 setInterval(() => {
@@ -1679,9 +1971,13 @@ app.use((req, res) => {
 });
 
 // Start Tiffany Webb Impact OS Server
-app.listen(port, () => {
-  console.log(`🛡️ Tiffany Webb Impact OS™ active on http://localhost:${port}`);
-});
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(port, () => {
+    console.log(`🛡️ Tiffany Webb Impact OS™ active on http://localhost:${port}`);
+  });
+}
+
+module.exports = { app, compileLuxuryEmailTemplate, createMailTransporter };
 
 
 
