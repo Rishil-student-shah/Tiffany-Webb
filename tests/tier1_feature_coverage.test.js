@@ -554,11 +554,11 @@ describe('Tier 1: Feature Coverage (>=5 tests per feature)', () => {
       expect(nextSteps.textContent).toContain('04 Delivery');
     });
 
-    it('6.5: renders Alternative Contact with direct booking email booking@tiffanywebb.com and nationwide positioning', () => {
+    it('6.5: renders Alternative Contact with direct booking email booking@tiffanywebbimpact.com and nationwide positioning', () => {
       const altContact = doc.getElementById('booking_alt_contact');
       expect(altContact).toBeTruthy();
       expect(altContact.textContent).toContain('Alternative Inquiries');
-      expect(altContact.textContent).toContain('booking@tiffanywebb.com');
+      expect(altContact.textContent).toContain('booking@tiffanywebbimpact.com');
       expect(altContact.textContent).toContain('Based in Chicago Area, Illinois · Serving Nationwide');
 
       // Verify empty FAQ collapses

@@ -148,8 +148,8 @@
                         </div>
 
                         <div class="form-group">
-                            <label>Contact Full Name *</label>
-                            <input type="text" name="contact_name" required placeholder="e.g. Dr. Eleanor Vance">
+                            <label>Contact Full Name <span style="font-size: 0.75rem; color: var(--color-gold); font-weight: normal;">(At least 1 contact method required: Name, Email, or Phone)</span></label>
+                            <input type="text" name="contact_name" id="leadNameInput" placeholder="e.g. Dr. Eleanor Vance">
                         </div>
 
                         <div class="form-group">
@@ -182,19 +182,25 @@
 
                         <div class="form-group">
                             <label>Event Engagement Type</label>
-                            <select name="event_type" id="eventTypeSelect">
+                            <select name="event_type" id="eventTypeSelect" onchange="toggleOtherInput(this, 'eventTypeOtherWrap')">
+                                <option value="">-- Select Event Type (Optional) --</option>
                                 <option value="Conference Keynote">Conference Keynote</option>
                                 <option value="Executive Boardroom">Executive Boardroom</option>
                                 <option value="Healthcare Organization">Healthcare Organization</option>
                                 <option value="University & Higher Ed">University & Higher Ed</option>
                                 <option value="Workshop / Training">Workshop / Training</option>
                                 <option value="Public Health / Non-Profit">Public Health / Non-Profit</option>
+                                <option value="Other">Other (Specify below)</option>
                             </select>
+                            <div id="eventTypeOtherWrap" style="display: none; margin-top: 0.5rem;">
+                                <input type="text" name="event_type_other" class="form-control" placeholder="Specify custom event type...">
+                            </div>
                         </div>
 
                         <div class="form-group">
                             <label>Topic Interest Track</label>
-                            <select name="topic_interest" id="topicInterestSelect">
+                            <select name="topic_interest" id="topicInterestSelect" onchange="toggleOtherInput(this, 'topicInterestOtherWrap')">
+                                <option value="">-- Select Topic Interest (Optional) --</option>
                                 <optgroup label="Track 01: Prevention & Awareness">
                                     <option value="Gambling Prevention and Community Awareness">1. Gambling Prevention and Community Awareness</option>
                                     <option value="Don't Bet on Your Future (Youth Focus)">2. Don't Bet on Your Future (Youth Focus)</option>
@@ -227,8 +233,12 @@
                                     <option value="Break the Silence: Prevention Begins with a Conversation">21. Break the Silence: Prevention Begins with a Conversation (Flagship)</option>
                                     <option value="General Discussion">General Discussion / Custom Keynote</option>
                                     <option value="Not sure yet">Not sure yet (Explore Options)</option>
+                                    <option value="Other">Other (Specify below)</option>
                                 </optgroup>
                             </select>
+                            <div id="topicInterestOtherWrap" style="display: none; margin-top: 0.5rem;">
+                                <input type="text" name="topic_interest_other" class="form-control" placeholder="Specify custom topic...">
+                            </div>
                         </div>
 
                         <div class="form-group">
@@ -326,6 +336,30 @@
             }
         }
 
+        function toggleOtherInput(selectEl, wrapId) {
+            const wrap = document.getElementById(wrapId);
+            if (wrap) {
+                wrap.style.display = selectEl.value === 'Other' ? 'block' : 'none';
+                if (selectEl.value !== 'Other') {
+                    const inp = wrap.querySelector('input');
+                    if (inp) inp.value = '';
+                }
+            }
+        }
+
+        // Form submit validation: At Least One Identifier required
+        document.getElementById('manualLeadForm').addEventListener('submit', function(e) {
+            const name = (document.getElementById('leadNameInput').value || '').trim();
+            const email = (document.getElementById('leadEmailInput').value || '').trim();
+            const phone = (document.getElementById('leadPhoneInput').value || '').trim();
+
+            if (!name && !email && !phone) {
+                e.preventDefault();
+                alert('Please provide at least one contact method: Name, Phone Number, or Email Address.');
+                return false;
+            }
+        });
+
         // Real-time duplicate check with debouncing
         let duplicateTimeout = null;
         function debounceDuplicateCheck() {
@@ -392,27 +426,65 @@
         }
 
         function processParsedData(data) {
-            parsedLeadsData = data.map(row => ({
-                source: 'manual',
-                contact_name: row['Name'] || row['Contact Name'] || row['contact_name'] || row['Full Name'] || 'Unknown',
-                email: row['Email'] || row['email'] || '',
-                phone: row['Phone'] || row['phone'] || '',
-                organization_name: row['Organization'] || row['Company'] || row['organization_name'] || '',
-                topic_interest: row['Topic'] || row['topic_interest'] || '',
-                event_date: row['Date'] || row['event_date'] || null,
-                message: row['Message'] || row['message'] || ''
-            }));
+            if (!Array.isArray(data)) return;
+
+            parsedLeadsData = data.map(row => {
+                const findVal = (keys) => {
+                    for (const k of Object.keys(row)) {
+                        const cleanK = k.toLowerCase().replace(/[^a-z0-9]/g, '');
+                        for (const target of keys) {
+                            if (cleanK === target.toLowerCase().replace(/[^a-z0-9]/g, '')) {
+                                const val = row[k];
+                                return (val !== undefined && val !== null) ? String(val).trim() : '';
+                            }
+                        }
+                    }
+                    return '';
+                };
+
+                const contactName = findVal(['name', 'contact name', 'contact_name', 'full name', 'fullname', 'contact']);
+                const email = findVal(['email', 'email address', 'e-mail', 'mail']);
+                const phone = findVal(['phone', 'phone number', 'telephone', 'mobile', 'cell', 'tel']);
+                const org = findVal(['organization', 'organization name', 'organization_name', 'company', 'company name', 'org', 'institution', 'university']);
+                const topic = findVal(['topic', 'topic interest', 'topic_interest', 'track', 'subject']);
+                const eventType = findVal(['event type', 'event_type', 'type', 'format', 'engagement']);
+                const eventDate = findVal(['date', 'event date', 'event_date', 'target date']);
+                const eventLocation = findVal(['location', 'city', 'event location', 'event_location', 'venue']);
+                const audienceSize = findVal(['size', 'audience size', 'audience', 'estimated audience size', 'estimated_audience_size']);
+                const budget = findVal(['budget', 'budget range', 'budget_range', 'fee', 'honorarium']);
+                const message = findVal(['message', 'notes', 'inquiry notes', 'details', 'comment', 'comments', 'description']);
+
+                return {
+                    source: 'manual',
+                    contact_name: contactName,
+                    email: email,
+                    phone: phone,
+                    organization_name: org,
+                    topic_interest: topic,
+                    event_type: eventType,
+                    event_date: eventDate || null,
+                    event_location: eventLocation,
+                    estimated_audience_size: audienceSize,
+                    budget_range: budget,
+                    message: message
+                };
+            }).filter(lead => {
+                // At least one identifier: name, phone, or email
+                return (lead.contact_name && lead.contact_name.length > 0) ||
+                       (lead.email && lead.email.length > 0) ||
+                       (lead.phone && lead.phone.length > 0);
+            });
 
             const tbody = document.getElementById('previewTableBody');
             tbody.innerHTML = '';
             parsedLeadsData.forEach(lead => {
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
-                    <td>${lead.contact_name}</td>
-                    <td>${lead.email}</td>
-                    <td>${lead.phone}</td>
-                    <td>${lead.organization_name}</td>
-                    <td>${lead.topic_interest}</td>
+                    <td>${lead.contact_name || '<em style="color:var(--color-text-dim);">[None]</em>'}</td>
+                    <td>${lead.email || '<em style="color:var(--color-text-dim);">[None]</em>'}</td>
+                    <td>${lead.phone || '<em style="color:var(--color-text-dim);">[None]</em>'}</td>
+                    <td>${lead.organization_name || '-'}</td>
+                    <td>${lead.topic_interest || '-'}</td>
                 `;
                 tbody.appendChild(tr);
             });
@@ -422,7 +494,10 @@
         }
 
         async function submitBatchImport() {
-            if (parsedLeadsData.length === 0) return;
+            if (parsedLeadsData.length === 0) {
+                alert('No valid leads found in file (each lead must contain at least a Name, Email, or Phone).');
+                return;
+            }
             const btn = document.getElementById('importBatchBtn');
             btn.disabled = true;
             btn.textContent = 'Importing...';

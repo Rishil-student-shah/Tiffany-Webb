@@ -1108,8 +1108,8 @@ class AppHarness {
       <section class="booking-alt-contact" id="booking_alt_contact">
         <span class="eyebrow">${alt.eyebrow || 'DIRECT CONTACT'}</span>
         <h2>${alt.headline || 'Alternative Inquiries'}</h2>
-        <p class="contact-email">Email: <a href="mailto:${alt.email || 'booking@tiffanywebb.com'}">${alt.email || 'booking@tiffanywebb.com'}</a></p>
-        <p class="contact-note">${alt.note || 'For direct correspondence, media inquiries, or urgent requests, email us directly at booking@tiffanywebb.com.'}</p>
+        <p class="contact-email">Email: <a href="mailto:${alt.email || 'booking@tiffanywebbimpact.com'}">${alt.email || 'booking@tiffanywebbimpact.com'}</a></p>
+        <p class="contact-note">${alt.note || 'For direct correspondence, media inquiries, or urgent requests, email us directly at booking@tiffanywebbimpact.com.'}</p>
         <p class="contact-location">${alt.location || 'Based in Chicago Area, Illinois · Serving Nationwide.'}</p>
       </section>`;
     } else if (slug === 'insights') {
@@ -1160,7 +1160,7 @@ class AppHarness {
   <footer class="footer">
     <p class="copyright">© 2026 Tiffany Webb. All rights reserved.</p>
     <p class="tagline">Chicago Heart — Louisiana Soul · Serving Nationally</p>
-    <p class="email">booking@tiffanywebb.com</p>
+    <p class="email">booking@tiffanywebbimpact.com</p>
   </footer>
 </body>
 </html>`;

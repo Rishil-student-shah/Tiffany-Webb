@@ -209,8 +209,13 @@
                                                             <div>
                                                                 <span class="data-label" style="display: block; margin-bottom: 0.4rem;">Preview</span>
                                                                 <div id="preview_frame_<%= item.id %>" class="cms-frame-shape">
-                                                                    <img id="img_preview_<%= item.id %>" src="<%= item.content_value || '' %>" class="cms-preview-img" style="display: <%= item.content_value ? 'block' : 'none' %>;">
-                                                                    <span style="font-size: 0.75rem; color: var(--color-text-dim); display: <%= item.content_value ? 'none' : 'block' %>;">No Image Set</span>
+                                                                    <% if (item.content_value && item.content_value.trim().length > 0) { %>
+                                                                        <img id="img_preview_<%= item.id %>" src="<%= item.content_value %>" class="cms-preview-img" style="display: block;">
+                                                                        <span style="font-size: 0.75rem; color: var(--color-text-muted); display: none;">No image uploaded (Optional)</span>
+                                                                    <% } else { %>
+                                                                        <img id="img_preview_<%= item.id %>" src="" class="cms-preview-img" style="display: none;">
+                                                                        <span style="font-size: 0.75rem; color: var(--color-text-muted); display: block;">No image uploaded (Optional)</span>
+                                                                    <% } %>
                                                                 </div>
                                                             </div>
                                                         </div>

@@ -399,10 +399,33 @@ app.post('/api/leads', (req, res, next) => {
   try {
     const { 
       contact_name, organization_name, email, country_code, phone, 
-      event_type, event_date, event_location, estimated_audience_size, 
-      message, source, source_section, source_card, topic_interest, budget_range, is_manual 
+      event_type: raw_event_type, event_type_other,
+      topic_interest: raw_topic_interest, topic_interest_other,
+      event_date, event_location, estimated_audience_size, 
+      message, source, source_section, source_card, budget_range, is_manual 
     } = req.body;
     
+    // Validate "At Least One Identifier" rule
+    const hasIdentifier = (contact_name && String(contact_name).trim().length > 0) ||
+                          (phone && String(phone).trim().length > 0) ||
+                          (email && String(email).trim().length > 0);
+    if (!hasIdentifier) {
+      if (is_manual) {
+        return res.redirect('/leads/new?error=' + encodeURIComponent('Please provide at least one contact method: Name, Phone Number, or Email Address.'));
+      }
+      return res.status(400).json({ error: 'Please provide at least one contact method: Name, Phone Number, or Email Address.' });
+    }
+
+    // Handle "Other" custom text override if provided
+    let event_type = raw_event_type || null;
+    if (event_type === 'Other' && event_type_other && String(event_type_other).trim().length > 0) {
+      event_type = `Other: ${String(event_type_other).trim()}`;
+    }
+    let topic_interest = raw_topic_interest || null;
+    if (topic_interest === 'Other' && topic_interest_other && String(topic_interest_other).trim().length > 0) {
+      topic_interest = `Other: ${String(topic_interest_other).trim()}`;
+    }
+
     // MySQL DATE column requires YYYY-MM-DD or null. If we get a string that isn't a valid date, we set it to null.
     let validDate = null;
     if (event_date) {
@@ -412,6 +435,8 @@ app.post('/api/leads', (req, res, next) => {
         }
     }
 
+    const safeSource = (source && ['website_form', 'whatsapp', 'instagram', 'email', 'referral', 'manual'].includes(source)) ? source : (is_manual ? 'manual' : 'website_form');
+
     const [result] = await pool.query(`
       INSERT INTO leads (
         source, source_section, source_card, contact_name, organization_name, 
@@ -420,21 +445,21 @@ app.post('/api/leads', (req, res, next) => {
       )
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `, [
-      source || 'website_form',
+      safeSource,
       source_section || 'Direct / General Inquiry',
       source_card || null,
-      contact_name,
-      organization_name,
-      email,
+      contact_name ? String(contact_name).trim() : null,
+      organization_name ? String(organization_name).trim() : null,
+      email ? String(email).trim() : null,
       country_code || null,
-      phone,
+      phone ? String(phone).trim() : null,
       event_type,
-      topic_interest || null,
+      topic_interest,
       validDate,
-      event_location,
+      event_location ? String(event_location).trim() : null,
       estimated_audience_size || null,
       budget_range || null,
-      message
+      message ? String(message).trim() : null
     ]);
     
     // Log detailed activity with origin card
@@ -448,7 +473,7 @@ app.post('/api/leads', (req, res, next) => {
     }
   } catch (error) {
     console.error(error);
-    if (req.body.is_manual) {
+    if (req.body && req.body.is_manual) {
         res.redirect('/leads/new?error=Could not add lead to database');
     } else {
         res.status(500).json({ error: 'Server error creating lead' });
@@ -1251,22 +1276,45 @@ app.get('/leads/new', requireAuth, async (req, res) => {
   }
 });
 
-// POST Batch Leads (CSV Upload)
+// POST Batch Leads (CSV / XLSX Upload)
 app.post('/api/leads/batch', requireAuth, async (req, res) => {
   try {
-    const leads = req.body.leads; // Expecting JSON array from PapaParse
+    const leads = req.body.leads; // Expecting JSON array from PapaParse / SheetJS
     if (!Array.isArray(leads) || leads.length === 0) {
         return res.status(400).json({ error: 'No leads provided' });
     }
 
     let inserted = 0;
     for (const lead of leads) {
+        const contactName = (lead.contact_name || lead.name || '').trim();
+        const phone = (lead.phone || '').trim();
+        const email = (lead.email || '').trim();
+
+        // Require at least one contact identifier per row
+        const hasIdentifier = contactName.length > 0 || phone.length > 0 || email.length > 0;
+        if (!hasIdentifier) {
+            continue; // Gracefully skip empty/non-identified row without failing batch
+        }
+
         let validDate = null;
-        if (lead.event_date) {
-            const d = new Date(lead.event_date);
+        const rawDate = lead.event_date || lead.date;
+        if (rawDate) {
+            const d = new Date(rawDate);
             if (!isNaN(d.getTime())) {
                 validDate = d.toISOString().split('T')[0];
             }
+        }
+
+        let event_type = (lead.event_type || lead.type || '').trim() || null;
+        if (event_type === 'Other' && (lead.event_type_other || lead.custom_event)) {
+          const otherVal = (lead.event_type_other || lead.custom_event).trim();
+          if (otherVal) event_type = `Other: ${otherVal}`;
+        }
+
+        let topic_interest = (lead.topic_interest || lead.topic || '').trim() || null;
+        if (topic_interest === 'Other' && (lead.topic_interest_other || lead.custom_topic)) {
+          const otherVal = (lead.topic_interest_other || lead.custom_topic).trim();
+          if (otherVal) topic_interest = `Other: ${otherVal}`;
         }
         
         const [result] = await pool.query(`
@@ -1280,24 +1328,24 @@ app.post('/api/leads/batch', requireAuth, async (req, res) => {
           (lead.source && ['website_form', 'whatsapp', 'instagram', 'email', 'referral', 'manual'].includes(lead.source)) ? lead.source : 'manual', 
           lead.source_section || 'Batch CSV Import',
           lead.source_card || null,
-          lead.contact_name || lead.name || 'Unknown', 
-          lead.organization_name || lead.org || null, 
-          lead.email || null, 
-          lead.country_code || null,
-          lead.phone || null, 
-          lead.event_type || null, 
-          lead.topic_interest || lead.topic || null,
+          contactName || null, 
+          (lead.organization_name || lead.org || '').trim() || null, 
+          email || null, 
+          lead.country_code || null, 
+          phone || null, 
+          event_type, 
+          topic_interest,
           validDate, 
-          lead.event_location || lead.location || null, 
-          lead.estimated_audience_size || lead.size || null, 
-          lead.budget_range || lead.budget || null,
-          lead.message || null
+          (lead.event_location || lead.location || '').trim() || null, 
+          (lead.estimated_audience_size || lead.size || '').trim() || null, 
+          (lead.budget_range || lead.budget || '').trim() || null,
+          (lead.message || lead.notes || '').trim() || null
         ]);
         if (result && result.insertId) {
           await pool.query('INSERT INTO activity_log (lead_id, action, detail) VALUES (?, ?, ?)', [
             result.insertId,
             'lead_created',
-            `Lead imported via Batch Spreadsheet (${lead.contact_name || lead.name || 'New Lead'})`
+            `Lead imported via Batch Spreadsheet (${contactName || email || phone || 'New Lead'})`
           ]);
         }
         inserted++;
@@ -1305,7 +1353,7 @@ app.post('/api/leads/batch', requireAuth, async (req, res) => {
     
     res.json({ success: true, count: inserted });
   } catch (err) {
-    console.error(err);
+    console.error('Batch import error:', err);
     res.status(500).json({ error: 'Database error processing batch' });
   }
 });

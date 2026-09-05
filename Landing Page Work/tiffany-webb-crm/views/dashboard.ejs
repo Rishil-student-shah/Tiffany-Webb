@@ -25,10 +25,48 @@
             <a href="/leads/new" class="nav-link">+ Log Inbound</a>
             <a href="/cms" class="nav-link">Website Studio</a>
             <a href="/users" class="nav-link">Team & Access</a>
+            <button onclick="openGuideModal()" class="btn btn-ghost" style="padding: 0.4rem 0.8rem; font-size: 0.8rem; border: 1px solid rgba(217,162,58,0.3); color: #D9A23A; cursor: pointer; background: transparent; border-radius: 6px;">
+                📖 Guide Me
+            </button>
             <span class="nav-pill">Admin</span>
             <a href="/logout" class="nav-link" style="color: #ef4444 !important;">Logout</a>
         </div>
     </nav>
+
+    <!-- Guide Me Modal -->
+    <div id="guideModal" class="modal-backdrop" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 10000; align-items: center; justify-content: center; backdrop-filter: blur(8px);" onclick="if(event.target===this)closeGuideModal()">
+        <div class="card-elite" style="max-width: 650px; width: 90%; max-height: 85vh; overflow-y: auto; border-radius: 16px; padding: 2rem; border: 1px solid rgba(217,162,58,0.3); background: #12100C;" onclick="event.stopPropagation()">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(217,162,58,0.15); padding-bottom: 1rem;">
+                <h2 style="font-family: var(--font-serif); font-size: 1.5rem; color: #FBF6EA; margin: 0;">Impact OS™ <span class="italic-accent">Role Playbook</span></h2>
+                <button onclick="closeGuideModal()" style="background: none; border: none; color: #FBF6EA; font-size: 1.5rem; cursor: pointer;">&times;</button>
+            </div>
+            <!-- Role Tabs -->
+            <div style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem;">
+                <button onclick="switchGuideTab('staff')" id="guide-tab-staff" class="tab-btn active" style="padding: 0.5rem 1rem; border-radius: 8px; font-size: 0.8rem; font-weight: 600; cursor: pointer; background: rgba(217,162,58,0.15); color: #D9A23A; border: 1px solid rgba(217,162,58,0.3);">Staff Member</button>
+                <button onclick="switchGuideTab('assistant')" id="guide-tab-assistant" class="tab-btn" style="padding: 0.5rem 1rem; border-radius: 8px; font-size: 0.8rem; font-weight: 600; cursor: pointer; background: transparent; color: rgba(251,246,234,0.6); border: 1px solid rgba(255,255,255,0.1);">Executive Assistant</button>
+                <button onclick="switchGuideTab('admin')" id="guide-tab-admin" class="tab-btn" style="padding: 0.5rem 1rem; border-radius: 8px; font-size: 0.8rem; font-weight: 600; cursor: pointer; background: transparent; color: rgba(251,246,234,0.6); border: 1px solid rgba(255,255,255,0.1);">Admin (Tiffany)</button>
+            </div>
+            <!-- Role Contents -->
+            <div id="guide-content-staff" class="guide-panel" style="font-size: 0.85rem; color: rgba(251,246,234,0.75); line-height: 1.7;">
+                <h4 style="color: #D9A23A; font-weight: 700; margin-bottom: 0.5rem;">Staff Member Workflow</h4>
+                <p>• <strong>Event Logistics:</strong> Check confirmed event dates, locations, and honorarium notes.</p>
+                <p>• <strong>Internal Notes:</strong> Click the chevron on any lead row to log call notes or briefing updates.</p>
+                <p>• <strong>Access Boundaries:</strong> Read-only access to financial records and system configuration.</p>
+            </div>
+            <div id="guide-content-assistant" class="guide-panel" style="display: none; font-size: 0.85rem; color: rgba(251,246,234,0.75); line-height: 1.7;">
+                <h4 style="color: #38bdf8; font-weight: 700; margin-bottom: 0.5rem;">Executive Assistant Workflow</h4>
+                <p>• <strong>Lead Triage:</strong> Triage new inbound inquiries in the 1-Row Ledger. Use the 1-Click WhatsApp or Email buttons for instant outreach.</p>
+                <p>• <strong>Stage Transitions:</strong> Update pipeline stages (e.g. from <em>New Inquiries</em> to <em>Discovery Call</em> or <em>Proposal Sent</em>).</p>
+                <p>• <strong>Batch Import:</strong> Upload conference attendee spreadsheets via <em>+ Log Inbound</em> -> <em>Batch Import</em>.</p>
+            </div>
+            <div id="guide-content-admin" class="guide-panel" style="display: none; font-size: 0.85rem; color: rgba(251,246,234,0.75); line-height: 1.7;">
+                <h4 style="color: #10b981; font-weight: 700; margin-bottom: 0.5rem;">Master Administrator (Tiffany) Privileges</h4>
+                <p>• <strong>Full Team & Access Control:</strong> Manage staff/assistant accounts in <em>Team & Access</em>. Deactivate users with immediate session revocation.</p>
+                <p>• <strong>Website Studio (Live CMS):</strong> Edit any page text, upload video reels (up to 60MB), and update speaking topics in real-time.</p>
+                <p>• <strong>Financial & Revenue Ledger:</strong> View confirmed earnings and track contract deposits.</p>
+            </div>
+        </div>
+    </div>
 
     <div class="main-content">
         <!-- HEADER & KEYLINES -->
@@ -843,6 +881,38 @@
                     showToast('Error communicating with server');
                 }
             }
+        }
+
+        // 6.5. Role-Based Guide Me Modal Logic
+        function openGuideModal() {
+            const modal = document.getElementById('guideModal');
+            if (modal) modal.style.display = 'flex';
+        }
+
+        function closeGuideModal() {
+            const modal = document.getElementById('guideModal');
+            if (modal) modal.style.display = 'none';
+        }
+
+        function switchGuideTab(role) {
+            const tabs = ['staff', 'assistant', 'admin'];
+            tabs.forEach(r => {
+                const btn = document.getElementById('guide-tab-' + r);
+                const content = document.getElementById('guide-content-' + r);
+                if (btn && content) {
+                    if (r === role) {
+                        btn.style.background = 'rgba(217,162,58,0.15)';
+                        btn.style.color = '#D9A23A';
+                        btn.style.borderColor = 'rgba(217,162,58,0.3)';
+                        content.style.display = 'block';
+                    } else {
+                        btn.style.background = 'transparent';
+                        btn.style.color = 'rgba(251,246,234,0.6)';
+                        btn.style.borderColor = 'rgba(255,255,255,0.1)';
+                        content.style.display = 'none';
+                    }
+                }
+            });
         }
 
         // 7. Custom Luxury Cursor Engine
