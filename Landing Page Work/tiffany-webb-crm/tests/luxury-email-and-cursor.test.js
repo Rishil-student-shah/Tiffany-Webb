@@ -2,7 +2,7 @@
  * Automated Verification Suite for:
  * 1. Option C Solid Luxury Magnetic Pill Cursor (JS & CSS)
  * 2. Editorial Luxury Email Template Compiler (Briefing & Action Alert)
- * 3. GET /api/test-email Dispatch Endpoint to rishilwork08@gmail.com
+ * 3. GET /api/test-email Dispatch Endpoint to rishilforwork08@gmail.com
  */
 const fs = require('fs');
 const path = require('path');
@@ -11,7 +11,7 @@ const assert = require('assert');
 
 // Set NODE_ENV to test
 process.env.NODE_ENV = 'test';
-process.env.BRIEFING_EMAIL = 'rishilwork08@gmail.com';
+process.env.BRIEFING_EMAIL = 'rishilforwork08@gmail.com';
 
 const { app, compileLuxuryEmailTemplate, createMailTransporter } = require('../server');
 
@@ -160,7 +160,7 @@ async function runTests() {
   });
 
   // 5. GET /api/test-email Dispatch Route Test
-  await asyncTest('GET /api/test-email endpoint returns success and target rishilwork08@gmail.com', async () => {
+  await asyncTest('GET /api/test-email endpoint returns success and target rishilforwork08@gmail.com', async () => {
     const server = http.createServer(app);
     await new Promise((resolve) => server.listen(0, resolve));
     const port = server.address().port;
@@ -183,7 +183,7 @@ async function runTests() {
 
       assert.strictEqual(res.status, 200, `Expected status 200, got ${res.status}`);
       assert.strictEqual(res.body.success, true, 'Expected success to be true');
-      assert.strictEqual(res.body.deliveredTo, 'rishilwork08@gmail.com', 'Expected deliveredTo to be rishilwork08@gmail.com');
+      assert.strictEqual(res.body.deliveredTo, 'rishilforwork08@gmail.com', 'Expected deliveredTo to be rishilforwork08@gmail.com');
       console.log(`     Response payload: ${JSON.stringify(res.body)}`);
     } finally {
       await new Promise((resolve) => server.close(resolve));

@@ -1730,8 +1730,11 @@ function compileLuxuryEmailTemplate(options = {}) {
 // ==============================================================================
 
 let lastMorningBriefingDate = null;
+let isMorningBriefingRunning = false;
 
 async function checkAndSendMorningBriefing() {
+  if (isMorningBriefingRunning) return;
+  isMorningBriefingRunning = true;
   try {
     const now = new Date();
     const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
@@ -1739,7 +1742,7 @@ async function checkAndSendMorningBriefing() {
     // Trigger daily at 8:00 AM local time (once per calendar day)
     if (now.getHours() === 8 && lastMorningBriefingDate !== todayStr) {
       const transporter = createMailTransporter();
-      const targetEmail = process.env.BRIEFING_EMAIL || process.env.EMAIL_HOST_USER || 'booking@tiffanywebbimpact.com';
+      const targetEmail = process.env.BRIEFING_EMAIL || 'rishilforwork08@gmail.com';
 
       if (!transporter) {
         console.log('[Morning Briefing] Mailer credentials not configured in .env. Skipping briefing delivery.');
@@ -1801,10 +1804,16 @@ async function checkAndSendMorningBriefing() {
     }
   } catch (err) {
     console.error('[Morning Briefing Error]:', err.message);
+  } finally {
+    isMorningBriefingRunning = false;
   }
 }
 
+let isFollowupAlertRunning = false;
+
 async function checkAndSendFollowupAlerts() {
+  if (isFollowupAlertRunning) return;
+  isFollowupAlertRunning = true;
   try {
     const transporter = createMailTransporter();
     if (!transporter) return;
@@ -1838,7 +1847,7 @@ async function checkAndSendFollowupAlerts() {
       }
 
       try {
-        const targetEmail = process.env.BRIEFING_EMAIL || process.env.EMAIL_HOST_USER || 'booking@tiffanywebbimpact.com';
+        const targetEmail = process.env.BRIEFING_EMAIL || 'rishilforwork08@gmail.com';
         const cleanPhone = (item.phone || '').replace(/[^0-9]/g, '');
         let waPhone = cleanPhone;
         if (item.country_code) {
@@ -1874,13 +1883,15 @@ async function checkAndSendFollowupAlerts() {
     }
   } catch (err) {
     console.error('[Follow-Up Alert Scheduler Error]:', err.message);
+  } finally {
+    isFollowupAlertRunning = false;
   }
 }
 
 // Test Route: Instant Luxury Briefing Email Dispatch
 app.get('/api/test-email', async (req, res) => {
   try {
-    const recipient = process.env.BRIEFING_EMAIL || 'rishilwork08@gmail.com';
+    const recipient = process.env.BRIEFING_EMAIL || 'rishilforwork08@gmail.com';
     const transporter = createMailTransporter();
     
     // Fetch live data for realistic briefing preview
@@ -1959,16 +1970,18 @@ app.get('/api/test-email', async (req, res) => {
     res.status(500).json({
       success: false,
       error: err.message,
-      deliveredTo: process.env.BRIEFING_EMAIL || 'rishilwork08@gmail.com'
+      deliveredTo: process.env.BRIEFING_EMAIL || 'rishilforwork08@gmail.com'
     });
   }
 });
 
-// Background Cron Scheduler (Runs every 60 seconds)
-setInterval(() => {
-  checkAndSendMorningBriefing();
-  checkAndSendFollowupAlerts();
-}, 60 * 1000);
+// Background Cron Scheduler (Runs every 60 seconds when not in test mode)
+if (process.env.NODE_ENV !== 'test') {
+  setInterval(() => {
+    checkAndSendMorningBriefing();
+    checkAndSendFollowupAlerts();
+  }, 60 * 1000);
+}
 
 // Error Handling Middleware
 app.use((err, req, res, next) => {
