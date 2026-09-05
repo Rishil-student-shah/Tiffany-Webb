@@ -258,8 +258,73 @@
                 </div>
             </div>
 
-            <!-- RIGHT COLUMN: ACTIVITY TIMELINE -->
+            <!-- RIGHT COLUMN: NOTES & ACTIVITY TIMELINE -->
             <div>
+                <!-- TEAM INTERNAL NOTES & FOLLOW-UP SCHEDULER -->
+                <div class="panel" style="margin-bottom: 1.5rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 1px solid var(--color-border-subtle); padding-bottom: 0.75rem;">
+                        <h2 class="panel-title" style="margin: 0; font-size: 1.15rem; display: flex; align-items: center; gap: 6px;">
+                            📝 Internal Notes & Follow-Up
+                        </h2>
+                    </div>
+
+                    <!-- Note Composer Form -->
+                    <form id="leadPageNoteForm" onsubmit="event.preventDefault(); postLeadPageNote(<%= lead.id %>);" style="margin-bottom: 1.25rem;">
+                        <div class="form-group" style="margin-bottom: 0.75rem;">
+                            <textarea id="leadNoteText" rows="3" placeholder="Add confidential internal note regarding this deal..." required style="width: 100%; padding: 0.65rem 0.85rem; font-size: 0.84rem; background: #090907; border: 1px solid var(--color-border); border-radius: 8px; color: #fff;"></textarea>
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 0.75rem; background: rgba(251, 246, 234, 0.02); padding: 0.6rem 0.75rem; border-radius: 8px; border: 1px dashed rgba(217, 162, 58, 0.25);">
+                            <span style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--color-gold); font-weight: 700; text-transform: uppercase;">⏰ Schedule Follow-Up (Optional)</span>
+                            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                                <input type="date" id="leadFollowupDate" style="padding: 0.35rem 0.6rem; font-size: 0.78rem; background: #090907; border: 1px solid var(--color-border); border-radius: 6px; color: #fff;">
+                                <input type="time" id="leadFollowupTime" value="14:00" style="padding: 0.35rem 0.6rem; font-size: 0.78rem; background: #090907; border: 1px solid var(--color-border); border-radius: 6px; color: #fff;">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.55rem; font-size: 0.82rem; font-weight: 700;">
+                            + Post Note & Schedule Follow-Up
+                        </button>
+                    </form>
+
+                    <!-- Notes Stream -->
+                    <div id="leadNotesList" style="display: flex; flex-direction: column; gap: 0.65rem; max-height: 260px; overflow-y: auto;">
+                        <% if (typeof notes !== 'undefined' && notes.length > 0) { %>
+                            <% notes.forEach(n => { 
+                                const authorName = n.author_name || 'Staff Member';
+                                const initialChar = (authorName.trim().charAt(0) || 'U').toUpperCase();
+                                const role = (n.author_role || 'staff').toUpperCase();
+                                const timeStr = new Date(n.created_at).toLocaleString([], { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+                            %>
+                                <div class="note-card" style="padding: 0.65rem 0.85rem; background: rgba(251, 246, 234, 0.03); border: 1px solid rgba(217, 162, 58, 0.15); border-radius: 8px; font-size: 0.82rem; display: flex; gap: 0.75rem; align-items: flex-start;">
+                                    <div class="note-avatar" style="width: 28px; height: 28px; min-width: 28px; border-radius: 50%; background: linear-gradient(135deg, #1C1A14 0%, #29241B 100%); border: 1px solid var(--color-gold); color: var(--color-ivory); font-family: var(--font-serif); font-size: 0.85rem; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 2px 6px rgba(0,0,0,0.4);">
+                                        <%= initialChar %>
+                                    </div>
+                                    <div style="flex: 1; min-width: 0;">
+                                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem; flex-wrap: wrap; gap: 0.4rem;">
+                                            <div style="display: flex; align-items: center; gap: 0.45rem;">
+                                                <span style="font-weight: 700; color: var(--color-ivory); font-size: 0.82rem;"><%= authorName %></span>
+                                                <span style="display: inline-block; padding: 0.12rem 0.45rem; background: rgba(217, 162, 58, 0.12); border: 1px solid rgba(217, 162, 58, 0.35); border-radius: 100px; font-family: var(--font-mono); font-size: 0.65rem; font-weight: 700; color: var(--color-gold); letter-spacing: 0.05em; text-transform: uppercase;"><%= role %></span>
+                                            </div>
+                                            <span style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--color-text-dim);"><%= timeStr %></span>
+                                        </div>
+                                        <div style="color: rgba(251, 246, 234, 0.9); font-size: 0.84rem; line-height: 1.45; white-space: pre-wrap; word-break: break-word;"><%= n.note %></div>
+                                        <% if (n.followup_at) { %>
+                                            <div style="margin-top: 6px; display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; background: rgba(217,162,58,0.15); border: 1px solid rgba(217,162,58,0.35); border-radius: 99px; font-size: 0.7rem; color: #D9A23A; font-family: var(--font-mono);">
+                                                <span>⏰ Follow-up:</span> <strong><%= new Date(n.followup_at).toLocaleString([], { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }) %></strong>
+                                                <% if (n.is_completed) { %><span style="color:#10b981; margin-left: 4px;">✓ Completed</span><% } %>
+                                            </div>
+                                        <% } %>
+                                    </div>
+                                </div>
+                            <% }); %>
+                        <% } else { %>
+                            <div id="noLeadNotesNotice" style="color: var(--color-text-dim); font-size: 0.82rem; font-style: italic; padding: 0.5rem 0;">
+                                No internal notes recorded yet.
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+
+                <!-- AUDIT & ACTIVITY LOG -->
                 <div class="panel">
                     <h2 class="panel-title">Audit & Activity Log</h2>
                     <div class="activity-feed">
@@ -298,6 +363,34 @@
                 toggleBtn.textContent = 'Edit Details';
             }
         }
+
+        async function postLeadPageNote(leadId) {
+            const textEl = document.getElementById('leadNoteText');
+            const dateEl = document.getElementById('leadFollowupDate');
+            const timeEl = document.getElementById('leadFollowupTime');
+            const note = textEl ? textEl.value.trim() : '';
+            if (!note) return;
+
+            const followup_date = (dateEl && dateEl.value) ? dateEl.value : null;
+            const followup_time = (timeEl && timeEl.value) ? timeEl.value : null;
+
+            try {
+                const res = await fetch(`/api/leads/${leadId}/notes`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ note, followup_date, followup_time })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    window.location.reload();
+                } else {
+                    alert(data.error || 'Failed to post note');
+                }
+            } catch (err) {
+                alert('Server error saving note');
+            }
+        }
     </script>
+    <script src="/js/impact-os-cursor.js"></script>
 </body>
 </html>

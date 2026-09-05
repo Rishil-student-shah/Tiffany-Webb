@@ -62,8 +62,7 @@ async function runTests() {
   }, { filename: templatePath });
 
   // Assertions on rendered HTML
-  assert(renderedHtml.includes('id="cursorDot"'), 'Custom luxury cursor dot markup is present');
-  assert(renderedHtml.includes('id="cursorRing"'), 'Custom luxury cursor ring markup is present');
+  assert(renderedHtml.includes('/js/impact-os-cursor.js'), 'Universal executive reticle cursor script is linked');
   assert(renderedHtml.includes('class="stat-card stat-card-revenue"'), 'Revenue KPI card is rendered');
   assert(renderedHtml.includes('$40,000.5'), 'Revenue value $40,000.50 is properly formatted in KPI card');
   assert(renderedHtml.includes('Total Inquiries'), 'Total Inquiries label is rendered');
@@ -111,9 +110,11 @@ async function runTests() {
   const cssPath = path.join(__dirname, 'public', 'css', 'crm-theme.css');
   const cssContent = fs.readFileSync(cssPath, 'utf8');
 
-  assert(cssContent.includes('.custom-cursor-dot'), 'CSS contains .custom-cursor-dot');
-  assert(cssContent.includes('.custom-cursor-ring'), 'CSS contains .custom-cursor-ring');
-  assert(cssContent.includes('.cursor-hover'), 'CSS contains .cursor-hover');
+  assert(cssContent.includes('.impact-os-reticle'), 'CSS contains .impact-os-reticle');
+  assert(cssContent.includes('.impact-os-ring'), 'CSS contains .impact-os-ring');
+  assert(cssContent.includes('.cursor-hover-active'), 'CSS contains .cursor-hover-active');
+  assert(cssContent.includes('.reticle-hover-active'), 'CSS contains .reticle-hover-active');
+  assert(cssContent.includes('.followup-pill'), 'CSS contains .followup-pill');
   assert(cssContent.includes('@media (pointer: coarse)'), 'CSS disables custom cursor on mobile touch');
   assert(cssContent.includes('padding: 0.6rem 1rem 0.6rem 2.8rem !important;'), 'CSS has search input padding guardrail to prevent overlap');
   assert(cssContent.includes('left: 0.95rem;'), 'CSS positions search icon left: 0.95rem');
@@ -122,6 +123,7 @@ async function runTests() {
   assert(cssContent.includes('@media (max-width: 1024px)'), 'CSS contains @media (max-width: 1024px) responsive rules');
   assert(cssContent.includes('@media (max-width: 768px)'), 'CSS contains @media (max-width: 768px) responsive rules');
   assert(cssContent.includes('@media (max-width: 480px)'), 'CSS contains @media (max-width: 480px) mobile rules');
+
 
   // TEST 5: Real MySQL Database Integration (if DB is accessible)
   try {

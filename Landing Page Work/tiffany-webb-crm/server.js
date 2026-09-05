@@ -65,18 +65,23 @@ const collectionUpload = upload.fields([
   { name: 'video_file', maxCount: 1 }
 ]);
 
-// Database pool
-const pool = mysql.createPool({
+// Database pool strictly configured from environment variables with SSL support
+const dbConfig = {
   host: process.env.DB_HOST || '127.0.0.1',
+  port: parseInt(process.env.DB_PORT || '3306', 10),
   user: process.env.DB_USER || 'root',
   password: process.env.DB_PASSWORD || '',
   database: process.env.DB_NAME || 'tiffany_crm',
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0
-});
+};
+if (process.env.DB_SSL === 'true') {
+  dbConfig.ssl = { rejectUnauthorized: false };
+}
+const pool = mysql.createPool(dbConfig);
 
-// Ensure database tables and schema migrations
+// Ensure database tables and schema migrations (Follow-up Engine Task 05)
 (async () => {
   try {
     await pool.query(`
@@ -87,16 +92,61 @@ const pool = mysql.createPool({
         author_name VARCHAR(150) NOT NULL,
         author_role VARCHAR(50) NOT NULL DEFAULT 'staff',
         note TEXT NOT NULL,
+        followup_date DATE NULL,
+        followup_time TIME NULL,
+        followup_at DATETIME NULL,
+        is_completed BOOLEAN NOT NULL DEFAULT FALSE,
+        alert_sent BOOLEAN NOT NULL DEFAULT FALSE,
         created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY (lead_id) REFERENCES leads(id) ON DELETE CASCADE,
         FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
     `);
-    console.log('[Database] lead_notes table verified/created.');
+
+    // Verify and add missing columns dynamically on existing databases
+    const [cols] = await pool.query('SHOW COLUMNS FROM lead_notes');
+    const colNames = cols.map(c => c.Field);
+    if (!colNames.includes('followup_date')) {
+      await pool.query('ALTER TABLE lead_notes ADD COLUMN followup_date DATE NULL');
+    }
+    if (!colNames.includes('followup_time')) {
+      await pool.query('ALTER TABLE lead_notes ADD COLUMN followup_time TIME NULL');
+    }
+    if (!colNames.includes('followup_at')) {
+      await pool.query('ALTER TABLE lead_notes ADD COLUMN followup_at DATETIME NULL');
+    }
+    if (!colNames.includes('is_completed')) {
+      await pool.query('ALTER TABLE lead_notes ADD COLUMN is_completed BOOLEAN NOT NULL DEFAULT FALSE');
+    }
+    if (!colNames.includes('alert_sent')) {
+      await pool.query('ALTER TABLE lead_notes ADD COLUMN alert_sent BOOLEAN NOT NULL DEFAULT FALSE');
+    }
+    console.log('[Database] lead_notes table and follow-up engine schema verified.');
   } catch (err) {
     console.error('[Database Migration Warning]:', err.message);
   }
 })();
+
+// Reusable Mail Transporter Helper
+function createMailTransporter() {
+  const host = process.env.EMAIL_HOST || 'smtp.gmail.com';
+  const port = parseInt(process.env.EMAIL_PORT || '587', 10);
+  const secure = process.env.EMAIL_SECURE === 'true' || port === 465;
+  const user = process.env.EMAIL_HOST_USER || '';
+  const pass = process.env.EMAIL_HOST_PASSWORD || process.env.EMAIL_HOST_PASS || '';
+
+  if (!user || !pass) {
+    return null;
+  }
+
+  return nodemailer.createTransport({
+    host,
+    port,
+    secure,
+    auth: { user, pass },
+    tls: { rejectUnauthorized: false }
+  });
+}
 
 // Helper: Save base64 cropped image to uploads directory with strict MIME whitelist
 function saveBase64Image(dataUrl) {
@@ -161,7 +211,12 @@ function parseCookies(req) {
   return list;
 }
 
-const JWT_SECRET = process.env.JWT_SECRET || 'tiffany-webb-crm-secret-key-2025';
+// Security: Strict JWT secret validation
+if (!process.env.JWT_SECRET) {
+  console.error('[FATAL SECURITY ERROR] process.env.JWT_SECRET is missing. Server aborted.');
+  process.exit(1);
+}
+const JWT_SECRET = process.env.JWT_SECRET;
 
 // --- 8-Layer Cyber-Attack Security Suite ---
 
@@ -521,13 +576,13 @@ app.get('/api/leads/check-duplicate', requireAuth, async (req, res) => {
   }
 });
 
-// --- Persistent Multi-User Client Notes Endpoints ---
+// --- Persistent Multi-User Client Notes & Follow-Up Scheduler Endpoints ---
 
-// POST /api/leads/:id/notes (Add Persistent Note)
+// POST /api/leads/:id/notes (Add Persistent Note & Schedule Follow-Up)
 app.post('/api/leads/:id/notes', requireAuth, async (req, res) => {
   try {
     const leadId = req.params.id;
-    const { note } = req.body;
+    const { note, followup_date: raw_date, followup_time: raw_time } = req.body;
     if (!note || !note.trim()) {
       return res.status(400).json({ error: 'Note content cannot be empty' });
     }
@@ -537,17 +592,35 @@ app.post('/api/leads/:id/notes', requireAuth, async (req, res) => {
     const authorRole = req.user.role || 'staff';
     const userId = req.user.id;
 
+    // Follow-up scheduling calculation
+    let followup_date = null;
+    let followup_time = null;
+    let followup_at = null;
+
+    if (raw_date && String(raw_date).trim().length > 0) {
+      followup_date = String(raw_date).trim();
+      followup_time = (raw_time && String(raw_time).trim().length > 0) 
+        ? String(raw_time).trim() 
+        : '09:00:00';
+      if (followup_time.length === 5) followup_time += ':00';
+      followup_at = `${followup_date} ${followup_time}`;
+    }
+
     const [result] = await pool.query(`
-      INSERT INTO lead_notes (lead_id, user_id, author_name, author_role, note)
-      VALUES (?, ?, ?, ?, ?)
-    `, [leadId, userId, authorName, authorRole, note.trim()]);
+      INSERT INTO lead_notes (lead_id, user_id, author_name, author_role, note, followup_date, followup_time, followup_at)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    `, [leadId, userId, authorName, authorRole, note.trim(), followup_date, followup_time, followup_at]);
 
     // Record note in Activity Log so all users see it
     const summary = note.trim().length > 60 ? note.trim().substring(0, 60) + '...' : note.trim();
+    const actionDetail = followup_at 
+      ? `Internal note & follow-up scheduled for ${followup_date} by ${authorName} (${authorRole}): "${summary}"`
+      : `Internal note by ${authorName} (${authorRole}): "${summary}"`;
+
     await pool.query(`
       INSERT INTO activity_log (lead_id, user_id, action, detail)
       VALUES (?, ?, 'note_added', ?)
-    `, [leadId, userId, `Internal note by ${authorName} (${authorRole}): "${summary}"`]);
+    `, [leadId, userId, actionDetail]);
 
     res.json({
       success: true,
@@ -556,6 +629,10 @@ app.post('/api/leads/:id/notes', requireAuth, async (req, res) => {
         author_name: authorName,
         author_role: authorRole,
         note: note.trim(),
+        followup_date,
+        followup_time,
+        followup_at,
+        is_completed: false,
         created_at: new Date()
       }
     });
@@ -565,11 +642,11 @@ app.post('/api/leads/:id/notes', requireAuth, async (req, res) => {
   }
 });
 
-// GET /api/leads/:id/notes (Retrieve Lead Notes)
-app.get('/api/leads/:id/notes', async (req, res) => {
+// GET /api/leads/:id/notes (Retrieve Lead Notes & Follow-ups)
+app.get('/api/leads/:id/notes', requireAuth, async (req, res) => {
   try {
     const [notes] = await pool.query(`
-      SELECT id, author_name, author_role, note, created_at 
+      SELECT id, author_name, author_role, note, followup_date, followup_time, followup_at, is_completed, created_at 
       FROM lead_notes 
       WHERE lead_id = ? 
       ORDER BY created_at DESC
@@ -578,6 +655,22 @@ app.get('/api/leads/:id/notes', async (req, res) => {
   } catch (err) {
     console.error('[Get Notes Error]:', err.message);
     res.status(500).json({ error: 'Failed to fetch notes' });
+  }
+});
+
+
+// POST /api/leads/notes/:noteId/toggle-complete
+app.post('/api/leads/notes/:noteId/toggle-complete', requireAuth, async (req, res) => {
+  try {
+    const { noteId } = req.params;
+    const [notes] = await pool.query('SELECT is_completed, lead_id FROM lead_notes WHERE id = ?', [noteId]);
+    if (notes.length === 0) return res.status(404).json({ error: 'Note not found' });
+    const newStatus = notes[0].is_completed ? 0 : 1;
+    await pool.query('UPDATE lead_notes SET is_completed = ? WHERE id = ?', [newStatus, noteId]);
+    res.json({ success: true, is_completed: newStatus });
+  } catch (err) {
+    console.error('[Toggle Note Complete Error]:', err.message);
+    res.status(500).json({ error: 'Failed to update note status' });
   }
 });
 
@@ -707,20 +800,17 @@ app.post('/forgot-password', async (req, res) => {
 
     await pool.query('UPDATE users SET reset_token = ?, reset_token_expires = ? WHERE id = ?', [otp, sqlDatetime, user.id]);
 
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: process.env.EMAIL_HOST_USER,
-        pass: process.env.EMAIL_HOST_PASSWORD
-      }
-    });
-    
-    await transporter.sendMail({
-      from: `"Tiffany Webb Impact OS" <${process.env.EMAIL_HOST_USER}>`,
-      to: user.email,
-      subject: 'Password Reset OTP',
-      html: `<p>You requested a password reset.</p><p>Your 6-digit OTP is: <strong>${otp}</strong></p><p>This OTP is valid for 15 minutes. If you didn't request this, please ignore this email.</p>`
-    });
+    const transporter = createMailTransporter();
+    if (transporter) {
+      await transporter.sendMail({
+        from: `"Tiffany Webb Impact OS" <${process.env.EMAIL_HOST_USER || 'booking@tiffanywebbimpact.com'}>`,
+        to: user.email,
+        subject: 'Password Reset OTP — Tiffany Webb Impact OS',
+        html: `<p>You requested a password reset for Tiffany Webb Impact OS™.</p><p>Your 6-digit OTP is: <strong>${otp}</strong></p><p>This OTP is valid for 15 minutes. If you didn't request this, please ignore this email.</p>`
+      });
+    } else {
+      console.warn(`[Impact OS Auth Warning] Mail transporter not configured. OTP generated for ${user.email}: ${otp}`);
+    }
 
     if (isFetch) {
       return res.json({ success: true, message: 'OTP sent successfully.' });
@@ -766,9 +856,13 @@ app.post('/reset-password', async (req, res) => {
 // --- Dashboard Routes (EJS) ---
 app.get('/dashboard', requireAuth, async (req, res) => {
   try {
-    // Join bookings to get confirmed revenue & event dates
+    // Join bookings to get confirmed revenue & event dates + active follow-up subquery
     const [leads] = await pool.query(`
-      SELECT l.*, b.fee_amount, b.confirmed_date, b.deposit_status 
+      SELECT l.*, b.fee_amount, b.confirmed_date, b.deposit_status,
+        (SELECT CONCAT(DATE_FORMAT(ln.followup_at, '%e %b, %l:%i %p'), ' · "', SUBSTRING(ln.note, 1, 30), (CASE WHEN LENGTH(ln.note) > 30 THEN '..."' ELSE '"' END))
+         FROM lead_notes ln 
+         WHERE ln.lead_id = l.id AND ln.followup_at IS NOT NULL AND ln.is_completed = 0
+         ORDER BY ln.followup_at ASC LIMIT 1) AS active_followup
       FROM leads l 
       LEFT JOIN bookings b ON l.id = b.lead_id 
       ORDER BY l.created_at DESC
@@ -1159,8 +1253,14 @@ app.get('/lead/:id', requireAuth, async (req, res) => {
     
     const [messages] = await pool.query('SELECT * FROM messages WHERE lead_id = ? ORDER BY created_at ASC', [req.params.id]);
     const [activity] = await pool.query('SELECT * FROM activity_log WHERE lead_id = ? ORDER BY created_at DESC', [req.params.id]);
+    const [notes] = await pool.query(`
+      SELECT id, author_name, author_role, note, followup_date, followup_time, followup_at, is_completed, created_at 
+      FROM lead_notes 
+      WHERE lead_id = ? 
+      ORDER BY created_at DESC
+    `, [req.params.id]);
     
-    res.render('lead', { lead: leads[0], messages, activity });
+    res.render('lead', { lead: leads[0], messages, activity, notes });
   } catch (err) {
     console.error(err);
     res.status(500).send('Error loading lead');
@@ -1358,6 +1458,211 @@ app.post('/api/leads/batch', requireAuth, async (req, res) => {
   }
 });
 
+// ==============================================================================
+// AUTONOMOUS EMAIL ENGINE: 8:00 AM Daily Briefing & 1-Hour Action Alerts (Task 05)
+// ==============================================================================
+
+let lastMorningBriefingDate = null;
+
+async function checkAndSendMorningBriefing() {
+  try {
+    const now = new Date();
+    const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+
+    // Trigger daily at 8:00 AM local time (once per calendar day)
+    if (now.getHours() === 8 && lastMorningBriefingDate !== todayStr) {
+      const transporter = createMailTransporter();
+      const targetEmail = process.env.BRIEFING_EMAIL || process.env.EMAIL_HOST_USER || 'booking@tiffanywebbimpact.com';
+
+      if (!transporter) {
+        console.log('[Morning Briefing] Mailer credentials not configured in .env. Skipping briefing delivery.');
+        lastMorningBriefingDate = todayStr;
+        return;
+      }
+
+      // 1. Follow-ups due today
+      const [dueToday] = await pool.query(`
+        SELECT ln.*, l.contact_name, l.organization_name, l.phone, l.email, l.status, l.source_section 
+        FROM lead_notes ln
+        JOIN leads l ON ln.lead_id = l.id
+        WHERE DATE(ln.followup_at) = CURDATE() AND ln.is_completed = 0
+        ORDER BY ln.followup_at ASC
+      `);
+
+      // 2. Overdue deals / follow-ups
+      const [overdue] = await pool.query(`
+        SELECT ln.*, l.contact_name, l.organization_name, l.phone, l.email, l.status, l.source_section 
+        FROM lead_notes ln
+        JOIN leads l ON ln.lead_id = l.id
+        WHERE ln.followup_at < NOW() AND DATE(ln.followup_at) < CURDATE() AND ln.is_completed = 0
+        ORDER BY ln.followup_at ASC
+      `);
+
+      // 3. New overnight inquiries in last 24 hours
+      const [overnightLeads] = await pool.query(`
+        SELECT * FROM leads 
+        WHERE created_at >= NOW() - INTERVAL 24 HOUR AND status = 'new'
+        ORDER BY created_at DESC
+      `);
+
+      const crmUrl = process.env.CRM_URL || 'https://crm.tiffanywebbimpact.com';
+
+      const briefingHtml = `
+        <div style="background: #0D0C08; color: #FBF6EA; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 2rem; max-width: 600px; margin: 0 auto; border-radius: 12px; border: 1px solid rgba(217,162,58,0.25);">
+          <div style="border-bottom: 1px solid rgba(217,162,58,0.2); padding-bottom: 1rem; margin-bottom: 1.5rem;">
+            <span style="color: #D9A23A; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase;">Tiffany Webb Impact OS™</span>
+            <h1 style="color: #FBF6EA; font-size: 1.6rem; margin: 0.5rem 0 0;">🌅 Daily Morning Executive Briefing</h1>
+            <p style="color: rgba(251,246,234,0.6); font-size: 0.85rem; margin-top: 0.25rem;">Date: ${now.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
+          </div>
+
+          <!-- Summary KPI Strip -->
+          <div style="display: flex; gap: 10px; margin-bottom: 1.5rem;">
+            <div style="flex: 1; background: #1C1A14; border: 1px solid rgba(217,162,58,0.2); border-radius: 8px; padding: 12px; text-align: center;">
+              <div style="font-size: 1.4rem; font-weight: 700; color: #D9A23A;">${dueToday.length}</div>
+              <div style="font-size: 0.72rem; color: rgba(251,246,234,0.6); text-transform: uppercase;">Due Today</div>
+            </div>
+            <div style="flex: 1; background: #1C1A14; border: 1px solid rgba(239,68,68,0.3); border-radius: 8px; padding: 12px; text-align: center;">
+              <div style="font-size: 1.4rem; font-weight: 700; color: #ef4444;">${overdue.length}</div>
+              <div style="font-size: 0.72rem; color: rgba(251,246,234,0.6); text-transform: uppercase;">Overdue</div>
+            </div>
+            <div style="flex: 1; background: #1C1A14; border: 1px solid rgba(56,189,248,0.3); border-radius: 8px; padding: 12px; text-align: center;">
+              <div style="font-size: 1.4rem; font-weight: 700; color: #38bdf8;">${overnightLeads.length}</div>
+              <div style="font-size: 0.72rem; color: rgba(251,246,234,0.6); text-transform: uppercase;">New Inquiries</div>
+            </div>
+          </div>
+
+          <!-- Follow-ups Due Today -->
+          <div style="margin-bottom: 1.5rem;">
+            <h3 style="color: #D9A23A; font-size: 1rem; border-bottom: 1px solid rgba(217,162,58,0.15); padding-bottom: 6px; margin-bottom: 10px;">⏰ Follow-ups Due Today</h3>
+            ${dueToday.length === 0 ? '<p style="color: rgba(251,246,234,0.5); font-size: 0.85rem; font-style: italic;">No follow-ups scheduled for today.</p>' : dueToday.map(f => {
+              const timeStr = f.followup_at ? new Date(f.followup_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Today';
+              return `
+                <div style="background: #1C1A14; border-left: 3px solid #D9A23A; border-radius: 4px; padding: 10px 12px; margin-bottom: 8px;">
+                  <div style="display: flex; justify-content: space-between; font-weight: 700; font-size: 0.9rem;">
+                    <span>${f.organization_name || f.contact_name || 'Lead #' + f.lead_id}</span>
+                    <span style="color: #D9A23A; font-size: 0.8rem;">${timeStr}</span>
+                  </div>
+                  <div style="color: rgba(251,246,234,0.85); font-size: 0.82rem; margin-top: 4px;">"${f.note}"</div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+
+          <!-- Overnight Inquiries -->
+          <div style="margin-bottom: 1.5rem;">
+            <h3 style="color: #38bdf8; font-size: 1rem; border-bottom: 1px solid rgba(56,189,248,0.15); padding-bottom: 6px; margin-bottom: 10px;">📥 New Overnight Inquiries (Last 24h)</h3>
+            ${overnightLeads.length === 0 ? '<p style="color: rgba(251,246,234,0.5); font-size: 0.85rem; font-style: italic;">No new inquiries received overnight.</p>' : overnightLeads.map(l => `
+              <div style="background: #1C1A14; border-left: 3px solid #38bdf8; border-radius: 4px; padding: 10px 12px; margin-bottom: 8px;">
+                <div style="font-weight: 700; font-size: 0.9rem;">${l.contact_name || 'Inquiry #' + l.id} ${l.organization_name ? `(${l.organization_name})` : ''}</div>
+                <div style="color: rgba(251,246,234,0.7); font-size: 0.8rem;">Topic: ${l.topic_interest || l.event_type || 'General'} · Budget: ${l.budget_range || 'Not specified'}</div>
+              </div>
+            `).join('')}
+          </div>
+
+          <div style="text-align: center; margin-top: 2rem; padding-top: 1rem; border-top: 1px solid rgba(217,162,58,0.2);">
+            <a href="${crmUrl}/dashboard" style="display: inline-block; background: #D9A23A; color: #0D0C08; text-decoration: none; font-weight: 700; padding: 10px 22px; border-radius: 6px; font-size: 0.88rem;">Open Impact OS Pipeline Ledger &rarr;</a>
+          </div>
+        </div>
+      `;
+
+      await transporter.sendMail({
+        from: `"Tiffany Webb Impact OS" <${process.env.EMAIL_HOST_USER || 'booking@tiffanywebbimpact.com'}>`,
+        to: targetEmail,
+        subject: `[Impact OS] Daily Morning Executive Briefing — ${now.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`,
+        html: briefingHtml
+      });
+
+      console.log(`[Morning Briefing] 8:00 AM Executive Briefing email sent to ${targetEmail}`);
+      lastMorningBriefingDate = todayStr;
+    }
+  } catch (err) {
+    console.error('[Morning Briefing Error]:', err.message);
+  }
+}
+
+async function checkAndSendFollowupAlerts() {
+  try {
+    const transporter = createMailTransporter();
+    if (!transporter) return;
+
+    // Find follow-ups due in the next 60 minutes (with 15 min retrospective grace) that have not been alerted yet
+    const [upcoming] = await pool.query(`
+      SELECT ln.*, l.contact_name, l.organization_name, l.phone, l.country_code, l.email, l.status, l.source_section
+      FROM lead_notes ln
+      JOIN leads l ON ln.lead_id = l.id
+      WHERE ln.followup_at BETWEEN NOW() - INTERVAL 15 MINUTE AND NOW() + INTERVAL 60 MINUTE
+        AND ln.is_completed = 0
+        AND ln.alert_sent = 0
+    `);
+
+    for (const item of upcoming) {
+      try {
+        const targetEmail = process.env.BRIEFING_EMAIL || process.env.EMAIL_HOST_USER || 'booking@tiffanywebbimpact.com';
+        const cleanPhone = (item.phone || '').replace(/[^0-9]/g, '');
+        let waPhone = cleanPhone;
+        if (item.country_code) {
+          const cleanCC = item.country_code.replace(/[^0-9]/g, '');
+          if (cleanCC && !cleanPhone.startsWith(cleanCC)) {
+            waPhone = cleanCC + cleanPhone;
+          }
+        }
+        const crmUrl = process.env.CRM_URL || 'https://crm.tiffanywebbimpact.com';
+        const timeFormatted = item.followup_at ? new Date(item.followup_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Soon';
+
+        const alertHtml = `
+          <div style="background: #0D0C08; color: #FBF6EA; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 2rem; max-width: 550px; margin: 0 auto; border-radius: 12px; border: 1px solid #D9A23A;">
+            <div style="border-bottom: 1px solid rgba(217,162,58,0.2); padding-bottom: 1rem; margin-bottom: 1.25rem;">
+              <span style="color: #D9A23A; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase;">Tiffany Webb Impact OS™ · Action Alert</span>
+              <h1 style="color: #FBF6EA; font-size: 1.4rem; margin: 0.35rem 0 0;">⚡ Follow-Up Due in 60 Minutes (${timeFormatted})</h1>
+            </div>
+
+            <div style="background: #1C1A14; border-radius: 8px; padding: 1.25rem; margin-bottom: 1.5rem; border: 1px solid rgba(217,162,58,0.2);">
+              <div style="font-size: 1.1rem; font-weight: 700; color: #FBF6EA;">${item.contact_name || 'Client'} ${item.organization_name ? `(${item.organization_name})` : ''}</div>
+              <div style="color: #D9A23A; font-size: 0.85rem; margin-top: 2px;">Stage: ${(item.status || 'new').toUpperCase()}</div>
+              <div style="background: rgba(217,162,58,0.08); border-left: 3px solid #D9A23A; padding: 8px 12px; border-radius: 4px; margin-top: 10px; color: #FBF6EA; font-size: 0.88rem;">
+                <strong>Scheduled Note:</strong> "${item.note}"
+              </div>
+            </div>
+
+            <!-- 1-Click Action Buttons -->
+            <div style="display: flex; gap: 10px; margin-bottom: 1.5rem; flex-wrap: wrap;">
+              ${waPhone ? `<a href="https://wa.me/${waPhone}" style="flex: 1; min-width: 130px; text-align: center; background: #25D366; color: #fff; text-decoration: none; font-weight: 700; padding: 10px 14px; border-radius: 6px; font-size: 0.85rem;">💬 WhatsApp (+${waPhone})</a>` : ''}
+              ${item.phone ? `<a href="tel:${item.phone}" style="flex: 1; min-width: 130px; text-align: center; background: #38bdf8; color: #0D0C08; text-decoration: none; font-weight: 700; padding: 10px 14px; border-radius: 6px; font-size: 0.85rem;">📞 Call Client</a>` : ''}
+              ${item.email ? `<a href="mailto:${item.email}" style="flex: 1; min-width: 130px; text-align: center; background: rgba(251,246,234,0.15); color: #FBF6EA; text-decoration: none; font-weight: 700; padding: 10px 14px; border-radius: 6px; font-size: 0.85rem;">✉️ Send Email</a>` : ''}
+            </div>
+
+            <div style="text-align: center; border-top: 1px solid rgba(217,162,58,0.15); padding-top: 1rem;">
+              <a href="${crmUrl}/lead/${item.lead_id}" style="color: #D9A23A; font-size: 0.85rem; text-decoration: underline;">View Full Lead Dossier on Impact OS &rarr;</a>
+            </div>
+          </div>
+        `;
+
+        await transporter.sendMail({
+          from: `"Tiffany Webb Impact OS" <${process.env.EMAIL_HOST_USER || 'booking@tiffanywebbimpact.com'}>`,
+          to: targetEmail,
+          subject: `[Impact OS Alert] ⏰ Upcoming Follow-Up: ${item.contact_name || item.organization_name || 'Client'} at ${timeFormatted}`,
+          html: alertHtml
+        });
+
+        // Mark alert_sent = 1 in database
+        await pool.query('UPDATE lead_notes SET alert_sent = 1 WHERE id = ?', [item.id]);
+        console.log(`[Follow-Up Alert] Sent 1-hour action alert for note #${item.id} (Lead #${item.lead_id}) to ${targetEmail}`);
+      } catch (itemErr) {
+        console.error(`[Follow-Up Alert Error for Note #${item.id}]:`, itemErr.message);
+      }
+    }
+  } catch (err) {
+    console.error('[Follow-Up Alert Scheduler Error]:', err.message);
+  }
+}
+
+
+// Background Cron Scheduler (Runs every 60 seconds)
+setInterval(() => {
+  checkAndSendMorningBriefing();
+  checkAndSendFollowupAlerts();
+}, 60 * 1000);
+
 // Error Handling Middleware
 app.use((err, req, res, next) => {
   console.error('[Impact OS Error]:', err.message);
@@ -1377,4 +1682,6 @@ app.use((req, res) => {
 app.listen(port, () => {
   console.log(`🛡️ Tiffany Webb Impact OS™ active on http://localhost:${port}`);
 });
+
+
 

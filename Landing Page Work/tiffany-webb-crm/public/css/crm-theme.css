@@ -1466,67 +1466,6 @@ input[type="text"].navbar-search-input:focus,
 }
 
 /* ==========================================================================
-   CUSTOM LUXURY GOLD PRECISION CURSOR
-   ========================================================================== */
-.custom-cursor-dot {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 7px;
-    height: 7px;
-    background: #D9A23A;
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 99999;
-    margin-top: -3.5px;
-    margin-left: -3.5px;
-    transition: opacity 0.2s ease, width 0.2s ease, height 0.2s ease, background 0.2s ease;
-    box-shadow: 0 0 8px rgba(217, 162, 58, 0.8);
-}
-
-.custom-cursor-ring {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 32px;
-    height: 32px;
-    border: 1.5px solid rgba(217, 162, 58, 0.5);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 99998;
-    margin-top: -16px;
-    margin-left: -16px;
-    transition: opacity 0.2s ease, width 0.25s cubic-bezier(0.16, 1, 0.3, 1), height 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease, background-color 0.25s ease, margin 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-    background-color: rgba(217, 162, 58, 0.03);
-}
-
-.custom-cursor-ring.cursor-hover {
-    width: 48px;
-    height: 48px;
-    margin-top: -24px;
-    margin-left: -24px;
-    border-color: #D9A23A;
-    background-color: rgba(217, 162, 58, 0.12);
-    box-shadow: 0 0 20px rgba(217, 162, 58, 0.35);
-}
-
-.custom-cursor-dot.cursor-hover-dot {
-    width: 10px;
-    height: 10px;
-    margin-top: -5px;
-    margin-left: -5px;
-    background: #FBF6EA;
-    box-shadow: 0 0 12px rgba(251, 246, 234, 0.9);
-}
-
-@media (pointer: coarse) {
-    .custom-cursor-dot,
-    .custom-cursor-ring {
-        display: none !important;
-    }
-}
-
-/* ==========================================================================
    RESPONSIVE LAYOUT & MOBILE ADAPTATIONS
    ========================================================================== */
 
@@ -1661,5 +1600,89 @@ input[type="text"].navbar-search-input:focus,
         text-align: center;
     }
 }
+
+/* ==========================================================================
+   IMPACT OS™ BESPOKE EXECUTIVE RETICLE CURSOR
+   ========================================================================== */
+body {
+    cursor: default;
+}
+
+.impact-os-reticle {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 6px;
+    height: 6px;
+    background: #D9A23A;
+    border-radius: 1px;
+    pointer-events: none;
+    z-index: 999999;
+    box-shadow: 0 0 8px rgba(217, 162, 58, 0.8);
+    transition: background 0.15s ease, box-shadow 0.15s ease;
+    will-change: transform;
+}
+
+.impact-os-ring {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 28px;
+    height: 28px;
+    border: 1.5px solid rgba(217, 162, 58, 0.55);
+    background: rgba(217, 162, 58, 0.03);
+    border-radius: 6px; /* Executive rounded square frame */
+    pointer-events: none;
+    z-index: 999998;
+    box-sizing: border-box;
+    transition: width 0.22s cubic-bezier(0.2, 0.8, 0.2, 1), 
+                height 0.22s cubic-bezier(0.2, 0.8, 0.2, 1),
+                border-color 0.2s ease,
+                background 0.2s ease,
+                border-radius 0.2s ease,
+                box-shadow 0.2s ease;
+    will-change: transform;
+}
+
+.cursor-hover-active {
+    width: 44px !important;
+    height: 44px !important;
+    border-color: #D9A23A !important;
+    background: rgba(217, 162, 58, 0.12) !important;
+    border-radius: 50% !important;
+    box-shadow: 0 0 16px rgba(217, 162, 58, 0.3) !important;
+}
+
+.reticle-hover-active {
+    background: #FFF !important;
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.9) !important;
+}
+
+.cursor-click {
+    border-color: #FBF6EA !important;
+}
+
+@media (pointer: coarse) {
+    .impact-os-reticle, .impact-os-ring {
+        display: none !important;
+    }
+}
+
+/* Follow-up Badge Style */
+.followup-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 8px;
+    background: rgba(217, 162, 58, 0.12);
+    border: 1px solid rgba(217, 162, 58, 0.3);
+    border-radius: 99px;
+    font-size: 0.72rem;
+    color: #D9A23A;
+    margin-top: 4px;
+    font-family: var(--font-mono);
+}
+
+
 
 

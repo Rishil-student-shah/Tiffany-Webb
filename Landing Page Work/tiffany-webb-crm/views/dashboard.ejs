@@ -11,10 +11,6 @@
 </head>
 <body>
 
-    <!-- Custom Luxury Cursor -->
-    <div class="custom-cursor-dot" id="cursorDot"></div>
-    <div class="custom-cursor-ring" id="cursorRing"></div>
-
     <!-- UNIFIED TOP NAVIGATION -->
     <nav class="top-nav">
         <a href="/dashboard" class="nav-brand">
@@ -264,6 +260,11 @@
                                         <span class="lead-org-name" title="<%= org %>"><%= org %></span>
                                         <span class="lead-contact-person" title="<%= contact %>"><%= contact %></span>
                                         <span class="lead-submit-time">Submitted: <%= submitTime %></span>
+                                        <% if (lead.active_followup) { %>
+                                            <div class="followup-pill" style="display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; background: rgba(217,162,58,0.12); border: 1px solid rgba(217,162,58,0.3); border-radius: 99px; font-size: 0.72rem; color: #D9A23A; margin-top: 4px; width: fit-content;">
+                                                <span>⏰</span> Follow-up: <%= lead.active_followup %>
+                                            </div>
+                                        <% } %>
                                     </div>
                                 </div>
 
@@ -392,22 +393,30 @@
                                     </div>
                                 </div>
 
-                                <!-- Team Internal Notes Hub -->
+                                <!-- Team Internal Notes Hub & Follow-Up Scheduler -->
                                 <div class="dossier-notes-section" style="margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid rgba(217, 162, 58, 0.15);">
                                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
                                         <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-gold); font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; display: flex; align-items: center; gap: 6px;">
-                                            📝 Team Internal Notes & History
+                                            📝 Team Internal Notes & Smart Follow-Up Scheduler
                                         </span>
                                     </div>
-                                    <!-- Add Note Input Bar -->
-                                    <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
-                                        <input type="text" id="note-input-<%= lead.id %>" placeholder="Add a private note about this client (visible to team & admin)..." style="flex: 1; padding: 0.5rem 0.85rem; font-size: 0.82rem; background: #090907; border: 1px solid var(--color-border); border-radius: 8px; color: #fff;" onkeydown="if(event.key==='Enter'){event.preventDefault();postLeadNote(<%= lead.id %>);}">
-                                        <button type="button" class="btn btn-primary" onclick="postLeadNote(<%= lead.id %>)" style="padding: 0.5rem 1rem; font-size: 0.8rem; font-weight: 700; white-space: nowrap;">
-                                            + Post Note
-                                        </button>
+                                    <!-- Add Note Input Bar & Optional Follow-Up Scheduler -->
+                                    <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1rem;">
+                                        <div style="display: flex; gap: 0.5rem;">
+                                            <input type="text" id="note-input-<%= lead.id %>" placeholder="Add a private note about this client (visible to team & admin)..." style="flex: 1; padding: 0.5rem 0.85rem; font-size: 0.82rem; background: #090907; border: 1px solid var(--color-border); border-radius: 8px; color: #fff;" onkeydown="if(event.key==='Enter'){event.preventDefault();postLeadNote(<%= lead.id %>);}">
+                                            <button type="button" class="btn btn-primary" onclick="postLeadNote(<%= lead.id %>)" style="padding: 0.5rem 1rem; font-size: 0.8rem; font-weight: 700; white-space: nowrap;">
+                                                + Post Note
+                                            </button>
+                                        </div>
+                                        <div style="display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; background: rgba(251, 246, 234, 0.02); padding: 0.4rem 0.65rem; border-radius: 6px; border: 1px dashed rgba(217, 162, 58, 0.2);">
+                                            <span style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--color-gold); font-weight: 600;">⏰ Set Follow-Up:</span>
+                                            <input type="date" id="followup-date-<%= lead.id %>" style="padding: 0.3rem 0.55rem; font-size: 0.75rem; background: #090907; border: 1px solid var(--color-border); border-radius: 6px; color: #fff;">
+                                            <input type="time" id="followup-time-<%= lead.id %>" value="14:00" style="padding: 0.3rem 0.55rem; font-size: 0.75rem; background: #090907; border: 1px solid var(--color-border); border-radius: 6px; color: #fff;">
+                                            <span style="font-size: 0.7rem; color: var(--color-text-dim);">(Optional · auto-alerts Tiffany 60m prior)</span>
+                                        </div>
                                     </div>
                                     <!-- Notes Stream Container -->
-                                    <div id="notes-list-<%= lead.id %>" style="display: flex; flex-direction: column; gap: 0.5rem; max-height: 180px; overflow-y: auto;">
+                                    <div id="notes-list-<%= lead.id %>" style="display: flex; flex-direction: column; gap: 0.5rem; max-height: 220px; overflow-y: auto;">
                                         <div style="font-size: 0.78rem; color: var(--color-text-dim); font-style: italic;">Loading previous notes...</div>
                                     </div>
                                 </div>
@@ -606,7 +615,7 @@
             }
         }
 
-        // Fetch and post notes
+        // Fetch and post notes & follow-ups
         async function loadLeadNotes(leadId) {
             const list = document.getElementById(`notes-list-${leadId}`);
             if (!list) return;
@@ -623,6 +632,17 @@
                         const initialChar = (authorName.trim().charAt(0) || 'U').toUpperCase();
                         const role = (n.author_role || 'staff').toUpperCase();
                         const timeStr = new Date(n.created_at).toLocaleString([], { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+                        let followupPill = '';
+                        if (n.followup_at) {
+                            const fDateStr = new Date(n.followup_at).toLocaleString([], { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+                            const completedClass = n.is_completed ? 'style="opacity: 0.6; text-decoration: line-through;"' : '';
+                            followupPill = `
+                                <div ${completedClass} style="margin-top: 6px; display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; background: rgba(217,162,58,0.15); border: 1px solid rgba(217,162,58,0.35); border-radius: 99px; font-size: 0.7rem; color: #D9A23A; font-family: var(--font-mono);">
+                                    <span>⏰ Follow-up:</span> <strong>${escapeHtml(fDateStr)}</strong>
+                                    ${n.is_completed ? '<span style="color:#10b981; margin-left: 4px;">✓ Completed</span>' : ''}
+                                </div>
+                            `;
+                        }
                         return `
                             <div class="note-card" style="padding: 0.65rem 0.85rem; background: rgba(251, 246, 234, 0.03); border: 1px solid rgba(217, 162, 58, 0.15); border-radius: 8px; font-size: 0.82rem; display: flex; gap: 0.75rem; align-items: flex-start;">
                                 <div class="note-avatar" style="width: 28px; height: 28px; min-width: 28px; border-radius: 50%; background: linear-gradient(135deg, #1C1A14 0%, #29241B 100%); border: 1px solid var(--color-gold); color: var(--color-ivory); font-family: var(--font-serif); font-size: 0.85rem; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 2px 6px rgba(0,0,0,0.4);">
@@ -637,6 +657,7 @@
                                         <span style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--color-text-dim);">${escapeHtml(timeStr)}</span>
                                     </div>
                                     <div style="color: rgba(251, 246, 234, 0.9); font-size: 0.84rem; line-height: 1.45; white-space: pre-wrap; word-break: break-word;">${escapeHtml(n.note)}</div>
+                                    ${followupPill}
                                 </div>
                             </div>
                         `;
@@ -661,14 +682,20 @@
 
         async function postLeadNote(leadId) {
             const input = document.getElementById(`note-input-${leadId}`);
+            const dateInput = document.getElementById(`followup-date-${leadId}`);
+            const timeInput = document.getElementById(`followup-time-${leadId}`);
             if (!input) return;
             const note = input.value.trim();
             if (!note) return;
+
+            const followup_date = (dateInput && dateInput.value) ? dateInput.value : null;
+            const followup_time = (timeInput && timeInput.value) ? timeInput.value : null;
+
             try {
                 const res = await fetch(`/api/leads/${leadId}/notes`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ note })
+                    body: JSON.stringify({ note, followup_date, followup_time })
                 });
                 if (res.status === 401 || res.redirected) {
                     showToast('Session expired. Redirecting to login...');
@@ -680,8 +707,9 @@
                 const data = await res.json();
                 if (data.success) {
                     input.value = '';
+                    if (dateInput) dateInput.value = '';
                     loadLeadNotes(leadId); // Refresh notes stream
-                    showToast('Note added successfully');
+                    showToast('Note & follow-up saved successfully');
                 } else {
                     alert(data.error || 'Failed to post note');
                 }
@@ -914,64 +942,7 @@
                 }
             });
         }
-
-        // 7. Custom Luxury Cursor Engine
-        (function() {
-            const dot = document.getElementById('cursorDot');
-            const ring = document.getElementById('cursorRing');
-            if (!dot || !ring) return;
-
-            // Only enable on desktop pointer devices
-            if (window.matchMedia('(pointer: coarse)').matches) {
-                dot.style.display = 'none';
-                ring.style.display = 'none';
-                return;
-            }
-
-            let mouseX = -100, mouseY = -100;
-            let ringX = -100, ringY = -100;
-
-            window.addEventListener('mousemove', (e) => {
-                mouseX = e.clientX;
-                mouseY = e.clientY;
-                dot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
-            });
-
-            function renderRing() {
-                ringX += (mouseX - ringX) * 0.18;
-                ringY += (mouseY - ringY) * 0.18;
-                ring.style.transform = `translate3d(${ringX}px, ${ringY}px, 0)`;
-                requestAnimationFrame(renderRing);
-            }
-            requestAnimationFrame(renderRing);
-
-            // Magnetic hover expansion
-            const interactiveSelector = 'a, button, input, select, textarea, .ledger-row, .status-tab-btn, .action-icon-btn, [role="button"], .stat-card';
-            document.addEventListener('mouseover', (e) => {
-                const target = e.target.closest(interactiveSelector);
-                if (target) {
-                    ring.classList.add('cursor-hover');
-                    dot.classList.add('cursor-hover-dot');
-                }
-            });
-            document.addEventListener('mouseout', (e) => {
-                const target = e.target.closest(interactiveSelector);
-                if (target) {
-                    ring.classList.remove('cursor-hover');
-                    dot.classList.remove('cursor-hover-dot');
-                }
-            });
-
-            // Window boundary visibility
-            document.addEventListener('mouseleave', () => {
-                dot.style.opacity = '0';
-                ring.style.opacity = '0';
-            });
-            document.addEventListener('mouseenter', () => {
-                dot.style.opacity = '1';
-                ring.style.opacity = '1';
-            });
-        })();
     </script>
+    <script src="/js/impact-os-cursor.js"></script>
 </body>
 </html>

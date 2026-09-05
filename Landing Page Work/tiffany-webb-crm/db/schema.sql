@@ -144,6 +144,11 @@ CREATE TABLE IF NOT EXISTS lead_notes (
   author_name VARCHAR(150) NOT NULL,
   author_role VARCHAR(50) NOT NULL DEFAULT 'staff',
   note TEXT NOT NULL,
+  followup_date DATE NULL,
+  followup_time TIME NULL,
+  followup_at DATETIME NULL,
+  is_completed BOOLEAN NOT NULL DEFAULT FALSE,
+  alert_sent BOOLEAN NOT NULL DEFAULT FALSE,
   created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (lead_id) REFERENCES leads(id) ON DELETE CASCADE,
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
