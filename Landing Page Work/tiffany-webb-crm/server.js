@@ -419,11 +419,17 @@ app.use('/uploads', express.static(path.join(__dirname, '../tiffany-webb-astro/p
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// Auth middleware for dashboard pages (Secure Cookie + JWT Verification)
+// Auth middleware for dashboard pages & APIs (Secure Cookie + JWT Verification)
 const requireAuth = async (req, res, next) => {
   const cookies = parseCookies(req);
-  const token = cookies.auth_token;
+  let token = cookies.auth_token;
+  if (!token && req.headers.authorization && req.headers.authorization.startsWith('Bearer ')) {
+    token = req.headers.authorization.split(' ')[1];
+  }
   if (!token) {
+    if (req.path.startsWith('/api/')) {
+      return res.status(401).json({ error: 'Unauthorized: Authentication token required' });
+    }
     return res.redirect('/login');
   }
   try {
@@ -431,6 +437,9 @@ const requireAuth = async (req, res, next) => {
     const [users] = await pool.query('SELECT id, name, email, role, is_active FROM users WHERE id = ?', [decoded.id]);
     if (users.length === 0 || !users[0].is_active) {
       res.clearCookie('auth_token', { httpOnly: true, sameSite: 'strict' });
+      if (req.path.startsWith('/api/')) {
+        return res.status(401).json({ error: 'Session expired or account deactivated' });
+      }
       return res.redirect('/login?error=' + encodeURIComponent('Session expired or account deactivated'));
     }
     req.user = users[0];
@@ -438,6 +447,9 @@ const requireAuth = async (req, res, next) => {
     next();
   } catch (err) {
     res.clearCookie('auth_token', { httpOnly: true, sameSite: 'strict' });
+    if (req.path.startsWith('/api/')) {
+      return res.status(401).json({ error: 'Unauthorized: Invalid or expired token' });
+    }
     return res.redirect('/login');
   }
 };
@@ -533,6 +545,111 @@ app.post('/api/leads', (req, res, next) => {
     } else {
         res.status(500).json({ error: 'Server error creating lead' });
     }
+  }
+});
+
+// Bulk / Batch Lead Ingestion API (Task 02)
+app.post('/api/leads/batch', async (req, res) => {
+  try {
+    const rawLeads = req.body.leads || (Array.isArray(req.body) ? req.body : [req.body]);
+    if (!Array.isArray(rawLeads) || rawLeads.length === 0) {
+      return res.status(400).json({ error: 'Payload must contain a non-empty "leads" array.' });
+    }
+
+    const insertedLeads = [];
+    const errors = [];
+
+    for (let i = 0; i < rawLeads.length; i++) {
+      const item = rawLeads[i];
+      const {
+        contact_name, organization_name, email, country_code, phone,
+        event_type: raw_event_type, event_type_other,
+        topic_interest: raw_topic_interest, topic_interest_other,
+        event_date, event_location, estimated_audience_size,
+        message, source, source_section, source_card, budget_range, status
+      } = item;
+
+      // Validation: at least one identifier
+      const hasIdentifier = (contact_name && String(contact_name).trim().length > 0) ||
+                            (phone && String(phone).trim().length > 0) ||
+                            (email && String(email).trim().length > 0);
+      if (!hasIdentifier) {
+        errors.push({ index: i, error: 'Lead requires at least name, email, or phone.' });
+        continue;
+      }
+
+      let event_type = raw_event_type || null;
+      if (event_type === 'Other' && event_type_other && String(event_type_other).trim().length > 0) {
+        event_type = `Other: ${String(event_type_other).trim()}`;
+      }
+      let topic_interest = raw_topic_interest || null;
+      if (topic_interest === 'Other' && topic_interest_other && String(topic_interest_other).trim().length > 0) {
+        topic_interest = `Other: ${String(topic_interest_other).trim()}`;
+      }
+
+      let validDate = null;
+      if (event_date) {
+        const d = new Date(event_date);
+        if (!isNaN(d.getTime())) {
+          validDate = d.toISOString().split('T')[0];
+        }
+      }
+
+      const validSources = ['website_form', 'whatsapp', 'instagram', 'email', 'referral', 'manual', 'event', 'linkedin', 'phone', 'other'];
+      const safeSource = (source && validSources.includes(String(source).toLowerCase())) ? String(source).toLowerCase() : 'website_form';
+      const validStatuses = ['new', 'contacted', 'qualified', 'proposal_sent', 'booked', 'lost'];
+      const safeStatus = (status && validStatuses.includes(String(status).toLowerCase())) ? String(status).toLowerCase() : 'new';
+
+      const [result] = await pool.query(`
+        INSERT INTO leads (
+          source, source_section, source_card, contact_name, organization_name,
+          email, country_code, phone, event_type, topic_interest, event_date,
+          event_location, estimated_audience_size, budget_range, message, status
+        )
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      `, [
+        safeSource,
+        source_section || 'Batch Ingestion / Import',
+        source_card || null,
+        contact_name ? String(contact_name).trim() : null,
+        organization_name ? String(organization_name).trim() : null,
+        email ? String(email).trim() : null,
+        country_code || null,
+        phone ? String(phone).trim() : null,
+        event_type,
+        topic_interest,
+        validDate,
+        event_location ? String(event_location).trim() : null,
+        estimated_audience_size || null,
+        budget_range || null,
+        message ? String(message).trim() : null,
+        safeStatus
+      ]);
+
+      const leadId = result.insertId;
+      const originDetail = source_card ? `Bulk ingestion via ${source_section || 'Batch Import'} (${source_card})` : `Bulk ingestion via ${source_section || 'Batch Import'}`;
+      await pool.query('INSERT INTO activity_log (lead_id, action, detail) VALUES (?, ?, ?)', [leadId, 'lead_created', originDetail]);
+
+      insertedLeads.push({
+        id: leadId,
+        contact_name,
+        email,
+        phone,
+        source: safeSource,
+        status: safeStatus
+      });
+    }
+
+    res.status(201).json({
+      success: true,
+      count: insertedLeads.length,
+      lead_ids: insertedLeads.map(l => l.id),
+      inserted_leads: insertedLeads,
+      errors: errors.length > 0 ? errors : undefined
+    });
+  } catch (error) {
+    console.error('Batch lead ingestion error:', error);
+    res.status(500).json({ error: 'Server error processing batch leads' });
   }
 });
 
@@ -1045,7 +1162,15 @@ app.get('/cms/:slug', requireAuth, async (req, res) => {
     } else if (page.slug === 'media') {
       definedCollections = ['bios', 'downloads', 'press_kit'];
     } else if (page.slug === 'about') {
-      definedCollections = ['story_vignettes'];
+      definedCollections = ['story_vignettes', 'timeline_items', 'vision_items', 'values_list', 'milestones'];
+    } else if (page.slug === 'speaking') {
+      definedCollections = ['why_cards', 'engagement_formats', 'working_steps', 'testimonials'];
+    } else if (page.slug === 'consulting') {
+      definedCollections = ['capabilities', 'gear_steps', 'working_steps'];
+    } else if (page.slug === 'thought-leadership') {
+      definedCollections = ['articles', 'bios', 'downloads'];
+    } else if (page.slug === 'contact') {
+      definedCollections = ['booking_steps', 'faqs'];
     }
 
     const allCollectionSectionNames = Object.keys(collectionSections);

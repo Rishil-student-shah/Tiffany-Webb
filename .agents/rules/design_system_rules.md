@@ -73,7 +73,12 @@ description: Design system rules for section titles, half-text gradients, and ey
   - **`/browser`**: Use whenever the task involves live browser testing, automated UI navigation, web page form filling, or visual DOM verification.
   - **`/goal`**: Use for long-running, continuous tasks where the agent must work autonomously until complete.
   - **`/teamwork-preview`**: Use when multiple subagents should work in parallel across frontend, backend, and QA.
-  - **`/boost`**: Use for complex algorithmic reasoning, deep math, security audits, and difficult debugging.
+## 8. Mandatory Pre-Prompt Forensic Codebase Audit Invariant
+- **Strict Invariant**: Before engineering or delivering any Developer Prompt for the Coder Chat, the Lead Architect MUST perform a forensic audit of the relevant codebase files, directory structures, and database schema tables using read tools.
+- **Zero-Assumption Rule**:
+  - Never write prompt specifications based on hypothetical code or assumptions.
+  - Always verify exact file paths, existing functions, variable names, and database column names first to guarantee 100% surgical accuracy in every prompt.
+
 
 
 

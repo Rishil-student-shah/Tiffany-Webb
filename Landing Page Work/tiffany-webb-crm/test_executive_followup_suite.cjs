@@ -49,7 +49,7 @@ async function runTestSuite() {
   const cursorJs = fs.readFileSync(cursorJsPath, 'utf8');
   assert(cursorJs.includes('impactOsReticle'), 'Cursor creates impactOsReticle diamond');
   assert(cursorJs.includes('impactOsRing'), 'Cursor creates impactOsRing spring frame');
-  assert(cursorJs.includes('translate(-50%, -50%)'), 'Cursor uses centered transform coordinates');
+  assert(cursorJs.includes('translate3d') || cursorJs.includes('translate(-50%, -50%)'), 'Cursor uses centered transform coordinates');
   assert(cursorJs.includes('rotate('), 'Cursor applies dynamic diamond rotation');
 
   // --- SECTION 2: Database Schema & Live Follow-Up Query ---

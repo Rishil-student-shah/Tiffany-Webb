@@ -64,7 +64,7 @@ describe('Tier 3 — Cross-Feature Interactions: Auth, Notes, Audit & Relational
       await new Promise(r => setTimeout(r, 1100));
       await http.post(`/api/leads/${lead.id}/notes`, { note: 'Recent Note 2' }, {}, adminCookie);
 
-      const res = await http.get(`/api/leads/${lead.id}/notes`);
+      const res = await http.get(`/api/leads/${lead.id}/notes`, {}, adminCookie);
       expect(res.status).toBe(200);
       expect(res.json.notes.length).toBe(2);
       expect(res.json.notes[0].note).toBe('Recent Note 2');

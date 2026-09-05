@@ -197,7 +197,7 @@ describe('Tier 2 — Boundary & Corner Cases: R3 Team Notes Engine Edge Cases', 
     expect(res.status).toBe(200);
     expect(res.json.success).toBe(true);
 
-    const getRes = await http.get(`/api/leads/${testLead.id}/notes`);
+    const getRes = await http.get(`/api/leads/${testLead.id}/notes`, {}, adminCookie);
     expect(getRes.status).toBe(200);
     const saved = getRes.json.notes.find(n => n.id === res.json.note.id);
     expect(saved).toBeDefined();

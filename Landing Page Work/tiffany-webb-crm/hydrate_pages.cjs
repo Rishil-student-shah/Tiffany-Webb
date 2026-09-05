@@ -1,7 +1,7 @@
 const mysql = require('mysql2/promise');
 
 const privacyContent = `
-<p class="intro">This Privacy Policy governs the manner in which Tiffany Webb ("we", "us", "our") collects, uses, maintains, and discloses information collected from users (each, a "User") of the tiffanywebb.com website ("Site"). This privacy policy applies to the Site and all products and services offered by Tiffany Webb.</p>
+<p class="intro">This Privacy Policy governs the manner in which Tiffany Webb ("we", "us", "our") collects, uses, maintains, and discloses information collected from users (each, a "User") of the tiffanywebbimpact.com website ("Site"). This privacy policy applies to the Site and all products and services offered by Tiffany Webb.</p>
 
 <div class="prose-block mt-8">
   <h3>Personal Identification Information</h3>
@@ -31,7 +31,7 @@ const privacyContent = `
 `;
 
 const termsContent = `
-<p class="intro">These Terms of Service govern your use of the website located at tiffanywebb.com and any related services provided by Tiffany Webb. By accessing our website or booking our services, you agree to abide by these Terms.</p>
+<p class="intro">These Terms of Service govern your use of the website located at tiffanywebbimpact.com and any related services provided by Tiffany Webb. By accessing our website or booking our services, you agree to abide by these Terms.</p>
 
 <div class="prose-block mt-8">
   <h3>1. Services and Bookings</h3>

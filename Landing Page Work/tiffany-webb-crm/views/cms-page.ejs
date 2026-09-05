@@ -123,9 +123,18 @@
         <form id="contentForm" action="/cms/<%= page.slug %>" method="POST" enctype="multipart/form-data">
             <% 
             const uniqueSections = new Set([...Object.keys(sections), ...(typeof definedCollections !== 'undefined' ? definedCollections : [])]);
-            let allSections = Array.from(uniqueSections).filter(s => s !== "booking");
+            let allSections = Array.from(uniqueSections);
             
-            const pageOrder = ['hero', 'impact_band', 'credibility_bar', 'meet_tiffany', 'expertise', 'who_can_benefit', 'media', 'events', 'proof', 'proof_attributes', 'video_reels', 'proof_testimonials', 'booking', 'footer', 'social_links', 'tracks', 'tracks_list', 'articles', 'testimonials', 'bios', 'press_kit'];
+            const pageOrder = [
+                'hero', 'impact_band', 'credibility_bar', 'meet_tiffany', 'story', 'story_vignettes', 'journey', 'timeline_items', 
+                'mission', 'vision', 'vision_items', 'values', 'values_list', 'milestones', 'gamblefreegear',
+                'why_tiffany', 'why_cards', 'flagship', 'tracks', 'tracks_list', 'formats', 'engagement_formats', 'working_process',
+                'capabilities', 'gear_method', 'gear_steps', 'partnership_framework', 'process', 'working_steps',
+                'articles_section', 'articles', 'bios_section', 'bios', 'intro_script', 'downloads_section', 'downloads',
+                'booking_form', 'booking_steps', 'journey', 'faqs', 'direct_contact',
+                'who_can_benefit', 'expertise', 'speaking', 'events', 'proof', 'proof_attributes', 'video_reels', 'proof_testimonials', 
+                'testimonials', 'booking', 'cta', 'media', 'social_links', 'footer'
+            ];
             
             allSections.sort((a, b) => {
                 const indexA = pageOrder.indexOf(a);

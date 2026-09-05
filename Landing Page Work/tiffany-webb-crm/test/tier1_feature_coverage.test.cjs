@@ -202,7 +202,7 @@ describe('Tier 1 — Feature Coverage: R3 Persistent Multi-User Team Notes Engin
       await new Promise(r => setTimeout(r, 1100));
       await http.post(`/api/leads/${leadForOrdering.id}/notes`, { note: 'Note 2 (Newer)' }, {}, adminCookie);
 
-      const res = await http.get(`/api/leads/${leadForOrdering.id}/notes`);
+      const res = await http.get(`/api/leads/${leadForOrdering.id}/notes`, {}, adminCookie);
       expect(res.status).toBe(200);
       expect(res.json.success).toBe(true);
       expect(Array.isArray(res.json.notes)).toBe(true);
