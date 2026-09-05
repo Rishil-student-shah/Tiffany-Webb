@@ -149,17 +149,17 @@
 
                         <div class="form-group">
                             <label>Contact Full Name <span style="font-size: 0.75rem; color: var(--color-gold); font-weight: normal;">(At least 1 contact method required: Name, Email, or Phone)</span></label>
-                            <input type="text" name="contact_name" id="leadNameInput" placeholder="e.g. Dr. Eleanor Vance">
+                            <input type="text" name="contact_name" id="contact_name" placeholder="e.g. Dr. Eleanor Vance">
                         </div>
 
                         <div class="form-group">
                             <label>Organization / University</label>
-                            <input type="text" name="organization_name" placeholder="e.g. Stanford Medical Institute">
+                            <input type="text" name="organization_name" id="organization_name" placeholder="e.g. Stanford Medical Institute">
                         </div>
 
                         <div class="form-group">
                             <label>Email Address</label>
-                            <input type="email" name="email" id="leadEmailInput" placeholder="eleanor@stanford.edu" oninput="debounceDuplicateCheck()">
+                            <input type="email" name="email" id="email" placeholder="eleanor@stanford.edu" oninput="debounceDuplicateCheck()">
                         </div>
 
                         <div class="form-group">
@@ -176,7 +176,7 @@
                                     <option value="+33">🇫🇷 +33 (FR)</option>
                                     <option value="+971">🇦🇪 +971 (AE)</option>
                                 </select>
-                                <input type="tel" name="phone" id="leadPhoneInput" placeholder="(555) 000-0000" oninput="debounceDuplicateCheck()">
+                                <input type="tel" name="phone" id="phone" placeholder="(555) 000-0000" oninput="debounceDuplicateCheck()">
                             </div>
                         </div>
 
@@ -184,6 +184,7 @@
                             <label>Event Engagement Type</label>
                             <select name="event_type" id="eventTypeSelect" onchange="toggleOtherInput(this, 'eventTypeOtherWrap')">
                                 <option value="">-- Select Event Type (Optional) --</option>
+                                <option value="Keynote Address">Keynote Address</option>
                                 <option value="Conference Keynote">Conference Keynote</option>
                                 <option value="Executive Boardroom">Executive Boardroom</option>
                                 <option value="Healthcare Organization">Healthcare Organization</option>
@@ -349,9 +350,9 @@
 
         // Form submit validation: At Least One Identifier required
         document.getElementById('manualLeadForm').addEventListener('submit', function(e) {
-            const name = (document.getElementById('leadNameInput').value || '').trim();
-            const email = (document.getElementById('leadEmailInput').value || '').trim();
-            const phone = (document.getElementById('leadPhoneInput').value || '').trim();
+            const name = ((document.getElementById('contact_name') || document.getElementById('leadNameInput'))?.value || '').trim();
+            const email = ((document.getElementById('email') || document.getElementById('leadEmailInput'))?.value || '').trim();
+            const phone = ((document.getElementById('phone') || document.getElementById('leadPhoneInput'))?.value || '').trim();
 
             if (!name && !email && !phone) {
                 e.preventDefault();
@@ -368,8 +369,8 @@
         }
 
         async function checkDuplicateLead() {
-            const email = (document.getElementById('leadEmailInput').value || '').trim();
-            const phone = (document.getElementById('leadPhoneInput').value || '').trim();
+            const email = ((document.getElementById('email') || document.getElementById('leadEmailInput'))?.value || '').trim();
+            const phone = ((document.getElementById('phone') || document.getElementById('leadPhoneInput'))?.value || '').trim();
             const warningBox = document.getElementById('duplicateWarningBox');
             const detailsDiv = document.getElementById('duplicateDetails');
             const leadLink = document.getElementById('duplicateLeadLink');

@@ -1810,6 +1810,7 @@ async function checkAndSendFollowupAlerts() {
     if (!transporter) return;
 
     // Find follow-ups due in the next 60 minutes (with 15 min retrospective grace) that have not been alerted yet
+    // Strictly limited to 1 follow-up event per dispatch cycle with atomic claiming
     const [upcoming] = await pool.query(`
       SELECT ln.*, l.contact_name, l.organization_name, l.phone, l.country_code, l.email, l.status, l.source_section
       FROM lead_notes ln
@@ -1817,9 +1818,25 @@ async function checkAndSendFollowupAlerts() {
       WHERE ln.followup_at BETWEEN NOW() - INTERVAL 15 MINUTE AND NOW() + INTERVAL 60 MINUTE
         AND ln.is_completed = 0
         AND ln.alert_sent = 0
+      ORDER BY ln.followup_at ASC
+      LIMIT 1
     `);
 
+    if (!upcoming || upcoming.length === 0) return;
+
     for (const item of upcoming) {
+      // Atomic guard: update alert_sent = 1 immediately BEFORE dispatch
+      // If another cycle or worker already claimed it, affectedRows will be 0
+      const [updateResult] = await pool.query(
+        'UPDATE lead_notes SET alert_sent = 1 WHERE id = ? AND alert_sent = 0',
+        [item.id]
+      );
+
+      if (!updateResult || updateResult.affectedRows === 0) {
+        // Already claimed/sent by another concurrent cycle
+        continue;
+      }
+
       try {
         const targetEmail = process.env.BRIEFING_EMAIL || process.env.EMAIL_HOST_USER || 'booking@tiffanywebbimpact.com';
         const cleanPhone = (item.phone || '').replace(/[^0-9]/g, '');
@@ -1850,8 +1867,6 @@ async function checkAndSendFollowupAlerts() {
           html: alertHtml
         });
 
-        // Mark alert_sent = 1 in database
-        await pool.query('UPDATE lead_notes SET alert_sent = 1 WHERE id = ?', [item.id]);
         console.log(`[Follow-Up Alert] Sent 1-hour action alert for note #${item.id} (Lead #${item.lead_id}) to ${targetEmail}`);
       } catch (itemErr) {
         console.error(`[Follow-Up Alert Error for Note #${item.id}]:`, itemErr.message);
@@ -1977,7 +1992,7 @@ if (process.env.NODE_ENV !== 'test') {
   });
 }
 
-module.exports = { app, compileLuxuryEmailTemplate, createMailTransporter };
+module.exports = { app, compileLuxuryEmailTemplate, createMailTransporter, checkAndSendFollowupAlerts };
 
 
 
